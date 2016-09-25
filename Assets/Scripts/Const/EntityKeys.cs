@@ -21,5 +21,13 @@ namespace TankArena.Constants
         public const string EK_MASS = "mass";
         public const string EK_SHOP_ITEM_IMAGE = "shop_item";
         public const string EK_GARAGE_ITEM_IMAGE = "garage_item";
+
+        //WEAPONS
+        public const string EK_WEAPON_TYPE = "wpn_type";
+        public const string EK_DAMAGE = "damage";
+        public const string EK_RELOAD_TIME = "reload";
+        public const string EK_RATE_OF_FIRE = "rate_of_fire";
+        public const string EK_RANGE = "range";
+        public const string EK_CLIP_SIZE = "clip_size";
     }
 }
