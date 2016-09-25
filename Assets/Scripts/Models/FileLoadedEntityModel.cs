@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TankArena.Constants;
+using EK = TankArena.Constants.EntityKeys;
+using TankArena.Utils;
 using UnityEngine;
+using SimpleJSON;
 
 namespace TankArena.Models
 {
@@ -13,7 +16,7 @@ namespace TankArena.Models
         {
             get
             {
-                return (string)properties[EntityKeys.EK_ID];
+                return (string)properties[EK.EK_ID];
             }
         }
 
@@ -21,7 +24,7 @@ namespace TankArena.Models
         {
             get
             {
-                return (string)properties[EntityKeys.EK_NAME];
+                return (string)properties[EK.EK_NAME];
             }
         }
 
@@ -29,18 +32,25 @@ namespace TankArena.Models
 
         public FileLoadedEntityModel(string filePath)
         {
-            LoadPropertiesFromJSON(filePath);
+            properties = new Dictionary<string, object>();
+            var jsonText = Resources.Load<TextAsset>(filePath);
+            var json = JSON.Parse(jsonText.text);
+            LoadPropertiesFromJSON(json);
         }
 
-        protected void LoadPropertiesFromJSON(string filePath)
+        protected virtual void LoadPropertiesFromJSON(JSONNode json)
         {
-            var jsonText = Resources.Load<TextAsset>(filePath);
-            
+            properties[EK.EK_ID] = json[EK.EK_ID].Value;
+            properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
         }
 
         protected object ResolveSpecialContent(string content)
         {
-
+            if (String.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+            return SpecialContentResolver.Resolve(content);
         }
     }
 }

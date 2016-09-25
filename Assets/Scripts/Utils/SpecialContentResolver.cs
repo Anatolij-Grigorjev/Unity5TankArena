@@ -15,7 +15,8 @@ namespace TankArena.Utils
         {
             { "!img;", imgPath => { return Resources.Load<Image>(imgPath); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
-            { "!wpnslt;", slotDescriptor => { return null; } }
+            { "!wpnslt;", slotDescriptor => { return null; } },
+            { "!transf;", transform => { return null; } }
         };
 
         public static object Resolve(string content)
