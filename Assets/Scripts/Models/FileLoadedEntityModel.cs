@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TankArena.Constants;
+using UnityEngine;
 
 namespace TankArena.Models
 {
@@ -24,14 +25,20 @@ namespace TankArena.Models
             }
         }
 
-        protected Dictionary<String, Object> properties;
+        protected Dictionary<String, object> properties;
 
         public FileLoadedEntityModel(string filePath)
         {
             LoadPropertiesFromJSON(filePath);
         }
 
-        private void LoadPropertiesFromJSON(string filePath)
+        protected void LoadPropertiesFromJSON(string filePath)
+        {
+            var jsonText = Resources.Load<TextAsset>(filePath);
+            
+        }
+
+        protected object ResolveSpecialContent(string content)
         {
 
         }
