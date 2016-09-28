@@ -22,6 +22,26 @@ namespace TankArena.Constants
         public const string EK_SHOP_ITEM_IMAGE = "shop_item";
         public const string EK_GARAGE_ITEM_IMAGE = "garage_item";
 
+        //TANK TRACKS
+        public const string EK_COUPLING = "coupling";
+        public const string EK_TURN_SPEED = "turn_speed";
+        public const string EK_LOWER_INTEGRITY = "lower_integrity";
+
+        //TANK ENGINE
+        public const string EK_TOP_SPEED = "top_speed";
+        public const string EK_TORQUE = "torque";
+        public const string EK_ACCELERATION = "acceleration";
+        public const string EK_DEACCELERATION = "deacceleration";
+        public const string EK_IDLE_SOUND = "idle_sound";
+        public const string EK_REVVING_SOUND = "revving_sound";
+
+        //TANK TURRET
+        public const string EK_HEAVY_WEAPON_SLOTS = "heavy_weapon_slots";
+        public const string EK_LIGHT_WEAPON_SLOTS = "light_weapon_slots";
+
+        //TANK CHASSIS
+        public const string EK_INTEGRITY = "integrity";
+
         //WEAPONS
         public const string EK_WEAPON_TYPE = "wpn_type";
         public const string EK_DAMAGE = "damage";

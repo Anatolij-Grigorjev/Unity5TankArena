@@ -12,6 +12,9 @@ namespace TankArena.Models
 {
     abstract class FileLoadedEntityModel
     {
+        /// <summary>
+        /// The unique game-wide item identifier code, used in cache storage
+        /// </summary>
         public String Id
         {
             get
@@ -20,6 +23,9 @@ namespace TankArena.Models
             }
         }
 
+        /// <summary>
+        /// Item name, presented in shop and descriptions
+        /// </summary>
         public String Name
         {
             get
@@ -44,6 +50,11 @@ namespace TankArena.Models
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
         }
 
+        /// <summary>
+        /// Handle strings that need to be deserialized into a custom type
+        /// </summary>
+        /// <param name="content">The string to deserialize</param>
+        /// <returns>The content, string itself if deserialization fails</returns>
         protected object ResolveSpecialContent(string content)
         {
             if (String.IsNullOrEmpty(content))

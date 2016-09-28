@@ -29,9 +29,27 @@ namespace TankArena.Utils
         {
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
 
-            EntitiesLoaderUtil.loadAllEntitesAtPath<PlayableCharacter>("", path => { return new PlayableCharacter(path); }, loadedCharacters);
-            loadedCharacters.ToList().ForEach(x => loadedEntities.Add(x.Key, x.Value));
+            //Load all characters
+            EntitiesLoaderUtil.loadAllEntitesAtPath<PlayableCharacter>
+            (
+                "",
+                path => { return new PlayableCharacter(path); },
+                loadedCharacters
+            );
+            CopyToEntitiesDict(loadedCharacters);
+            //Load All Tank Parts
+
+
             
+        }
+
+        private void CopyToEntitiesDict<T>(Dictionary<String, T> dict) where T : FileLoadedEntityModel
+        {
+            if (dict == null || !dict.Any())
+            {
+                return;
+            }
+            dict.ToList().ForEach(x => loadedEntities.Add(x.Key, x.Value));
         }
 
         public void GetStatus()

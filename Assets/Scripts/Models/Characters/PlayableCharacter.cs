@@ -12,6 +12,9 @@ namespace TankArena.Models.Characters
     class PlayableCharacter : FileLoadedEntityModel
     {
 
+        /// <summary>
+        /// Character Avatar, presented in character selection screen and in HUD
+        /// </summary>
         public Image Avatar
         {
             get
@@ -19,6 +22,9 @@ namespace TankArena.Models.Characters
                 return (Image)properties[EK.EK_AVATAR_IMAGE];
             }
         }
+        /// <summary>
+        /// Character background image, presented in character selection screen
+        /// </summary>
         public Image Background
         {
             get
@@ -26,6 +32,9 @@ namespace TankArena.Models.Characters
                 return (Image)properties[EK.EK_BACKGROUND_IMAGE];
             }
         }
+        /// <summary>
+        /// Character modeled pose image, presented in character selection screen
+        /// </summary>
         public Image CharacterModel
         {
             get

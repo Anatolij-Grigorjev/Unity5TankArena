@@ -12,13 +12,19 @@ namespace TankArena.Models.Tank.Weapons
 {
     abstract class BaseWeapon : FileLoadedEntityModel
     {
-        public Transform OnTankPosition
+        /// <summary>
+        /// Weapon in-game position, relative to turret GO transform
+        /// </summary>
+        public Transform OnTurretPosition
         {
             get
             {
                 return (Transform)properties[EK.EK_ON_TANK_POSITION];
             }
         }
+        /// <summary>
+        /// Type of weapon, heavy or light
+        /// </summary>
         public WeaponTypes Type
         {
             get
@@ -26,6 +32,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (WeaponTypes)properties[EK.EK_WEAPON_TYPE];
             }
         }
+        /// <summary>
+        /// The damage the weapon deals
+        /// </summary>
         public float Damage
         {
             get
@@ -33,6 +42,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (float)properties[EK.EK_DAMAGE];
             }
         }
+        /// <summary>
+        /// The time it takes (in seconds) to reload the weapon
+        /// </summary>
         public float Reload
         {
             get
@@ -40,6 +52,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (float)properties[EK.EK_RELOAD_TIME];
             }
         }
+        /// <summary>
+        /// The theoretical weapon rate of fire, in shots/min
+        /// </summary>
         public float RateOfFire
         {
             get
@@ -47,6 +62,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (float)properties[EK.EK_RATE_OF_FIRE];
             }
         }
+        /// <summary>
+        /// The maximum projectile range of the weapon
+        /// </summary>
         public float Range
         {
             get
@@ -54,6 +72,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (float)properties[EK.EK_RANGE];
             }
         }
+        /// <summary>
+        /// Amount of ammo between weapon reloads
+        /// </summary>
         public int ClipSize
         {
             get
@@ -61,6 +82,9 @@ namespace TankArena.Models.Tank.Weapons
                 return (int)properties[EK.EK_CLIP_SIZE];
             }
         }
+        /// <summary>
+        /// Image to identify weapon in shop screen
+        /// </summary>
         public Image ShopItem
         {
             get
