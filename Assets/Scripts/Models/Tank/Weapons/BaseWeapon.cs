@@ -19,7 +19,7 @@ namespace TankArena.Models.Tank.Weapons
         {
             get
             {
-                return (Transform)properties[EK.EK_ON_TANK_POSITION];
+                return (Transform)properties[EK.EK_ON_TURRET_POSITION];
             }
         }
         /// <summary>
@@ -45,7 +45,7 @@ namespace TankArena.Models.Tank.Weapons
         /// <summary>
         /// The time it takes (in seconds) to reload the weapon
         /// </summary>
-        public float Reload
+        public float ReloadTime
         {
             get
             {
@@ -93,15 +93,20 @@ namespace TankArena.Models.Tank.Weapons
             }
         }
 
+        private bool isReloading;
+        private float currentReloadTimer;
+
         public BaseWeapon(string filePath) : base(filePath)
         {
+            isReloading = false;
+            currentReloadTimer = 0.0f;
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
         {
             base.LoadPropertiesFromJSON(json);
 
-            properties[EK.EK_ON_TANK_POSITION] = ResolveSpecialContent(json[EK.EK_ON_TANK_POSITION].Value);
+            properties[EK.EK_ON_TURRET_POSITION] = ResolveSpecialContent(json[EK.EK_ON_TURRET_POSITION].Value);
             properties[EK.EK_WEAPON_TYPE] = (WeaponTypes)json[EK.EK_WEAPON_TYPE].AsInt;
             properties[EK.EK_DAMAGE] = json[EK.EK_DAMAGE].AsFloat;
             properties[EK.EK_RELOAD_TIME] = json[EK.EK_RELOAD_TIME].AsFloat;
@@ -109,6 +114,52 @@ namespace TankArena.Models.Tank.Weapons
             properties[EK.EK_RANGE] = json[EK.EK_RANGE].AsFloat;
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
+        }
+
+        public void Shoot()
+        {
+            PerformShot(isReloading);
+        }
+
+        protected virtual void PerformShot(bool isReloading)
+        {
+            
+        }
+
+        public void Reload()
+        {
+            if (!isReloading)
+            {
+                isReloading = true;
+                currentReloadTimer = ReloadTime;
+                OnReloadStarted();
+            }
+            else
+            {
+                WhileReloading();
+                currentReloadTimer -= Time.deltaTime;
+                if (currentReloadTimer <= 0.0f)
+                {
+                    OnReloadFinished();
+                    isReloading = false;
+                    currentReloadTimer = 0.0f;
+                }
+            }
+        }
+
+        protected virtual void OnReloadFinished()
+        {
+            
+        }
+
+        protected virtual void WhileReloading()
+        {
+            
+        }
+
+        protected virtual void OnReloadStarted()
+        {
+           
         }
     }
 }

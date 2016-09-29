@@ -25,22 +25,61 @@ namespace TankArena.Utils
         private Dictionary<String, TankPart> loadedTankParts;
         private Dictionary<String, BaseWeapon> loadedWeapons;
 
+        //GOs can check this before getting a reference 
+        //going because they might be half loaded before these are
+        public bool isReady = false;
+
+
+
         public void Awake()
         {
+            
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
 
             //Load all characters
-            EntitiesLoaderUtil.loadAllEntitesAtPath<PlayableCharacter>
-            (
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
                 "",
                 path => { return new PlayableCharacter(path); },
                 loadedCharacters
             );
             CopyToEntitiesDict(loadedCharacters);
+
             //Load All Tank Parts
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new TankEngine(path); },
+                loadedTankParts
+            );
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new TankTracks(path); },
+                loadedTankParts
+            );
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new TankTurret(path); },
+                loadedTankParts
+            );
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new TankChassis(path); },
+                loadedTankParts
+            );
+            CopyToEntitiesDict(loadedTankParts);
 
-
-            
+            //Load All Weapons
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new HeavyWeapon(path); },
+                loadedWeapons
+            );
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                "",
+                path => { return new LightWeapon(path); },
+                loadedWeapons
+            );
+            CopyToEntitiesDict(loadedWeapons);
+            isReady = true;
         }
 
         private void CopyToEntitiesDict<T>(Dictionary<String, T> dict) where T : FileLoadedEntityModel

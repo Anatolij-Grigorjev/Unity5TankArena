@@ -32,6 +32,8 @@ namespace TankArena.Models.Tank
             }
         }
 
+        private List<WeaponSlot> allWeaponSlots;
+
         public TankTurret(string filePath) : base(filePath)
         {
         }
@@ -40,6 +42,7 @@ namespace TankArena.Models.Tank
         {
             base.LoadPropertiesFromJSON(json);
 
+            allWeaponSlots = new List<WeaponSlot>();
             foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {
                 var slotsJsonArray = json[key].AsArray;
                 properties[key] = new List<WeaponSlot>();
@@ -50,9 +53,31 @@ namespace TankArena.Models.Tank
                     {
                         slotsList.Add((WeaponSlot)ResolveSpecialContent(slotString.ToString()));
                     }
+                    allWeaponSlots.AddRange(slotsList);
                 }
             }
-            
+          
+        }
+
+
+        public void Fire(WeaponGroups selectedGroups)
+        {
+            //selected slot states
+            var groups = selectedGroups.GetGroups();
+
+            allWeaponSlots.ForEach(wpnSlot =>
+            {
+                //if the group the weapon slot is in was selected to fire
+                if (groups[wpnSlot.WeaponGroup])
+                {
+                    //and slot actually has a weapon slotted
+                    var weapon = wpnSlot.Weapon;
+                    if (weapon != null)
+                    {
+                        weapon.Shoot();
+                    }
+                }
+            });
         }
     }
 }

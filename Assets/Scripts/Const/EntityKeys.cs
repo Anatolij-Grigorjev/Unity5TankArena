@@ -43,6 +43,7 @@ namespace TankArena.Constants
         public const string EK_INTEGRITY = "integrity";
 
         //WEAPONS
+        public const string EK_ON_TURRET_POSITION = "on_turret_position";
         public const string EK_WEAPON_TYPE = "wpn_type";
         public const string EK_DAMAGE = "damage";
         public const string EK_RELOAD_TIME = "reload";
