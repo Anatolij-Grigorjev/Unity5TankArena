@@ -4,19 +4,47 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using TankArena.Constants;
+using TankArena.Models.Tank.Weapons;
 
 namespace TankArena.Utils
 {
     class SpecialContentResolver
     {
+        private static Func<String, TransformState> transformDeserializer = transform => 
+        {
+            var _9floats = transform.Split(new char[] { ';' }, 9)
+                .Select(strNum => { return float.Parse(strNum); }).ToArray();
+
+            float[] positionFloats = new float[] { _9floats[0], _9floats[1], _9floats[2] };
+            float[] rotationFloats = new float[] { _9floats[3], _9floats[4], _9floats[5] };
+            float[] scaleFloats = new float[] { _9floats[6], _9floats[7], _9floats[8] };
+
+            var ts = new TransformState();
+            ts.position = new Vector3(positionFloats[0], positionFloats[1], positionFloats[2]);
+            ts.rotation = new Vector3(rotationFloats[0], rotationFloats[1], rotationFloats[2]);
+            ts.scale = new Vector3(scaleFloats[0], scaleFloats[1], scaleFloats[2]);
+
+            return ts;
+        };
+
         private SpecialContentResolver() { }
 
         private static Dictionary<String, Func<String, object>> resolvers = new Dictionary<string, Func<string, object>>()
         {
             { "!img;", imgPath => { return Resources.Load<Image>(imgPath); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
-            { "!wpnslt;", slotDescriptor => { return null; } },
-            { "!transf;", transform => { return null; } }
+            { "!wpnslt;", slotDescriptor => 
+                {
+                    var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
+                    WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
+                    TransformState transform = typeAndTransform.Length > 1?
+                        transformDeserializer(typeAndTransform[1]) : null;
+
+                    return new WeaponSlot(weaponType, transform);
+                }
+            },
+            { "!transf;", transform => { return transformDeserializer(transform); } }
         };
 
         public static object Resolve(string content)
@@ -25,7 +53,12 @@ namespace TankArena.Utils
             {
                 if (content.StartsWith(resolver.Key))
                 {
-                    return resolver.Value(content);
+                    var keyAndContent = content.Split(new char[]{';'}, 2);
+                    if (keyAndContent.Length < 2)
+                    {
+                        return content;
+                    }
+                    return resolver.Value(keyAndContent[1]);
                 }
             }
 

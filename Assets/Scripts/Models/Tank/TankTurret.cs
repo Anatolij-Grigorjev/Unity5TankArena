@@ -51,7 +51,9 @@ namespace TankArena.Models.Tank
                     var slotsList = (List<WeaponSlot>)properties[key];
                     foreach (var slotString in slotsJsonArray)
                     {
-                        slotsList.Add((WeaponSlot)ResolveSpecialContent(slotString.ToString()));
+                        var wpnSlot = (WeaponSlot)ResolveSpecialContent(slotString.ToString());
+                        wpnSlot.Turret = this;
+                        slotsList.Add(wpnSlot);
                     }
                     allWeaponSlots.AddRange(slotsList);
                 }

@@ -6,6 +6,7 @@ using EK = TankArena.Constants.EntityKeys;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
+using TankArena.Utils;
 
 namespace TankArena.Models.Tank
 {
@@ -15,11 +16,11 @@ namespace TankArena.Models.Tank
         /// <summary>
         /// Position of part relative to main tank GO transform
         /// </summary>
-        public Transform OnTankPosition
+        public TransformState OnTankPosition
         {
             get
             {
-                return (Transform)properties[EK.EK_ON_TANK_POSITION];
+                return (TransformState)properties[EK.EK_ON_TANK_POSITION];
             }
         }
         /// <summary>

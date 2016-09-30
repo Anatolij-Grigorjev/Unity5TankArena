@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using EK = TankArena.Constants.EntityKeys;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.Models.Tank.Weapons
 {
@@ -15,11 +16,11 @@ namespace TankArena.Models.Tank.Weapons
         /// <summary>
         /// Weapon in-game position, relative to turret GO transform
         /// </summary>
-        public Transform OnTurretPosition
+        public TransformState OnTurretPosition
         {
             get
             {
-                return (Transform)properties[EK.EK_ON_TURRET_POSITION];
+                return (TransformState)properties[EK.EK_ON_TURRET_POSITION];
             }
         }
         /// <summary>
