@@ -38,6 +38,7 @@ namespace TankArena.Models
 
         public FileLoadedEntityModel(string filePath)
         {
+            Debug.Log("Trying to load entity at path: " + filePath);
             properties = new Dictionary<string, object>();
             var jsonText = Resources.Load<TextAsset>(filePath);
             var json = JSON.Parse(jsonText.text);

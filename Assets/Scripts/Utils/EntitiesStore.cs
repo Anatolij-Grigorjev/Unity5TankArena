@@ -37,6 +37,7 @@ namespace TankArena.Utils
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
 
             //Load all characters
+            loadedCharacters = new Dictionary<string, PlayableCharacter>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
                 "",
                 path => { return new PlayableCharacter(path); },
@@ -45,6 +46,7 @@ namespace TankArena.Utils
             CopyToEntitiesDict(loadedCharacters);
 
             //Load All Tank Parts
+            loadedTankParts = new Dictionary<string, TankPart>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
                 "",
                 path => { return new TankEngine(path); },
@@ -68,6 +70,7 @@ namespace TankArena.Utils
             CopyToEntitiesDict(loadedTankParts);
 
             //Load All Weapons
+            loadedWeapons = new Dictionary<string, BaseWeapon>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
                 "",
                 path => { return new HeavyWeapon(path); },
