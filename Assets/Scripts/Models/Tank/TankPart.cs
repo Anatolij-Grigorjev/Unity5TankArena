@@ -54,6 +54,14 @@ namespace TankArena.Models.Tank
             }
         }
 
+        new protected String EntityKey
+        {
+            get
+            {
+                return "abstract_part";
+            }
+        }
+
         public TankPart(string filePath) : base(filePath)
         {
         }
@@ -67,5 +75,6 @@ namespace TankArena.Models.Tank
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_GARAGE_ITEM_IMAGE].Value);
         }
+
     }
 }

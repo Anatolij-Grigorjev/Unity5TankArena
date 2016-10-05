@@ -33,6 +33,14 @@ namespace TankArena.Models
                 return (string)properties[EK.EK_NAME];
             }
         }
+        protected String EntityKey
+        {
+            get
+            {
+                return "entity";
+            }
+        }
+
 
         protected Dictionary<String, object> properties;
 
@@ -63,6 +71,13 @@ namespace TankArena.Models
                 return null;
             }
             return SpecialContentResolver.Resolve(content);
+        }
+
+        //TODO: all entites also need a static FromCode method
+        //to reverse these effects
+        protected virtual String ToCode()
+        {
+            return String.Format("{0}={1}", EntityKey, Id);
         }
     }
 }

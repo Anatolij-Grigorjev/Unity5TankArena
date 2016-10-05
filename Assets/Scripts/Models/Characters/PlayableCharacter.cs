@@ -42,6 +42,27 @@ namespace TankArena.Models.Characters
                 return (Image)properties[EK.EK_CHARACTER_MODEL_IMAGE];
             }
         }
+        public float StartingHealth
+        {
+            get
+            {
+                return (float)properties[EK.EK_CHARACTER_STARTER_HEALTH];
+            }
+        }
+        public float StartingCash
+        {
+            get
+            {
+                return (float)properties[EK.EK_CHARACTER_STARTER_CASH];
+            }
+        }
+        public String StartingTankCode
+        {
+            get
+            {
+                return (String)properties[EK.EK_CHARACTER_STARTER_TANK];
+            }
+        }
 
         public PlayableCharacter(string filePath) : base(filePath)
         {
@@ -56,6 +77,10 @@ namespace TankArena.Models.Characters
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialContent(json[EK.EK_BACKGROUND_IMAGE].Value);
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
         }
-       
+
+        protected override string ToCode()
+        {
+            return Id;
+        }
     }
 }

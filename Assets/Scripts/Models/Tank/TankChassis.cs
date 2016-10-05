@@ -40,6 +40,14 @@ namespace TankArena.Models.Tank
         {
             get; set;
         }
+
+        new protected String EntityKey
+        {
+            get
+            {
+                return "chassis";
+            }
+        }
         public TankChassis(string filePath) : base(filePath)
         {
         }

@@ -41,6 +41,13 @@ namespace TankArena.Models.Tank
             }
         }
 
+        new protected String EntityKey
+        {
+            get
+            {
+                return "tracks";
+            }
+        }
 
         public TankTracks(string filePath) : base(filePath)
         {

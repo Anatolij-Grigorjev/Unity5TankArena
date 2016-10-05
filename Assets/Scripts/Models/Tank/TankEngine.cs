@@ -73,6 +73,14 @@ namespace TankArena.Models.Tank
             }
         }
 
+        new protected String EntityKey
+        {
+            get
+            {
+                return "engine";
+            }
+        }
+
         public TankEngine(string filePath) : base(filePath)
         {
         }

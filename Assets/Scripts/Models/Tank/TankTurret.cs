@@ -32,6 +32,14 @@ namespace TankArena.Models.Tank
             }
         }
 
+        new protected String EntityKey
+        {
+            get
+            {
+                return "turret";
+            }
+        }
+
         private List<WeaponSlot> allWeaponSlots;
 
         public TankTurret(string filePath) : base(filePath)
@@ -80,6 +88,18 @@ namespace TankArena.Models.Tank
                     }
                 }
             });
+        }
+
+        protected override string ToCode()
+        {
+            var turretString = base.ToCode();
+
+            //TODO: addweapons dissasembly by code
+            //weapon slots : H_0 - first heavy, L_1: second light, etc
+            //this numbering is consistent because the slots themselves are an 
+            //ordered json list
+
+            return turretString;
         }
     }
 }
