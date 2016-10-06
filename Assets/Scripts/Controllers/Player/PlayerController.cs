@@ -12,7 +12,6 @@ namespace TankArena.Controllers
 
         private PlayableCharacter character;
         private Tank tank;
-        private const float DEFAULT_PLAYER_HEALTH = 150.0f;
 
         public float Health { get; set; }
         public float Cash { get; set; }

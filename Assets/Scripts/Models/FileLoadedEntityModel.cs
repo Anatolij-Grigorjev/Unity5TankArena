@@ -75,9 +75,11 @@ namespace TankArena.Models
 
         //TODO: all entites also need a static FromCode method
         //to reverse these effects
+        //static methods cannot be used in inheritance, so need another way for it
         protected virtual String ToCode()
         {
             return String.Format("{0}={1}", EntityKey, Id);
         }
+
     }
 }
