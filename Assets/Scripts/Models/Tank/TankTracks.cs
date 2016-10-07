@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
+using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Models.Tank
 {
@@ -41,11 +42,11 @@ namespace TankArena.Models.Tank
             }
         }
 
-        new protected String EntityKey
+        new public String EntityKey
         {
             get
             {
-                return "tracks";
+                return SK.SK_TANK_TRACKS;
             }
         }
 

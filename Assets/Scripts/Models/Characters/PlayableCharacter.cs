@@ -78,9 +78,5 @@ namespace TankArena.Models.Characters
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
         }
 
-        protected override string ToCode()
-        {
-            return Id;
-        }
     }
 }

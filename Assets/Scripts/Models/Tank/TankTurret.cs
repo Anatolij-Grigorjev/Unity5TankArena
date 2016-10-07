@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
+using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using TankArena.Models.Tank.Weapons;
 
 namespace TankArena.Models.Tank
@@ -32,18 +33,22 @@ namespace TankArena.Models.Tank
             }
         }
 
-        new protected String EntityKey
+        new public String EntityKey
         {
             get
             {
-                return "turret";
+                return SK.SK_TANK_TURRET;
             }
         }
 
         private List<WeaponSlot> allWeaponSlots;
-
+        public Dictionary<String, List<WeaponSlot>> weaponSlotSerializerDictionary;
         public TankTurret(string filePath) : base(filePath)
         {
+            weaponSlotSerializerDictionary = new Dictionary<string, List<WeaponSlot>>();
+
+            weaponSlotSerializerDictionary.Add("L", LightWeaponSlots);
+            weaponSlotSerializerDictionary.Add("H", HeavyWeaponSlots);
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -88,18 +93,6 @@ namespace TankArena.Models.Tank
                     }
                 }
             });
-        }
-
-        protected override string ToCode()
-        {
-            var turretString = base.ToCode();
-
-            //TODO: addweapons dissasembly by code
-            //weapon slots : H_0 - first heavy, L_1: second light, etc
-            //this numbering is consistent because the slots themselves are an 
-            //ordered json list
-
-            return turretString;
         }
     }
 }

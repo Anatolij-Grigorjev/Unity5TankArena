@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EK = TankArena.Constants.EntityKeys;
+using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
@@ -54,11 +55,11 @@ namespace TankArena.Models.Tank
             }
         }
 
-        new protected String EntityKey
+        new public String EntityKey
         {
             get
             {
-                return "abstract_part";
+                return SK.SK_TANK_PART;
             }
         }
 

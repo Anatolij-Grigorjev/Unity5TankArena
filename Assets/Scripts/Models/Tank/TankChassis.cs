@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
+using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Models.Tank
 {
@@ -41,11 +42,11 @@ namespace TankArena.Models.Tank
             get; set;
         }
 
-        new protected String EntityKey
+        new public String EntityKey
         {
             get
             {
-                return "chassis";
+                return SK.SK_TANK_CHASSIS;
             }
         }
         public TankChassis(string filePath) : base(filePath)
@@ -58,5 +59,6 @@ namespace TankArena.Models.Tank
 
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
         }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using TankArena.Models.Tank.Weapons;
+using TankArena.Utils;
 
 namespace TankArena.Models.Tank
 {
@@ -61,14 +62,26 @@ namespace TankArena.Models.Tank
         public static Tank FromCode(string tankCode)
         {
 
+            //create code ditionary where weapon slots are separate keys like tank parts
+            var dictionary = tankCode.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                             .Select(component => component.Split('='))
+                             .ToDictionary(split => split[0], split => split[1]);
 
+            //var tankChassis = EntitiesStore.Instance.Entities[dictionary[SK.SK_TANK_CHASSIS]];
 
-            throw new NotImplementedException();
+            throw new Exception();
         }
 
         public String ToCode()
         {
-            throw new NotImplementedException();
+            StringBuilder codeBuilder = new StringBuilder();
+
+            codeBuilder.Append(EntitySerializer.SerializeEntity(tankChassis))
+                .Append(";");
+            codeBuilder.Append(EntitySerializer.SerializeEntity(tankTurret))
+                .Append(";");
+
+            return codeBuilder.ToString();
         }
     }
 }

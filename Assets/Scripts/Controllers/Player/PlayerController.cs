@@ -2,7 +2,7 @@
 using System.Collections;
 using TankArena.Models.Characters;
 using TankArena.Models.Tank;
-using PP = TankArena.Const.PlayerPrefsKeys;
+using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 
 namespace TankArena.Controllers

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TankArena.Constants;
 using EK = TankArena.Constants.EntityKeys;
+using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using TankArena.Utils;
 using UnityEngine;
 using SimpleJSON;
@@ -33,11 +34,11 @@ namespace TankArena.Models
                 return (string)properties[EK.EK_NAME];
             }
         }
-        protected String EntityKey
+        public String EntityKey
         {
             get
             {
-                return "entity";
+                return SK.SK_ENTITY;
             }
         }
 
@@ -71,14 +72,6 @@ namespace TankArena.Models
                 return null;
             }
             return SpecialContentResolver.Resolve(content);
-        }
-
-        //TODO: all entites also need a static FromCode method
-        //to reverse these effects
-        //static methods cannot be used in inheritance, so need another way for it
-        protected virtual String ToCode()
-        {
-            return String.Format("{0}={1}", EntityKey, Id);
         }
 
     }
