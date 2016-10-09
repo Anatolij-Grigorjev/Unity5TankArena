@@ -33,16 +33,15 @@ namespace TankArena.Controllers
 
             //construct player character and tank from encoded keys of ids
             //tank encoded as key-value map, key type of component, value is entity id
-            //tank needs custom string serializer/deserializer
 
             //player always has a selected character. this code will come from main menu later, for now hardcoded
             var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "dummy";
-            character = (PlayableCharacter) EntitiesStore.Instance.Entities[characterCode];
-
-            var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : character.StartingTankCode;
-            tank = Tank.FromCode(tankCode);
+            //filter search to specific map because its faster AND for type safety
+            character = EntitiesStore.Instance.Characters[characterCode];
 
             //these keys might be absent if new game
+            var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : character.StartingTankCode;
+            tank = Tank.FromCode(tankCode);
             Health = PlayerPrefs.HasKey(PP.PP_HEALTH) ? PlayerPrefs.GetFloat(PP.PP_HEALTH) : character.StartingHealth;
             Cash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : character.StartingCash;
         }

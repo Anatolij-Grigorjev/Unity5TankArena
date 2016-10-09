@@ -10,16 +10,16 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Utils
 {
-    class EntitySerializer
+    class EntitySerializationManager
     {
         private static Func<FileLoadedEntityModel, String> convertToNameVal = entity => String.Format("{0}={1}", entity.EntityKey, entity.Id);
         private static Func<FileLoadedEntityModel, String> convertToJustId = entity => entity.Id;
-        private static Func<String, FileLoadedEntityModel> convertFromNameVal = code => EntitiesStore.Instance.Entities[code.Split(new[] { '=' })[1]];
+        private static Func<String, FileLoadedEntityModel> convertFromNameVal = code => EntitiesStore.Instance.Entities[code.Split('=')[1]];
         private static Func<String, FileLoadedEntityModel> convertFromJustId = code => EntitiesStore.Instance.Entities[code];
         private static Dictionary<Type, Func<FileLoadedEntityModel, String>> serializers;
         private static Dictionary<Type, Func<String, FileLoadedEntityModel>> deserializers;
 
-        static EntitySerializer()
+        static EntitySerializationManager()
         {
             InitSerializers();
             InitDeserializers();
@@ -28,8 +28,39 @@ namespace TankArena.Utils
         private static void InitDeserializers()
         {
             deserializers = new Dictionary<Type, Func<string, FileLoadedEntityModel>>();
+            deserializers.Add(typeof(FileLoadedEntityModel), convertFromNameVal);
+            deserializers.Add(typeof(PlayableCharacter), convertFromJustId);
+            deserializers.Add(typeof(TankPart), convertFromNameVal);
+            deserializers.Add(typeof(TankEngine), convertFromNameVal);
+            deserializers.Add(typeof(TankTracks), convertFromNameVal);
+            deserializers.Add(typeof(TankChassis), code =>
+            {
+                var chassisCodeParts = code.Split(',');
+                TankChassis chassis = (TankChassis) convertFromNameVal(chassisCodeParts[0]);
+                TankEngine engine = DeserializeEntity<TankEngine>(chassisCodeParts[1]);
+                TankTracks tracks = DeserializeEntity<TankTracks>(chassisCodeParts[2]);
 
+                chassis.Engine = engine;
+                chassis.Tracks = tracks;
+                return chassis;
+            });
+            deserializers.Add(typeof(TankTurret), code =>
+            {
+                var turretCodeParts = code.Split(',');
+                TankTurret turret = (TankTurret) convertFromNameVal(turretCodeParts[0]);
+                for (int i = 1; i < turretCodeParts.Length; i++)
+                {
+                    var slotCodePart = turretCodeParts[i];
+                    var classIndexWpn = slotCodePart.Split('_', '=');
+                    if (classIndexWpn.Length > 2 && !String.IsNullOrEmpty(classIndexWpn[2]))
+                    {
+                        var rightSlots = turret.weaponSlotSerializerDictionary[classIndexWpn[0]];
+                        rightSlots[int.Parse(classIndexWpn[1])].Weapon = (BaseWeapon) convertFromJustId(classIndexWpn[2]);
+                    }
+                }
 
+                return turret;
+            });
         }
 
         private static void InitSerializers()
@@ -45,9 +76,8 @@ namespace TankArena.Utils
                 TankChassis chassis = (TankChassis)entity;
                 var chassisCode = convertToNameVal(chassis);
                 StringBuilder codeBuilder = new StringBuilder(chassisCode);
-                codeBuilder.Append(",").Append(EntitySerializer.SerializeEntity(chassis.Engine));
-                codeBuilder.Append(",").Append(EntitySerializer.SerializeEntity(chassis.Tracks));
-                //codeBuilder.Append(",").Append(Turret.ToCode());
+                codeBuilder.Append(",").Append(SerializeEntity(chassis.Engine));
+                codeBuilder.Append(",").Append(SerializeEntity(chassis.Tracks));
 
                 return codeBuilder.ToString();
             });
@@ -68,7 +98,7 @@ namespace TankArena.Utils
                         codeBuilder.Append(",").Append(String.Format("{0}_{1}={2}",
                             pair.Key,
                             i,
-                            slot.Weapon != null ? EntitySerializer.SerializeEntity(slot.Weapon) : ""));
+                            slot.Weapon != null ? SerializeEntity(slot.Weapon) : ""));
                     }
                 }
 

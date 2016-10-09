@@ -34,13 +34,6 @@ namespace TankArena.Models.Tank
         {
             get; set;
         }
-        /// <summary>
-        /// Access to tank turret, mounted on chassis
-        /// </summary>
-        public TankTurret Turret
-        {
-            get; set;
-        }
 
         new public String EntityKey
         {
