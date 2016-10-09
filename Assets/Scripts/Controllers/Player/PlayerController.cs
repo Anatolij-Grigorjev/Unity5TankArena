@@ -19,7 +19,7 @@ namespace TankArena.Controllers
         // Use this for initialization
         void Awake()
         {
-
+            LoadFromPlayerPrefs();
         }
 
         // Update is called once per frame

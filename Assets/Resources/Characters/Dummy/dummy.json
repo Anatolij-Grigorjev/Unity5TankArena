@@ -1,0 +1,10 @@
+{
+	"id": "dummy",
+	"name": "Test Character",
+	"avatar": "!img;Characters\\Dummy\\Images\\avatar", 
+	"background": "!img;Characters\\Dummy\\Images\\background",
+	"char_model": "!img;Characters\\Dummy\\Images\\model",
+	"start_cash": "150.52",
+	"start_health": "100",
+	"start_tank": ""
+}
