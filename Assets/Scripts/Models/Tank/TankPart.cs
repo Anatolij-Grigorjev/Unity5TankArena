@@ -75,6 +75,10 @@ namespace TankArena.Models.Tank
             properties[EK.EK_MASS] = json[EK.EK_MASS].AsFloat;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_GARAGE_ITEM_IMAGE].Value);
+            if (GarageItem == null)
+            {
+                properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
+            }
         }
 
     }

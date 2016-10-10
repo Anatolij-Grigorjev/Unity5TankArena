@@ -29,5 +29,13 @@ namespace TankArena.Utils
             rotation = t.localRotation.eulerAngles;
             scale = t.localScale;
         }
+
+        public static TransformState fromTransform(Transform t)
+        {
+            var state = new TransformState();
+            state.CopyFromTransform(t);
+
+            return state;
+        }
     }
 }

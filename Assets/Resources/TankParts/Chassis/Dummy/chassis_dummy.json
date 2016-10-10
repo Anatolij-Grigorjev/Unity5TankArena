@@ -1,0 +1,9 @@
+{
+	"id": "CH_dummy01",
+	"name": "Dummy Chassis",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0;",
+	"mass": "1.0",
+	"shop_item": "!img;TankParts\\Chassis\\Dummy\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Chassis\\Dummy\\Images\\garage_img",
+	"integrity": "1700.6"
+}

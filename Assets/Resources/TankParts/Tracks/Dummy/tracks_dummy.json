@@ -1,0 +1,11 @@
+{
+	"id": "TRK_dummy01",
+	"name": "Dummy Tracks",
+	"on_tank_position": "!transf;0.5;1.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0;",
+	"mass": "1.0",
+	"shop_item": "!img;TankParts\\Tracks\\Dummy\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Tracks\\Dummy\\Images\\garage_img",
+	"coupling": "5.7",
+	"turn_speed": "3.5",
+	"lower_integrity": "5"
+}
