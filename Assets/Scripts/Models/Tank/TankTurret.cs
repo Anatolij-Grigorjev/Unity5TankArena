@@ -6,6 +6,7 @@ using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using TankArena.Models.Tank.Weapons;
+using UnityEngine.UI;
 
 namespace TankArena.Models.Tank
 {
@@ -33,6 +34,14 @@ namespace TankArena.Models.Tank
             }
         }
 
+        public Image WeaponsShopImage
+        {
+            get
+            {
+                return (Image)properties[EK.EK_WEAPONS_SHOP_IMAGE];
+            }
+        }
+
         new public String EntityKey
         {
             get
@@ -54,6 +63,8 @@ namespace TankArena.Models.Tank
         protected override void LoadPropertiesFromJSON(JSONNode json)
         {
             base.LoadPropertiesFromJSON(json);
+
+            properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
 
             allWeaponSlots = new List<WeaponSlot>();
             foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {

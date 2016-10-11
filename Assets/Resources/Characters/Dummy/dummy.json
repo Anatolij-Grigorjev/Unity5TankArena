@@ -6,5 +6,5 @@
 	"char_model": "!img;Characters\\Dummy\\Images\\model",
 	"start_cash": "150.52",
 	"start_health": "100",
-	"start_tank": "chassis=CH_dummy01,engine=ENG_dummy01,tracks=TRK_dummy01;"
+	"start_tank": "chassis=CH_dummy01,engine=ENG_dummy01,tracks=TRK_dummy01;turret=TUR_dummy01,H_0=WPN_H_dummy01"
 }

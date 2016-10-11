@@ -39,7 +39,7 @@ namespace TankArena.Utils
                     var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
                     TransformState transform = typeAndTransform.Length > 1?
-                        transformDeserializer(typeAndTransform[1]) : null;
+                        (TransformState)Resolve(typeAndTransform[1]) : null;
 
                     return new WeaponSlot(weaponType, transform);
                 }
