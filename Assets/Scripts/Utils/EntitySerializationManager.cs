@@ -40,8 +40,14 @@ namespace TankArena.Utils
                 TankEngine engine = DeserializeEntity<TankEngine>(chassisCodeParts[1]);
                 TankTracks tracks = DeserializeEntity<TankTracks>(chassisCodeParts[2]);
 
+                //setting chassis references
                 chassis.Engine = engine;
                 chassis.Tracks = tracks;
+
+                //setting references to chassis
+                tracks.Chassis = chassis;
+                engine.Chassis = chassis;
+
                 return chassis;
             });
             deserializers.Add(typeof(TankTurret), code =>
@@ -51,7 +57,7 @@ namespace TankArena.Utils
                 for (int i = 1; i < turretCodeParts.Length; i++)
                 {
                     var slotCodePart = turretCodeParts[i];
-                    var classIndexWpn = slotCodePart.Split('_', '=');
+                    var classIndexWpn = slotCodePart.Split(new char[] { '_', '=' }, 3);
                     if (classIndexWpn.Length > 2 && !String.IsNullOrEmpty(classIndexWpn[2]))
                     {
                         var rightSlots = turret.weaponSlotSerializerDictionary[classIndexWpn[0]];

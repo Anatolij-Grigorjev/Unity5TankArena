@@ -1,13 +1,13 @@
 {
 	"id": "TUR_dummy01",
 	"name": "Dummy Turret",
-	"on_tank_position": "!transf;0.5;-0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0;",
+	"on_tank_position": "!transf;0.5;-0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"mass": "1.0",
 	"shop_item": "!img;TankParts\\Turrets\\Dummy\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Turrets\\Dummy\\Images\\garage_img",
 	"weapons_shop": "!img;TankParts\\Turrets\\Dummy\\Images\\weapon_shop_img",
 	"light_weapon_slots": [],
 	"heavy_weapon_slots": [
-		"!wpnslt;1;!transf;0.5;-0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0;"
+		"!wpnslt;1;!transf;0.5;-0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
 	]
 }

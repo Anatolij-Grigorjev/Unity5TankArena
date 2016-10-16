@@ -33,9 +33,11 @@ namespace TankArena.Utils
         private static Dictionary<String, Func<String, object>> resolvers = new Dictionary<string, Func<string, object>>()
         {
             { "!img;", imgPath => { return Resources.Load<Image>(imgPath); } },
+            { "!transf;", transform => { return transformDeserializer(transform); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
             { "!wpnslt;", slotDescriptor => 
                 {
+                    Debug.Log("Working with slot descriptor: " + slotDescriptor);
                     var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
                     TransformState transform = typeAndTransform.Length > 1?
@@ -43,16 +45,17 @@ namespace TankArena.Utils
 
                     return new WeaponSlot(weaponType, transform);
                 }
-            },
-            { "!transf;", transform => { return transformDeserializer(transform); } }
+            }
         };
 
         public static object Resolve(string content)
         {
+            Debug.Log("Trying to resolves special content: " + content);
             foreach(KeyValuePair<string, Func<string, object>> resolver in resolvers)
             {
                 if (content.StartsWith(resolver.Key))
                 {
+                    Debug.Log("Got resolver key: " + resolver.Key);
                     var keyAndContent = content.Split(new char[]{';'}, 2);
                     if (keyAndContent.Length < 2)
                     {

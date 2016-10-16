@@ -1,7 +1,7 @@
 {
 	"id": "ENG_dummy01",
 	"name": "Dummy Engine",
-	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0;",
+	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"mass": "1.0",
 	"shop_item": "!img;TankParts\\Engines\\Dummy\\Images\\shop_img",
 	"top_speed": "185.89",

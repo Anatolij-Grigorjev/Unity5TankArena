@@ -28,6 +28,18 @@ namespace TankArena.Controllers
 
         }
 
+        private void SaveToPlayerPrefs()
+        {
+            //take the current player customizations and save them into the preferences
+            PlayerPrefs.SetString(PP.PP_CHARACTER, character.Id);
+            PlayerPrefs.SetString(PP.PP_TANK, tank.ToCode());
+            PlayerPrefs.SetFloat(PP.PP_HEALTH, Health);
+            PlayerPrefs.SetFloat(PP.PP_CASH, Cash);
+
+            //flush the prefs
+            PlayerPrefs.Save();
+        }
+
         private void LoadFromPlayerPrefs()
         {
 

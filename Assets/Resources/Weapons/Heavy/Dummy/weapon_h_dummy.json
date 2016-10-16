@@ -1,7 +1,7 @@
 {
 	"id": "WPN_H_dummy01",
 	"name": "Dummy Cannon",
-	"on_turret_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0;",
+	"on_turret_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"wpn_type": "1",
 	"damage": "45.7",
 	"reload": "7.5",

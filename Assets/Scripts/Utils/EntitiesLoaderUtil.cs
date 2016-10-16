@@ -10,12 +10,17 @@ namespace TankArena.Utils
 {
     class EntitiesLoaderUtil
     {
+
+        private static readonly String BASE_DATA_PATH = Path.Combine(Application.dataPath, "Resources");
+
         private EntitiesLoaderUtil() { }
 
-        public static void loadAllEntitesAtPath<T>(string basePath, Func<string, T> generator, Dictionary<String, T> consumer) 
+        public static void loadAllEntitesAtPath<T>(string baseLoadPath, Func<string, T> generator, Dictionary<String, T> consumer) 
             where T : FileLoadedEntityModel
         {
-            foreach (String fileName in Directory.GetFiles(basePath, "*.json", SearchOption.AllDirectories))
+            var fullPath = Path.Combine(BASE_DATA_PATH, baseLoadPath);
+            Debug.Log(String.Format("Searching for loadable entities of type {0} at {1}", typeof(T).FullName, fullPath));
+            foreach (String fileName in Directory.GetFiles(fullPath, "*.json", SearchOption.AllDirectories))
             {
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);

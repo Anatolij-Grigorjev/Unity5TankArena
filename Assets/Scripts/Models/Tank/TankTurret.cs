@@ -73,9 +73,10 @@ namespace TankArena.Models.Tank
                 if (slotsJsonArray != null && slotsJsonArray.Count > 0)
                 {
                     var slotsList = (List<WeaponSlot>)properties[key];
-                    foreach (var slotString in slotsJsonArray)
+                    for(int i = 0; i < slotsJsonArray.Count; i++) 
                     {
-                        var wpnSlot = (WeaponSlot)ResolveSpecialContent(slotString.ToString());
+                        String slotString = slotsJsonArray[i].Value;
+                        var wpnSlot = (WeaponSlot)ResolveSpecialContent(slotString);
                         wpnSlot.Turret = this;
                         slotsList.Add(wpnSlot);
                     }

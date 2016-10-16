@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using TankArena.Constants;
@@ -45,11 +46,19 @@ namespace TankArena.Models
 
         protected Dictionary<String, object> properties;
 
+        private static String CULL_PATH = "Resources" + Path.DirectorySeparatorChar;
+        private static int CULL_LENGTH = CULL_PATH.Length;
+
         public FileLoadedEntityModel(string filePath)
         {
             Debug.Log("Trying to load entity at path: " + filePath);
             properties = new Dictionary<string, object>();
-            var jsonText = Resources.Load<TextAsset>(filePath);
+            var relativePath = filePath.Substring(filePath.IndexOf(CULL_PATH) + CULL_LENGTH);
+            relativePath = relativePath.Substring(0, relativePath.LastIndexOf("."));
+            Debug.Log(String.Format("Transformed path for relative loading: {0}",
+                relativePath));
+            var jsonText = Resources.Load<TextAsset>(relativePath) as TextAsset;
+            Debug.Log(String.Format("Loaded Json Text for entity: {0}", jsonText));
             var json = JSON.Parse(jsonText.text);
             LoadPropertiesFromJSON(json);
         }
@@ -71,7 +80,9 @@ namespace TankArena.Models
             {
                 return null;
             }
-            return SpecialContentResolver.Resolve(content);
+            var resolved = SpecialContentResolver.Resolve(content);
+
+            return resolved;
         }
 
     }

@@ -41,6 +41,8 @@ namespace TankArena.Models.Tank
                 return (float)properties[EK.EK_LOWER_INTEGRITY];
             }
         }
+        public TankChassis Chassis { get; set; }
+
 
         new public String EntityKey
         {

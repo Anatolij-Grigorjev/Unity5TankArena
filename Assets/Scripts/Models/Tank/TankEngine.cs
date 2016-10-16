@@ -73,6 +73,7 @@ namespace TankArena.Models.Tank
                 return (AudioClip)properties[EK.EK_REVVING_SOUND];
             }
         }
+        public TankChassis Chassis { get; set; }
 
         new public String EntityKey
         {

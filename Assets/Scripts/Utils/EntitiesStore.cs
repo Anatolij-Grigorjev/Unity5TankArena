@@ -39,7 +39,7 @@ namespace TankArena.Utils
             //Load all characters
             loadedCharacters = new Dictionary<string, PlayableCharacter>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
+                @"Characters",
                 path => { return new PlayableCharacter(path); },
                 loadedCharacters
             );
@@ -48,23 +48,23 @@ namespace TankArena.Utils
             //Load All Tank Parts
             loadedTankParts = new Dictionary<string, TankPart>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
+                @"TankParts\Engines",
                 path => { return new TankEngine(path); },
                 loadedTankParts
             );
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
+                @"TankParts\Tracks",
                 path => { return new TankTracks(path); },
                 loadedTankParts
             );
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
-                path => { return new TankTurret(path); },
+                @"TankParts\Chassis",
+                path => { return new TankChassis(path); },
                 loadedTankParts
             );
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
-                path => { return new TankChassis(path); },
+                @"TankParts\Turrets",
+                path => { return new TankTurret(path); },
                 loadedTankParts
             );
             CopyToEntitiesDict(loadedTankParts);
@@ -72,16 +72,17 @@ namespace TankArena.Utils
             //Load All Weapons
             loadedWeapons = new Dictionary<string, BaseWeapon>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
+                @"Weapons\Heavy",
                 path => { return new HeavyWeapon(path); },
                 loadedWeapons
             );
             EntitiesLoaderUtil.loadAllEntitesAtPath(
-                "",
+                @"Weapons\Light",
                 path => { return new LightWeapon(path); },
                 loadedWeapons
             );
             CopyToEntitiesDict(loadedWeapons);
+
             isReady = true;
         }
 
@@ -91,7 +92,14 @@ namespace TankArena.Utils
             {
                 return;
             }
-            dict.ToList().ForEach(x => loadedEntities.Add(x.Key, x.Value));
+            dict.ToList().ForEach(x => 
+                {
+                    if (!loadedEntities.ContainsKey(x.Key))
+                    {
+                        loadedEntities.Add(x.Key, x.Value);
+                    }
+                }
+            );
         }
 
         public void GetStatus()
