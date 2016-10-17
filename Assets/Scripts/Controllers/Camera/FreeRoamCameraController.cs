@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace TankArena.Controllers {
+namespace TankArena.Controllers
+{
     public class FreeRoamCameraController : MonoBehaviour
     {
 

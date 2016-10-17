@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 using TankArena.Models;
 using TankArena.Models.Tank;
 using TankArena.Models.Tank.Weapons;
@@ -106,7 +105,7 @@ namespace TankArena.Utils
         {
             //print amounts of loaded entities
             //as status info. Good for eager lazy loading
-            Debug.Log(String.Format("Loaded total of {0} entities.\n", loadedEntities.Count));
+            Debug.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
         }
 
        

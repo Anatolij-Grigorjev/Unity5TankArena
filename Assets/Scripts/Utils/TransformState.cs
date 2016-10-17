@@ -10,7 +10,7 @@ namespace TankArena.Utils
     /// Because an actual Transform can only be a part of a valid GO,
     /// this utility stores transform data and copies to and from it
     /// </summary>
-    class TransformState
+    public class TransformState
     {
         public Vector3 position;
         public Vector3 rotation;

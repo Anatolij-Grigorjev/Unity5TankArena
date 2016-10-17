@@ -37,7 +37,7 @@ namespace TankArena.Utils
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
             { "!wpnslt;", slotDescriptor => 
                 {
-                    Debug.Log("Working with slot descriptor: " + slotDescriptor);
+                    Debug.Log("Working with slot descriptor: {0}", slotDescriptor);
                     var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
                     TransformState transform = typeAndTransform.Length > 1?
@@ -50,12 +50,12 @@ namespace TankArena.Utils
 
         public static object Resolve(string content)
         {
-            Debug.Log("Trying to resolves special content: " + content);
+            Debug.Log("Trying to resolves special content: {0}", content);
             foreach(KeyValuePair<string, Func<string, object>> resolver in resolvers)
             {
                 if (content.StartsWith(resolver.Key))
                 {
-                    Debug.Log("Got resolver key: " + resolver.Key);
+                    Debug.Log("Got resolver key: {0}", resolver.Key);
                     var keyAndContent = content.Split(new char[]{';'}, 2);
                     if (keyAndContent.Length < 2)
                     {

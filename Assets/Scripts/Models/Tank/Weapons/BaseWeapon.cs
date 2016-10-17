@@ -11,7 +11,7 @@ using TankArena.Utils;
 
 namespace TankArena.Models.Tank.Weapons
 {
-    abstract class BaseWeapon : FileLoadedEntityModel
+    public abstract class BaseWeapon : FileLoadedEntityModel
     {
         /// <summary>
         /// Weapon in-game position, relative to turret GO transform

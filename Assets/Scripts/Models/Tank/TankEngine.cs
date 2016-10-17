@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TankArena.Models.Tank
 {
-    class TankEngine : TankPart
+    public class TankEngine : TankPart
     {
         /// <summary>
         /// Top speed this engine can provide a tank of adequate weight, in map units per minute

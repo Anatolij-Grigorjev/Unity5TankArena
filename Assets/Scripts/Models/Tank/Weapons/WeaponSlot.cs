@@ -8,7 +8,7 @@ using TankArena.Utils;
 
 namespace TankArena.Models.Tank.Weapons
 {
-    class WeaponSlot
+    public class WeaponSlot
     {
         public WeaponSlot(WeaponTypes type, TransformState shopTransform)
         {

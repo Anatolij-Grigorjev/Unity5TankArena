@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TankArena.Constants
 {
-    enum WeaponTypes
+    public enum WeaponTypes
     {
         LIGHT = 0,
         HEAVY = 1

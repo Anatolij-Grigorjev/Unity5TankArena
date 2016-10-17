@@ -6,13 +6,14 @@ using System.Text;
 using TankArena.Constants;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
+using DBG = TankArena.Utils.Debug;
 using TankArena.Utils;
 using UnityEngine;
 using SimpleJSON;
 
 namespace TankArena.Models
 {
-    abstract class FileLoadedEntityModel
+    public abstract class FileLoadedEntityModel
     {
         /// <summary>
         /// The unique game-wide item identifier code, used in cache storage
@@ -51,14 +52,13 @@ namespace TankArena.Models
 
         public FileLoadedEntityModel(string filePath)
         {
-            Debug.Log("Trying to load entity at path: " + filePath);
+            DBG.Log("Trying to load entity at path: {0}", filePath);
             properties = new Dictionary<string, object>();
             var relativePath = filePath.Substring(filePath.IndexOf(CULL_PATH) + CULL_LENGTH);
             relativePath = relativePath.Substring(0, relativePath.LastIndexOf("."));
-            Debug.Log(String.Format("Transformed path for relative loading: {0}",
-                relativePath));
+            DBG.Log("Transformed path for relative loading: {0}", relativePath);
             var jsonText = Resources.Load<TextAsset>(relativePath) as TextAsset;
-            Debug.Log(String.Format("Loaded Json Text for entity: {0}", jsonText));
+            DBG.Log("Loaded Json Text for entity: {0}", jsonText);
             var json = JSON.Parse(jsonText.text);
             LoadPropertiesFromJSON(json);
         }

@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using TankArena.Models;
-using UnityEngine;
+using APP = UnityEngine.Application;
 
 namespace TankArena.Utils
 {
     class EntitiesLoaderUtil
     {
 
-        private static readonly String BASE_DATA_PATH = Path.Combine(Application.dataPath, "Resources");
+        private static readonly String BASE_DATA_PATH = Path.Combine(APP.dataPath, "Resources");
 
         private EntitiesLoaderUtil() { }
 
@@ -19,13 +19,13 @@ namespace TankArena.Utils
             where T : FileLoadedEntityModel
         {
             var fullPath = Path.Combine(BASE_DATA_PATH, baseLoadPath);
-            Debug.Log(String.Format("Searching for loadable entities of type {0} at {1}", typeof(T).FullName, fullPath));
+            Debug.Log("Searching for loadable entities of type {0} at {1}", typeof(T).FullName, fullPath);
             foreach (String fileName in Directory.GetFiles(fullPath, "*.json", SearchOption.AllDirectories))
             {
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);
             }
-            Debug.Log(String.Format("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName));
+            Debug.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
         }
     }
 }

@@ -8,7 +8,7 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Models.Tank
 {
-    class TankTracks : TankPart
+    public class TankTracks : TankPart
     {
         /// <summary>
         /// Coefficient of track "stickiness" to ground, making them handle better

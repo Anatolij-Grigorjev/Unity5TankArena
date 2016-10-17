@@ -11,7 +11,7 @@ using TankArena.Utils;
 
 namespace TankArena.Models.Tank
 {
-    abstract class TankPart : FileLoadedEntityModel
+    public abstract class TankPart : FileLoadedEntityModel
     {
 
         /// <summary>

@@ -19,9 +19,8 @@ namespace TankArena.Utils {
 			get
 			{
 				if (applicationIsQuitting) {
-					Debug.LogWarning("[Singleton] Instance '"+ typeof(T) +
-						"' already destroyed on application quit." +
-						" Won't create again - returning null.");
+					Debug.Log("[Singleton] Instance '{0}' already destroyed on application quit." +
+						" Won't create again - returning null.", typeof(T));
 					return null;
 				}
 
@@ -33,7 +32,7 @@ namespace TankArena.Utils {
 
 						if ( FindObjectsOfType(typeof(T)).Length > 1 )
 						{
-							Debug.LogError("[Singleton] Something went really wrong " +
+							UnityEngine.Debug.LogError("[Singleton] Something went really wrong " +
 								" - there should never be more than 1 singleton!" +
 								" Reopening the scene might fix it.");
 							return _instance;
@@ -47,11 +46,11 @@ namespace TankArena.Utils {
 
 							DontDestroyOnLoad(singleton);
 
-							Debug.Log("[Singleton] An instance of " + typeof(T) + 
-								" is needed in the scene, so '" + singleton +
-								"' was created with DontDestroyOnLoad.");
+							Debug.Log("[Singleton] An instance of {0} is needed in the scene," +
+                                " so '{1}' was created with DontDestroyOnLoad."
+                                , typeof(T), singleton);
 						} else {
-							Debug.Log("[Singleton] Using instance already created: " +
+							Debug.Log("[Singleton] Using instance already created: {0}",
 								_instance.gameObject.name);
 						}
 					}

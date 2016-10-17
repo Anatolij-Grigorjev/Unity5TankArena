@@ -8,7 +8,7 @@ namespace TankArena.Models.Tank.Weapons
     /// <summary>
     /// Lightweight weapon groups object that represents a state
     /// </summary>
-    class WeaponGroups
+    public class WeaponGroups
     {
         private bool group1;
         private bool group2;

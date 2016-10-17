@@ -11,7 +11,7 @@ namespace TankArena.Controllers
     {
 
         private PlayableCharacter character;
-        private Tank tank;
+        public TankController tankController;
 
         public float Health { get; set; }
         public float Cash { get; set; }
@@ -32,7 +32,7 @@ namespace TankArena.Controllers
         {
             //take the current player customizations and save them into the preferences
             PlayerPrefs.SetString(PP.PP_CHARACTER, character.Id);
-            PlayerPrefs.SetString(PP.PP_TANK, tank.ToCode());
+            PlayerPrefs.SetString(PP.PP_TANK, tankController.Tank.ToCode());
             PlayerPrefs.SetFloat(PP.PP_HEALTH, Health);
             PlayerPrefs.SetFloat(PP.PP_CASH, Cash);
 
@@ -53,7 +53,7 @@ namespace TankArena.Controllers
 
             //these keys might be absent if new game
             var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : character.StartingTankCode;
-            tank = Tank.FromCode(tankCode);
+            tankController.Tank = Tank.FromCode(tankCode);
             Health = PlayerPrefs.HasKey(PP.PP_HEALTH) ? PlayerPrefs.GetFloat(PP.PP_HEALTH) : character.StartingHealth;
             Cash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : character.StartingCash;
         }

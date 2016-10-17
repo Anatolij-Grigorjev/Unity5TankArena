@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace TankArena.Models.Tank
 {
-    class TankTurret : TankPart
+    public class TankTurret : TankPart
     {
         /// <summary>
         /// Access to heavy weapon slots on the tank turret (like main cannon)

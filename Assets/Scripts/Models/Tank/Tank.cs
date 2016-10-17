@@ -12,11 +12,11 @@ namespace TankArena.Models.Tank
     /// <summary>
     /// Central access to tank features for the player controller
     /// </summary>
-    class Tank
+    public class Tank
     {
 
-        private TankChassis tankChassis;
-        private TankTurret tankTurret;
+        public TankChassis tankChassis;
+        public TankTurret tankTurret;
 
         public Tank(TankChassis chassis, TankTurret turret)
         {

@@ -8,7 +8,7 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Models.Tank
 {
-    class TankChassis : TankPart
+    public class TankChassis : TankPart
     {
         /// <summary>
         /// The overall hitpoints of the tank being held together by the chassis
