@@ -35,6 +35,7 @@ namespace TankArena.Utils
             { "!img;", imgPath => { return Resources.Load<Image>(imgPath); } },
             { "!transf;", transform => { return transformDeserializer(transform); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
+            { "!sprites;", sheetPath => { return Resources.LoadAll<Sprite>(sheetPath); } },
             { "!wpnslt;", slotDescriptor => 
                 {
                     Debug.Log("Working with slot descriptor: {0}", slotDescriptor);

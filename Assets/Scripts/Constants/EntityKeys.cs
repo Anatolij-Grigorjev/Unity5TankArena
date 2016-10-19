@@ -24,6 +24,7 @@ namespace TankArena.Constants
         public const string EK_MASS = "mass";
         public const string EK_SHOP_ITEM_IMAGE = "shop_item";
         public const string EK_GARAGE_ITEM_IMAGE = "garage_item";
+        public const string EK_ENTITY_SPRITESHEET = "spritesheet";
 
         //TANK TRACKS
         public const string EK_COUPLING = "coupling";

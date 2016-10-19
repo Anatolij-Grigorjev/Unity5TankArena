@@ -5,6 +5,7 @@ using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
+using UnityEngine;
 
 namespace TankArena.Models.Tank
 {
@@ -18,6 +19,13 @@ namespace TankArena.Models.Tank
             get
             {
                 return (float)properties[EK.EK_INTEGRITY];
+            }
+        }
+        public Sprite[] Sprites
+        {
+            get
+            {
+                return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
             }
         }
         /// <summary>
@@ -42,6 +50,8 @@ namespace TankArena.Models.Tank
                 return SK.SK_TANK_CHASSIS;
             }
         }
+
+
         public TankChassis(string filePath) : base(filePath)
         {
         }
@@ -51,6 +61,7 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
+            properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET]);
         }
 
     }
