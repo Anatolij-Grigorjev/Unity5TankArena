@@ -6,7 +6,20 @@ namespace TankArena.Controllers
 {
     public class TankTracksController : MonoBehaviour {
 
-        public TankTracks Tracks { get; set; }
+        private TankTracks tracks;
+
+        public TankTracks Tracks
+        {
+            get
+            {
+                return tracks;
+            }
+            set
+            {
+                tracks = value;
+                tracks.OnTankPosition.CopyToTransform(transform);
+            }
+        }
 
 	    // Use this for initialization
 	    void Awake () {

@@ -23,13 +23,14 @@ namespace TankArena.Controllers
             set
             {
                 chassis = value;
-                SetDefaultChassisSprite();
+                chassis.OnTankPosition.CopyToTransform(transform);
+                SetDefaultSprite();
                 engineController.Engine = chassis.Engine;
                 tracksController.Tracks = chassis.Tracks;
             }
         }
 
-        private void SetDefaultChassisSprite()
+        private void SetDefaultSprite()
         {
             if (spriteRenderer != null && chassis != null)
             {
@@ -41,7 +42,7 @@ namespace TankArena.Controllers
         void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            SetDefaultChassisSprite();
+            SetDefaultSprite();
         }
 
         // Update is called once per frame

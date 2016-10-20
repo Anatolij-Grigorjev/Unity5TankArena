@@ -6,7 +6,18 @@ namespace TankArena.Controllers
 {
     public class TankEngineController : MonoBehaviour {
 
-        public TankEngine Engine { get; set; }
+        private TankEngine engine;
+        public TankEngine Engine {
+            get
+            {
+                return engine;
+            }
+            set
+            {
+                engine = value;
+                engine.OnTankPosition.CopyToTransform(transform);
+            }
+        }
 
 	    // Use this for initialization
 	    void Awake () {
