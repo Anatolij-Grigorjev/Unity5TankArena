@@ -21,13 +21,6 @@ namespace TankArena.Models.Tank
                 return (float)properties[EK.EK_INTEGRITY];
             }
         }
-        public Sprite[] Sprites
-        {
-            get
-            {
-                return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
-            }
-        }
         /// <summary>
         /// Access to tank engine, mounted on chassis
         /// </summary>
@@ -61,7 +54,6 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
-            properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET]);
         }
 
     }

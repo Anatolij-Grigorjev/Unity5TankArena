@@ -14,7 +14,7 @@ namespace TankArena.Utils
         private static Func<String, TransformState> transformDeserializer = transform => 
         {
             var _9floats = transform.Split(new char[] { ';' }, 9)
-                .Select(strNum => { return float.Parse(strNum); }).ToArray();
+                .Select(strNum => float.Parse(strNum)).ToArray();
 
             float[] positionFloats = new float[] { _9floats[0], _9floats[1], _9floats[2] };
             float[] rotationFloats = new float[] { _9floats[3], _9floats[4], _9floats[5] };
@@ -36,6 +36,13 @@ namespace TankArena.Utils
             { "!transf;", transform => { return transformDeserializer(transform); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
             { "!sprites;", sheetPath => { return Resources.LoadAll<Sprite>(sheetPath); } },
+            { "!box;", rectNums => 
+                {
+                    var _4floats = rectNums.Split(new char[] {';'}, 4)
+                        .Select(floatStr => float.Parse(floatStr)).ToArray();
+                    return new Rect(_4floats[0], _4floats[1], _4floats[2], _4floats[3]);
+                }
+            },
             { "!wpnslt;", slotDescriptor => 
                 {
                     Debug.Log("Working with slot descriptor: {0}", slotDescriptor);

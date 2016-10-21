@@ -8,41 +8,40 @@ namespace TankArena.Controllers
     public class TankChassisController : MonoBehaviour
     {
 
-        private TankChassis chassis;
+        private TankChassis chassisData;
         public TankEngineController engineController;
         public TankTracksController tracksController;
 
-        private SpriteRenderer spriteRenderer;
+        private SpriteRenderer chassisRenderer;
+        private BoxCollider2D chassisCollider;
 
         public TankChassis Chassis
         {
             get
             {
-                return chassis;
+                return chassisData;
             }
             set
             {
-                chassis = value;
-                chassis.OnTankPosition.CopyToTransform(transform);
-                SetDefaultSprite();
-                engineController.Engine = chassis.Engine;
-                tracksController.Tracks = chassis.Tracks;
-            }
-        }
-
-        private void SetDefaultSprite()
-        {
-            if (spriteRenderer != null && chassis != null)
-            {
-                spriteRenderer.sprite = chassis.Sprites[0];
+                chassisData = value;
+                chassisData.OnTankPosition.CopyToTransform(transform);
+                chassisData.SetRendererSprite(chassisRenderer, 0);
+                chassisData.SetColliderBounds(chassisCollider);
+                engineController.Engine = chassisData.Engine;
+                tracksController.Tracks = chassisData.Tracks;
             }
         }
 
         // Use this for initialization
         void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            SetDefaultSprite();
+            chassisRenderer = GetComponent<SpriteRenderer>();
+            chassisCollider = GetComponent<BoxCollider2D>();
+            if (chassisData != null)
+            {
+                chassisData.SetRendererSprite(chassisRenderer, 0);
+                chassisData.SetColliderBounds(chassisCollider);
+            }
         }
 
         // Update is called once per frame

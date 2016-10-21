@@ -1,11 +1,14 @@
 {
 	"id": "TRK_dummy01",
 	"name": "Dummy Tracks",
-	"on_tank_position": "!transf;0.5;1.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"on_tank_position": "!transf;0.35;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
 	"mass": "1.0",
 	"shop_item": "!img;TankParts\\Tracks\\Dummy\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Tracks\\Dummy\\Images\\garage_img",
 	"coupling": "5.7",
 	"turn_speed": "3.5",
-	"lower_integrity": "5"
+	"lower_integrity": "5",
+	"spritesheet": "!sprites;TankParts\\Tracks\\Dummy\\Images\\Sprites\\spritesheet_0",
+	"left_track_pos": "!transf;0.3;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
+	"right_track_pos": "!transf;1.9;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0"
 }

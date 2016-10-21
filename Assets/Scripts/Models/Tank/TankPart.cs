@@ -54,7 +54,20 @@ namespace TankArena.Models.Tank
                 return (Image)properties[EK.EK_GARAGE_ITEM_IMAGE];
             }
         }
-
+        public Sprite[] Sprites
+        {
+            get
+            {
+                return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
+            }
+        }
+        public Rect CollisionBox
+        {
+            get
+            {
+                return (Rect)properties[EK.EK_COLLISION_BOX];
+            }
+        }
         new public String EntityKey
         {
             get
@@ -78,6 +91,24 @@ namespace TankArena.Models.Tank
             if (GarageItem == null)
             {
                 properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
+            }
+            properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
+            properties[EK.EK_COLLISION_BOX] = ResolveSpecialContent(json[EK.EK_COLLISION_BOX].Value);
+        }
+
+        public void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)
+        {
+            if (renderer != null && Sprites != null)
+            {
+                renderer.sprite = Sprites[spriteIndex];
+            }
+        }
+        public void SetColliderBounds(BoxCollider2D collider)
+        {
+            if (collider != null && CollisionBox != null)
+            {
+                collider.offset = CollisionBox.position;
+                collider.size = CollisionBox.size;
             }
         }
 

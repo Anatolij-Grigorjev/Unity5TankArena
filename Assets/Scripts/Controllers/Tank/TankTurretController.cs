@@ -7,36 +7,35 @@ namespace TankArena.Controllers
     public class TankTurretController : MonoBehaviour
     {
 
-        private TankTurret turret;
+        private TankTurret turretData;
 
         public TankTurret Turret
         {
             get
             {
-                return turret;
+                return turretData;
             }
             set
             {
-                turret = value;
-                turret.OnTankPosition.CopyToTransform(transform);
-                SetDefaultSprite();
+                turretData = value;
+                turretData.OnTankPosition.CopyToTransform(transform);
+                turretData.SetRendererSprite(turretRenderer, 0);
+                turretData.SetColliderBounds(turretCollider);
             }
         }
 
-        private SpriteRenderer spriteRenderer;
+        private SpriteRenderer turretRenderer;
+        private BoxCollider2D turretCollider;
 
         // Use this for initialization
         void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            SetDefaultSprite();
-        }
-
-        private void SetDefaultSprite()
-        {
-            if (spriteRenderer != null && turret != null)
+            turretRenderer = GetComponent<SpriteRenderer>();
+            turretCollider = GetComponent<BoxCollider2D>();
+            if (turretData != null)
             {
-                spriteRenderer.sprite = turret.Sprites[0];
+                turretData.SetRendererSprite(turretRenderer, 0);
+                turretData.SetColliderBounds(turretCollider);
             }
         }
 

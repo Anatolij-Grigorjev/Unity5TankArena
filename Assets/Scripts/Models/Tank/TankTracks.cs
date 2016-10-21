@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SimpleJSON;
+using TankArena.Utils;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
@@ -41,6 +42,21 @@ namespace TankArena.Models.Tank
                 return (float)properties[EK.EK_LOWER_INTEGRITY];
             }
         }
+        public TransformState LeftTrackPosition
+        {
+            get
+            {
+                return (TransformState)properties[EK.EK_LEFT_TRACK_POSITION];
+            }
+        }
+        public TransformState RightTrackPosition
+        {
+            get
+            {
+                return (TransformState)properties[EK.EK_RIGHT_TRACK_POSITION];
+            }
+        }
+
         public TankChassis Chassis { get; set; }
 
 
@@ -63,6 +79,9 @@ namespace TankArena.Models.Tank
             properties[EK.EK_COUPLING] = json[EK.EK_COUPLING].AsFloat;
             properties[EK.EK_LOWER_INTEGRITY] = json[EK.EK_LOWER_INTEGRITY].AsFloat;
             properties[EK.EK_TURN_SPEED] = json[EK.EK_TURN_SPEED].AsFloat;
+
+            properties[EK.EK_LEFT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_LEFT_TRACK_POSITION].Value);
+            properties[EK.EK_RIGHT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_RIGHT_TRACK_POSITION].Value);
         }
     }
 }

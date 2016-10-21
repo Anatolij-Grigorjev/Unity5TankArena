@@ -25,11 +25,14 @@ namespace TankArena.Constants
         public const string EK_SHOP_ITEM_IMAGE = "shop_item";
         public const string EK_GARAGE_ITEM_IMAGE = "garage_item";
         public const string EK_ENTITY_SPRITESHEET = "spritesheet";
+        public const string EK_COLLISION_BOX = "box_collider";
 
         //TANK TRACKS
         public const string EK_COUPLING = "coupling";
         public const string EK_TURN_SPEED = "turn_speed";
         public const string EK_LOWER_INTEGRITY = "lower_integrity";
+        public const string EK_LEFT_TRACK_POSITION = "left_track_pos";
+        public const string EK_RIGHT_TRACK_POSITION = "right_track_pos";
 
         //TANK ENGINE
         public const string EK_TOP_SPEED = "top_speed";

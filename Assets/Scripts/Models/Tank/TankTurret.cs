@@ -42,13 +42,6 @@ namespace TankArena.Models.Tank
                 return (Image)properties[EK.EK_WEAPONS_SHOP_IMAGE];
             }
         }
-        public Sprite[] Sprites
-        {
-            get
-            {
-                return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
-            }
-        }
         new public String EntityKey
         {
             get
@@ -72,7 +65,6 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
-            properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET]);
             allWeaponSlots = new List<WeaponSlot>();
             foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {
                 var slotsJsonArray = json[key].AsArray;
