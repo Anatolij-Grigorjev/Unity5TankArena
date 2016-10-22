@@ -105,7 +105,7 @@ namespace TankArena.Models.Tank
         }
         public void SetColliderBounds(BoxCollider2D collider)
         {
-            if (collider != null && CollisionBox != null)
+            if (collider != null)
             {
                 collider.offset = CollisionBox.position;
                 collider.size = CollisionBox.size;
