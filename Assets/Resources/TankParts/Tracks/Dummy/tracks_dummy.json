@@ -1,8 +1,8 @@
 {
 	"id": "TRK_dummy01",
 	"name": "Dummy Tracks",
-	"on_tank_position": "!transf;0.35;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
-	"mass": "1.0",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"mass": "5.0",
 	"shop_item": "!img;TankParts\\Tracks\\Dummy\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Tracks\\Dummy\\Images\\garage_img",
 	"coupling": "5.7",

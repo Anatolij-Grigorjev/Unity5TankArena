@@ -14,14 +14,19 @@ namespace TankArena.Models.Tank
     /// </summary>
     public class Tank
     {
-
+        public float Mass;
         public TankChassis tankChassis;
         public TankTurret tankTurret;
+        public TankEngine tankEngine;
+        public TankTracks tankTracks;
 
         public Tank(TankChassis chassis, TankTurret turret)
         {
             this.tankChassis = chassis;
             this.tankTurret = turret;
+            this.tankEngine = chassis.Engine;
+            this.tankTracks = chassis.Tracks;
+            Mass = turret.Mass + (chassis.Mass + tankEngine.Mass + tankTracks.Mass);
         }
 
         /// <summary>

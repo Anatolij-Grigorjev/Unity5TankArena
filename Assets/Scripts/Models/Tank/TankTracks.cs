@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SimpleJSON;
+using TankArena.Controllers;
 using TankArena.Utils;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
+using UnityEngine;
 
 namespace TankArena.Models.Tank
 {
@@ -82,6 +84,28 @@ namespace TankArena.Models.Tank
 
             properties[EK.EK_LEFT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_LEFT_TRACK_POSITION].Value);
             properties[EK.EK_RIGHT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_RIGHT_TRACK_POSITION].Value);
+        }
+
+        public override void SetDataToController<T>(BaseTankPartController<T> controller)
+        {
+            base.SetDataToController<T>(controller);
+            if (controller is TankTracksController)
+            {
+                //making the compiler SUCK IT!
+                TankTracksController tracksController = (TankTracksController)(object)controller;
+                SetRendererSprite(tracksController.tracksLeftTrackRenderer, 0);
+                SetRendererSprite(tracksController.tracksRightTrackRenderer, 0);
+                tracksController.Model.LeftTrackPosition.CopyToTransform(tracksController.tracksLeftTrackRenderer.transform);
+                tracksController.Model.RightTrackPosition.CopyToTransform(tracksController.tracksRightTrackRenderer.transform);
+            }
+        }
+
+        public override void SetRigidBodyProps(Rigidbody2D rigidBody)
+        {
+            base.SetRigidBodyProps(rigidBody);
+            //road stickyness?
+            rigidBody.drag = Coupling;
+            
         }
     }
 }

@@ -6,6 +6,7 @@ using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Tank
 {
@@ -54,6 +55,17 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
+        }
+
+        public override void SetDataToController<T>(BaseTankPartController<T> controller)
+        {
+            base.SetDataToController<T>(controller);
+            if (controller.GetType() == typeof(TankChassisController))
+            {
+                TankChassisController chassisController = (TankChassisController)(object)controller;
+                chassisController.engineController.Model = chassisController.Model.Engine;
+                chassisController.tracksController.Model = chassisController.Model.Tracks;
+            }
         }
 
     }

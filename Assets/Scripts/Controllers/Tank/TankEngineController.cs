@@ -4,24 +4,11 @@ using TankArena.Models.Tank;
 
 namespace TankArena.Controllers
 {
-    public class TankEngineController : MonoBehaviour {
-
-        private TankEngine engine;
-        public TankEngine Engine {
-            get
-            {
-                return engine;
-            }
-            set
-            {
-                engine = value;
-                engine.OnTankPosition.CopyToTransform(transform);
-            }
-        }
+    public class TankEngineController : BaseTankPartController<TankEngine> {
 
 	    // Use this for initialization
-	    void Awake () {
-	
+	    public override void Awake () {
+            base.Awake();
 	    }
 	
 	    // Update is called once per frame

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SimpleJSON;
 using TankArena.Utils;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Tank
 {
@@ -96,19 +97,42 @@ namespace TankArena.Models.Tank
             properties[EK.EK_COLLISION_BOX] = ResolveSpecialContent(json[EK.EK_COLLISION_BOX].Value);
         }
 
-        public void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)
+        public virtual void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)
         {
             if (renderer != null && Sprites != null)
             {
                 renderer.sprite = Sprites[spriteIndex];
             }
         }
-        public void SetColliderBounds(BoxCollider2D collider)
+        public virtual void SetColliderBounds(BoxCollider2D collider)
         {
             if (collider != null)
             {
                 collider.offset = CollisionBox.position;
                 collider.size = CollisionBox.size;
+            }
+        }
+        private void DoRigidBody(Rigidbody2D rigidBody)
+        {
+            if (rigidBody != null)
+            {
+                SetRigidBodyProps(rigidBody);
+            }
+        }
+        public virtual void SetRigidBodyProps(Rigidbody2D rigidBody)
+        {
+            rigidBody.mass = Mass;
+        }
+
+        public virtual void SetDataToController<T>(BaseTankPartController<T> controller) where T: TankPart
+        {
+            //using ref to ensure parameter is never null would be nice, but it gets passed as "this", so its ok
+            SetRendererSprite(controller.partRenderer, 0);
+            SetColliderBounds(controller.partCollider);
+            DoRigidBody(controller.partRigidBody);
+            if (OnTankPosition != null)
+            {
+                OnTankPosition.CopyToTransform(controller.transform);
             }
         }
 
