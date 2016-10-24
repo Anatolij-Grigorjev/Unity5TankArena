@@ -4,6 +4,7 @@ using TankArena.Models.Characters;
 using TankArena.Models.Tank;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.Controllers
 {
@@ -26,7 +27,10 @@ namespace TankArena.Controllers
         void Update()
         {
             //TODO: write some control up in this bitach that wires to the tank service
+            var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
+            var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
 
+            
         }
 
         private void SaveToPlayerPrefs()

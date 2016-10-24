@@ -48,11 +48,11 @@ namespace TankArena.Models.Tank
         }
 
         /// <summary>
-        /// Issued move command to tank
+        /// Issued move command to tank (using move intensity and turn intensity
         /// </summary>
-        public void Move()
+        public void Move(float throttle, float turn)
         {
-            
+            //TODO: create the movmeent using engine params and Time
         }
 
         /// <summary>

@@ -7,5 +7,5 @@
 	"garage_item": "!img;TankParts\\Chassis\\Dummy\\Images\\garage_img",
 	"integrity": "1700.6",
 	"spritesheet": "!sprites;TankParts\\Chassis\\Dummy\\Images\\Sprites\\spritesheet_0",
-	"box_collider": "!box;32.0;0.0;133.5;199.0"
+	"box_collider": "!box;-1.0;4.0;32.0;-38.0"
 }
