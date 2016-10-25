@@ -4,7 +4,9 @@ using TankArena.Models.Characters;
 using TankArena.Models.Tank;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
+using DBG = TankArena.Utils.Debug;
 using TankArena.Constants;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
@@ -14,13 +16,19 @@ namespace TankArena.Controllers
         private PlayableCharacter character;
         public TankController tankController;
 
+        public Queue<TankCommand> commands;
+
+        public float moveDeadzone;
+        //[HideInInspector]
         public float Health { get; set; }
+        //[HideInInspector]
         public float Cash { get; set; }
 
         // Use this for initialization
         void Awake()
         {
             LoadFromPlayerPrefs();
+            commands = tankController.Commands;
         }
 
         // Update is called once per frame
@@ -30,7 +38,27 @@ namespace TankArena.Controllers
             var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
             var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
 
-            
+            if (Mathf.Abs(moveAxis) > moveDeadzone || Mathf.Abs(turnAxis) > moveDeadzone
+                || tankController.isMoving())
+            {
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE, new Dictionary<string, object>
+                {
+                    { TankCommandParamKeys.TANK_CMD_MOVE_KEY, moveAxis },
+                    { TankCommandParamKeys.TANK_CMD_TURN_KEY, turnAxis }
+                }));
+            }
+
+            var brakeHeld = Input.GetButton(ControlsButtonNames.BTN_NAME_HANDBREAK);
+            var brakeLetGo = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_HANDBREAK);
+            if (brakeHeld || brakeLetGo)
+            {
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
+                {
+                    //this will keep sending true on every frame brake is held and will send false on the last one,
+                    //which means brakeletgo was true
+                    { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
+                }));
+            }
         }
 
         private void SaveToPlayerPrefs()

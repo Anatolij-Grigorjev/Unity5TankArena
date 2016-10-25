@@ -24,7 +24,7 @@ namespace TankArena.Models.Tank
             }
         }
         /// <summary>
-        /// Turn speed, measured in seconds for full 180
+        /// Turn speed, measured in degrees turned in 1 second at full throttle
         /// </summary>
         public float TurnSpeed
         {

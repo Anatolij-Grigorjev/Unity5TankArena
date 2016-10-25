@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using TankArena.Models.Tank.Weapons;
 using TankArena.Utils;
+using DBG = TankArena.Utils.Debug;
 using Serialization = TankArena.Utils.EntitySerializationManager;
 
 namespace TankArena.Models.Tank
@@ -19,6 +20,27 @@ namespace TankArena.Models.Tank
         public TankTurret tankTurret;
         public TankEngine tankEngine;
         public TankTracks tankTracks;
+
+        /// <summary>
+        /// THe parent game object this service exepcts to use for rigid bodies and other
+        /// unity-specific objects
+        /// </summary>
+        public GameObject ParentGO
+        {
+            get
+            {
+                return parentGO;
+            }
+            set
+            {
+                parentGO = value;
+                rigidBody = parentGO.GetComponent<Rigidbody2D>();
+                transform = parentGO.transform;
+            }
+        }
+        private GameObject parentGO;
+        private Rigidbody2D rigidBody;
+        private Transform transform;
 
         public Tank(TankChassis chassis, TankTurret turret)
         {
@@ -48,11 +70,41 @@ namespace TankArena.Models.Tank
         }
 
         /// <summary>
-        /// Issued move command to tank (using move intensity and turn intensity
+        /// Issued move command to tank (using move intensity and turn intensity)
         /// </summary>
         public void Move(float throttle, float turn)
         {
-            //TODO: create the movmeent using engine params and Time
+            //purely goin forward
+            rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : tankTracks.Coupling;
+            rigidBody.freezeRotation = turn == 0.0;
+            var enginePowerCoef = tankEngine.Torque / Mass;
+            var allowedTopSpeed = (tankEngine.TopSpeed * enginePowerCoef);
+            var currentVelocity = rigidBody.velocity.magnitude;
+            var acceleration = tankEngine.Acceleration * throttle * (allowedTopSpeed - currentVelocity);
+            //do throttle
+            if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
+            {
+                
+                rigidBody.AddForce(transform.up * acceleration * Time.deltaTime);
+            }
+            //do spin
+            var turnPower = turn * tankTracks.TurnSpeed;
+            if (turnPower != 0.0)
+            {
+                
+                rigidBody.MoveRotation(rigidBody.rotation + turnPower * Time.deltaTime);
+            }
+        }
+
+        public void ApplyBreaks(bool keepApplying)
+        {
+            if (keepApplying)
+            {
+                rigidBody.drag += tankEngine.Deacceleration;
+            } else
+            {
+                rigidBody.drag = tankTracks.Coupling;
+            }
         }
 
         /// <summary>

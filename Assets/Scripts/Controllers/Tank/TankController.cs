@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
+using System;
 
 namespace TankArena.Controllers
 {
@@ -27,7 +28,9 @@ namespace TankArena.Controllers
             set
             {
                 tank = value;
+                tank.ParentGO = gameObject;
                 tankRigidBody.mass = tank.Mass;
+                tankRigidBody.drag = tank.tankTracks.Coupling;
                 tankCollider.pathCount = 1;
                 var cb = tank.tankChassis.CollisionBox;
                 //set the collider based on chasis
@@ -44,8 +47,13 @@ namespace TankArena.Controllers
             }
         }
 
-	    // Use this for initialization
-	    void Awake () {
+        public bool isMoving()
+        {
+            return tankRigidBody.velocity.magnitude > 0.0f;
+        }
+
+        // Use this for initialization
+        void Awake () {
             tankRigidBody = GetComponent<Rigidbody2D>();
             tankCollider = GetComponent<PolygonCollider2D>();
 
@@ -69,6 +77,10 @@ namespace TankArena.Controllers
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
                         tank.Move(throttle, turn);
+                        break;
+                    case TankCommandWords.TANK_COMMAND_BRAKE:
+                        var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
+                        tank.ApplyBreaks(keepApplying);
                         break;
                     default:
                         break;

@@ -12,5 +12,6 @@ namespace TankArena.Constants
         //TANK Movement controls
         public const string BTN_NAME_TANK_MOVE = "TankMove";
         public const string BTN_NAME_TANK_TURN = "TankTurn";
+        public const string BTN_NAME_HANDBREAK = "Handbrake";
     }
 }

@@ -11,5 +11,6 @@ namespace TankArena.Constants
 
         public const string TANK_CMD_MOVE_KEY = "v_movement";
         public const string TANK_CMD_TURN_KEY = "h_movement";
+        public const string TANK_CMD_APPLY_BREAK_KEY = "apply_break";
     }
 }
