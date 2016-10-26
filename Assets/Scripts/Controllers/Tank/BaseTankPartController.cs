@@ -14,7 +14,7 @@ namespace TankArena.Controllers
         [HideInInspector]
         public SpriteRenderer partRenderer;
         [HideInInspector]
-        public BoxCollider2D partCollider;
+        public PolygonCollider2D partCollider;
         [HideInInspector]
         public Rigidbody2D partRigidBody;
 
@@ -33,7 +33,7 @@ namespace TankArena.Controllers
 
         public virtual void Awake()
         {
-            partCollider = GetComponent<BoxCollider2D>();
+            partCollider = GetComponent<PolygonCollider2D>();
             partRenderer = GetComponent<SpriteRenderer>();
             partRigidBody = GetComponent<Rigidbody2D>();
             if (data != null)

@@ -6,8 +6,8 @@
 	"shop_item": "!img;TankParts\\Engines\\Dummy\\Images\\shop_img",
 	"top_speed": "185.89",
 	"torque": "55.4",
-	"acceleration": "150.5",
-	"deacceleration": "5.5",
+	"acceleration": "110.5",
+	"deacceleration": "15.5",
 	"idle_sound": "!snd;TankParts\\Engines\\Dummy\\Sounds\\engine_idle",
 	"revving_sound": "!snd;TankParts\\Engines\\Dummy\\Sounds\\engine_revving.wav"
 }

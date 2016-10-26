@@ -74,8 +74,12 @@ namespace TankArena.Models.Tank
         /// </summary>
         public void Move(float throttle, float turn)
         {
+            //only affect rigid body drag if the tank is actually using its engine
+            if (throttle != 0.0 || turn != 0.0)
+            {
+                rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : tankTracks.Coupling;
+            }
             //purely goin forward
-            rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : tankTracks.Coupling;
             rigidBody.freezeRotation = turn == 0.0;
             var enginePowerCoef = tankEngine.Torque / Mass;
             var allowedTopSpeed = (tankEngine.TopSpeed * enginePowerCoef);
@@ -101,7 +105,8 @@ namespace TankArena.Models.Tank
             if (keepApplying)
             {
                 rigidBody.drag += tankEngine.Deacceleration;
-            } else
+            }
+            else
             {
                 rigidBody.drag = tankTracks.Coupling;
             }

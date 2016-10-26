@@ -28,19 +28,11 @@ namespace TankArena.Controllers
             set
             {
                 tank = value;
-                tank.ParentGO = gameObject;
+                var chassisController = GetComponentInChildren<TankChassisController>();
+                tank.ParentGO = chassisController.gameObject;
                 tankRigidBody.mass = tank.Mass;
                 tankRigidBody.drag = tank.tankTracks.Coupling;
-                tankCollider.pathCount = 1;
-                var cb = tank.tankChassis.CollisionBox;
-                //set the collider based on chasis
-                tankCollider.SetPath(0, new Vector2[] 
-                {
-                    cb.position + new Vector2(0, 0),
-                    cb.position + new Vector2(0, cb.height),
-                    cb.position + new Vector2(cb.width, cb.height),
-                    cb.position + new Vector2(cb.width, 0)
-                });
+                
 
                 chassisController.Model = tank.tankChassis;
                 turretController.Model = tank.tankTurret;
@@ -54,8 +46,9 @@ namespace TankArena.Controllers
 
         // Use this for initialization
         void Awake () {
-            tankRigidBody = GetComponent<Rigidbody2D>();
-            tankCollider = GetComponent<PolygonCollider2D>();
+            var chassisController = GetComponentInChildren<TankChassisController>();
+            tankRigidBody = chassisController.partRigidBody;
+            
 
             Commands = new Queue<TankCommand>(commandsLimit);
 	    }
@@ -64,12 +57,9 @@ namespace TankArena.Controllers
 	    void Update () {
             TankCommand latestOrder = null;
             //take a fresh command
-            if (Commands.Count > 0)
+            while (Commands.Count > 0)
             {
                 latestOrder = Commands.Dequeue();
-            }
-            if (latestOrder != null)
-            {
                 //execute order
                 switch(latestOrder.commandWord)
                 {
@@ -85,12 +75,11 @@ namespace TankArena.Controllers
                     default:
                         break;
                 }
-
-            } else
+            } 
+            if (latestOrder == null)
             {
                 //do idle
             }
-
 	    }
     }
 }

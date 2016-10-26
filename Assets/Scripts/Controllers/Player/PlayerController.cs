@@ -25,7 +25,7 @@ namespace TankArena.Controllers
         public float Cash { get; set; }
 
         // Use this for initialization
-        void Awake()
+        void Start()
         {
             LoadFromPlayerPrefs();
             commands = tankController.Commands;

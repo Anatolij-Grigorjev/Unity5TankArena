@@ -104,12 +104,20 @@ namespace TankArena.Models.Tank
                 renderer.sprite = Sprites[spriteIndex];
             }
         }
-        public virtual void SetColliderBounds(BoxCollider2D collider)
+        public virtual void SetColliderBounds(PolygonCollider2D collider)
         {
             if (collider != null)
             {
-                collider.offset = CollisionBox.position;
-                collider.size = CollisionBox.size;
+                collider.pathCount = 1;
+                var cb = CollisionBox;
+                //set the collider based on chasis
+                collider.SetPath(0, new Vector2[]
+                {
+                    cb.position + new Vector2(0, 0),
+                    cb.position + new Vector2(0, cb.height),
+                    cb.position + new Vector2(cb.width, cb.height),
+                    cb.position + new Vector2(cb.width, 0)
+                });
             }
         }
         private void DoRigidBody(Rigidbody2D rigidBody)
