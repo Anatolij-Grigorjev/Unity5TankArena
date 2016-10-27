@@ -8,6 +8,7 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using TankArena.Models.Tank.Weapons;
 using UnityEngine.UI;
 using UnityEngine;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Tank
 {
@@ -83,6 +84,22 @@ namespace TankArena.Models.Tank
                 }
             }
           
+        }
+
+        public override void SetDataToController<T>(BaseTankPartController<T> controller)
+        {
+            base.SetDataToController<T>(controller);
+
+            if (controller is TankTurretController)
+            {
+                TankTurretController turretController = (TankTurretController)(object)controller;
+
+                allWeaponSlots.ForEach(slot =>
+                {
+                    var slotGO = new GameObject("SLOT-" + slot.WeaponType);
+                    slotGO.transform.parent = turretController.transform;
+                });
+            }
         }
 
 

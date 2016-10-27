@@ -8,5 +8,6 @@
 	"rate_of_fire": "20",
 	"range": "35",
 	"clip_size": "2",
-	"shop_item": "!img;Weapons\\Heavy\\Dummy\\Images\\shop_img"
+	"shop_item": "!img;Weapons\\Heavy\\Dummy\\Images\\shop_img",
+	"spritesheet": "!sprites;Weapons\\Heavy\\Dummy\\Images\\Sprites\\spritesheet_0",
 }

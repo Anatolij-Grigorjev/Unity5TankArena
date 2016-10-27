@@ -28,14 +28,14 @@ namespace TankArena.Controllers
             set
             {
                 tank = value;
-                var chassisController = GetComponentInChildren<TankChassisController>();
-                tank.ParentGO = chassisController.gameObject;
                 tankRigidBody.mass = tank.Mass;
                 tankRigidBody.drag = tank.tankTracks.Coupling;
-                
-
                 chassisController.Model = tank.tankChassis;
                 turretController.Model = tank.tankTurret;
+
+                tank.ParentGO = gameObject;
+                chassisController.parentObject = gameObject;
+                turretController.parentObject = gameObject;
             }
         }
 
@@ -46,9 +46,7 @@ namespace TankArena.Controllers
 
         // Use this for initialization
         void Awake () {
-            var chassisController = GetComponentInChildren<TankChassisController>();
-            tankRigidBody = chassisController.partRigidBody;
-            
+            tankRigidBody = GetComponent<Rigidbody2D>();
 
             Commands = new Queue<TankCommand>(commandsLimit);
 	    }

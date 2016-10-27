@@ -17,6 +17,8 @@ namespace TankArena.Controllers
         public PolygonCollider2D partCollider;
         [HideInInspector]
         public Rigidbody2D partRigidBody;
+        [HideInInspector]
+        public GameObject parentObject;
 
         public T Model
         {

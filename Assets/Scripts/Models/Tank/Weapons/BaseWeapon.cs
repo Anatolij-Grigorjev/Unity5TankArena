@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using EK = TankArena.Constants.EntityKeys;
 using TankArena.Constants;
 using TankArena.Utils;
+using TankArena.Controllers.Weapons;
 
 namespace TankArena.Models.Tank.Weapons
 {
@@ -33,6 +34,7 @@ namespace TankArena.Models.Tank.Weapons
                 return (WeaponTypes)properties[EK.EK_WEAPON_TYPE];
             }
         }
+
         /// <summary>
         /// The damage the weapon deals
         /// </summary>
@@ -71,6 +73,13 @@ namespace TankArena.Models.Tank.Weapons
             get
             {
                 return (float)properties[EK.EK_RANGE];
+            }
+        }
+        public Sprite[] Sprites
+        {
+            get
+            {
+                return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
             }
         }
         /// <summary>
@@ -115,6 +124,7 @@ namespace TankArena.Models.Tank.Weapons
             properties[EK.EK_RANGE] = json[EK.EK_RANGE].AsFloat;
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
+            properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
         }
 
         public void Shoot()
@@ -161,6 +171,26 @@ namespace TankArena.Models.Tank.Weapons
         protected virtual void OnReloadStarted()
         {
            
+        }
+
+        public virtual void SetDataToController<T>(BaseWeaponController<T> controller) where T : BaseWeapon
+        {
+            OnTurretPosition.CopyToTransform(controller.transform);
+            SetRendererSprite(controller.weaponSpriteRenderer, 0);
+
+            controller.damage = Damage;
+            controller.reloadTime = ReloadTime;
+            controller.rateOfFire = RateOfFire;
+            controller.range = Range;
+            controller.clipSize = ClipSize;
+        }
+
+        public virtual void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)
+        {
+            if (renderer != null && Sprites != null)
+            {
+                renderer.sprite = Sprites[spriteIndex];
+            }
         }
 
     }
