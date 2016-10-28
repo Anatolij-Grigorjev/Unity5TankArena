@@ -9,6 +9,7 @@ using TankArena.Models.Tank.Weapons;
 using UnityEngine.UI;
 using UnityEngine;
 using TankArena.Controllers;
+using TankArena.Controllers.Weapons;
 
 namespace TankArena.Models.Tank
 {
@@ -98,10 +99,39 @@ namespace TankArena.Models.Tank
                 {
                     var slotGO = new GameObject("SLOT-" + slot.WeaponType);
                     slotGO.transform.parent = turretController.transform;
+                    slotGO.transform.localPosition = new Vector3();
+                    slotGO.transform.localScale = new Vector3(1, 1, 1);
+
+                    GameObject weaponGO = tryMakeWeaponGO(slot.Weapon, turretController);
+                    //a weapon GO being produced already means that there is a weapon in the slot
+                    if (weaponGO != null)
+                    {
+                        weaponGO.transform.parent = slotGO.transform;
+                        slot.Weapon.OnTurretPosition.CopyToTransform(weaponGO.transform);
+                    }
                 });
             }
         }
 
+        private GameObject tryMakeWeaponGO<T>(T weapon, TankTurretController turretController) where T: BaseWeapon
+        {
+            if (weapon != null)
+            {
+                var go = new GameObject(String.Format("WEAPON-{0}-{1}", weapon.Type, weapon.Name));
+                var neededControllerType = weapon.Type == Constants.WeaponTypes.HEAVY ?
+                    typeof(HeavyWeaponController) : typeof(LightWeaponController);
+               var component = go.AddComponent(neededControllerType);
+                go.AddComponent<SpriteRenderer>();
+               if (component is BaseWeaponController<T>)
+                {
+                    var controller = (BaseWeaponController<T>)component;
+                    controller.Weapon = weapon;
+                    
+                }
+            }
+
+            return null;
+        }
 
         public void Fire(WeaponGroups selectedGroups)
         {

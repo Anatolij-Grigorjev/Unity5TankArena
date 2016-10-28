@@ -6,7 +6,7 @@ using TankArena.Constants;
 
 namespace TankArena.Models.Tank.Weapons
 {
-    class HeavyWeapon : BaseWeapon
+    public class HeavyWeapon : BaseWeapon
     {
 
         public new WeaponTypes Type
