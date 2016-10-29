@@ -6,7 +6,7 @@ using System.Text;
 using TankArena.Constants;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
-using DBG = TankArena.Utils.Debug;
+using DBG = TankArena.Utils.DBG;
 using TankArena.Utils;
 using UnityEngine;
 using SimpleJSON;

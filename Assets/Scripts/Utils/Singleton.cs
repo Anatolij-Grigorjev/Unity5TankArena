@@ -19,7 +19,7 @@ namespace TankArena.Utils {
 			get
 			{
 				if (applicationIsQuitting) {
-					Debug.Log("[Singleton] Instance '{0}' already destroyed on application quit." +
+					DBG.Log("[Singleton] Instance '{0}' already destroyed on application quit." +
 						" Won't create again - returning null.", typeof(T));
 					return null;
 				}
@@ -46,11 +46,11 @@ namespace TankArena.Utils {
 
 							DontDestroyOnLoad(singleton);
 
-							Debug.Log("[Singleton] An instance of {0} is needed in the scene," +
+							DBG.Log("[Singleton] An instance of {0} is needed in the scene," +
                                 " so '{1}' was created with DontDestroyOnLoad."
                                 , typeof(T), singleton);
 						} else {
-							Debug.Log("[Singleton] Using instance already created: {0}",
+							DBG.Log("[Singleton] Using instance already created: {0}",
 								_instance.gameObject.name);
 						}
 					}

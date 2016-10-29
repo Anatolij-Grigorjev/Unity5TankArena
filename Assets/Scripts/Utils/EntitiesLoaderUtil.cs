@@ -19,13 +19,13 @@ namespace TankArena.Utils
             where T : FileLoadedEntityModel
         {
             var fullPath = Path.Combine(BASE_DATA_PATH, baseLoadPath);
-            Debug.Log("Searching for loadable entities of type {0} at {1}", typeof(T).FullName, fullPath);
+            DBG.Log("Searching for loadable entities of type {0} at {1}", typeof(T).FullName, fullPath);
             foreach (String fileName in Directory.GetFiles(fullPath, "*.json", SearchOption.AllDirectories))
             {
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);
             }
-            Debug.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
+            DBG.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
         }
     }
 }

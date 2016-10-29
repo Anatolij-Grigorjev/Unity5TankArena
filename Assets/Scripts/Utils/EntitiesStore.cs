@@ -105,7 +105,7 @@ namespace TankArena.Utils
         {
             //print amounts of loaded entities
             //as status info. Good for eager lazy loading
-            Debug.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
+            DBG.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
         }
 
        

@@ -4,7 +4,7 @@ using TankArena.Models.Characters;
 using TankArena.Models.Tank;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
-using DBG = TankArena.Utils.Debug;
+using DBG = TankArena.Utils.DBG;
 using TankArena.Constants;
 using System.Collections.Generic;
 

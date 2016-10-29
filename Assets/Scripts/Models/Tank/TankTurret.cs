@@ -8,6 +8,7 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using TankArena.Models.Tank.Weapons;
 using UnityEngine.UI;
 using UnityEngine;
+using DBG = TankArena.Utils.DBG;
 using TankArena.Controllers;
 using TankArena.Controllers.Weapons;
 
@@ -97,38 +98,17 @@ namespace TankArena.Models.Tank
 
                 allWeaponSlots.ForEach(slot =>
                 {
-                    var slotGO = new GameObject("SLOT-" + slot.WeaponType);
-                    slotGO.transform.parent = turretController.transform;
-                    slotGO.transform.localPosition = new Vector3();
-                    slotGO.transform.localScale = new Vector3(1, 1, 1);
-
-                    GameObject weaponGO = tryMakeWeaponGO(slot.Weapon, turretController);
-                    //a weapon GO being produced already means that there is a weapon in the slot
-                    if (weaponGO != null)
-                    {
-                        weaponGO.transform.parent = slotGO.transform;
-                        slot.Weapon.OnTurretPosition.CopyToTransform(weaponGO.transform);
-                    }
+                    var weaponGO = TryMakeWeaponGO(slot);
+                    weaponGO.transform.parent = turretController.transform;
+                    //wire hte data for the created script controllers
                 });
             }
         }
 
-        private GameObject tryMakeWeaponGO<T>(T weapon, TankTurretController turretController) where T: BaseWeapon
+        private GameObject TryMakeWeaponGO(WeaponSlot weaponSlot)
         {
-            if (weapon != null)
-            {
-                var go = new GameObject(String.Format("WEAPON-{0}-{1}", weapon.Type, weapon.Name));
-                var neededControllerType = weapon.Type == Constants.WeaponTypes.HEAVY ?
-                    typeof(HeavyWeaponController) : typeof(LightWeaponController);
-               var component = go.AddComponent(neededControllerType);
-                go.AddComponent<SpriteRenderer>();
-               if (component is BaseWeaponController<T>)
-                {
-                    var controller = (BaseWeaponController<T>)component;
-                    controller.Weapon = weapon;
-                    
-                }
-            }
+            //TODO: name correctly based on model in slot
+            //add correct script controller thing
 
             return null;
         }
