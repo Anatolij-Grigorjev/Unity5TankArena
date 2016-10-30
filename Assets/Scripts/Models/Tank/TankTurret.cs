@@ -11,6 +11,7 @@ using UnityEngine;
 using DBG = TankArena.Utils.DBG;
 using TankArena.Controllers;
 using TankArena.Controllers.Weapons;
+using TankArena.Constants;
 
 namespace TankArena.Models.Tank
 {
@@ -99,8 +100,23 @@ namespace TankArena.Models.Tank
                 allWeaponSlots.ForEach(slot =>
                 {
                     var weaponGO = TryMakeWeaponGO(slot);
-                    weaponGO.transform.parent = turretController.transform;
-                    //wire hte data for the created script controllers
+                    if (weaponGO != null) {
+                        weaponGO.transform.parent = turretController.transform;
+                        if (slot.WeaponType == Constants.WeaponTypes.LIGHT)
+                        {
+                            var wpnController = weaponGO.GetComponent<LightWeaponController>();
+                            wpnController.WeaponSlot = slot;
+                        }
+                        if (slot.WeaponType == Constants.WeaponTypes.HEAVY)
+                        {
+                            var wpnController = weaponGO.GetComponent<HeavyWeaponController>();
+                            wpnController.WeaponSlot = slot;
+                        }
+                    } 
+                    else
+                    {
+                        DBG.Log("Danger! Got NULL weapon GO trying to make one out of slot {0}", slot);
+                    }
                 });
             }
         }
@@ -110,7 +126,20 @@ namespace TankArena.Models.Tank
             //TODO: name correctly based on model in slot
             //add correct script controller thing
 
-            return null;
+            if (weaponSlot.Weapon == null)
+            {
+                return null;
+            }
+            GameObject weaponGO = new GameObject(
+                String.Format("WEAPON-{0}-{1}", weaponSlot.WeaponType, weaponSlot.Weapon.Name)
+                , new Type[] {
+                    typeof(SpriteRenderer),
+                    weaponSlot.WeaponType == Constants.WeaponTypes.LIGHT? typeof(LightWeaponController) : typeof(HeavyWeaponController)
+                });
+            var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;
+            spriteRenderer.sortingOrder = SortingLayerConstants.WEAPON_DEFAULT_LAYER_ORDER;
+            return weaponGO;
         }
 
         public void Fire(WeaponGroups selectedGroups)

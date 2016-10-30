@@ -34,7 +34,18 @@ namespace TankArena.Controllers
         // Update is called once per frame
         void Update()
         {
-            //TODO: write some control up in this bitach that wires to the tank service
+
+            var turretRotator = tankController.turretController.Rotator;
+            Vector2 mousePos = Input.mousePosition;
+            var screenPoint = Camera.main.WorldToScreenPoint(turretRotator.localPosition);
+            var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
+            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+
+            var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
+            turretRotator.localRotation =
+                Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.deltaTime);
+
+
             var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
             var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
 

@@ -7,6 +7,7 @@ using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
 using TankArena.Controllers;
+using TankArena.Utils;
 
 namespace TankArena.Models.Tank
 {
@@ -36,6 +37,13 @@ namespace TankArena.Models.Tank
         {
             get; set;
         }
+        public TransformState TurretPivot
+        {
+            get
+            {
+                return (TransformState)properties[EK.EK_TURRET_PIVOT];
+            }
+        }
 
         new public String EntityKey
         {
@@ -55,6 +63,7 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
+            properties[EK.EK_TURRET_PIVOT] = ResolveSpecialContent(json[EK.EK_TURRET_PIVOT]);
         }
 
         public override void SetDataToController<T>(BaseTankPartController<T> controller)

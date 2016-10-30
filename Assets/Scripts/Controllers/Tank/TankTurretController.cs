@@ -7,10 +7,20 @@ namespace TankArena.Controllers
     public class TankTurretController : BaseTankPartController<TankTurret>
     {
 
+        public Transform Rotator;
+
         // Use this for initialization
-        public override void Awake()
+        public void Start()
         {
-            base.Awake();
+            
+
+            TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
+            var rotatorGO = new GameObject("Rotator");
+            rotatorGO.transform.parent = parentObject.transform;
+            chassis.TurretPivot.CopyToTransform(rotatorGO.transform);
+            transform.parent = rotatorGO.transform;
+
+            Rotator = rotatorGO.transform;
         }
 
         // Update is called once per frame
