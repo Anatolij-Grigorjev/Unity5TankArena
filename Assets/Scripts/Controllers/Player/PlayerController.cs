@@ -37,14 +37,19 @@ namespace TankArena.Controllers
 
             var turretRotator = tankController.turretController.Rotator;
             Vector2 mousePos = Input.mousePosition;
-            var screenPoint = Camera.main.WorldToScreenPoint(turretRotator.localPosition);
+            var screenPoint = Camera.main.WorldToScreenPoint(turretRotator.position);
             var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
             var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-
+            //angle will get calculated based of the difference of main tank rotation and turret rotation
             var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
             turretRotator.localRotation =
-                Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.deltaTime);
+                Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.5f);
 
+
+            DBG.Log("Rotator and tank rotation diff {0} - {1} = {2}",
+                turretRotator.rotation.eulerAngles,
+                transform.rotation.eulerAngles,
+                turretRotator.rotation.eulerAngles - transform.rotation.eulerAngles);
 
             var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
             var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
