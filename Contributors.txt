@@ -1,2 +1,3 @@
 ibirdfilm from freesound.org - Diesel engine idling
 pempi from freesound.org - BWM Diesel engine cycle
+hasgraphics.com - simple explosion spritesheet

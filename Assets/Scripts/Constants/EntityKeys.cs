@@ -59,5 +59,7 @@ namespace TankArena.Constants
         public const string EK_RATE_OF_FIRE = "rate_of_fire";
         public const string EK_RANGE = "range";
         public const string EK_CLIP_SIZE = "clip_size";
+        public const string EK_SPAWN_AT_BARREL = "spawn_at_barrel";
+        public const string EK_PROJECTILE_PREFAB = "projectile_prefab";
     }
 }

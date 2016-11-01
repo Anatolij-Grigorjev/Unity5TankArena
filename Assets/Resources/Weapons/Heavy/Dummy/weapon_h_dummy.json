@@ -10,4 +10,6 @@
 	"clip_size": "2",
 	"shop_item": "!img;Weapons\\Heavy\\Dummy\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Heavy\\Dummy\\Images\\Sprites\\spritesheet_0",
+	"spawn_at_barrel" : false,
+	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom"
 }

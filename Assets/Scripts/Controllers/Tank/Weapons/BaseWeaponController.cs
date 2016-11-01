@@ -51,6 +51,7 @@ namespace TankArena.Controllers.Weapons
         [HideInInspector]
         public SpriteRenderer weaponSpriteRenderer;
 
+        public GameObject projectilePrefab;
 
         // Use this for initialization
         void Awake()

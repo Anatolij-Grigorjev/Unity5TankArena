@@ -102,6 +102,20 @@ namespace TankArena.Models.Tank.Weapons
                 return (Image)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
+        public bool SpawnAtBarrel
+        {
+            get
+            {
+                return (bool)properties[EK.EK_SPAWN_AT_BARREL];
+            }
+        }
+        public GameObject ProjectilePrefab
+        {
+            get
+            {
+                return (GameObject)properties[EK.EK_PROJECTILE_PREFAB];
+            }
+        }
 
         private bool isReloading;
         private float currentReloadTimer;
@@ -125,6 +139,8 @@ namespace TankArena.Models.Tank.Weapons
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
+            properties[EK.EK_SPAWN_AT_BARREL] = json[EK.EK_SPAWN_AT_BARREL].AsBool;
+            properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
         }
 
         public void Shoot()
@@ -183,6 +199,7 @@ namespace TankArena.Models.Tank.Weapons
             controller.rateOfFire = RateOfFire;
             controller.range = Range;
             controller.clipSize = ClipSize;
+            
         }
 
         public virtual void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)
