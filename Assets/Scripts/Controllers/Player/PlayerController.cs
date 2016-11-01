@@ -35,21 +35,7 @@ namespace TankArena.Controllers
         void Update()
         {
 
-            var turretRotator = tankController.turretController.Rotator;
-            Vector2 mousePos = Input.mousePosition;
-            var screenPoint = Camera.main.WorldToScreenPoint(turretRotator.position);
-            var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
-            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-            //angle will get calculated based of the difference of main tank rotation and turret rotation
-            var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
-            turretRotator.localRotation =
-                Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.5f);
-
-
-            DBG.Log("Rotator and tank rotation diff {0} - {1} = {2}",
-                turretRotator.rotation.eulerAngles,
-                transform.rotation.eulerAngles,
-                turretRotator.rotation.eulerAngles - transform.rotation.eulerAngles);
+            PerformTurretRotation();
 
             var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
             var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
@@ -75,6 +61,30 @@ namespace TankArena.Controllers
                     { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
                 }));
             }
+        }
+
+        private void PerformTurretRotation() {
+        	var turretRotator = tankController.turretController.Rotator;
+            Vector2 mousePos = Input.mousePosition;
+            var screenPoint = Camera.main.WorldToScreenPoint(turretRotator.position);
+            var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
+            //DBG.Log("Current rotations: turret: {0}, {1}, chassis: {2}, {3}", 
+            //    turretRotator.eulerAngles.z, 
+            //    turretRotator.localEulerAngles.z,
+            //    transform.eulerAngles.z,
+            //    transform.localEulerAngles.z);
+            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg - transform.eulerAngles.z;
+            //angle will get calculated based of the difference of main tank rotation and turret rotation
+            var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
+            //DBG.Log("Wanted z-rotation: {0}", angle);  
+
+            turretRotator.localRotation =
+                Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.7f);
+
+            //DBG.Log("Rotator and tank rotation diff {0} - {1} = {2}",
+            //    turretRotator.rotation.eulerAngles,
+            //    transform.rotation.eulerAngles,
+            //    turretRotator.rotation.eulerAngles - transform.rotation.eulerAngles);
         }
 
         private void SaveToPlayerPrefs()
