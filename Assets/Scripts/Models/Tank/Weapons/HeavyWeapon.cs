@@ -20,5 +20,10 @@ namespace TankArena.Models.Tank.Weapons
         public HeavyWeapon(string filePath) : base(filePath)
         {
         }
+
+        protected override void PerformShot(bool isReloading)
+        {
+            base.PerformShot(isReloading);
+        }
     }
 }

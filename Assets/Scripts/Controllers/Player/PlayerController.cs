@@ -7,6 +7,7 @@ using TankArena.Utils;
 using DBG = TankArena.Utils.DBG;
 using TankArena.Constants;
 using System.Collections.Generic;
+using System;
 
 namespace TankArena.Controllers
 {
@@ -18,11 +19,19 @@ namespace TankArena.Controllers
 
         public Queue<TankCommand> commands;
 
-        public float moveDeadzone;
+        public float moveDeadzone = 0.1f;
         //[HideInInspector]
         public float Health { get; set; }
         //[HideInInspector]
         public float Cash { get; set; }
+
+
+        private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
+        {
+            ControlsButtonNames.BTN_NAME_WPN_GROUP_1,
+            ControlsButtonNames.BTN_NAME_WPN_GROUP_2,
+            ControlsButtonNames.BTN_NAME_WPN_GROUP_3
+        };
 
         // Use this for initialization
         void Start()
@@ -59,6 +68,27 @@ namespace TankArena.Controllers
                     //this will keep sending true on every frame brake is held and will send false on the last one,
                     //which means brakeletgo was true
                     { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
+                }));
+            }
+
+            CollectWeaponsInput();
+        }
+
+        private void CollectWeaponsInput()
+        {
+            //check for input in all weapon groups
+            bool[] inputs = new bool[3];
+            bool hasFire = false;
+            for (int i = 0; i < WEAPON_GROUP_INPUTS.Count; i++)
+            {
+                inputs[i] = Input.GetButtonDown(WEAPON_GROUP_INPUTS[i]);
+                hasFire = hasFire || inputs[i];
+            }
+            if (hasFire)
+            {
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>
+                {
+                    { TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs) }
                 }));
             }
         }

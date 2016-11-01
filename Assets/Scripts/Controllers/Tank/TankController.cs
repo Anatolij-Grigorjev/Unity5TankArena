@@ -70,6 +70,10 @@ namespace TankArena.Controllers
                         var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
                         tank.ApplyBreaks(keepApplying);
                         break;
+                    case TankCommandWords.TANK_COMMAND_FIRE:
+                        var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
+                        tank.Fire(weaponGroups);
+                        break;
                     default:
                         break;
                 }
