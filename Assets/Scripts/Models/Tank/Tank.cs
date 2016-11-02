@@ -52,15 +52,6 @@ namespace TankArena.Models.Tank
         }
 
         /// <summary>
-        /// Issued command for tank to fire from selected groups
-        /// </summary>
-        /// <param name="selectedGroups">selected weapon groups</param>
-        public void Fire(WeaponGroups selectedGroups)
-        {
-            tankTurret.Fire(selectedGroups);
-        }
-
-        /// <summary>
         /// Tank is being damaged. Nature of the attack will determine by how much and in what areas
         /// </summary>
         /// <param name="damager"></param>

@@ -46,7 +46,6 @@ namespace TankArena.Utils
             },
             { "!wpnslt;", slotDescriptor => 
                 {
-                    DBG.Log("Working with slot descriptor: {0}", slotDescriptor);
                     var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
                     TransformState transform = typeAndTransform.Length > 1?

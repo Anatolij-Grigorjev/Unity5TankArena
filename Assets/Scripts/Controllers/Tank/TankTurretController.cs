@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TankArena.Models.Tank;
+using System;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -27,6 +29,16 @@ namespace TankArena.Controllers
         void Update()
         {
 
+        }
+
+
+        /// <summary>
+        /// Issued command for tank to fire from selected groups
+        /// </summary>
+        /// <param name="weaponGroups">selected weapon groups</param>
+        public void Fire(WeaponGroups weaponGroups)
+        {
+            Model.Fire(weaponGroups, transform);
         }
     }
 }

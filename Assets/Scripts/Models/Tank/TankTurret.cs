@@ -102,16 +102,11 @@ namespace TankArena.Models.Tank
                     var weaponGO = TryMakeWeaponGO(slot);
                     if (weaponGO != null) {
                         weaponGO.transform.parent = turretController.transform;
-                        if (slot.WeaponType == Constants.WeaponTypes.LIGHT)
-                        {
-                            var wpnController = weaponGO.GetComponent<LightWeaponController>();
-                            wpnController.WeaponSlot = slot;
-                        }
-                        if (slot.WeaponType == Constants.WeaponTypes.HEAVY)
-                        {
-                            var wpnController = weaponGO.GetComponent<HeavyWeaponController>();
-                            wpnController.WeaponSlot = slot;
-                        }
+                        
+                        var wpnController = weaponGO.GetComponent<BaseWeaponController>();
+                        wpnController.WeaponSlot = slot;
+                        slot.weaponController = wpnController;
+                        
                     } 
                     else
                     {
@@ -134,7 +129,7 @@ namespace TankArena.Models.Tank
                 String.Format("WEAPON-{0}-{1}", weaponSlot.WeaponType, weaponSlot.Weapon.Name)
                 , new Type[] {
                     typeof(SpriteRenderer),
-                    weaponSlot.WeaponType == Constants.WeaponTypes.LIGHT? typeof(LightWeaponController) : typeof(HeavyWeaponController)
+                   typeof(BaseWeaponController)
                 });
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;
@@ -142,7 +137,7 @@ namespace TankArena.Models.Tank
             return weaponGO;
         }
 
-        public void Fire(WeaponGroups selectedGroups)
+        public void Fire(WeaponGroups selectedGroups, Transform turretTransform)
         {
             //selected slot states
             var groups = selectedGroups.GetGroups();
@@ -153,10 +148,10 @@ namespace TankArena.Models.Tank
                 if (groups[wpnSlot.WeaponGroup])
                 {
                     //and slot actually has a weapon slotted
-                    var weapon = wpnSlot.Weapon;
-                    if (weapon != null)
+                    var weaponController = wpnSlot.weaponController;
+                    if (weaponController != null)
                     {
-                        weapon.Shoot();
+                        weaponController.Shoot();
                     }
                 }
             });

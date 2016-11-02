@@ -72,12 +72,12 @@ namespace TankArena.Utils
             loadedWeapons = new Dictionary<string, BaseWeapon>();
             EntitiesLoaderUtil.loadAllEntitesAtPath(
                 @"Weapons\Heavy",
-                path => { return new HeavyWeapon(path); },
+                path => { return new BaseWeapon(path); },
                 loadedWeapons
             );
             EntitiesLoaderUtil.loadAllEntitesAtPath(
                 @"Weapons\Light",
-                path => { return new LightWeapon(path); },
+                path => { return new BaseWeapon(path); },
                 loadedWeapons
             );
             CopyToEntitiesDict(loadedWeapons);

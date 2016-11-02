@@ -72,7 +72,7 @@ namespace TankArena.Controllers
                         break;
                     case TankCommandWords.TANK_COMMAND_FIRE:
                         var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
-                        tank.Fire(weaponGroups);
+                        turretController.Fire(weaponGroups);
                         break;
                     default:
                         break;
@@ -83,6 +83,19 @@ namespace TankArena.Controllers
                 //do idle
             }
 	    }
+
+
+        public void ApplyDamage(GameObject damager)
+        {
+            DBG.Log("Hot Potato!");
+            switch (damager.tag)
+            {
+                case Tags.TAG_SIMPLE_BOOM:
+                    var controller = damager.GetComponent<ExplosionController>();
+                    DBG.Log("Potato heat level: {0}", controller.damage);
+                    break;
+            }
+        }
     }
 }
 

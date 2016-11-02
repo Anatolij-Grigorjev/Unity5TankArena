@@ -12,7 +12,7 @@ using TankArena.Controllers.Weapons;
 
 namespace TankArena.Models.Tank.Weapons
 {
-    public abstract class BaseWeapon : FileLoadedEntityModel
+    public class BaseWeapon : FileLoadedEntityModel
     {
         /// <summary>
         /// Weapon in-game position, relative to turret GO transform
@@ -117,13 +117,15 @@ namespace TankArena.Models.Tank.Weapons
             }
         }
 
-        private bool isReloading;
-        private float currentReloadTimer;
+        protected bool isReloading;
+        protected float currentReloadTimer;
+        protected float currentClipSize;
 
         public BaseWeapon(string filePath) : base(filePath)
         {
             isReloading = false;
             currentReloadTimer = 0.0f;
+            currentClipSize = ClipSize;
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -145,10 +147,24 @@ namespace TankArena.Models.Tank.Weapons
 
         public void Shoot()
         {
-            PerformShot(isReloading);
+            bool shotReady = PrepareShot();
+            if (shotReady)
+            {
+                PerformShot();
+                currentClipSize--;
+                if (!isReloading && currentClipSize <= 0)
+                {
+                    isReloading = true;
+                }
+            }
         }
 
-        protected virtual void PerformShot(bool isReloading)
+        protected virtual bool PrepareShot()
+        {
+            return false;
+        }
+
+        protected virtual void PerformShot()
         {
             
         }
@@ -170,6 +186,7 @@ namespace TankArena.Models.Tank.Weapons
                     OnReloadFinished();
                     isReloading = false;
                     currentReloadTimer = 0.0f;
+                    currentClipSize = ClipSize;
                 }
             }
         }
@@ -189,7 +206,7 @@ namespace TankArena.Models.Tank.Weapons
            
         }
 
-        public virtual void SetDataToController<T>(BaseWeaponController<T> controller) where T : BaseWeapon
+        public virtual void SetDataToController(BaseWeaponController controller)
         {
             OnTurretPosition.CopyToTransform(controller.transform);
             SetRendererSprite(controller.weaponSpriteRenderer, 0);

@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TankArena.Models.Tank.Weapons;
+using System;
 
 namespace TankArena.Controllers.Weapons
 {
-    public abstract class BaseWeaponController<T> : MonoBehaviour where T : BaseWeapon
+    public class BaseWeaponController: MonoBehaviour 
     {
 
         private WeaponSlot weaponSlot;
 
-        private T weapon;
+        private BaseWeapon weapon;
 
         public WeaponSlot WeaponSlot
         {
@@ -23,12 +24,12 @@ namespace TankArena.Controllers.Weapons
 
                 if (weaponSlot.Weapon != null)
                 {
-                    Weapon = (T)weaponSlot.Weapon;
+                    Weapon = weaponSlot.Weapon;
                 }
             }
         }
 
-        public T Weapon
+        public BaseWeapon Weapon
         {
             get
             {
@@ -68,6 +69,11 @@ namespace TankArena.Controllers.Weapons
         void Update()
         {
 
+        }
+
+        public void Shoot()
+        {
+            
         }
     }
 }
