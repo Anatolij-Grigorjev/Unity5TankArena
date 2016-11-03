@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using TankArena.Models;
 using TankArena.Models.Tank;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 using TankArena.Models.Characters;
 
 namespace TankArena.Utils

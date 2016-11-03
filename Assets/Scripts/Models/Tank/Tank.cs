@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 using TankArena.Utils;
 using DBG = TankArena.Utils.DBG;
 using Serialization = TankArena.Utils.EntitySerializationManager;

@@ -5,7 +5,7 @@ using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 using UnityEngine.UI;
 using UnityEngine;
 using TankArena.Utils;

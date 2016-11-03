@@ -5,7 +5,7 @@ using System.Text;
 using TankArena.Models;
 using TankArena.Models.Tank;
 using TankArena.Models.Characters;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 
 namespace TankArena.Utils

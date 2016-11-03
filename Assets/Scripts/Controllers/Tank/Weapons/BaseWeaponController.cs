@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 using System;
 
 namespace TankArena.Controllers.Weapons
@@ -40,6 +40,7 @@ namespace TankArena.Controllers.Weapons
                 weapon = value;
                 weaponSlot.Weapon = value;
                 weapon.SetDataToController(this);
+                weapon.WeaponBehavior.SetWeaponController(this);
             }
         }
 

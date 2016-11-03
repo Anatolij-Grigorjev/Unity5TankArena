@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TankArena.Constants;
-using TankArena.Models.Tank.Weapons;
+using TankArena.Models.Weapons;
 
 namespace TankArena.Utils
 {

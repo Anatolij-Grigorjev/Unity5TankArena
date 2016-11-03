@@ -9,8 +9,9 @@ using EK = TankArena.Constants.EntityKeys;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Controllers.Weapons;
+using TankArena.Models.Weapons.Behaviors;
 
-namespace TankArena.Models.Tank.Weapons
+namespace TankArena.Models.Weapons
 {
     public class BaseWeapon : FileLoadedEntityModel
     {
@@ -102,13 +103,7 @@ namespace TankArena.Models.Tank.Weapons
                 return (Image)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
-        public bool SpawnAtBarrel
-        {
-            get
-            {
-                return (bool)properties[EK.EK_SPAWN_AT_BARREL];
-            }
-        }
+
         public GameObject ProjectilePrefab
         {
             get
@@ -120,6 +115,20 @@ namespace TankArena.Models.Tank.Weapons
         protected bool isReloading;
         protected float currentReloadTimer;
         protected float currentClipSize;
+
+        private IWeaponUseable weaponBehavior;
+        public IWeaponUseable WeaponBehavior
+        {
+            get
+            {
+                return weaponBehavior;
+            }
+            set
+            {
+                weaponBehavior = value;
+                weaponBehavior.SetWeaponModel(this);
+            }
+        }
 
         public BaseWeapon(string filePath) : base(filePath)
         {
@@ -141,16 +150,19 @@ namespace TankArena.Models.Tank.Weapons
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
-            properties[EK.EK_SPAWN_AT_BARREL] = json[EK.EK_SPAWN_AT_BARREL].AsBool;
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
+
+            WeaponBehaviors.Types WpnType = (WeaponBehaviors.Types)
+                Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
+            WeaponBehavior = WeaponBehaviors.ForType(WpnType);
         }
 
         public void Shoot()
         {
-            bool shotReady = PrepareShot();
+            bool shotReady = weaponBehavior.PrepareShot();
             if (shotReady)
             {
-                PerformShot();
+                weaponBehavior.PerformShot();
                 currentClipSize--;
                 if (!isReloading && currentClipSize <= 0)
                 {
@@ -159,15 +171,7 @@ namespace TankArena.Models.Tank.Weapons
             }
         }
 
-        protected virtual bool PrepareShot()
-        {
-            return false;
-        }
-
-        protected virtual void PerformShot()
-        {
-            
-        }
+        
 
         public void Reload()
         {
@@ -175,15 +179,15 @@ namespace TankArena.Models.Tank.Weapons
             {
                 isReloading = true;
                 currentReloadTimer = ReloadTime;
-                OnReloadStarted();
+                weaponBehavior.OnReloadStarted();
             }
             else
             {
-                WhileReloading();
+                weaponBehavior.WhileReloading();
                 currentReloadTimer -= Time.deltaTime;
                 if (currentReloadTimer <= 0.0f)
                 {
-                    OnReloadFinished();
+                    weaponBehavior.OnReloadFinished();
                     isReloading = false;
                     currentReloadTimer = 0.0f;
                     currentClipSize = ClipSize;
@@ -191,20 +195,6 @@ namespace TankArena.Models.Tank.Weapons
             }
         }
 
-        protected virtual void OnReloadFinished()
-        {
-            
-        }
-
-        protected virtual void WhileReloading()
-        {
-            
-        }
-
-        protected virtual void OnReloadStarted()
-        {
-           
-        }
 
         public virtual void SetDataToController(BaseWeaponController controller)
         {

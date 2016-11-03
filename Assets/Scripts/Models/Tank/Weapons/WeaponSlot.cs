@@ -6,8 +6,9 @@ using UnityEngine;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Controllers.Weapons;
+using TankArena.Models.Tank;
 
-namespace TankArena.Models.Tank.Weapons
+namespace TankArena.Models.Weapons
 {
     public class WeaponSlot
     {
