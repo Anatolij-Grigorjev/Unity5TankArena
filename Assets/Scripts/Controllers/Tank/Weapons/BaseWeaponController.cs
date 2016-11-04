@@ -69,12 +69,20 @@ namespace TankArena.Controllers.Weapons
         // Update is called once per frame
         void Update()
         {
-
+            if (Weapon.isShooting)
+            {
+                Weapon.Shoot();
+            }
+            if (Weapon.isReloading)
+            {
+                Weapon.Reload();
+            }
         }
 
         public void Shoot()
         {
-            
+            //start the shooting on next update
+            Weapon.isShooting = true;
         }
     }
 }

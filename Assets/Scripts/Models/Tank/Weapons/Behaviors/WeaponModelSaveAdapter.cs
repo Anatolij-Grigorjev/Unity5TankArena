@@ -13,7 +13,7 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public abstract void OnReloadFinished();
         public abstract void OnReloadStarted();
-        public abstract void PerformShot();
+        public abstract bool PerformShot();
         public abstract bool PrepareShot();
         public void SetWeaponController(BaseWeaponController controller)
         {

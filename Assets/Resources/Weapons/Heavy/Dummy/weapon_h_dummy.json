@@ -6,7 +6,7 @@
 	"damage": "45.7",
 	"reload": "7.5",
 	"rate_of_fire": "20",
-	"range": "35",
+	"range": "100",
 	"clip_size": "2",
 	"shop_item": "!img;Weapons\\Heavy\\Dummy\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Heavy\\Dummy\\Images\\Sprites\\spritesheet_0",

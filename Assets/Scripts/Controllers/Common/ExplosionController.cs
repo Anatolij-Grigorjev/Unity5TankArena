@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -26,6 +27,7 @@ namespace TankArena.Controllers
             if (other != null)
             {
                 var go = other.gameObject;
+                DBG.Log("BOOM encountered GO {0}, sending message!", other.gameObject);
                 if (go != null) {
                     go.SendMessage("ApplyDamage", gameObject, SendMessageOptions.DontRequireReceiver);
                 }

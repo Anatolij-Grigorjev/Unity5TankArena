@@ -112,7 +112,8 @@ namespace TankArena.Models.Weapons
             }
         }
 
-        protected bool isReloading;
+        public bool isReloading;
+        public bool isShooting;
         protected float currentReloadTimer;
         protected float currentClipSize;
 
@@ -133,7 +134,8 @@ namespace TankArena.Models.Weapons
         public BaseWeapon(string filePath) : base(filePath)
         {
             isReloading = false;
-            currentReloadTimer = 0.0f;
+            isShooting = false;
+            currentReloadTimer = ReloadTime;
             currentClipSize = ClipSize;
         }
 
@@ -159,14 +161,22 @@ namespace TankArena.Models.Weapons
 
         public void Shoot()
         {
-            bool shotReady = weaponBehavior.PrepareShot();
-            if (shotReady)
+            if (!isReloading)
             {
-                weaponBehavior.PerformShot();
-                currentClipSize--;
-                if (!isReloading && currentClipSize <= 0)
+                if (!isShooting)
                 {
-                    isReloading = true;
+                    isShooting = true;
+                }
+                bool shotReady = weaponBehavior.PrepareShot();
+                if (shotReady)
+                {
+                   isShooting = !weaponBehavior.PerformShot();
+                    currentClipSize--;
+                    if (!isReloading && currentClipSize <= 0)
+                    {
+                        isReloading = true;
+                        isShooting = false;
+                    }
                 }
             }
         }
@@ -178,6 +188,7 @@ namespace TankArena.Models.Weapons
             if (!isReloading)
             {
                 isReloading = true;
+                isShooting = false;
                 currentReloadTimer = ReloadTime;
                 weaponBehavior.OnReloadStarted();
             }
@@ -189,7 +200,7 @@ namespace TankArena.Models.Weapons
                 {
                     weaponBehavior.OnReloadFinished();
                     isReloading = false;
-                    currentReloadTimer = 0.0f;
+                    currentReloadTimer = ReloadTime;
                     currentClipSize = ClipSize;
                 }
             }

@@ -16,7 +16,7 @@ namespace TankArena.Models.Weapons
         {
             this.WeaponType = type;
             this.ShopTransform = shopTransform;
-            WeaponGroup = 1;
+            WeaponGroup = 0;
         }
 
         public WeaponTypes WeaponType { get; private set; }

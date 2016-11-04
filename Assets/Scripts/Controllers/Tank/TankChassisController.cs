@@ -2,6 +2,8 @@
 using System.Collections;
 using TankArena.Models.Tank;
 using System;
+using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.Controllers
 {
@@ -25,6 +27,18 @@ namespace TankArena.Controllers
         void Update()
         {
 
+        }
+
+        public void ApplyDamage(GameObject damager)
+        {
+            DBG.Log("Hot Potato!");
+            switch (damager.tag)
+            {
+                case Tags.TAG_SIMPLE_BOOM:
+                    var controller = damager.GetComponent<ExplosionController>();
+                    DBG.Log("Potato heat level: {0}", controller.damage);
+                    break;
+            }
         }
     }
 }
