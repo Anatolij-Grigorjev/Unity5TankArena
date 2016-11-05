@@ -116,6 +116,8 @@ namespace TankArena.Models.Weapons
         public bool isShooting;
         protected float currentReloadTimer;
         protected float currentClipSize;
+        protected float maxShotDelay;
+        protected float currShotDelay;
 
         private IWeaponUseable weaponBehavior;
         public IWeaponUseable WeaponBehavior
@@ -131,12 +133,17 @@ namespace TankArena.Models.Weapons
             }
         }
 
+        private const float MINUTE_IN_SECONDS = 60.0f;
+
         public BaseWeapon(string filePath) : base(filePath)
         {
             isReloading = false;
             isShooting = false;
             currentReloadTimer = ReloadTime;
             currentClipSize = ClipSize;
+            //divide 60 seconds by the rate of fire per min to get delay between shots
+            maxShotDelay = MINUTE_IN_SECONDS / RateOfFire;
+            currShotDelay = 0.0f;
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -163,19 +170,23 @@ namespace TankArena.Models.Weapons
         {
             if (!isReloading)
             {
-                if (!isShooting)
+                if (currShotDelay > 0.0f)
                 {
-                    isShooting = true;
+                    currShotDelay = Mathf.Clamp(currShotDelay - Time.fixedDeltaTime, 0.0f, maxShotDelay);
                 }
-                bool shotReady = weaponBehavior.PrepareShot();
-                if (shotReady)
+                else
                 {
-                   isShooting = !weaponBehavior.PerformShot();
-                    currentClipSize--;
-                    if (!isReloading && currentClipSize <= 0)
+                    bool shotReady = weaponBehavior.PrepareShot();
+                    if (shotReady)
                     {
-                        isReloading = true;
-                        isShooting = false;
+                        currShotDelay = maxShotDelay;
+                        isShooting = !weaponBehavior.PerformShot();
+                        currentClipSize--;
+                        if (!isReloading && currentClipSize <= 0)
+                        {
+                            isReloading = true;
+                            isShooting = false;
+                        }
                     }
                 }
             }

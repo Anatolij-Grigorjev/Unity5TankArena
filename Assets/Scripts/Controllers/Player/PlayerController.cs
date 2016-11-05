@@ -81,7 +81,7 @@ namespace TankArena.Controllers
             bool hasFire = false;
             for (int i = 0; i < WEAPON_GROUP_INPUTS.Count; i++)
             {
-                inputs[i] = Input.GetButtonDown(WEAPON_GROUP_INPUTS[i]);
+                inputs[i] = Input.GetButton(WEAPON_GROUP_INPUTS[i]);
                 hasFire = hasFire || inputs[i];
             }
             if (hasFire)
