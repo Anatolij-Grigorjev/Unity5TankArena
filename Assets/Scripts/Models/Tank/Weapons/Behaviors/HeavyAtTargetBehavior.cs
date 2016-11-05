@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using TankArena.Utils;
 using TankArena.Constants;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Weapons.Behaviors
 {
@@ -37,7 +38,8 @@ namespace TankArena.Models.Weapons.Behaviors
 
             DBG.Log("Putting boom at point {0}", pos);
 
-            var theBoom = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity);
+            var theBoom = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
+            theBoom.GetComponent<ExplosionController>().damage = weapon.Damage;
 
             return true;
         }

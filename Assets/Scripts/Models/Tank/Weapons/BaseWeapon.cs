@@ -173,6 +173,7 @@ namespace TankArena.Models.Weapons
                 if (currShotDelay > 0.0f)
                 {
                     currShotDelay = Mathf.Clamp(currShotDelay - Time.fixedDeltaTime, 0.0f, maxShotDelay);
+                    isShooting = false;
                 }
                 else
                 {
