@@ -32,7 +32,7 @@ namespace TankArena.Utils
 
         private static Dictionary<String, Func<String, object>> resolvers = new Dictionary<string, Func<string, object>>()
         {
-            { "!img;", imgPath => { return Resources.Load<Image>(imgPath); } },
+            { "!img;", imgPath => { return Resources.Load<Sprite>(imgPath) as Sprite; } },
             { "!transf;", transform => { return transformDeserializer(transform); } },
             { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
             { "!sprites;", sheetPath => { return Resources.LoadAll<Sprite>(sheetPath); } },

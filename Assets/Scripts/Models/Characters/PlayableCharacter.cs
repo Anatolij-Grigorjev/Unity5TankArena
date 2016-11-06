@@ -15,31 +15,31 @@ namespace TankArena.Models.Characters
         /// <summary>
         /// Character Avatar, presented in character selection screen and in HUD
         /// </summary>
-        public Image Avatar
+        public Sprite Avatar
         {
             get
             {
-                return (Image)properties[EK.EK_AVATAR_IMAGE];
+                return (Sprite)properties[EK.EK_AVATAR_IMAGE];
             }
         }
         /// <summary>
         /// Character background image, presented in character selection screen
         /// </summary>
-        public Image Background
+        public Sprite Background
         {
             get
             {
-                return (Image)properties[EK.EK_BACKGROUND_IMAGE];
+                return (Sprite)properties[EK.EK_BACKGROUND_IMAGE];
             }
         }
         /// <summary>
         /// Character modeled pose image, presented in character selection screen
         /// </summary>
-        public Image CharacterModel
+        public Sprite CharacterModel
         {
             get
             {
-                return (Image)properties[EK.EK_CHARACTER_MODEL_IMAGE];
+                return (Sprite)properties[EK.EK_CHARACTER_MODEL_IMAGE];
             }
         }
         public float StartingHealth

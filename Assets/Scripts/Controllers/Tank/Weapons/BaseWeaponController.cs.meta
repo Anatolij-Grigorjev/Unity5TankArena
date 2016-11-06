@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 537bdf516bf24734aaedd8e86ca15df8
-timeCreated: 1477590310
+timeCreated: 1478465500
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ammoCounterPrefab: {instanceID: 0}
+  - weaponSpriteRenderer: {instanceID: 0}
+  - projectilePrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

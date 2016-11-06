@@ -96,11 +96,11 @@ namespace TankArena.Models.Weapons
         /// <summary>
         /// Image to identify weapon in shop screen
         /// </summary>
-        public Image ShopItem
+        public Sprite ShopItem
         {
             get
             {
-                return (Image)properties[EK.EK_SHOP_ITEM_IMAGE];
+                return (Sprite)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
 
@@ -115,7 +115,7 @@ namespace TankArena.Models.Weapons
         public bool isReloading;
         public bool isShooting;
         protected float currentReloadTimer;
-        protected float currentClipSize;
+        public float currentClipSize;
         protected float maxShotDelay;
         protected float currShotDelay;
 
@@ -166,7 +166,7 @@ namespace TankArena.Models.Weapons
             WeaponBehavior = WeaponBehaviors.ForType(WpnType);
         }
 
-        public void Shoot()
+        public void Shoot(AmmoCounterController ammoController)
         {
             if (!isReloading)
             {
@@ -183,10 +183,12 @@ namespace TankArena.Models.Weapons
                         currShotDelay = maxShotDelay;
                         isShooting = !weaponBehavior.PerformShot();
                         currentClipSize--;
+                        ammoController.SetProgress(currentClipSize);
                         if (!isReloading && currentClipSize <= 0)
                         {
                             isReloading = true;
                             isShooting = false;
+                            ammoController.StartReload(this);
                         }
                     }
                 }
@@ -195,7 +197,7 @@ namespace TankArena.Models.Weapons
 
         
 
-        public void Reload()
+        public void Reload(AmmoCounterController ammoController)
         {
             if (!isReloading)
             {
@@ -203,17 +205,20 @@ namespace TankArena.Models.Weapons
                 isShooting = false;
                 currentReloadTimer = ReloadTime;
                 weaponBehavior.OnReloadStarted();
+                ammoController.StartReload(this);
             }
             else
             {
                 weaponBehavior.WhileReloading();
                 currentReloadTimer -= Time.deltaTime;
+                ammoController.SetProgress(ReloadTime - currentReloadTimer);
                 if (currentReloadTimer <= 0.0f)
                 {
                     weaponBehavior.OnReloadFinished();
                     isReloading = false;
                     currentReloadTimer = ReloadTime;
                     currentClipSize = ClipSize;
+                    ammoController.StartUsage(this);
                 }
             }
         }

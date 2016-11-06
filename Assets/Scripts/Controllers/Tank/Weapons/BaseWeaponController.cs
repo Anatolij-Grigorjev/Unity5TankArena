@@ -2,6 +2,7 @@
 using System.Collections;
 using TankArena.Models.Weapons;
 using System;
+using TankArena.Constants;
 
 namespace TankArena.Controllers.Weapons
 {
@@ -41,6 +42,24 @@ namespace TankArena.Controllers.Weapons
                 weaponSlot.Weapon = value;
                 weapon.SetDataToController(this);
                 weapon.WeaponBehavior.SetWeaponController(this);
+
+                if (ammoCounterPrefab != null)
+                {
+                    //attach ammo counter to canvas
+                    var canvasGO = GameObject.FindGameObjectWithTag(Tags.TAG_UI_CANVAS);
+                    var ammoCounter = Instantiate(ammoCounterPrefab, canvasGO.transform) as GameObject;
+                    ammoController = ammoCounter.GetComponent<AmmoCounterController>();
+                    ammoController.SetWeapon(weapon);
+                    var t = ammoCounter.GetComponent<RectTransform>();
+                    var t2 = Instantiate(ammoCounterPrefab).GetComponent<RectTransform>();
+                    //WORKAROUND: correct t via values of a non-child prefab example
+
+                    t.anchoredPosition = t2.anchoredPosition;
+                    t.anchoredPosition3D = t2.anchoredPosition3D;
+                    t.anchorMax = t2.anchorMax;
+                    t.anchorMin = t2.anchorMin;
+                    
+                }
             }
         }
 
@@ -49,6 +68,8 @@ namespace TankArena.Controllers.Weapons
         public float rateOfFire;
         public float range;
         public int clipSize;
+        public AmmoCounterController ammoController;
+        public GameObject ammoCounterPrefab;
 
         [HideInInspector]
         public SpriteRenderer weaponSpriteRenderer;
@@ -60,9 +81,9 @@ namespace TankArena.Controllers.Weapons
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
 
-            if (weapon != null)
+            if (Weapon != null)
             {
-                weapon.SetDataToController(this);
+                Weapon.SetDataToController(this);
             }
         }
 
@@ -71,11 +92,11 @@ namespace TankArena.Controllers.Weapons
         {
             if (Weapon.isShooting)
             {
-                Weapon.Shoot();
+                Weapon.Shoot(ammoController);
             }
             if (Weapon.isReloading)
             {
-                Weapon.Reload();
+                Weapon.Reload(ammoController);
             }
         }
 

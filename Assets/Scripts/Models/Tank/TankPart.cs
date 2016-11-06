@@ -38,21 +38,21 @@ namespace TankArena.Models.Tank
         /// <summary>
         /// Component identifying image in shop view
         /// </summary>
-        public Image ShopItem
+        public Sprite ShopItem
         {
             get
             {
-                return (Image)properties[EK.EK_SHOP_ITEM_IMAGE];
+                return (Sprite)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
         /// <summary>
         /// Component identifying image when purchased and shown on tank
         /// </summary>
-        public Image GarageItem
+        public Sprite GarageItem
         {
             get
             {
-                return (Image)properties[EK.EK_GARAGE_ITEM_IMAGE];
+                return (Sprite)properties[EK.EK_GARAGE_ITEM_IMAGE];
             }
         }
         public Sprite[] Sprites

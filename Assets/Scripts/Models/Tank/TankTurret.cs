@@ -39,11 +39,11 @@ namespace TankArena.Models.Tank
             }
         }
 
-        public Image WeaponsShopImage
+        public Sprite WeaponsShopImage
         {
             get
             {
-                return (Image)properties[EK.EK_WEAPONS_SHOP_IMAGE];
+                return (Sprite)properties[EK.EK_WEAPONS_SHOP_IMAGE];
             }
         }
         new public String EntityKey
@@ -131,6 +131,8 @@ namespace TankArena.Models.Tank
                     typeof(SpriteRenderer),
                    typeof(BaseWeaponController)
                 });
+            var baseWeaponController = weaponGO.GetComponent<BaseWeaponController>();
+            baseWeaponController.ammoCounterPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;
             spriteRenderer.sortingOrder = SortingLayerConstants.WEAPON_DEFAULT_LAYER_ORDER;
