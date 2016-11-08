@@ -106,7 +106,7 @@ namespace TankArena.Models.Tank
                         var wpnController = weaponGO.GetComponent<BaseWeaponController>();
                         wpnController.WeaponSlot = slot;
                         slot.weaponController = wpnController;
-                        
+                        wpnController.turretController = turretController;
                     } 
                     else
                     {
@@ -129,13 +129,20 @@ namespace TankArena.Models.Tank
                 String.Format("WEAPON-{0}-{1}", weaponSlot.WeaponType, weaponSlot.Weapon.Name)
                 , new Type[] {
                     typeof(SpriteRenderer),
+                   typeof(AudioSource),
                    typeof(BaseWeaponController)
                 });
             var baseWeaponController = weaponGO.GetComponent<BaseWeaponController>();
             baseWeaponController.ammoCounterPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
+
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;
             spriteRenderer.sortingOrder = SortingLayerConstants.WEAPON_DEFAULT_LAYER_ORDER;
+
+            var shotAudio = weaponGO.GetComponent<AudioSource>();
+            shotAudio.playOnAwake = false;
+            shotAudio.loop = false;
+
             return weaponGO;
         }
 

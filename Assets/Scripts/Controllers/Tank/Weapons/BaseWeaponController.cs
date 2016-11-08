@@ -70,9 +70,10 @@ namespace TankArena.Controllers.Weapons
         public int clipSize;
         public AmmoCounterController ammoController;
         public GameObject ammoCounterPrefab;
-
-        [HideInInspector]
+        public AudioSource shotAudio;
         public SpriteRenderer weaponSpriteRenderer;
+
+        public TankTurretController turretController;
 
         public GameObject projectilePrefab;
 
@@ -80,6 +81,7 @@ namespace TankArena.Controllers.Weapons
         void Awake()
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
+            shotAudio = GetComponent<AudioSource>();
 
             if (Weapon != null)
             {

@@ -34,7 +34,7 @@ namespace TankArena.Utils
         {
             { "!img;", imgPath => { return Resources.Load<Sprite>(imgPath) as Sprite; } },
             { "!transf;", transform => { return transformDeserializer(transform); } },
-            { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath); } },
+            { "!snd;", soundPath => { return Resources.Load<AudioClip>(soundPath) as AudioClip; } },
             { "!sprites;", sheetPath => { return Resources.LoadAll<Sprite>(sheetPath); } },
             { "!go;", gameObjectPath => { return Resources.Load<GameObject>(gameObjectPath); } },
             { "!box;", rectNums => 

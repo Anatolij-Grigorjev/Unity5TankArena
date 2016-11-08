@@ -11,5 +11,6 @@
 	"shop_item": "!img;Weapons\\Heavy\\Dummy\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Heavy\\Dummy\\Images\\Sprites\\spritesheet_0",
 	"behavior_type" : "heavy_projectile_at_target",
-	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom"
+	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
+	"shot_sound" : "!snd;Weapons\\Heavy\\Dummy\\Sounds\\shot"
 }

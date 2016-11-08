@@ -11,6 +11,8 @@ namespace TankArena.Controllers
 
         public Transform Rotator;
 
+        public AudioSource reloadSound;
+
         // Use this for initialization
         public void Start()
         {

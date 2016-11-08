@@ -6,6 +6,7 @@ using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Tank
 {
@@ -97,6 +98,20 @@ namespace TankArena.Models.Tank
             properties[EK.EK_DEACCELERATION] = json[EK.EK_DEACCELERATION].AsFloat;
             properties[EK.EK_IDLE_SOUND] = ResolveSpecialContent(json[EK.EK_IDLE_SOUND]);
             properties[EK.EK_REVVING_SOUND] = ResolveSpecialContent(json[EK.EK_REVVING_SOUND]);
+        }
+
+
+        public override void SetDataToController<T>(BaseTankPartController<T> controller)
+        {
+            base.SetDataToController<T>(controller);
+
+            if (controller is TankEngineController)
+            {
+                TankEngineController engineController = (TankEngineController)(object)controller;
+
+                engineController.audioIdle.clip = IdleSound;
+                engineController.audioRevving.clip = RevvingSound;
+            }
         }
 
     }

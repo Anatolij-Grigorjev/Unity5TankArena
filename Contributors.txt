@@ -2,3 +2,5 @@ ibirdfilm from freesound.org - Diesel engine idling
 pempi from freesound.org - BWM Diesel engine cycle
 hasgraphics.com - simple explosion spritesheet
 https://www.freesoundeffects.com - explosion sound
+qubodup from freesound.org - cannon fire sound
+MentalSanityOff from freesound.org - reload rifle sound

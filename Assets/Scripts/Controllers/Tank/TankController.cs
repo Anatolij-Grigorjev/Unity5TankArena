@@ -64,6 +64,7 @@ namespace TankArena.Controllers
                     case TankCommandWords.TANK_COMMAND_MOVE:
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
+                        chassisController.engineController.StartRevving();
                         tank.Move(throttle, turn);
                         break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:
@@ -80,7 +81,7 @@ namespace TankArena.Controllers
             } 
             if (latestOrder == null)
             {
-                //do idle
+                chassisController.engineController.StartIdle();
             }
 	    }
 

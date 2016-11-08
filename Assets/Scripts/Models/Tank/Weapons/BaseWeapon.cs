@@ -112,6 +112,14 @@ namespace TankArena.Models.Weapons
             }
         }
 
+        public AudioClip ShotSound
+        {
+            get
+            {
+                return (AudioClip)properties[EK.EK_SHOT_SOUND];
+            }
+        }
+
         public bool isReloading;
         public bool isShooting;
         protected float currentReloadTimer;
@@ -160,6 +168,7 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
+            properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
 
             WeaponBehaviors.Types WpnType = (WeaponBehaviors.Types)
                 Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
@@ -188,6 +197,8 @@ namespace TankArena.Models.Weapons
                         {
                             isReloading = true;
                             isShooting = false;
+                            currentReloadTimer = ReloadTime;
+                            weaponBehavior.OnReloadStarted();
                             ammoController.StartReload(this);
                         }
                     }
@@ -234,6 +245,7 @@ namespace TankArena.Models.Weapons
             controller.rateOfFire = RateOfFire;
             controller.range = Range;
             controller.clipSize = ClipSize;
+            controller.shotAudio.clip = ShotSound;
             
         }
 

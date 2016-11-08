@@ -9,5 +9,5 @@
 	"acceleration": "110.5",
 	"deacceleration": "15.5",
 	"idle_sound": "!snd;TankParts\\Engines\\Dummy\\Sounds\\engine_idle",
-	"revving_sound": "!snd;TankParts\\Engines\\Dummy\\Sounds\\engine_revving.wav"
+	"revving_sound": "!snd;TankParts\\Engines\\Dummy\\Sounds\\engine_revving"
 }

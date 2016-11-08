@@ -19,7 +19,7 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override void OnReloadStarted()
         {
-            
+            controller.turretController.reloadSound.Play();
         }
 
         public override bool PerformShot()
@@ -35,6 +35,8 @@ namespace TankArena.Models.Weapons.Behaviors
             {
                 pos = transform.position + (weapon.Range * transform.up);
             }
+
+            controller.shotAudio.Play();
 
             DBG.Log("Putting boom at point {0}", pos);
 
