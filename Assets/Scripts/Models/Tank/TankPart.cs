@@ -76,6 +76,7 @@ namespace TankArena.Models.Tank
                 return SK.SK_TANK_PART;
             }
         }
+ 
 
         public TankPart(string filePath) : base(filePath)
         {

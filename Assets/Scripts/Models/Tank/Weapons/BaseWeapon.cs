@@ -125,7 +125,8 @@ namespace TankArena.Models.Weapons
         protected float currentReloadTimer;
         public float currentClipSize;
         protected float maxShotDelay;
-        protected float currShotDelay;
+        
+        protected BaseWeaponController weaponController;
 
         private IWeaponUseable weaponBehavior;
         public IWeaponUseable WeaponBehavior
@@ -151,7 +152,7 @@ namespace TankArena.Models.Weapons
             currentClipSize = ClipSize;
             //divide 60 seconds by the rate of fire per min to get delay between shots
             maxShotDelay = MINUTE_IN_SECONDS / RateOfFire;
-            currShotDelay = 0.0f;
+            
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -179,30 +180,25 @@ namespace TankArena.Models.Weapons
         {
             if (!isReloading)
             {
-                if (currShotDelay > 0.0f)
+
+                bool shotReady = weaponBehavior.PrepareShot();
+                if (shotReady)
                 {
-                    currShotDelay = Mathf.Clamp(currShotDelay - Time.fixedDeltaTime, 0.0f, maxShotDelay);
-                    isShooting = false;
-                }
-                else
-                {
-                    bool shotReady = weaponBehavior.PrepareShot();
-                    if (shotReady)
+                    ammoController.SetInactive(true);
+                    weaponController.currentShotDelay = maxShotDelay;
+                    isShooting = !weaponBehavior.PerformShot();
+                    currentClipSize--;
+                    ammoController.SetProgress(currentClipSize);
+                    if (!isReloading && currentClipSize <= 0)
                     {
-                        currShotDelay = maxShotDelay;
-                        isShooting = !weaponBehavior.PerformShot();
-                        currentClipSize--;
-                        ammoController.SetProgress(currentClipSize);
-                        if (!isReloading && currentClipSize <= 0)
-                        {
-                            isReloading = true;
-                            isShooting = false;
-                            currentReloadTimer = ReloadTime;
-                            weaponBehavior.OnReloadStarted();
-                            ammoController.StartReload(this);
-                        }
+                        isReloading = true;
+                        isShooting = false;
+                        currentReloadTimer = ReloadTime;
+                        weaponBehavior.OnReloadStarted();
+                        ammoController.StartReload(this);
                     }
                 }
+                
             }
         }
 
@@ -246,7 +242,8 @@ namespace TankArena.Models.Weapons
             controller.range = Range;
             controller.clipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
-            
+
+            weaponController = controller;
         }
 
         public virtual void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)

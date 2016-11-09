@@ -77,6 +77,9 @@ namespace TankArena.Controllers.Weapons
 
         public GameObject projectilePrefab;
 
+        
+        public float currentShotDelay = 0.0f;
+
         // Use this for initialization
         void Awake()
         {
@@ -92,7 +95,22 @@ namespace TankArena.Controllers.Weapons
         // Update is called once per frame
         void Update()
         {
-            if (Weapon.isShooting)
+            if (currentShotDelay > 0.0)
+            {
+                currentShotDelay -= Time.fixedDeltaTime;
+                if (currentShotDelay <= 0.0)
+                {
+                    currentShotDelay = 0.0f;
+                    if (!Weapon.isReloading)
+                    {
+                        ammoController.SetInactive(false);
+                    }
+                } else
+                {
+                    Weapon.isShooting = false;
+                }
+            }
+            if (Weapon.isShooting && currentShotDelay <= 0.0)
             {
                 Weapon.Shoot(ammoController);
             }
@@ -101,6 +119,8 @@ namespace TankArena.Controllers.Weapons
                 Weapon.Reload(ammoController);
             }
         }
+
+
 
         public void Shoot()
         {

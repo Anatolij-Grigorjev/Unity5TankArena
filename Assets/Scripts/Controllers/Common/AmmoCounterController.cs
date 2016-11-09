@@ -50,6 +50,11 @@ public class AmmoCounterController : MonoBehaviour {
         sliderForeground.color = RELOAD_WPN_COLOR;
     }
 
+    public void SetInactive(bool inactive)
+    {
+        sliderForeground.color = inactive? RELOAD_WPN_COLOR : ACTIVE_WPN_COLOR;
+    }
+
 
 
 }
