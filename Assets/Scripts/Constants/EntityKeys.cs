@@ -63,5 +63,6 @@ namespace TankArena.Constants
         public const string EK_PROJECTILE_PREFAB = "projectile_prefab";
         public const string EK_SHOT_SOUND = "shot_sound";
         public const string EK_RELOAD_SOUND = "reload_sound";
+        public const string EK_WEAPON_ANIMATION = "weapon_animations";
     }
 }

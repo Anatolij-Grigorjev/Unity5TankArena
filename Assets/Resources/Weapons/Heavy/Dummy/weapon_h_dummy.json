@@ -12,5 +12,6 @@
 	"spritesheet": "!sprites;Weapons\\Heavy\\Dummy\\Images\\Sprites\\spritesheet_0",
 	"behavior_type" : "heavy_projectile_at_target",
 	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
-	"shot_sound" : "!snd;Weapons\\Heavy\\Dummy\\Sounds\\shot"
+	"shot_sound" : "!snd;Weapons\\Heavy\\Dummy\\Sounds\\shot",
+	"weapon_animations" : "!anim_contr;Weapons\\Heavy\\Dummy\\Animation\\Controllers\\DummyHeavyAnimationController"
 }

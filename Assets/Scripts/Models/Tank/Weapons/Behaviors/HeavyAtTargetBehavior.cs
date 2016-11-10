@@ -48,6 +48,7 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot()
         {
+            controller.weaponAnimationController.SetTrigger(AnimationTriggers.WPN_FIRE_TRIGGER);
             return true;
         }
 

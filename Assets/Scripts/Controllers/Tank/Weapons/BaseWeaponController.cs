@@ -74,9 +74,7 @@ namespace TankArena.Controllers.Weapons
         public SpriteRenderer weaponSpriteRenderer;
 
         public TankTurretController turretController;
-
-        public GameObject projectilePrefab;
-
+        public Animator weaponAnimationController;
         
         public float currentShotDelay = 0.0f;
 
@@ -85,6 +83,7 @@ namespace TankArena.Controllers.Weapons
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
             shotAudio = GetComponent<AudioSource>();
+            weaponAnimationController = GetComponent<Animator>();
 
             if (Weapon != null)
             {
@@ -125,7 +124,7 @@ namespace TankArena.Controllers.Weapons
         public void Shoot()
         {
             //start the shooting on next update
-            Weapon.isShooting = true;
+            Weapon.isShooting = currentShotDelay <= 0.0f && !Weapon.isReloading;
         }
     }
 }

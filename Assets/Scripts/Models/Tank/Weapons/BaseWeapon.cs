@@ -120,6 +120,14 @@ namespace TankArena.Models.Weapons
             }
         }
 
+        public RuntimeAnimatorController WeaponAnimationController
+        {
+            get
+            {
+                return (RuntimeAnimatorController)properties[EK.EK_WEAPON_ANIMATION];
+            }
+        }
+
         public bool isReloading;
         public bool isShooting;
         protected float currentReloadTimer;
@@ -170,10 +178,13 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
+            properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
 
             WeaponBehaviors.Types WpnType = (WeaponBehaviors.Types)
                 Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
             WeaponBehavior = WeaponBehaviors.ForType(WpnType);
+
+
         }
 
         public void Shoot(AmmoCounterController ammoController)
