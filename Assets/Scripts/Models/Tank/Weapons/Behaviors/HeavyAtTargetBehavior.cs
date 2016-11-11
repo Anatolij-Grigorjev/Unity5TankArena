@@ -9,8 +9,9 @@ namespace TankArena.Models.Weapons.Behaviors
 {
     public class HeavyAtTargetBehavior : WeaponModelSaveAdapter
     {
-
-        
+        private const int MAX_UPDATES_SKIP = 35;
+        private bool isPreparing = false;
+        private int beats = 0; //beats to skip is shot prep (time delay)
 
         public override void OnReloadFinished()
         {
@@ -48,8 +49,18 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot()
         {
-            controller.weaponAnimationController.SetTrigger(AnimationTriggers.WPN_FIRE_TRIGGER);
-            return true;
+            if (!isPreparing && beats <= 0)
+            {
+                controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);
+                isPreparing = true;
+                beats = MAX_UPDATES_SKIP;
+            }
+            if (beats > 0)
+            {
+                beats--;
+                isPreparing = beats > 0;
+            }
+            return !isPreparing;
         }
 
         public override void WhileReloading()

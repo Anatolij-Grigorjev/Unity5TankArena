@@ -79,7 +79,6 @@ namespace TankArena.Models.Tank
             //do throttle
             if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
             {
-                
                 rigidBody.AddForce(transform.up * acceleration * Time.deltaTime);
             }
             //do spin

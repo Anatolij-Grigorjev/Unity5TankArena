@@ -16,6 +16,7 @@ namespace TankArena.Controllers
 
         public TankChassisController chassisController;
         public TankTurretController turretController;
+        public TankTracksController tracksController;
         //limit for the number of commands the tank will try to keep in the queue
         public int commandsLimit;
         public Queue<TankCommand> Commands;
@@ -65,9 +66,12 @@ namespace TankArena.Controllers
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
                         chassisController.engineController.StartRevving();
+                        tracksController.AnimateThrottle(throttle);
+                        tracksController.AnimateTurn(turn);
                         tank.Move(throttle, turn);
                         break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:
+                        tracksController.AnimateThrottle(0.0f);
                         var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
                         tank.ApplyBreaks(keepApplying);
                         break;

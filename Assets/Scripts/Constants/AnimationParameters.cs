@@ -5,10 +5,11 @@ using System.Text;
 
 namespace TankArena.Constants
 {
-    class AnimationTriggers
+    class AnimationParameters
     {
-        private AnimationTriggers() { }
+        private AnimationParameters() { }
 
         public const string WPN_FIRE_TRIGGER = "Fire";
+        public const string TRACKS_DIRECTION_INT = "Direction";
     }
 }
