@@ -25,6 +25,7 @@ namespace TankArena.Controllers
         //[HideInInspector]
         public float Cash { get; set; }
 
+        private bool wasMoving = false;
 
         private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
         {
@@ -52,11 +53,22 @@ namespace TankArena.Controllers
             if (Mathf.Abs(moveAxis) > moveDeadzone || Mathf.Abs(turnAxis) > moveDeadzone
                 || tankController.isMoving())
             {
+                wasMoving = true;
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE, new Dictionary<string, object>
                 {
                     { TankCommandParamKeys.TANK_CMD_MOVE_KEY, moveAxis },
                     { TankCommandParamKeys.TANK_CMD_TURN_KEY, turnAxis }
                 }));
+            } else
+            {
+                if (wasMoving)
+                {
+                    wasMoving = false;
+                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
+                    {
+                        { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false }
+                    }));
+                }
             }
 
             var brakeHeld = Input.GetButton(ControlsButtonNames.BTN_NAME_HANDBREAK);

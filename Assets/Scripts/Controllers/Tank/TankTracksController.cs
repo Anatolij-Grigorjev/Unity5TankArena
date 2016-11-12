@@ -3,6 +3,7 @@ using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
 using System;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -36,31 +37,51 @@ namespace TankArena.Controllers
 
         public void AnimateThrottle(float throttle)
         {
-            int sign = (int)Mathf.Sign(throttle);
+            //using System.Math because Unity returns the sign 1 if 0 is the parameter?!
+            int sign = Math.Sign(throttle);
+            DBG.Log("Got throttle: {0} | Sign: {1}", throttle, sign);
             foreach (var animator in tracksAnimations)
             {
                 animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
             }
 
+
+            //PrintTracksAnim();
         }
 
-        public void AnimateTurn(float turn)
+        public void AnimateTurn(float turn, float throttle)
         {
-            int sign = (int)Mathf.Sign(turn);
-            if (sign > 0)
-            {
-                tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
-                tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
-            } 
-            if (sign < 0)
-            {
-                tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
-                tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
-            }
+
+            int sign = Math.Sign(turn);
+            DBG.Log("Got turn: {0} | Sign: {1}", turn, sign);
             if (sign == 0)
             {
-                AnimateThrottle(0.0f);
+                AnimateThrottle(throttle);
             }
+            else
+            {
+                if (sign > 0)
+                {
+                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
+                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
+                }
+                if (sign < 0)
+                {
+                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
+                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
+                }
+                //if its 0 we dont touch tracks animation
+            }
+            //PrintTracksAnim();
+        }
+
+
+        private void PrintTracksAnim()
+        {
+            DBG.Log("Left Track Direction: {0} | Right Track Direction: {1}"
+                , tracksLeftTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT)
+                , tracksRightTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT)
+            );
         }
     }
 }

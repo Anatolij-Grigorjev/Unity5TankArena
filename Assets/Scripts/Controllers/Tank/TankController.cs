@@ -67,7 +67,7 @@ namespace TankArena.Controllers
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
                         chassisController.engineController.StartRevving();
                         tracksController.AnimateThrottle(throttle);
-                        tracksController.AnimateTurn(turn);
+                        tracksController.AnimateTurn(turn, throttle); 
                         tank.Move(throttle, turn);
                         break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:

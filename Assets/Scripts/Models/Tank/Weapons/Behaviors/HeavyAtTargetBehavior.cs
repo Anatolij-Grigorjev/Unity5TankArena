@@ -37,8 +37,6 @@ namespace TankArena.Models.Weapons.Behaviors
                 pos = transform.position + (weapon.Range * transform.up);
             }
 
-            controller.shotAudio.Play();
-
             DBG.Log("Putting boom at point {0}", pos);
 
             var theBoom = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
@@ -52,6 +50,7 @@ namespace TankArena.Models.Weapons.Behaviors
             if (!isPreparing && beats <= 0)
             {
                 controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);
+                controller.shotAudio.Play();
                 isPreparing = true;
                 beats = MAX_UPDATES_SKIP;
             }
