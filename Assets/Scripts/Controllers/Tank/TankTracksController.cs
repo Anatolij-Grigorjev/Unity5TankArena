@@ -39,7 +39,7 @@ namespace TankArena.Controllers
         {
             //using System.Math because Unity returns the sign 1 if 0 is the parameter?!
             int sign = Math.Sign(throttle);
-            DBG.Log("Got throttle: {0} | Sign: {1}", throttle, sign);
+            //DBG.Log("Got throttle: {0} | Sign: {1}", throttle, sign);
             foreach (var animator in tracksAnimations)
             {
                 animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
@@ -53,7 +53,7 @@ namespace TankArena.Controllers
         {
 
             int sign = Math.Sign(turn);
-            DBG.Log("Got turn: {0} | Sign: {1}", turn, sign);
+            //DBG.Log("Got turn: {0} | Sign: {1}", turn, sign);
             if (sign == 0)
             {
                 AnimateThrottle(throttle);
