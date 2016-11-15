@@ -3,6 +3,7 @@ using System.Collections;
 using TankArena.Models.Weapons;
 using System;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.Controllers.Weapons
 {
@@ -39,6 +40,11 @@ namespace TankArena.Controllers.Weapons
             set
             {
                 weapon = value;
+                if (WeaponSlot == null)
+                {
+                    //create artificial weapon slot
+                    weaponSlot = new WeaponSlot(weapon.Type, TransformState.Identity);
+                }
                 weaponSlot.Weapon = value;
                 weapon.SetDataToController(this);
                 weapon.WeaponBehavior.SetWeaponController(this);

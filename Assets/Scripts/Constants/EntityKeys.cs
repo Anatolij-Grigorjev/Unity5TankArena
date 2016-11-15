@@ -11,6 +11,9 @@ namespace TankArena.Constants
         public const string EK_NAME = "name";
         public const string EK_ID = "id";
 
+        //PREFABBED
+        public const string EK_ENTITY_PREFAB = "entity_prefab";
+
         //CHARACTER
         public const string EK_AVATAR_IMAGE = "avatar";
         public const string EK_BACKGROUND_IMAGE = "background";
@@ -64,5 +67,6 @@ namespace TankArena.Constants
         public const string EK_SHOT_SOUND = "shot_sound";
         public const string EK_RELOAD_SOUND = "reload_sound";
         public const string EK_WEAPON_ANIMATION = "weapon_animations";
+        
     }
 }

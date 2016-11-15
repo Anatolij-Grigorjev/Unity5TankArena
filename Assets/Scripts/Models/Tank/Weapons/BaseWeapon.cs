@@ -223,20 +223,20 @@ namespace TankArena.Models.Weapons
                 isShooting = false;
                 currentReloadTimer = ReloadTime;
                 weaponBehavior.OnReloadStarted();
-                ammoController.StartReload(this);
+                if (ammoController != null) ammoController.StartReload(this);
             }
             else
             {
                 weaponBehavior.WhileReloading();
                 currentReloadTimer -= Time.deltaTime;
-                ammoController.SetProgress(ReloadTime - currentReloadTimer);
+                if (ammoController != null) ammoController.SetProgress(ReloadTime - currentReloadTimer);
                 if (currentReloadTimer <= 0.0f)
                 {
                     weaponBehavior.OnReloadFinished();
                     isReloading = false;
                     currentReloadTimer = ReloadTime;
                     currentClipSize = ClipSize;
-                    ammoController.StartUsage(this);
+                    if (ammoController != null) ammoController.StartUsage(this);
                 }
             }
         }

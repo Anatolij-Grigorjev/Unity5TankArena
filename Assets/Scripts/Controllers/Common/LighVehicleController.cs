@@ -4,6 +4,7 @@ using TankArena.Controllers.Weapons;
 using TankArena.Utils;
 using System.Collections.Generic;
 using TankArena.Constants;
+using System;
 
 namespace TankArena.Controllers
 {
@@ -14,6 +15,7 @@ namespace TankArena.Controllers
         public Queue<TankCommand> Commands;
         public BaseWeaponController baseWeaponController;
 
+        public String cannonId;
         private Rigidbody2D vehicleRigidBody;
         private Collider2D vehicleCollider;
 
@@ -21,6 +23,12 @@ namespace TankArena.Controllers
         void Awake () {
             vehicleCollider = GetComponent<Collider2D>();
             vehicleRigidBody = GetComponent<Rigidbody2D>();
+
+            var weapons = EntitiesStore.Instance.Weapons;
+            var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
+            baseWeaponController.Weapon = weapons[cannonId];
+            oldState.CopyToTransform(baseWeaponController.transform);
+            
 
             Commands = new Queue<TankCommand>(commandsLimit);
 	    }
@@ -39,14 +47,18 @@ namespace TankArena.Controllers
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
 
+                        Move(throttle, turn);
+
                         break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:
                         
                         var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
-                        
+
+                        ApplyBreak(keepApplying);
+
                         break;
                     case TankCommandWords.TANK_COMMAND_FIRE:
-                        var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
+                        baseWeaponController.Shoot();
                         
                         break;
                     default:
@@ -57,6 +69,16 @@ namespace TankArena.Controllers
             {
                 
             }
+        }
+
+        private void ApplyBreak(bool keepApplying)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Move(float throttle, float turn)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,9 +12,19 @@ namespace TankArena.Utils
     /// </summary>
     public class TransformState
     {
-        public Vector3 position;
-        public Vector3 rotation;
-        public Vector3 scale;
+        public Vector3 position = new Vector3();
+        public Vector3 rotation = new Vector3();
+        public Vector3 scale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        
+
+        public static TransformState Identity
+        {
+            get
+            {
+                return new TransformState();
+            }
+        }
 
         public void CopyToTransform(Transform t)
         {
