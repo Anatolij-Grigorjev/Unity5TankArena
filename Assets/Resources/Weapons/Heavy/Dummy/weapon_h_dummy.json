@@ -3,7 +3,7 @@
 	"name": "Dummy Cannon",
 	"on_turret_position": "!transf;1.05;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"wpn_type": "1",
-	"damage": "45.7",
+	"damage": "30.7",
 	"reload": "2.5",
 	"rate_of_fire": "60",
 	"range": "100",

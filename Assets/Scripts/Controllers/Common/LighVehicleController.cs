@@ -18,17 +18,43 @@ namespace TankArena.Controllers
         public String cannonId;
         private Rigidbody2D vehicleRigidBody;
         private Collider2D vehicleCollider;
+        private SpriteRenderer spriteRenderer;
+
+        public Sprite[] damageLevelSprites;
+
+        public float maxIntegrity;
+
+        public float integrity;
+        private float integrityPerSprite;
+
+        public float Integrity
+        {
+            get
+            {
+                return integrity;
+            }
+            set
+            {
+                integrity = value;
+                int bucketNum = Mathf.RoundToInt(value / integrityPerSprite);
+                int index = Mathf.Clamp(damageLevelSprites.Length - bucketNum, 0, damageLevelSprites.Length - 1);
+                spriteRenderer.sprite = damageLevelSprites[index];
+            }
+        }
 
         // Use this for initialization
         void Awake () {
             vehicleCollider = GetComponent<Collider2D>();
             vehicleRigidBody = GetComponent<Rigidbody2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
 
             var weapons = EntitiesStore.Instance.Weapons;
             var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
             baseWeaponController.Weapon = weapons[cannonId];
             oldState.CopyToTransform(baseWeaponController.transform);
-            
+
+            integrityPerSprite = maxIntegrity / damageLevelSprites.Length;
+            Integrity = maxIntegrity;    
 
             Commands = new Queue<TankCommand>(commandsLimit);
 	    }
@@ -79,6 +105,17 @@ namespace TankArena.Controllers
         private void Move(float throttle, float turn)
         {
             throw new NotImplementedException();
+        }
+
+        public void ApplyDamage(GameObject damager)
+        {
+            switch (damager.tag)
+            {
+                case Tags.TAG_SIMPLE_BOOM:
+                    var boomController = damager.GetComponent<ExplosionController>();
+                    Integrity = Mathf.Clamp(integrity - boomController.damage, 0.0f, maxIntegrity) ;
+                    break;
+            }
         }
     }
 }
