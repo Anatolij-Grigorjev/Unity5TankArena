@@ -11,5 +11,6 @@ namespace TankArena.Constants
 
         public const string WPN_FIRE_TRIGGER = "Fire";
         public const string TRACKS_DIRECTION_INT = "Direction";
+        public const string TRUCK_DEATH_TRIGGER = "Death";
     }
 }

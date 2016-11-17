@@ -19,8 +19,10 @@ namespace TankArena.Controllers
         private Rigidbody2D vehicleRigidBody;
         private Collider2D vehicleCollider;
         private SpriteRenderer spriteRenderer;
+        private Animator animations;
 
         public Sprite[] damageLevelSprites;
+        public GameObject explosionPrefab;
 
         public float maxIntegrity;
 
@@ -47,6 +49,7 @@ namespace TankArena.Controllers
             vehicleCollider = GetComponent<Collider2D>();
             vehicleRigidBody = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            animations = GetComponent<Animator>();
 
             var weapons = EntitiesStore.Instance.Weapons;
             var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
@@ -107,6 +110,16 @@ namespace TankArena.Controllers
             throw new NotImplementedException();
         }
 
+        public void MakeDeathBoom()
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        }
+
+        public void Die()
+        {
+            Destroy(gameObject);
+        }
+
         public void ApplyDamage(GameObject damager)
         {
             switch (damager.tag)
@@ -114,6 +127,11 @@ namespace TankArena.Controllers
                 case Tags.TAG_SIMPLE_BOOM:
                     var boomController = damager.GetComponent<ExplosionController>();
                     Integrity = Mathf.Clamp(integrity - boomController.damage, 0.0f, maxIntegrity) ;
+                    if (Integrity <= 0.0)
+                    {
+                        animations.enabled = true;
+                        animations.SetTrigger(AnimationParameters.TRUCK_DEATH_TRIGGER);
+                    }
                     break;
             }
         }
