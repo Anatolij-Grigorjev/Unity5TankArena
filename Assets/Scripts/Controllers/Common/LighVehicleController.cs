@@ -112,8 +112,11 @@ namespace TankArena.Controllers
 
         public void MakeDeathBoom()
         {
+            Destroy(vehicleRigidBody);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         }
+
+        
 
         public void Die()
         {
