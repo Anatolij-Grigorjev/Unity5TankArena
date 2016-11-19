@@ -16,6 +16,15 @@ namespace TankArena.Controllers
         public BaseWeaponController baseWeaponController;
 
         public String cannonId;
+
+        //MOTION////
+        public float vehicleAcceleration;
+        public float vehicleTopSpeed;
+        public float vehicleTurnSpeed;
+        public float vehicleDrag;
+        public float vehicleBreak;
+        ///////////
+
         private Rigidbody2D vehicleRigidBody;
         private Collider2D vehicleCollider;
         private SpriteRenderer spriteRenderer;
@@ -102,12 +111,34 @@ namespace TankArena.Controllers
 
         private void ApplyBreak(bool keepApplying)
         {
-            throw new NotImplementedException();
+            if (keepApplying)
+            {
+                vehicleRigidBody.drag += vehicleBreak;
+            }
+            else
+            {
+                vehicleRigidBody.drag = vehicleDrag;
+            }
         }
 
         private void Move(float throttle, float turn)
         {
-            throw new NotImplementedException();
+            //purely goin forward
+            vehicleRigidBody.drag = vehicleDrag;
+            vehicleRigidBody.freezeRotation = turn == 0.0;
+            var currentVelocity = vehicleRigidBody.velocity.magnitude;
+            var acceleration = vehicleAcceleration * throttle * (vehicleTopSpeed - currentVelocity);
+            //do throttle
+            if (acceleration != 0.0 && currentVelocity < vehicleTopSpeed)
+            {
+                vehicleRigidBody.AddForce(transform.up * acceleration * Time.deltaTime);
+            }
+            //do spin
+            var turnPower = turn * vehicleTurnSpeed;
+            if (turnPower != 0.0)
+            {
+                vehicleRigidBody.MoveRotation(vehicleRigidBody.rotation + turnPower * Time.deltaTime);
+            }
         }
 
         public void MakeDeathBoom()
