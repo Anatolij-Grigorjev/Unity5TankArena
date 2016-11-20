@@ -8,7 +8,7 @@ using System;
 
 namespace TankArena.Controllers
 {
-    public class TankController : MonoBehaviour {
+    public class TankController : CommandsBasedController {
 
         private Tank tank;
         private Rigidbody2D tankRigidBody;
@@ -17,9 +17,6 @@ namespace TankArena.Controllers
         public TankChassisController chassisController;
         public TankTurretController turretController;
         public TankTracksController tracksController;
-        //limit for the number of commands the tank will try to keep in the queue
-        public int commandsLimit;
-        public Queue<TankCommand> Commands;
 
         public Tank Tank {
             get
@@ -46,21 +43,21 @@ namespace TankArena.Controllers
         }
 
         // Use this for initialization
-        void Awake () {
-            tankRigidBody = GetComponent<Rigidbody2D>();
+        public override void Awake () {
+            base.Awake(); 
 
-            Commands = new Queue<TankCommand>(commandsLimit);
+            tankRigidBody = GetComponent<Rigidbody2D>();
 	    }
 	
-	    // Update is called once per frame
-	    void Update () {
-            TankCommand latestOrder = null;
-            //take a fresh command
-            while (Commands.Count > 0)
-            {
-                latestOrder = Commands.Dequeue();
-                //execute order
-                switch(latestOrder.commandWord)
+	    protected override void HandleNOOP() 
+        {
+            chassisController.engineController.StartIdle();
+        }
+
+
+        protected override void HandleCommand(TankCommand latestOrder) 
+        {
+            switch(latestOrder.commandWord)
                 {
                     case TankCommandWords.TANK_COMMAND_MOVE:
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
@@ -82,13 +79,7 @@ namespace TankArena.Controllers
                     default:
                         break;
                 }
-            } 
-            if (latestOrder == null)
-            {
-                chassisController.engineController.StartIdle();
-            }
-	    }
-
+        }
 
         public void ApplyDamage(GameObject damager)
         {

@@ -1,18 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using TankArena.Controllers.Weapons;
 using TankArena.Utils;
-using System.Collections.Generic;
 using TankArena.Constants;
 using System;
 
 namespace TankArena.Controllers
 {
-    public class LighVehicleController : MonoBehaviour {
+    public class LighVehicleController : CommandsBasedController {
 
-        //limit for the number of commands the tank will try to keep in the queue
-        public int commandsLimit;
-        public Queue<TankCommand> Commands;
         public BaseWeaponController baseWeaponController;
 
         public String cannonId;
@@ -54,7 +49,9 @@ namespace TankArena.Controllers
         }
 
         // Use this for initialization
-        void Awake () {
+        public override void Awake () {
+            base.Awake();
+
             vehicleCollider = GetComponent<Collider2D>();
             vehicleRigidBody = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -67,19 +64,11 @@ namespace TankArena.Controllers
 
             integrityPerSprite = maxIntegrity / damageLevelSprites.Length;
             Integrity = maxIntegrity;    
-
-            Commands = new Queue<TankCommand>(commandsLimit);
 	    }
 	
-	    // Update is called once per frame
-	    void Update () {
-            TankCommand latestOrder = null;
-            //take a fresh command
-            while (Commands.Count > 0)
-            {
-                latestOrder = Commands.Dequeue();
-                //execute order
-                switch (latestOrder.commandWord)
+	    protected override void HandleCommand(TankCommand latestOrder) 
+        {
+             switch (latestOrder.commandWord)
                 {
                     case TankCommandWords.TANK_COMMAND_MOVE:
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
@@ -102,11 +91,11 @@ namespace TankArena.Controllers
                     default:
                         break;
                 }
-            }
-            if (latestOrder == null)
-            {
-                
-            }
+        }
+
+        protected override void HandleNOOP() 
+        {
+
         }
 
         private void ApplyBreak(bool keepApplying)
