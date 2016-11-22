@@ -25,5 +25,16 @@ namespace TankArena.Utils
             this.tankCommandParams = commandParams;
         }
 
+        /// <summary>
+        /// Shorthand to create a TANK_MOVE Command with turn and move
+        /// </summary>
+        public static TankCommand MoveCommand(float move, float turn) 
+        {
+            return new TankCommand(TankCommandWords.TANK_COMMAND_MOVE, new Dictionary<String, object>() {
+               {TankCommandParamKeys.TANK_CMD_MOVE_KEY, move},
+               {TankCommandParamKeys.TANK_CMD_TURN_KEY, turn} 
+            });
+        }
+
     }
 }

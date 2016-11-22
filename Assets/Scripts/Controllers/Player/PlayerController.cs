@@ -4,7 +4,6 @@ using TankArena.Models.Characters;
 using TankArena.Models.Tank;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
-using DBG = TankArena.Utils.DBG;
 using TankArena.Constants;
 using System.Collections.Generic;
 using System;
@@ -54,11 +53,7 @@ namespace TankArena.Controllers
                 || tankController.isMoving())
             {
                 wasMoving = true;
-                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE, new Dictionary<string, object>
-                {
-                    { TankCommandParamKeys.TANK_CMD_MOVE_KEY, moveAxis },
-                    { TankCommandParamKeys.TANK_CMD_TURN_KEY, turnAxis }
-                }));
+                commands.Enqueue(TankCommand.MoveCommand(moveAxis, turnAxis));
             } else
             {
                 if (wasMoving)

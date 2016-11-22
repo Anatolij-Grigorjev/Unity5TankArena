@@ -11,5 +11,6 @@ namespace TankArena.Constants
         private LayerMasks() { }
 
         public static int LM_DEFAULT_AND_ENEMY = LayerMask.GetMask(new string[] { "Default", "Enemy" });
+        public static int LM_DEFAULT_AND_PLAYER_AND_ENEMY = LayerMask.GetMask(new string[] {"Default", "Player", "Enemy"});
     }
 }
