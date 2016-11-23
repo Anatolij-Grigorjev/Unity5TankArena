@@ -36,6 +36,14 @@ namespace TankArena.Models.Weapons
             }
         }
 
+        public WeaponBehaviors.Types WeaponBehaviorType
+        {
+            get 
+            {
+                return (WeaponBehaviors.Types)properties[EK.EK_WEAPON_BEHAVIOR_TYPE];
+            }
+        }
+
         /// <summary>
         /// The damage the weapon deals
         /// </summary>
@@ -154,13 +162,23 @@ namespace TankArena.Models.Weapons
 
         public BaseWeapon(string filePath) : base(filePath)
         {
+            InitValues();
+        }
+
+        private void InitValues() 
+        {
             isReloading = false;
             isShooting = false;
             currentReloadTimer = ReloadTime;
             currentClipSize = ClipSize;
             //divide 60 seconds by the rate of fire per min to get delay between shots
             maxShotDelay = MINUTE_IN_SECONDS / RateOfFire;
-            
+        }
+
+        public BaseWeapon(BaseWeapon model): base(model)
+        {
+            InitValues();
+            this.WeaponBehavior = WeaponBehaviors.ForType(this.WeaponBehaviorType);
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -179,12 +197,9 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
+            properties[EK.EK_WEAPON_BEHAVIOR_TYPE] = Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
 
-            WeaponBehaviors.Types WpnType = (WeaponBehaviors.Types)
-                Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
-            WeaponBehavior = WeaponBehaviors.ForType(WpnType);
-
-
+            WeaponBehavior = WeaponBehaviors.ForType(WeaponBehaviorType);
         }
 
         public void Shoot(AmmoCounterController ammoController)
@@ -195,18 +210,21 @@ namespace TankArena.Models.Weapons
                 bool shotReady = weaponBehavior.PrepareShot();
                 if (shotReady)
                 {
-                    ammoController.SetInactive(true);
+                    if (ammoController != null)
+                        ammoController.SetInactive(true);
                     weaponController.currentShotDelay = maxShotDelay;
                     isShooting = !weaponBehavior.PerformShot();
                     currentClipSize--;
-                    ammoController.SetProgress(currentClipSize);
+                    if (ammoController != null)
+                        ammoController.SetProgress(currentClipSize);
                     if (!isReloading && currentClipSize <= 0)
                     {
                         isReloading = true;
                         isShooting = false;
                         currentReloadTimer = ReloadTime;
                         weaponBehavior.OnReloadStarted();
-                        ammoController.StartReload(this);
+                        if (ammoController != null)
+                            ammoController.StartReload(this);
                     }
                 }
                 

@@ -3,6 +3,7 @@ using TankArena.Controllers.Weapons;
 using TankArena.Utils;
 using TankArena.Constants;
 using System;
+using TankArena.Models.Weapons;
 
 namespace TankArena.Controllers
 {
@@ -56,10 +57,11 @@ namespace TankArena.Controllers
             vehicleRigidBody = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animations = GetComponent<Animator>();
-
+            
             var weapons = EntitiesStore.Instance.Weapons;
             var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
-            baseWeaponController.Weapon = weapons[cannonId];
+            //make copy of the weapon entity (main one used by player)
+            baseWeaponController.Weapon = new BaseWeapon(weapons[cannonId]);
             oldState.CopyToTransform(baseWeaponController.transform);
 
             integrityPerSprite = maxIntegrity / damageLevelSprites.Length;

@@ -39,6 +39,7 @@ namespace TankArena.Controllers.Weapons
             }
             set
             {
+                DBG.Log("Setting weapon stuff in context of {0} for weapon instance {1}", gameObject, value.GetHashCode());
                 weapon = value;
                 if (WeaponSlot == null)
                 {
@@ -108,7 +109,8 @@ namespace TankArena.Controllers.Weapons
                     currentShotDelay = 0.0f;
                     if (!Weapon.isReloading)
                     {
-                        ammoController.SetInactive(false);
+                        if (ammoController != null)
+                            ammoController.SetInactive(false);
                     }
                 } else
                 {

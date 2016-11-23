@@ -63,6 +63,11 @@ namespace TankArena.Models
             LoadPropertiesFromJSON(json);
         }
 
+        public FileLoadedEntityModel(FileLoadedEntityModel model) 
+        {
+            this.properties = new Dictionary<string, object>(model.properties);
+        }
+
         protected virtual void LoadPropertiesFromJSON(JSONNode json)
         {
             properties[EK.EK_ID] = json[EK.EK_ID].Value;

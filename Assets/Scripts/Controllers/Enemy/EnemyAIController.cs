@@ -40,11 +40,12 @@ namespace TankArena.Controllers
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
-        void Awake()
+        void Start()
         {
             unitCommands = unitController.Commands;
             AiState = AIStates.AI_PATROLLING;
-            
+            //hit at most 3 objects
+            lastLookResults = new RaycastHit2D[3];
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace TankArena.Controllers
         {
             //RESOLVE STATE
             ResolveNextState();
-
+            // DBG.Log("Resolved to state {0}", aiState);
             //TAKE ACTION
             if (AiState == AIStates.AI_ATTACKING) 
             {
@@ -98,10 +99,11 @@ namespace TankArena.Controllers
 
         private  bool SeeTarget() 
         {
+            // Debug.DrawLine(transform.position, transform.up * maxLookDistance, Color.red, 5.0f);
             int results = Physics2D.RaycastNonAlloc
             (
-                transform.up
-                , target.transform.position
+                transform.position
+                , transform.up
                 , lastLookResults
                 , maxLookDistance
                 , LayerMasks.LM_DEFAULT_AND_PLAYER_AND_ENEMY
@@ -109,10 +111,11 @@ namespace TankArena.Controllers
 
             if (results > 0)
             {
+                // DBG.Log("Ray has hit {0} objects!", results);
                 for (int i = 0; i < results; i++)
                 {
                     var hit = lastLookResults[i];
-
+                    // DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
                     if (hit.transform != null && hit.transform.gameObject == target) {
                         return true;
                     }

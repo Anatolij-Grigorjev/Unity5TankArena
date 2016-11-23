@@ -9,7 +9,7 @@ using SimpleJSON;
 
 namespace TankArena.Models.Characters
 {
-    class PlayableCharacter : FileLoadedEntityModel
+    public class PlayableCharacter : FileLoadedEntityModel
     {
 
         /// <summary>

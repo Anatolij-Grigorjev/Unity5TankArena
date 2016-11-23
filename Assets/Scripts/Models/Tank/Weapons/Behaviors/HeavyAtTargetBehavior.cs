@@ -26,7 +26,7 @@ namespace TankArena.Models.Weapons.Behaviors
         public override bool PerformShot()
         {
             var transform = controller.transform;
-            
+            DBG.Log("Feeder: {0}", controller.gameObject);
             RaycastHit2D firstHit = Physics2D.Raycast(transform.position, transform.up, weapon.Range, LayerMasks.LM_DEFAULT_AND_ENEMY);
             Debug.DrawRay(transform.position, transform.up, Color.red, 5.0f);
 

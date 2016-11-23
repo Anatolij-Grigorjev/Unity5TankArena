@@ -118,9 +118,7 @@ namespace TankArena.Models.Tank
 
         private GameObject TryMakeWeaponGO(WeaponSlot weaponSlot)
         {
-            //TODO: name correctly based on model in slot
-            //add correct script controller thing
-
+            //where is this weapon preset?
             if (weaponSlot.Weapon == null)
             {
                 return null;
