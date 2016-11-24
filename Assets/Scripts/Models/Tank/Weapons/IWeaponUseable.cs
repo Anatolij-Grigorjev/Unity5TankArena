@@ -12,6 +12,8 @@ namespace TankArena.Models.Weapons.Behaviors
 
         void SetWeaponController(BaseWeaponController controller); 
 
+        void SetHitLayersMask(int layerMask);
+
         /// <summary>
         /// Do preparations needed before taking the shot, liek heating up barrel, etc
         /// </summary>

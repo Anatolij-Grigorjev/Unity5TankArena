@@ -9,6 +9,7 @@ namespace TankArena.Constants
     {
         TANK_COMMAND_MOVE,
         TANK_COMMAND_BRAKE,
-        TANK_COMMAND_FIRE
+        TANK_COMMAND_FIRE,
+        AI_COMMAND_TARGET_AQUIRED
     }
 }

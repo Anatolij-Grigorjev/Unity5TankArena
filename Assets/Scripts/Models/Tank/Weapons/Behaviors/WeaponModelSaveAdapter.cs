@@ -10,6 +10,7 @@ namespace TankArena.Models.Weapons.Behaviors
     {
         protected BaseWeaponController controller;
         protected BaseWeapon weapon;
+        protected int layerMask;
 
         public abstract void OnReloadFinished();
         public abstract void OnReloadStarted();
@@ -23,6 +24,12 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             this.weapon = weapon;
         }
+
+        public void SetHitLayersMask(int layerMask) 
+        {
+            this.layerMask = layerMask;
+        }
+
         public abstract void WhileReloading();
     }
 }

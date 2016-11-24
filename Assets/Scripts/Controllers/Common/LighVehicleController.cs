@@ -90,7 +90,15 @@ namespace TankArena.Controllers
                         baseWeaponController.Shoot();
                         
                         break;
+                    case TankCommandWords.AI_COMMAND_TARGET_AQUIRED:
+                        int layerMask = (int)latestOrder.tankCommandParams[TankCommandParamKeys.AI_CMD_LAYER_MASK];
+                        DBG.Log("Setting target layer to {0}", layerMask);
+
+                        baseWeaponController.Weapon.WeaponBehavior.SetHitLayersMask(layerMask);
+
+                        break;
                     default:
+                        DBG.Log("Not handling command order: {0}", latestOrder);
                         break;
                 }
         }

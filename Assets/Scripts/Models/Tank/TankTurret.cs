@@ -133,6 +133,7 @@ namespace TankArena.Models.Tank
                 });
             var baseWeaponController = weaponGO.GetComponent<BaseWeaponController>();
             baseWeaponController.ammoCounterPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
+            weaponSlot.Weapon.WeaponBehavior.SetHitLayersMask(LayerMasks.LM_DEFAULT_AND_ENEMY);
 
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;

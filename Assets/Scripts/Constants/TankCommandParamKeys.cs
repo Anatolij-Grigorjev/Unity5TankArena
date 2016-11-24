@@ -13,5 +13,6 @@ namespace TankArena.Constants
         public const string TANK_CMD_TURN_KEY = "h_movement";
         public const string TANK_CMD_APPLY_BREAK_KEY = "apply_break";
         public const string TANK_CMD_FIRE_GROUPS_KEY = "wpn_groups";
+        public const string AI_CMD_LAYER_MASK = "layer_mask";
     }
 }

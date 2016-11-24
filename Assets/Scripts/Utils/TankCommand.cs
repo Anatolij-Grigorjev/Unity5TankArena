@@ -36,5 +36,10 @@ namespace TankArena.Utils
             });
         }
 
+        public override String ToString() 
+        {
+            return "" + commandWord + tankCommandParams.ToString(); 
+        } 
+
     }
 }

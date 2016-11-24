@@ -173,12 +173,12 @@ namespace TankArena.Models.Weapons
             currentClipSize = ClipSize;
             //divide 60 seconds by the rate of fire per min to get delay between shots
             maxShotDelay = MINUTE_IN_SECONDS / RateOfFire;
+            this.WeaponBehavior = WeaponBehaviors.ForType(this.WeaponBehaviorType);
         }
 
         public BaseWeapon(BaseWeapon model): base(model)
         {
             InitValues();
-            this.WeaponBehavior = WeaponBehaviors.ForType(this.WeaponBehaviorType);
         }
 
         protected override void LoadPropertiesFromJSON(JSONNode json)
@@ -198,8 +198,6 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
             properties[EK.EK_WEAPON_BEHAVIOR_TYPE] = Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
-
-            WeaponBehavior = WeaponBehaviors.ForType(WeaponBehaviorType);
         }
 
         public void Shoot(AmmoCounterController ammoController)

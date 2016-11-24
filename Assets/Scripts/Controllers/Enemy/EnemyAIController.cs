@@ -36,6 +36,7 @@ namespace TankArena.Controllers
         
         public float maxShootingDistance;
         private RaycastHit2D[] lastLookResults;
+        private int targetLayerMask;
         
         /// <summary>
         /// Awake is called when the script instance is being loaded.
@@ -46,6 +47,23 @@ namespace TankArena.Controllers
             AiState = AIStates.AI_PATROLLING;
             //hit at most 3 objects
             lastLookResults = new RaycastHit2D[3];
+            targetLayerMask = LayerMasks.LM_DEFAULT_AND_PLAYER_AND_ENEMY;
+
+            SetTargetGO(this.target);
+        }
+
+        public void SetTargetGO(GameObject target) 
+        {
+            if (target != null)
+            {
+                this.target = target;
+                //bit shift target layer into 1 to get proper layer mask
+                this.targetLayerMask = 1 << target.layer;
+
+                unitCommands.Enqueue(new TankCommand(TankCommandWords.AI_COMMAND_TARGET_AQUIRED, new Dictionary<string, object>() {
+                    { TankCommandParamKeys.AI_CMD_LAYER_MASK, targetLayerMask }
+                }));
+            }
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace TankArena.Controllers
                 , transform.up
                 , lastLookResults
                 , maxLookDistance
-                , LayerMasks.LM_DEFAULT_AND_PLAYER_AND_ENEMY
+                , targetLayerMask
             );
 
             if (results > 0)
