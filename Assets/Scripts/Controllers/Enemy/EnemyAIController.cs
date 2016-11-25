@@ -105,6 +105,7 @@ namespace TankArena.Controllers
                     //see target, get close enough to fire
                     if (distanceToTarget < maxShootingDistance) 
                     {
+                        unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE));
                         AiState = AIStates.AI_ATTACKING;
                     } else 
                     {

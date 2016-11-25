@@ -25,15 +25,13 @@ namespace TankArena.Controllers
         private Collider2D vehicleCollider;
         private SpriteRenderer spriteRenderer;
         private Animator animations;
-
-        public Sprite[] damageLevelSprites;
         public GameObject explosionPrefab;
 
         public float maxIntegrity;
 
         public float integrity;
-        private float integrityPerSprite;
 
+        public ValueBasedSpriteAssigner damageLevelSprites;
         public float Integrity
         {
             get
@@ -43,9 +41,7 @@ namespace TankArena.Controllers
             set
             {
                 integrity = value;
-                int bucketNum = Mathf.RoundToInt(value / integrityPerSprite);
-                int index = Mathf.Clamp(damageLevelSprites.Length - bucketNum, 0, damageLevelSprites.Length - 1);
-                spriteRenderer.sprite = damageLevelSprites[index];
+                damageLevelSprites.UpdateSprite(spriteRenderer, integrity);
             }
         }
 
@@ -63,8 +59,7 @@ namespace TankArena.Controllers
             //make copy of the weapon entity (main one used by player)
             baseWeaponController.Weapon = new BaseWeapon(weapons[cannonId]);
             oldState.CopyToTransform(baseWeaponController.transform);
-
-            integrityPerSprite = maxIntegrity / damageLevelSprites.Length;
+            
             Integrity = maxIntegrity;    
 	    }
 	
@@ -80,10 +75,7 @@ namespace TankArena.Controllers
 
                         break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:
-                        
-                        var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
-
-                        ApplyBreak(keepApplying);
+                        ApplyBreak();
 
                         break;
                     case TankCommandWords.TANK_COMMAND_FIRE:
@@ -108,16 +100,9 @@ namespace TankArena.Controllers
 
         }
 
-        private void ApplyBreak(bool keepApplying)
+        private void ApplyBreak()
         {
-            if (keepApplying)
-            {
-                vehicleRigidBody.drag += vehicleBreak;
-            }
-            else
-            {
-                vehicleRigidBody.drag = vehicleDrag;
-            }
+            vehicleRigidBody.drag = vehicleBreak;
         }
 
         private void Move(float throttle, float turn)
@@ -164,6 +149,11 @@ namespace TankArena.Controllers
                     {
                         animations.enabled = true;
                         animations.SetTrigger(AnimationParameters.TRUCK_DEATH_TRIGGER);
+                    } else {
+                        //enemy will try hunt you down after being shot
+                        var ai = GetComponent<EnemyAIController>();
+                        ai.maxAlertDistance = float.MaxValue;
+                        ai.maxLookDistance = float.MaxValue;
                     }
                     break;
             }
