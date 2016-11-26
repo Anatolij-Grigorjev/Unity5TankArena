@@ -74,6 +74,18 @@ namespace TankArena.Models.Tank
                 TankChassisController chassisController = (TankChassisController)(object)controller;
                 chassisController.engineController.Model = chassisController.Model.Engine;
                 chassisController.tracksController.Model = chassisController.Model.Tracks;
+
+                chassisController.maxIntegrity = Integrity;
+                var damageAssigner = chassisController.damageAssigner;
+                damageAssigner.maxValue = Integrity;
+                damageAssigner.minValue = 0.0f;
+                //destinationArray must already have been dimensioned and 
+                //must have a sufficient number of elements to accommodate the copied data.
+                damageAssigner.sprites = new Sprite[ActiveSprites];
+                Array.Copy(Sprites, damageAssigner.sprites, ActiveSprites);
+                damageAssigner.UpdateVPS();
+                
+                chassisController.Integrity = Integrity;
             }
         }
 

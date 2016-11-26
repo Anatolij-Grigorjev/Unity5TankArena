@@ -12,7 +12,15 @@ namespace TankArena.Utils
         private float valuesPerSprite;
         public void Awake() 
         {
-            valuesPerSprite = (maxValue - minValue) / sprites.Length; 
+             UpdateVPS();
+        }
+
+        ///<summary>
+        ///To be called after changing values for script but before new value updates!
+        ///</summary>
+        public void UpdateVPS()
+        {
+            valuesPerSprite = (maxValue - minValue) / sprites.Length;
         }
 
         public void UpdateSprite(SpriteRenderer renderer, float currValue)

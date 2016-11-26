@@ -12,7 +12,22 @@ namespace TankArena.Controllers
 
         public TankEngineController engineController;
         public TankTracksController tracksController;
+        public ValueBasedSpriteAssigner damageAssigner;
 
+        public float maxIntegrity;
+        private float integrity;
+        public float Integrity
+        {
+            get 
+            {
+                return integrity;
+            }
+            set 
+            {
+                integrity = value;
+                damageAssigner.UpdateSprite(partRenderer, integrity);
+            }
+        }
 
         // Use this for initialization
         public override void Awake()
@@ -31,12 +46,14 @@ namespace TankArena.Controllers
 
         public void ApplyDamage(GameObject damager)
         {
-            DBG.Log("Hot Potato!");
+            // DBG.Log("Hot Potato!");
             switch (damager.tag)
             {
                 case Tags.TAG_SIMPLE_BOOM:
                     var controller = damager.GetComponent<ExplosionController>();
-                    DBG.Log("Potato heat level: {0}", controller.damage);
+                    // DBG.Log("Potato heat level: {0}", controller.damage);
+                    Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
+                    
                     break;
             }
         }

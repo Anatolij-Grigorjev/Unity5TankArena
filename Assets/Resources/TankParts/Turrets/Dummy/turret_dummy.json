@@ -2,7 +2,7 @@
 	"id": "TUR_dummy01",
 	"name": "Dummy Turret",
 	"on_tank_position": "!transf;5.5;-5.5;0.0;0.0;0.0;0.0;9.0;9.0;1.0",
-	"mass": "10.0",
+	"mass": 10.0,
 	"shop_item": "!img;TankParts\\Turrets\\Dummy\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Turrets\\Dummy\\Images\\garage_img",
 	"weapons_shop": "!img;TankParts\\Turrets\\Dummy\\Images\\weapon_shop_img",

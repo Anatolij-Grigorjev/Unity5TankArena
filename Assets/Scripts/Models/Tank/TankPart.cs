@@ -62,6 +62,13 @@ namespace TankArena.Models.Tank
                 return (Sprite[])properties[EK.EK_ENTITY_SPRITESHEET];
             }
         }
+        public int ActiveSprites
+        {
+            get 
+            {
+                return (int)properties[EK.EK_ACTIVE_SPRITES];
+            }
+        }
         public Rect CollisionBox
         {
             get
@@ -95,6 +102,7 @@ namespace TankArena.Models.Tank
                 properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             }
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
+            properties[EK.EK_ACTIVE_SPRITES] = json[EK.EK_ACTIVE_SPRITES].AsInt > 0? json[EK.EK_ACTIVE_SPRITES].AsInt : 1;
             properties[EK.EK_COLLISION_BOX] = ResolveSpecialContent(json[EK.EK_COLLISION_BOX].Value);
         }
 
