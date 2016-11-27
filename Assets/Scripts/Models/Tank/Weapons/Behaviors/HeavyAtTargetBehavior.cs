@@ -20,8 +20,9 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override void OnReloadStarted()
         {
-            if (controller.turretController != null) {
-                controller.turretController.reloadSound.Play();
+            var reloadSound = controller.GetComponentInChildren<AudioSource>();
+            if (reloadSound != null) {
+                reloadSound.Play();
             }
         }
 

@@ -11,5 +11,6 @@ namespace TankArena.Constants
 
 
         public const String PREFAB_AMMO_COUNTER = @"Weapons\UI\AmmoCounter\AmmoCounter";
+        public const String PREFAB_WEAPON_RELOAD = @"Weapons\ReloadSound";
     }
 }

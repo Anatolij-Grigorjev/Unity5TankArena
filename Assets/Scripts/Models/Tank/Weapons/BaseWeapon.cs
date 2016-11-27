@@ -127,7 +127,13 @@ namespace TankArena.Models.Weapons
                 return (AudioClip)properties[EK.EK_SHOT_SOUND];
             }
         }
-
+        public AudioClip ReloadSound
+        {
+            get 
+            {
+                return (AudioClip)properties[EK.EK_RELOAD_SOUND];
+            }
+        }
         public RuntimeAnimatorController WeaponAnimationController
         {
             get
@@ -198,6 +204,14 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
             properties[EK.EK_WEAPON_BEHAVIOR_TYPE] = Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
+            if (!String.IsNullOrEmpty(json[EK.EK_RELOAD_SOUND].Value))
+            {
+                properties[EK.EK_RELOAD_SOUND] = ResolveSpecialContent(json[EK.EK_RELOAD_SOUND].Value);
+            } 
+            else 
+            {
+                properties[EK.EK_RELOAD_SOUND] = null;
+            }
         }
 
         public void Shoot(AmmoCounterController ammoController)
