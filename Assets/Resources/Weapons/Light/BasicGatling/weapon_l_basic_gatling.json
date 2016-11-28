@@ -1,0 +1,17 @@
+{
+	"id": "WPN_L_basic_gatling01",
+	"name": "Basic Gatling Gun",
+	"on_turret_position": "!transf;0.05;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"wpn_type": 2,
+	"damage": 2.7
+,	"reload": 4.5,
+	"rate_of_fire": 760,
+	"range": 53,
+	"clip_size": 450,
+	"shop_item": "!img;Weapons\\Light\\BasicGatling\\Images\\shop_img",
+	"spritesheet": "!sprites;Weapons\\Light\\BasicGatling\\Images\\Sprites\\spritesheet_0",
+	"behavior_type" : "light_projectile_at_target",
+	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
+	"shot_sound" : "!snd;Weapons\\Light\\BasicGatling\\Sounds\\shot",
+	"weapon_animations" : "!anim_contr;Weapons\\Light\\BasicGatling\\Animation\\Controllers\\BasicGatlingLightAnimationController"
+}
