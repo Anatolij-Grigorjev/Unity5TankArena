@@ -16,5 +16,14 @@ namespace TankArena.Models.Weapons.Behaviors
                 theShot.GetComponent<ExplosionController>().damage = weapon.Damage;
             }
         }
+
+        public override bool PrepareShot()
+        {
+            controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);
+            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
+            controller.shotAudio.Play();
+
+            return true;
+        }
     }
 }

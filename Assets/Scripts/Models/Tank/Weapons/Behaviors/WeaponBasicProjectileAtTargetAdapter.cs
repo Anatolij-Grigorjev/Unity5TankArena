@@ -29,10 +29,9 @@ namespace TankArena.Models.Weapons.Behaviors
             }
             else 
             {
+                DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject );
                 didHit = true;
             }
-
-            DBG.Log("Putting projectile at point {0}", pos);
 
             CreateAndConfigureProjectile(didHit, pos);
 

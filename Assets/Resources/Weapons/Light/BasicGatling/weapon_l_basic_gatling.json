@@ -3,9 +3,9 @@
 	"name": "Basic Gatling Gun",
 	"on_turret_position": "!transf;0.05;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"wpn_type": 2,
-	"damage": 2.7
+	"damage": 10.7
 ,	"reload": 4.5,
-	"rate_of_fire": 760,
+	"rate_of_fire": 950,
 	"range": 53,
 	"clip_size": 450,
 	"shop_item": "!img;Weapons\\Light\\BasicGatling\\Images\\shop_img",
