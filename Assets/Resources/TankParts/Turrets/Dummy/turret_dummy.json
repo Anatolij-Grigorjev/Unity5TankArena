@@ -7,8 +7,10 @@
 	"garage_item": "!img;TankParts\\Turrets\\Dummy\\Images\\garage_img",
 	"weapons_shop": "!img;TankParts\\Turrets\\Dummy\\Images\\weapon_shop_img",
 	"spritesheet": "!sprites;TankParts\\Turrets\\Dummy\\Images\\Sprites\\spritesheet_0",
-	"light_weapon_slots": [],
+	"light_weapon_slots": [
+		"!wpnslt;2;!transf;0.95;0.4;0.0;0.0;0.0;0.0;1.0;1.5;1.0"
+	],
 	"heavy_weapon_slots": [
-		"!wpnslt;1;!transf;0.5;-0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
+		"!wpnslt;1;!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
 	]
 }

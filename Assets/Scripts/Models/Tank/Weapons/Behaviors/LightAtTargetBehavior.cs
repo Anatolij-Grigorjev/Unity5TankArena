@@ -11,6 +11,7 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             if (didHit)
             {
+                controller.shotAudio.Play();
                 var theShot = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
                 theShot.layer = LayerMasks.L_EXPLOSIONS_LAYER;
                 theShot.GetComponent<ExplosionController>().damage = weapon.Damage;
@@ -19,11 +20,17 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot()
         {
-            controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);
-            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
-            controller.shotAudio.Play();
+            if (!controller.weaponAnimationController.GetBool(AnimationParameters.WPN_IS_FIRING)) {
+                controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
+            }
 
             return true;
+        }
+
+        public override void OnReloadStarted() 
+        {
+            base.OnReloadStarted();
+            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
         }
     }
 }
