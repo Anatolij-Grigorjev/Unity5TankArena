@@ -21,7 +21,14 @@ namespace TankArena.Constants
             Describes the kind of projectile behavior where the resulting prefab 
             is created at range if hitting an enemy, or not at all, like a speeding bullet
             */
-            LIGHT_PROJECTILE_AT_TARGET
+            LIGHT_PROJECTILE_AT_TARGET,
+            /*
+            Describes the kind of projectile behavior where the resulting prefab 
+            is created at range if hitting an enemy, or not at all, like a speeding bullet
+            Continuous variation means weapon will fire as you hold hte button and has a coroutine
+            to stop that when you are done
+            */
+            LIGHT_PROJECTILE_AT_TARGET_CONTINUOUS
         }
 
         public static IWeaponUseable ForType(Types t)
@@ -32,6 +39,8 @@ namespace TankArena.Constants
                     return new HeavyAtTargetBehavior();
                 case Types.LIGHT_PROJECTILE_AT_TARGET:
                     return new LightAtTargetBehavior();
+                case Types.LIGHT_PROJECTILE_AT_TARGET_CONTINUOUS:
+                    return new LightAtTargetContinuousBehavior();
                 default:
                     return null;
             }
