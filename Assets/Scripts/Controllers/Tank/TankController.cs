@@ -76,7 +76,11 @@ namespace TankArena.Controllers
                         var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
                         turretController.Fire(weaponGroups);
                         break;
+                    case TankCommandWords.TANK_COMMAND_RELOAD:
+                        turretController.Reload();
+                        break;
                     default:
+                        DBG.Log("Got command: {0}, dunno what do?!", latestOrder);
                         break;
                 }
         }

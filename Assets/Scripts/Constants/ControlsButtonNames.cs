@@ -18,6 +18,7 @@ namespace TankArena.Constants
         public const string BTN_NAME_WPN_GROUP_1 = "WeaponGroup1";
         public const string BTN_NAME_WPN_GROUP_2 = "WeaponGroup2";
         public const string BTN_NAME_WPN_GROUP_3 = "WeaponGroup3";
+        public const string BTN_NAME_RELOAD = "Reload";
 
     }
 }

@@ -96,10 +96,14 @@ namespace TankArena.Models.Tank
             if (controller is TankTurretController)
             {
                 TankTurretController turretController = (TankTurretController)(object)controller;
-
+                int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>
                 {
-                    var weaponGO = TryMakeWeaponGO(slot);
+                    
+                    var weaponGO = TryMakeWeaponGO(slot, slottedWeaponsCount);
+                    if (slot.Weapon != null) {
+                        slottedWeaponsCount++;
+                    }
                     if (weaponGO != null) {
                         weaponGO.transform.parent = turretController.transform;
                         
@@ -116,7 +120,7 @@ namespace TankArena.Models.Tank
             }
         }
 
-        private GameObject TryMakeWeaponGO(WeaponSlot weaponSlot)
+        private GameObject TryMakeWeaponGO(WeaponSlot weaponSlot, int existingWeaponsCount)
         {
             //where is this weapon preset?
             if (weaponSlot.Weapon == null)
@@ -133,7 +137,9 @@ namespace TankArena.Models.Tank
                 });
             
             var baseWeaponController = weaponGO.GetComponent<BaseWeaponController>();
-            baseWeaponController.ammoCounterPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
+            var originalPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
+            originalPrefab.GetComponent<AmmoCounterController>().weaponIndex = existingWeaponsCount;
+            baseWeaponController.ammoCounterPrefab = originalPrefab;
             weaponSlot.Weapon.WeaponBehavior.SetHitLayersMask(LayerMasks.LM_DEFAULT_AND_ENEMY);
 
             //create reload sound child (with deafult sound loaded)
@@ -176,6 +182,18 @@ namespace TankArena.Models.Tank
                         weaponController.Shoot();
                     }
                 }
+            });
+        }
+
+        public void Reload()
+        {
+            allWeaponSlots.ForEach(wpnSlot =>
+            {
+                var controller = wpnSlot.weaponController;
+                if (controller != null && !controller.isFullClip())
+                {
+                    controller.Reload();
+                }    
             });
         }
     }

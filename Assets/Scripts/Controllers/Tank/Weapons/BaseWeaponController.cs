@@ -59,13 +59,21 @@ namespace TankArena.Controllers.Weapons
                     ammoController.SetWeapon(weapon);
                     var t = ammoCounter.GetComponent<RectTransform>();
                     var t2 = Instantiate(ammoCounterPrefab).GetComponent<RectTransform>();
-                    //WORKAROUND: correct t via values of a non-child prefab example
+                    //WORKAROUND: correct t via values of a non-child prefab example t2
 
                     t.anchoredPosition = t2.anchoredPosition;
                     t.anchoredPosition3D = t2.anchoredPosition3D;
                     t.anchorMax = t2.anchorMax;
                     t.anchorMin = t2.anchorMin;
-                    
+
+                    Destroy(t2.gameObject);
+
+                    if (ammoController.weaponIndex > 0) {
+                        //acount for which weapon this is if index is set
+                        var newPos = t.position;
+                        newPos.y += (AmmoCounterController.IMAGE_HEIGHT * ammoController.weaponIndex);
+                        t.position = newPos;
+                    }
                 }
             }
         }
@@ -127,8 +135,15 @@ namespace TankArena.Controllers.Weapons
             }
         }
 
+        public void Reload()
+        {
+            weapon.Reload(ammoController);
+        }
 
-
+        public bool isFullClip() 
+        {
+            return weapon.currentClipSize == weapon.ClipSize;
+        }
         public void Shoot()
         {
             //start the shooting on next update

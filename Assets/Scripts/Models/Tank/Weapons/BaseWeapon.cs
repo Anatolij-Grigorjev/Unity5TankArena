@@ -145,7 +145,7 @@ namespace TankArena.Models.Weapons
         public bool isReloading;
         public bool isShooting;
         protected float currentReloadTimer;
-        public float currentClipSize;
+        public int currentClipSize;
         protected float maxShotDelay;
         
         protected BaseWeaponController weaponController;

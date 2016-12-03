@@ -19,7 +19,6 @@ namespace TankArena.Models.Weapons.Behaviors
             var transform = controller.transform;
             DBG.Log("Feeder: {0}", controller.gameObject);
             RaycastHit2D firstHit = Physics2D.Raycast(transform.position, transform.up, weapon.Range, layerMask);
-            Debug.DrawRay(transform.position, transform.up, Color.red, 5.0f);
 
             Vector3 pos = new Vector3(firstHit.point.x, firstHit.point.y);
             //point is a fake, set a new one

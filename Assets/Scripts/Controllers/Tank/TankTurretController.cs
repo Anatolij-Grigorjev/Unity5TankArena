@@ -40,5 +40,10 @@ namespace TankArena.Controllers
         {
             Model.Fire(weaponGroups, transform);
         }
+
+        public void Reload()
+        {
+            Model.Reload();
+        }
     }
 }

@@ -79,6 +79,13 @@ namespace TankArena.Controllers
             }
 
             CollectWeaponsInput();
+
+            //check reload input
+            var reload = Input.GetButton(ControlsButtonNames.BTN_NAME_RELOAD);
+            if (reload)
+            {
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_RELOAD));
+            }
         }
 
         private void CollectWeaponsInput()

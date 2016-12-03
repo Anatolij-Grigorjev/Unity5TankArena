@@ -7,11 +7,12 @@ public class AmmoCounterController : MonoBehaviour {
 
     private readonly Color ACTIVE_WPN_COLOR = Color.green;
     private readonly Color RELOAD_WPN_COLOR = Color.cyan;
+    public const  float IMAGE_HEIGHT = 50.0f;
 
     public Image sliderForeground;
     public Slider sliderCore;
     public Image weaponAvatar;
-    
+    public int weaponIndex = 0;
 
 	// Use this for initialization
 	void Awake () {

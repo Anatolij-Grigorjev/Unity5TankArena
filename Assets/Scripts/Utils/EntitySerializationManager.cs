@@ -52,6 +52,7 @@ namespace TankArena.Utils
             });
             deserializers.Add(typeof(TankTurret), code =>
             {
+                //turret code is made up of turret id and weapon slot=weapon|group triplets
                 var turretCodeParts = code.Split(',');
                 TankTurret turret = (TankTurret) convertFromNameVal(turretCodeParts[0]);
                 for (int i = 1; i < turretCodeParts.Length; i++)
@@ -61,7 +62,17 @@ namespace TankArena.Utils
                     if (classIndexWpn.Length > 2 && !String.IsNullOrEmpty(classIndexWpn[2]))
                     {
                         var rightSlots = turret.weaponSlotSerializerDictionary[classIndexWpn[0]];
-                        rightSlots[int.Parse(classIndexWpn[1])].Weapon = (BaseWeapon) convertFromJustId(classIndexWpn[2]);
+                        //check if weapon with group is assigned, might not be if no weapon in slot
+                        var wpnAndGroup = classIndexWpn[2].Split(new char[] {'|'}, 2);
+                        if (!String.IsNullOrEmpty(wpnAndGroup[0])) {
+                            int slotIndex = int.Parse(classIndexWpn[1]);
+                            if (wpnAndGroup.Length > 1) {
+                                rightSlots[slotIndex].WeaponGroup = int.Parse(wpnAndGroup[1]);
+                                rightSlots[slotIndex].Weapon = (BaseWeapon) convertFromJustId(wpnAndGroup[0]);
+                            } else {
+                                rightSlots[slotIndex].Weapon = (BaseWeapon) convertFromJustId(classIndexWpn[2]);
+                            }
+                        }
                     }
                 }
 
@@ -101,10 +112,11 @@ namespace TankArena.Utils
                     for (int i = 0; i < slots.Count; i++)
                     {
                         var slot = slots[i];
-                        codeBuilder.Append(",").Append(String.Format("{0}_{1}={2}",
+                        codeBuilder.Append(",").Append(String.Format("{0}_{1}={2}|{3}",
                             pair.Key,
                             i,
-                            slot.Weapon != null ? SerializeEntity(slot.Weapon) : ""));
+                            slot.Weapon != null ? SerializeEntity(slot.Weapon) : "",
+                            slot.WeaponGroup));
                     }
                 }
 
