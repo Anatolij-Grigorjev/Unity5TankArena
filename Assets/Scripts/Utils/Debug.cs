@@ -22,6 +22,25 @@ namespace TankArena.Utils
             }
         }
 
+        public static String TreeName(GameObject go)
+        {
+            if (go == null) 
+            {
+                return "<null>";
+            } else 
+            {
+                string name = go.name;
+                bool hasParent = go.transform.parent != null;
+                if (!hasParent)
+                {
+                    return name;
+                } else 
+                {
+                    return name + "->" + TreeName(go.transform.parent.gameObject);
+                }
+            }
+        }
+
     }
 
 }

@@ -39,7 +39,10 @@ namespace TankArena.Controllers.Weapons
             }
             set
             {
-                DBG.Log("Setting weapon stuff in context of {0} for weapon instance {1}", gameObject, value.GetHashCode());
+                DBG.Log("Setting weapon stuff in context of {0} for weapon instance {1}"
+                , DBG.TreeName(gameObject)
+                , value.GetHashCode()
+                );
                 weapon = value;
                 if (WeaponSlot == null)
                 {
@@ -97,6 +100,7 @@ namespace TankArena.Controllers.Weapons
         void Awake()
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
+            
             shotAudio = GetComponent<AudioSource>();
             weaponAnimationController = GetComponent<Animator>();
 

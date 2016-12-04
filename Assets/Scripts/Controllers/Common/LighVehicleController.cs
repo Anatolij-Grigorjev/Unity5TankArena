@@ -26,6 +26,7 @@ namespace TankArena.Controllers
         private SpriteRenderer spriteRenderer;
         private Animator animations;
         public GameObject explosionPrefab;
+        public GameObject weapon;
 
         public float maxIntegrity;
 
@@ -44,6 +45,7 @@ namespace TankArena.Controllers
                 damageLevelSprites.UpdateSprite(spriteRenderer, integrity);
             }
         }
+        private EnemyAIController aiController;
 
         // Use this for initialization
         public override void Awake () {
@@ -53,15 +55,19 @@ namespace TankArena.Controllers
             vehicleRigidBody = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animations = GetComponent<Animator>();
-            
+            Integrity = maxIntegrity;    
+	    }
+
+        public void Start() 
+        {
             var weapons = EntitiesStore.Instance.Weapons;
             var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
             //make copy of the weapon entity (main one used by player)
             baseWeaponController.Weapon = new BaseWeapon(weapons[cannonId]);
             oldState.CopyToTransform(baseWeaponController.transform);
-            
-            Integrity = maxIntegrity;    
-	    }
+            aiController = GetComponent<EnemyAIController>();
+            aiController.maxShootingDistance = weapon.GetComponent<BaseWeaponController>().Weapon.Range;
+        }
 	
 	    protected override void HandleCommand(TankCommand latestOrder) 
         {
@@ -151,9 +157,8 @@ namespace TankArena.Controllers
                         animations.SetTrigger(AnimationParameters.TRUCK_DEATH_TRIGGER);
                     } else {
                         //enemy will try hunt you down after being shot
-                        var ai = GetComponent<EnemyAIController>();
-                        ai.maxAlertDistance = float.MaxValue;
-                        ai.maxLookDistance = float.MaxValue;
+                        aiController.maxAlertDistance = float.MaxValue;
+                        aiController.maxLookDistance = float.MaxValue;
                     }
                     break;
             }

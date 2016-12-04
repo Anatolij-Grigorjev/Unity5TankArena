@@ -33,7 +33,8 @@ namespace TankArena.Controllers
                 aiState = value;
             }
         }
-        
+
+        [HideInInspector]
         public float maxShootingDistance;
         private RaycastHit2D[] lastLookResults;
         private int targetLayerMask;
@@ -48,6 +49,7 @@ namespace TankArena.Controllers
             //hit at most 3 objects
             lastLookResults = new RaycastHit2D[3];
             targetLayerMask = LayerMasks.LM_DEFAULT_AND_PLAYER_AND_ENEMY;
+            
 
             SetTargetGO(this.target);
         }
