@@ -35,7 +35,6 @@ namespace TankArena.Controllers
             base.Awake();
             
             
-
         }
 
         // Update is called once per frame
@@ -53,7 +52,11 @@ namespace TankArena.Controllers
                     var controller = damager.GetComponent<ExplosionController>();
                     // DBG.Log("Potato heat level: {0}", controller.damage);
                     Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
-                    
+                    if (Integrity <= 0.0f) {
+                        //start death
+                        parentObject.GetComponent<TankController>().deathAnimation.enabled = true;
+
+                    }
                     break;
             }
         }
