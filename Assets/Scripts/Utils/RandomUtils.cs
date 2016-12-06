@@ -11,6 +11,11 @@ namespace TankArena.Utils
             return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
         } 
 
+        public static Vector2 RandomVector2D(Vector2 maxXY, Vector2 minXY)
+        {
+            return RandomVector2D(maxXY.x, maxXY.y, minXY.x, minXY.y);
+        }
+
         public static Quaternion RandomQuaternion2D()
         {
             return Quaternion.Euler(0.0f, 0.0f, Random.value * 360.0f);

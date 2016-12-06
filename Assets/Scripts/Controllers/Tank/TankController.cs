@@ -17,9 +17,6 @@ namespace TankArena.Controllers
         public TankChassisController chassisController;
         public TankTurretController turretController;
         public TankTracksController tracksController;
-        public Vector2 spreadFactorXY;
-        public GameObject boomPrefab;
-        public Animator deathAnimation;
 
         public Tank Tank {
             get
@@ -86,22 +83,6 @@ namespace TankArena.Controllers
                         DBG.Log("Got command: {0}, dunno what do?!", latestOrder);
                         break;
                 }
-        }
-
-        public void TryRandomExplosion()
-        {
-            //50% chance to go boom 
-            var boomGO = Instantiate(boomPrefab
-            , RandomUtils.RandomVector2D(spreadFactorXY.x, spreadFactorXY.y)
-            , RandomUtils.RandomQuaternion2D()
-            ) as GameObject;
-            
-            boomGO.layer = LayerMasks.L_EXPLOSIONS_LAYER;
-        }
-
-        public void Die() 
-        {
-            Destroy(gameObject);
         }
 
         public void ApplyDamage(GameObject damager)

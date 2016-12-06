@@ -13,6 +13,7 @@ namespace TankArena.Controllers
         public TankEngineController engineController;
         public TankTracksController tracksController;
         public ValueBasedSpriteAssigner damageAssigner;
+        public DeathPostPrefabsController deathController;
 
         public float maxIntegrity;
         private float integrity;
@@ -54,11 +55,25 @@ namespace TankArena.Controllers
                     Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
                     if (Integrity <= 0.0f) {
                         //start death
-                        parentObject.GetComponent<TankController>().deathAnimation.enabled = true;
+                        StartDeath();
 
                     }
                     break;
             }
+        }
+
+        private void StartDeath() 
+        {
+            //extents are half the size, good for centering booms of death
+            var extents = partRenderer.sprite.bounds.extents;
+            deathController.spawnMinXY = extents * (-transform.localScale.magnitude);
+            //the widht of the boom bounds needs to be shifted along half the sprite
+            // for a fair distribution
+            deathController.spawnMinXY.x += extents.x / 2;
+            deathController.spawnMaxXY = extents * transform.localScale.magnitude;
+            deathController.spawnMaxXY.x -= extents.x / 2;
+            
+            deathController.Enable();
         }
     }
 }

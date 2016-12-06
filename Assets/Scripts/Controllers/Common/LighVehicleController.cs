@@ -25,12 +25,11 @@ namespace TankArena.Controllers
         private Collider2D vehicleCollider;
         private SpriteRenderer spriteRenderer;
         private Animator animations;
-        public GameObject explosionPrefab;
         public GameObject weapon;
-
         public float maxIntegrity;
+        private float integrity;
 
-        public float integrity;
+        public DeathPostPrefabsController deathController;
 
         public ValueBasedSpriteAssigner damageLevelSprites;
         public float Integrity
@@ -131,17 +130,9 @@ namespace TankArena.Controllers
             }
         }
 
-        public void MakeDeathBoom()
+        public void EngageDeath() 
         {
-            Destroy(vehicleRigidBody);
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        }
-
-        
-
-        public void Die()
-        {
-            Destroy(gameObject);
+            deathController.Enable();
         }
 
         public void ApplyDamage(GameObject damager)
@@ -154,6 +145,7 @@ namespace TankArena.Controllers
                     if (Integrity <= 0.0)
                     {
                         animations.enabled = true;
+
                         animations.SetTrigger(AnimationParameters.TRUCK_DEATH_TRIGGER);
                     } else {
                         //enemy will try hunt you down after being shot
