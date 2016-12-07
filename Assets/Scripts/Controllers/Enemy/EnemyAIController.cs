@@ -36,7 +36,12 @@ namespace TankArena.Controllers
 
         [HideInInspector]
         public float maxShootingDistance;
+
+        //INTERNAL STATE VARS
         private RaycastHit2D[] lastLookResults;
+        private int lastLookResultsCount;
+        private bool seeTarget;
+        private float distanceToTarget;
         private int targetLayerMask;
         
         /// <summary>
@@ -73,31 +78,24 @@ namespace TankArena.Controllers
         /// </summary>
         void Update()
         {
-            //RESOLVE STATE
+            //RESOLVE STATE (means state vars as well)
             ResolveNextState();
             // DBG.Log("Resolved to state {0}", aiState);
             //TAKE ACTION
-            if (AiState == AIStates.AI_ATTACKING) 
-            {
-                unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>()));
-            }
+            ResolveNextAction();
         }
 
-        private void ResolveNextState() 
+        private void ResolveNextAction()
         {
-            var distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
-            if (maxAlertDistance > distanceToTarget) 
+            DBG.Log("Action for state: {0}", aiState);
+            if (AiState == AIStates.AI_ATTACKING) 
             {
-                if (AiState == AIStates.AI_PATROLLING) 
-                {
-                    AiState = AIStates.AI_APPROACHING;
-                }
+                //if we attacking we fire
+                unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>()));
             }
-            //AI not idling, turn to player
-            if (AiState != AIStates.AI_PATROLLING) 
+            //if we close nuff to target we try to apprach
+            if (AiState == AIStates.AI_APPROACHING)
             {
-                bool seeTarget = SeeTarget();
-
                 if (!seeTarget)
                 {
                     //issue rotate command to move towards target
@@ -107,38 +105,86 @@ namespace TankArena.Controllers
                     //see target, get close enough to fire
                     if (distanceToTarget < maxShootingDistance) 
                     {
-                        unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE));
-                        AiState = AIStates.AI_ATTACKING;
+                        if (AiState == AIStates.AI_APPROACHING)
+                        {
+                            //if we not attacking yet, break since target in range of attack
+                            unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE));
+                        } 
                     } else 
                     {
-                        //get closer still
-                        unitCommands.Enqueue(TankCommand.MoveCommand(decisionMoveSpeed, 0.0f));                        
+                        //get closer to visible target 
+                        unitCommands.Enqueue(TankCommand.MoveCommand(decisionMoveSpeed, 0.0f));  
                     }
                 }
             }
         }
 
-        private  bool SeeTarget() 
+        private void ResolveNextState() 
+        {   
+            //update distance to target
+            distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
+
+            //update glance forward
+            LookInDirection(transform.up);
+
+            if (distanceToTarget < maxAlertDistance) 
+            {
+                if (AiState == AIStates.AI_PATROLLING) 
+                {
+                    AiState = AIStates.AI_APPROACHING;
+                }
+            } else 
+            {
+                DBG.Log("Setting to patrolling");
+                //back to patrol due to distance
+                AiState = AIStates.AI_PATROLLING;
+            }
+            //AI not idling, turn to player
+            if (AiState != AIStates.AI_PATROLLING) 
+            {   
+                //update target visibility
+                seeTarget = SeeTarget();
+                DBG.Log("See target: {0}", seeTarget);
+                if (seeTarget && distanceToTarget < maxShootingDistance) 
+                {
+                    DBG.Log("Setting to attacking!");
+                    AiState = AIStates.AI_ATTACKING;
+                } else 
+                {
+                    DBG.Log("Setting to approaching!");
+                    AiState = AIStates.AI_APPROACHING;
+                }
+            }
+        }
+
+        private void LookInDirection(Vector2 direction) 
         {
-            // Debug.DrawLine(transform.position, transform.up * maxLookDistance, Color.red, 5.0f);
-            int results = Physics2D.RaycastNonAlloc
+            Debug.DrawRay(transform.position, (direction * maxLookDistance), Color.red, 2.0f);
+            
+            lastLookResultsCount = Physics2D.RaycastNonAlloc
             (
                 transform.position
-                , transform.up
+                , direction
                 , lastLookResults
                 , maxLookDistance
                 , targetLayerMask
             );
+        }
 
+        private  bool SeeTarget() 
+        {
+            int results = lastLookResultsCount;
             if (results > 0)
             {
-                // DBG.Log("Ray has hit {0} objects!", results);
+                DBG.Log("Ray has hit {0} objects!", results);
                 for (int i = 0; i < results; i++)
                 {
                     var hit = lastLookResults[i];
-                    // DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
-                    if (hit.transform != null && hit.transform.gameObject == target) {
-                        return true;
+                    if (hit.transform != null) {
+                        DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
+                        if (hit.transform.gameObject == target) {
+                            return true;    
+                        }
                     }
                 }
             }
