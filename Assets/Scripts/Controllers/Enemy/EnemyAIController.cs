@@ -117,6 +117,10 @@ namespace TankArena.Controllers
                     }
                 }
             }
+            if (aiState == AIStates.AI_PATROLLING)
+            {
+                //do patrol actions
+            }
         }
 
         private void ResolveNextState() 
@@ -135,7 +139,7 @@ namespace TankArena.Controllers
                 }
             } else 
             {
-                DBG.Log("Setting to patrolling");
+                // DBG.Log("Setting to patrolling");
                 //back to patrol due to distance
                 AiState = AIStates.AI_PATROLLING;
             }
@@ -144,14 +148,14 @@ namespace TankArena.Controllers
             {   
                 //update target visibility
                 seeTarget = SeeTarget();
-                DBG.Log("See target: {0}", seeTarget);
+                // DBG.Log("See target: {0}", seeTarget);
                 if (seeTarget && distanceToTarget < maxShootingDistance) 
                 {
-                    DBG.Log("Setting to attacking!");
+                    // DBG.Log("Setting to attacking!");
                     AiState = AIStates.AI_ATTACKING;
                 } else 
                 {
-                    DBG.Log("Setting to approaching!");
+                    // DBG.Log("Setting to approaching!");
                     AiState = AIStates.AI_APPROACHING;
                 }
             }
@@ -176,12 +180,12 @@ namespace TankArena.Controllers
             int results = lastLookResultsCount;
             if (results > 0)
             {
-                DBG.Log("Ray has hit {0} objects!", results);
+                // DBG.Log("Ray has hit {0} objects!", results);
                 for (int i = 0; i < results; i++)
                 {
                     var hit = lastLookResults[i];
                     if (hit.transform != null) {
-                        DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
+                        // DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
                         if (hit.transform.gameObject == target) {
                             return true;    
                         }
