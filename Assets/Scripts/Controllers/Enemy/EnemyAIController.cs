@@ -87,7 +87,7 @@ namespace TankArena.Controllers
 
         private void ResolveNextAction()
         {
-            DBG.Log("Action for state: {0}", aiState);
+            // DBG.Log("Action for state: {0}", aiState);
             if (AiState == AIStates.AI_ATTACKING) 
             {
                 //if we attacking we fire
@@ -120,8 +120,55 @@ namespace TankArena.Controllers
             if (aiState == AIStates.AI_PATROLLING)
             {
                 //do patrol actions
+                float distanceToCollision = NearestCollisionDistance();
+                if (distanceToCollision < maxShootingDistance / 2) 
+                {
+                    //time to turn, too close to rocks 
+                    //(turning slow ant methodical, so as to take the discovered opening)
+                    unitCommands.Enqueue(TankCommand.MoveCommand(0.0f, decisionTurnSpeed / 2));
+                } else 
+                {
+                    //slowly move about or turn again, since situation is at ease
+                    if (UnityEngine.Random.value > 0.5) 
+                    {
+                        unitCommands.Enqueue(TankCommand.MoveCommand(decisionMoveSpeed / 2, 0.0f));
+                    } else 
+                    {
+                        unitCommands.Enqueue(TankCommand.MoveCommand(0.0f, decisionTurnSpeed / 2));
+                    }
+                }
             }
         }
+
+        private float NearestCollisionDistance()
+        {
+            return DistanceToTag(Tags.TAG_MAP_COLLISION);
+        }
+
+        private float DistanceToTag(String tag)
+        {
+            float distance = float.MaxValue;
+
+            int results = lastLookResultsCount;
+            if (results > 0)
+            {
+                // DBG.Log("Ray has hit {0} objects!", results);
+                for (int i = 0; i < results; i++)
+                {
+                    var hit = lastLookResults[i];
+                    if (hit.transform != null) {
+                        // DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
+                        if (hit.transform.gameObject.CompareTag(tag)) {
+                            return hit.distance;
+                        }
+                    }
+                }
+            }
+
+            return distance;
+        }
+
+
 
         private void ResolveNextState() 
         {   
