@@ -50,6 +50,7 @@ namespace TankArena.Controllers
         void Start()
         {
             unitCommands = unitController.Commands;
+            DBG.Log("Unit controller: {0}, commands Q: {1}", unitController, unitCommands);
             AiState = AIStates.AI_PATROLLING;
             //hit at most 3 objects
             lastLookResults = new RaycastHit2D[3];

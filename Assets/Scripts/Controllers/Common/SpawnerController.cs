@@ -8,30 +8,26 @@ namespace TankArena.Controllers
 {
 	public class SpawnerController : MonoBehaviour {
 
-
+		public GameObject target;
 		public GameObject[] prefabs;
 		public int simultaneousInstances;
 		public int spawnPool;
 		public float[] spawnProbabilities;
 		public Vector2 spawnMinXY;
 		public Vector2 spawnMaxXY;
-		//Name to give spawned instnaces for object tree search
-		public string instanceName;
-		public float instanceSearchDelaySeconds;
 		//how long to wait between spawns
 		public float gracePeriod;
+
 		private int currentPool;
 		private int currentOnscreen;
-
-		private Coroutine instanceCountChecker;
-		private bool isCheckRunning;
 		private float currentGrace;
+		
 		// Use this for initialization
 		void Awake () {
 			currentGrace = gracePeriod;
 			currentPool = spawnPool;
 			currentOnscreen = 0;
-			isCheckRunning = false;
+			
 			//add missing probabilities as a smooth distribution
 			if (prefabs.Length > spawnProbabilities.Length)
 			{
@@ -42,13 +38,19 @@ namespace TankArena.Controllers
 				//fill er up
 				spawnProbabilities.Fill(restProbs, originalLength);
 			}
+
+			spawnMinXY.x += transform.position.x;
+			spawnMinXY.y += transform.position.y;
+			spawnMaxXY.x += transform.position.x;
+			spawnMaxXY.y += transform.position.y;
 		}
 		
 		// Update is called once per frame
 		void Update () {
-			//if we can add more instances onscreen and know the count
-			if (currentOnscreen < simultaneousInstances && !isCheckRunning)
+			//if we can add more instances onscreen 
+			if (currentOnscreen < simultaneousInstances)
 			{
+				//wait grace period between spawns
 				if (currentGrace >= 0.0f) 
 				{
 					currentGrace -= Time.deltaTime;
@@ -64,7 +66,13 @@ namespace TankArena.Controllers
 						 RandomUtils.RandomVector2D(spawnMaxXY, spawnMinXY),
 						  RandomUtils.RandomQuaternion2D()
 						) as GameObject;
-						go.tag = Tags.TAG_SPAWNER_MARKER;
+						//attach the spawner control script to instance
+						go.AddComponent(typeof(SpawnerClient));
+						var client = go.GetComponent<SpawnerClient>(); 
+						client.spawner = this;
+						//delegate assign of target to spanw client so that the 
+						//initialization happens in proper sequence
+						client.targetGO = target;
 
 						currentPool--;
 						currentOnscreen++;
@@ -74,19 +82,12 @@ namespace TankArena.Controllers
 						//noboyd onscreen as well, thats it for this spawner
 						if (currentOnscreen <= 0)
 						{
-							StopCoroutine(instanceCountChecker);
 							//destroy this GO, its done
 							Destroy(gameObject);
 						}
 					}
 				}
 			}	
-
-			//start the routine
-			if (instanceCountChecker == null)
-			{
-				instanceCountChecker = StartCoroutine(CheckInstancesCount());
-			}
 		}
 
 		private GameObject PickRandomPrefab()
@@ -106,16 +107,9 @@ namespace TankArena.Controllers
 			return prefabs.Last();
 		}
 
-		IEnumerator CheckInstancesCount()
+		public void ClientDead()
 		{
-			while (true)
-			{
-				yield return new WaitForSeconds(instanceSearchDelaySeconds);
-				isCheckRunning = true;
-				var GOs = GameObject.FindGameObjectsWithTag(Tags.TAG_SPAWNER_MARKER);
-				currentOnscreen = GOs.Length;
-				isCheckRunning = false;
-			}
+			currentOnscreen--;
 		}
 	}
 }
