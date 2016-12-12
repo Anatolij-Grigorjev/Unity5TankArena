@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TankArena.Constants;
+using System.Collections.Generic;
+using MovementEffects;
 
 
 namespace TankArena.Models.Weapons.Behaviors
@@ -8,26 +10,26 @@ namespace TankArena.Models.Weapons.Behaviors
     public abstract class WeaponContinuousProjectileAtTargetAdapter: WeaponBasicProjectileAtTargetAdapter
     {   
 
-        private Coroutine shotStopCoroutine;
         private bool shotStopCoroutineRunning = false;
-
+        IEnumerator<float> shotStopCoroutine;
         public override bool PerformShot()
         {
             base.PerformShot();
 
             if (shotStopCoroutine == null || !shotStopCoroutineRunning) 
             {
-                shotStopCoroutine = controller.StartCoroutine(ShotStopper());
+                shotStopCoroutine = Timing.RunCoroutine(_ShotStopper(), Segment.SlowUpdate);
             }
 
             return true;
         }
 
-        private IEnumerator ShotStopper() 
+        private IEnumerator<float> _ShotStopper() 
         {
             shotStopCoroutineRunning = true;
             
-            yield return new WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(0.5f);
+
             if (!weapon.isShooting)
             {
                 controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
