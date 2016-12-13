@@ -4,3 +4,4 @@ hasgraphics.com - simple explosion spritesheet
 https://www.freesoundeffects.com - explosion sound
 qubodup from freesound.org - cannon fire sound
 MentalSanityOff from freesound.org - reload rifle sound
+Metal Textures by TextureX
