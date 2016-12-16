@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace TankArena.UI
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
 		public Button goToOtherButton;
-		
+		public Text loadoutText;
 		public float playerCash;
 		//model is good to show avatars n stuff
 		public PlayableCharacter playerModel;
@@ -31,7 +31,7 @@ namespace TankArena.UI
 			//load player data before updating UI
 			LoadPlayer();
 			//TODO: update all loadout text before specific ui
-			
+			UpdateLoadoutText(playerTank);
 
 			//update UI specific to shop type
 			UpdateUIForState(currentShopIndex);
@@ -68,7 +68,22 @@ namespace TankArena.UI
 
         // Update is called once per frame
         void Update () {
-		
+			
+		}
+
+		private void UpdateLoadoutText(Tank tankData)
+		{
+			//clear current loadout text;
+			loadoutText.text = "";
+
+			StringBuilder tankDescriptionBuilder = new StringBuilder("Current Loadout.\n");
+			//TODO: create the description here
+			//create a data structure to hold descriptino strings of elements as a table
+			//then dump that table into the string builder
+
+
+
+			loadoutText.text = tankDescriptionBuilder.ToString();
 		}
 
 		protected void UpdateUIForState(int currentState)
