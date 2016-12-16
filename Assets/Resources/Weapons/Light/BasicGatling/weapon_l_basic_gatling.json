@@ -2,7 +2,7 @@
 	"id": "WPN_L_basic_gatling01",
 	"name": "Basic Gatling Gun",
 	"on_turret_position": "!transf;0.95;0.4;0.0;0.0;0.0;0.0;1.0;1.5;1.0",
-	"wpn_type": 2,
+	"wpn_type": 0,
 	"damage": 2.7
 ,	"reload": 4.5,
 	"rate_of_fire": 900,

@@ -8,9 +8,9 @@
 	"weapons_shop": "!img;TankParts\\Turrets\\Dummy\\Images\\weapon_shop_img",
 	"spritesheet": "!sprites;TankParts\\Turrets\\Dummy\\Images\\Sprites\\spritesheet_0",
 	"light_weapon_slots": [
-		"!wpnslt;2;!transf;0.95;0.4;0.0;0.0;0.0;0.0;1.0;1.5;1.0"
+		"!wpnslt;0;!transf;-45.4;50.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0"
 	],
 	"heavy_weapon_slots": [
-		"!wpnslt;1;!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
+		"!wpnslt;1;!transf;61.5;31.5;0.0;0.0;0.0;0.0;0.9;0.9;1.0"
 	]
 }

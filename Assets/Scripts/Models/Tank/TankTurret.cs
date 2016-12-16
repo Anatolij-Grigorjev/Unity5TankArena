@@ -54,7 +54,8 @@ namespace TankArena.Models.Tank
             }
         }
 
-        private List<WeaponSlot> allWeaponSlots;
+        //all slots in a single list for convenience of access
+        public List<WeaponSlot> allWeaponSlots;
         public Dictionary<String, List<WeaponSlot>> weaponSlotSerializerDictionary;
         public TankTurret(string filePath) : base(filePath)
         {
