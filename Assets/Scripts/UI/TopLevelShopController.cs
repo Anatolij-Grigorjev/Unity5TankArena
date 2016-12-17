@@ -19,6 +19,7 @@ namespace TankArena.UI
 		public Image backgroundImage;
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
+		public UserShopInfoController playerInfoScript;
 		public Button goToOtherButton;
 		public Text loadoutText;
 		public float playerCash;
@@ -43,6 +44,7 @@ namespace TankArena.UI
 			LoadPlayer();
 			//TODO: update all loadout text before specific ui
 			UpdateLoadoutText(playerTank);
+			playerInfoScript.RefreshLoadoutView(playerModel);
 
 			//update UI specific to shop type
 			UpdateUIForState(currentShopIndex);
@@ -72,6 +74,7 @@ namespace TankArena.UI
             playerModel = EntitiesStore.Instance.Characters[characterCode];
 			//setting more actual data
             playerCash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : playerModel.StartingCash;
+			
 			//load the tank into memory
 			var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : playerModel.StartingTankCode;
             playerTank = Tank.FromCode(tankCode);
@@ -103,7 +106,7 @@ namespace TankArena.UI
 			for ( int i = 0; i < partDescriptions.Length; i++) 
 			{
 				tankDescriptionBuilder.Append(partDescriptions[i][0]);
-				tankDescriptionBuilder.Append('\t');
+				tankDescriptionBuilder.Append("|\t|");
 				if (!String.IsNullOrEmpty(partDescriptions[i][1]))
 				{
 					tankDescriptionBuilder.Append(partDescriptions[i][1]);
