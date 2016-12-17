@@ -27,9 +27,9 @@ namespace TankArena.Controllers
             {
                 tank = value;
                 tankRigidBody.mass = tank.Mass;
-                tankRigidBody.drag = tank.tankTracks.Coupling;
-                chassisController.Model = tank.tankChassis;
-                turretController.Model = tank.tankTurret;
+                tankRigidBody.drag = tank.TankTracks.Coupling;
+                chassisController.Model = tank.TankChassis;
+                turretController.Model = tank.TankTurret;
 
                 tank.ParentGO = gameObject;
                 chassisController.parentObject = gameObject;

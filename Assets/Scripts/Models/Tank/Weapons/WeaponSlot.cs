@@ -25,5 +25,13 @@ namespace TankArena.Models.Weapons
         public BaseWeapon Weapon { get; set; }
         public int WeaponGroup { get; set; }
         public BaseWeaponController weaponController {  get; set; }
+
+        public String ShopDescription()
+        {
+            return String.Format("{0} Weapon: {1}",
+                WeaponType.ToString(),
+                Weapon != null? Weapon.Name : "---"
+            );
+        } 
     }
 }

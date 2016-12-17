@@ -15,11 +15,74 @@ namespace TankArena.Models.Tank
     /// </summary>
     public class Tank
     {
-        public float Mass;
-        public TankChassis tankChassis;
-        public TankTurret tankTurret;
-        public TankEngine tankEngine;
-        public TankTracks tankTracks;
+
+        private float mass;
+        private TankChassis tankChassis;
+        private TankTurret tankTurret;
+        private TankEngine tankEngine;
+        private TankTracks tankTracks;
+        //parts array for shop to enumerate
+        public TankPart[] partsArray;
+        public float Mass
+        {
+            get 
+            {
+                return mass;
+            }
+        }
+        public TankChassis TankChassis
+        {
+            get 
+            {
+                return tankChassis;
+            }
+            set 
+            {
+                UpdateMass(tankChassis, value);
+                tankChassis = value;
+                partsArray[0] = tankChassis;
+            }
+        }
+
+        public TankTurret TankTurret
+        {
+            get 
+            {
+                return tankTurret;
+            }
+            set 
+            {
+                UpdateMass(tankTurret, value);
+                tankTurret = value;
+                partsArray[1] = tankTurret;
+            }
+        }
+        public TankEngine TankEngine
+        {
+            get 
+            {
+                return tankEngine;
+            }
+            set 
+            {
+                UpdateMass(tankEngine, value);
+                tankEngine = value;
+                partsArray[2] = tankEngine;
+            }
+        }
+        public TankTracks TankTracks
+        {
+            get 
+            {
+                return tankTracks;
+            }
+            set 
+            {
+                UpdateMass(tankTracks, value);
+                tankTracks = value;
+                partsArray[3] = tankTracks;
+            }
+        }
 
         /// <summary>
         /// THe parent game object this service exepcts to use for rigid bodies and other
@@ -44,11 +107,23 @@ namespace TankArena.Models.Tank
 
         public Tank(TankChassis chassis, TankTurret turret)
         {
-            this.tankChassis = chassis;
-            this.tankTurret = turret;
-            this.tankEngine = chassis.Engine;
-            this.tankTracks = chassis.Tracks;
-            Mass = turret.Mass + (chassis.Mass + tankEngine.Mass + tankTracks.Mass);
+            partsArray = new TankPart[4];
+            this.TankChassis = chassis;
+            this.TankTurret = turret;
+            this.TankEngine = chassis.Engine;
+            this.TankTracks = chassis.Tracks; 
+        }
+
+        private void UpdateMass(TankPart oldPart, TankPart newPart)
+        {
+            if (oldPart != null)
+            {
+                mass -= oldPart.Mass;
+            }
+            if (newPart != null) 
+            {
+                mass += newPart.Mass;
+            }
         }
 
         /// <summary>
@@ -68,21 +143,21 @@ namespace TankArena.Models.Tank
             //only affect rigid body drag if the tank is actually using its engine
             if (throttle != 0.0 || turn != 0.0)
             {
-                rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : tankTracks.Coupling;
+                rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : TankTracks.Coupling;
             }
             //purely goin forward
             rigidBody.freezeRotation = turn == 0.0;
-            var enginePowerCoef = tankEngine.Torque / Mass;
-            var allowedTopSpeed = (tankEngine.TopSpeed * enginePowerCoef);
+            var enginePowerCoef = TankEngine.Torque / Mass;
+            var allowedTopSpeed = (TankEngine.TopSpeed * enginePowerCoef);
             var currentVelocity = rigidBody.velocity.magnitude;
-            var acceleration = tankEngine.Acceleration * throttle * (allowedTopSpeed - currentVelocity);
+            var acceleration = TankEngine.Acceleration * throttle * (allowedTopSpeed - currentVelocity);
             //do throttle
             if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
             {
                 rigidBody.AddForce(transform.up * acceleration * Time.deltaTime);
             }
             //do spin
-            var turnPower = turn * tankTracks.TurnSpeed;
+            var turnPower = turn * TankTracks.TurnSpeed;
             if (turnPower != 0.0)
             {
                 
@@ -94,11 +169,11 @@ namespace TankArena.Models.Tank
         {
             if (keepApplying)
             {
-                rigidBody.drag += tankEngine.Deacceleration;
+                rigidBody.drag += TankEngine.Deacceleration;
             }
             else
             {
-                rigidBody.drag = tankTracks.Coupling;
+                rigidBody.drag = TankTracks.Coupling;
             }
         }
 
@@ -137,9 +212,9 @@ namespace TankArena.Models.Tank
         {
             StringBuilder codeBuilder = new StringBuilder();
 
-            codeBuilder.Append(Serialization.SerializeEntity(tankChassis))
+            codeBuilder.Append(Serialization.SerializeEntity(TankChassis))
                 .Append(";");
-            codeBuilder.Append(Serialization.SerializeEntity(tankTurret))
+            codeBuilder.Append(Serialization.SerializeEntity(TankTurret))
                 .Append(";");
 
             return codeBuilder.ToString();

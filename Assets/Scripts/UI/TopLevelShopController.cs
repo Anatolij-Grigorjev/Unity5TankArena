@@ -25,9 +25,20 @@ namespace TankArena.UI
 		//model is good to show avatars n stuff
 		public PlayableCharacter playerModel;
 		public Tank playerTank;
+		private string[][] partDescriptions = new string[4][];
 
 		// Use this for initialization
 		void Start () {
+			//init descriptions array
+			for (int i = 0; i < partDescriptions.GetLength(0); i++)
+			{
+				partDescriptions[i] = new string[2];
+				for (int j = 0; j < partDescriptions[i].Length; j++) 
+				{
+					partDescriptions[i][j] = String.Empty;
+				}
+			}
+
 			//load player data before updating UI
 			LoadPlayer();
 			//TODO: update all loadout text before specific ui
@@ -76,12 +87,29 @@ namespace TankArena.UI
 			//clear current loadout text;
 			loadoutText.text = "";
 
-			StringBuilder tankDescriptionBuilder = new StringBuilder("Current Loadout.\n");
-			//TODO: create the description here
-			//create a data structure to hold descriptino strings of elements as a table
-			//then dump that table into the string builder
+			for (int i = 0 ; i < tankData.partsArray.Length; i++)
+			{
+				partDescriptions[i][0] = tankData.partsArray[i].ShopDescription();
+			}
+			for (int i = 0; i < tankData.TankTurret.allWeaponSlots.Count; i++)
+			{
+				partDescriptions[i][1] = tankData.TankTurret.allWeaponSlots[i].ShopDescription();
+			}
 
+			StringBuilder tankDescriptionBuilder = new StringBuilder(
+				String.Format("Total Mass: {0}\n", tankData.Mass) 
+			);
 
+			for ( int i = 0; i < partDescriptions.Length; i++) 
+			{
+				tankDescriptionBuilder.Append(partDescriptions[i][0]);
+				tankDescriptionBuilder.Append('\t');
+				if (!String.IsNullOrEmpty(partDescriptions[i][1]))
+				{
+					tankDescriptionBuilder.Append(partDescriptions[i][1]);
+				} 
+				tankDescriptionBuilder.Append('\n');
+			}
 
 			loadoutText.text = tankDescriptionBuilder.ToString();
 		}
@@ -96,7 +124,7 @@ namespace TankArena.UI
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
 					//engage screen startup script
 					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController)
-						.RefreshLoadoutView(playerTank.tankTurret);
+						.RefreshLoadoutView(playerTank.TankTurret);
 					break;
 				case UIShopStates.SHOP_GARAGE:
 					goToOtherButton.GetComponentInChildren<Text>().text = UIShopButtonTexts.SHOP_GARAGE_HEADER_TEXT;

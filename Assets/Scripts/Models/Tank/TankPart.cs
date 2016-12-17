@@ -153,5 +153,10 @@ namespace TankArena.Models.Tank
             }
         }
 
+        public virtual String ShopDescription()
+        {
+            return String.Format("Tank Part: {0}", Name);
+        }
+
     }
 }
