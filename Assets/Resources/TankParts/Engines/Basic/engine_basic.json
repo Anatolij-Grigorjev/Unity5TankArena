@@ -1,0 +1,13 @@
+{
+	"id": "ENG_basic01",
+	"name": "Basic Engine",
+	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"mass": 1.0,
+	"shop_item": "!img;TankParts\\Engines\\Basic\\Images\\shop_img",
+	"top_speed": 185.89,
+	"torque": 55.4,
+	"acceleration": 110.5,
+	"deacceleration": 15.5,
+	"idle_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_idle",
+	"revving_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_revving"
+}

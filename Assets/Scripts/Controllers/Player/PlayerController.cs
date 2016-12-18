@@ -150,7 +150,7 @@ namespace TankArena.Controllers
             //tank encoded as key-value map, key type of component, value is entity id
 
             //player always has a selected character. this code will come from main menu later, for now hardcoded
-            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "dummy";
+            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "lugnut";
             //filter search to specific map because its faster AND for type safety
             character = EntitiesStore.Instance.Characters[characterCode];
 

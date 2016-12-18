@@ -1,0 +1,10 @@
+{
+	"id": "lugnut",
+	"name": "LugNut",
+	"avatar": "!img;Characters\\Lugnut\\Images\\avatar", 
+	"background": "!img;Characters\\Lugnut\\Images\\background",
+	"char_model": "!img;Characters\\Lugnut\\Images\\model",
+	"start_cash": 150.52,
+	"start_health": 100,
+	"start_tank": "chassis=CH_basic01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_basic01,L_0=WPN_L_basic_gatling01|0,H_0=WPN_H_cannon01|1"
+}

@@ -69,7 +69,7 @@ namespace TankArena.UI
         private void LoadPlayer()
         {
 			//player always has a selected character. this code will come from main menu later, for now hardcoded
-            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "dummy";
+            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "lugnut";
             //filter search to specific map because its faster AND for type safety
             playerModel = EntitiesStore.Instance.Characters[characterCode];
 			//setting more actual data
