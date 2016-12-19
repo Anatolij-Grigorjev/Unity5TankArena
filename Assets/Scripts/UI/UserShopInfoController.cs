@@ -7,11 +7,11 @@ namespace TankArena.UI
 {
 	public class UserShopInfoController : MonoBehaviour {
 
-		public PlayableCharacter currentPlayer;
 
 		public Image playerAvatar;
 		public Text playerName;
 		public Text playerCash;
+		public Text playerMassText;
 
 		// Use this for initialization
 		void Start () {
@@ -24,15 +24,13 @@ namespace TankArena.UI
 		}
 
 
-		public void RefreshLoadoutView(PlayableCharacter playerData)
+		public void RefreshLoadoutView(Sprite avatar, string name, float cash, float mass)
 		{
-			//no need to check for existence of element since no new GOs are created here
-			currentPlayer = playerData;
-
-			playerAvatar.sprite = playerData.Avatar;
-			playerName.text = playerData.Name;
-			playerCash.text = playerData.StartingCash.ToString();
-
+		
+			playerAvatar.sprite = avatar;
+			playerName.text = name.ToUpper();
+			playerCash.text = "$" + cash.ToString();
+			playerMassText.text = "MASS: " + mass.ToString();
 		}
 
 	}

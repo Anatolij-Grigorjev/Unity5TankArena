@@ -20,8 +20,8 @@ namespace TankArena.UI
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
 		public UserShopInfoController playerInfoScript;
+		public CurrentLoadoutController currentLoadoutController;
 		public Button goToOtherButton;
-		public Text loadoutText;
 		public float playerCash;
 		//model is good to show avatars n stuff
 		public PlayableCharacter playerModel;
@@ -44,7 +44,12 @@ namespace TankArena.UI
 			LoadPlayer();
 			//TODO: update all loadout text before specific ui
 			UpdateLoadoutText(playerTank);
-			playerInfoScript.RefreshLoadoutView(playerModel);
+			playerInfoScript.RefreshLoadoutView(
+				playerModel.Avatar,
+				playerModel.Name,
+				playerCash,
+				playerTank.Mass
+			);
 
 			//update UI specific to shop type
 			UpdateUIForState(currentShopIndex);
@@ -87,34 +92,7 @@ namespace TankArena.UI
 
 		private void UpdateLoadoutText(Tank tankData)
 		{
-			//clear current loadout text;
-			loadoutText.text = "";
-
-			for (int i = 0 ; i < tankData.partsArray.Length; i++)
-			{
-				partDescriptions[i][0] = tankData.partsArray[i].ShopDescription();
-			}
-			for (int i = 0; i < tankData.TankTurret.allWeaponSlots.Count; i++)
-			{
-				partDescriptions[i][1] = tankData.TankTurret.allWeaponSlots[i].ShopDescription();
-			}
-
-			StringBuilder tankDescriptionBuilder = new StringBuilder(
-				String.Format("Total Mass: {0}\n", tankData.Mass) 
-			);
-
-			for ( int i = 0; i < partDescriptions.Length; i++) 
-			{
-				tankDescriptionBuilder.Append(partDescriptions[i][0]);
-				tankDescriptionBuilder.Append("|\t|");
-				if (!String.IsNullOrEmpty(partDescriptions[i][1]))
-				{
-					tankDescriptionBuilder.Append(partDescriptions[i][1]);
-				} 
-				tankDescriptionBuilder.Append('\n');
-			}
-
-			loadoutText.text = tankDescriptionBuilder.ToString();
+			currentLoadoutController.RefreshLoadoutView(tankData);
 		}
 
 		protected void UpdateUIForState(int currentState)
