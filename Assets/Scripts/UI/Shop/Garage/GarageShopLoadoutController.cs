@@ -2,7 +2,8 @@
 using System.Collections;
 using TankArena.Models.Tank;
 
-namespace TankArena.UI {
+namespace TankArena.UI.Shop
+{
 	public class GarageShopLoadoutController : MonoBehaviour {
 
 		private Tank currentTankData;

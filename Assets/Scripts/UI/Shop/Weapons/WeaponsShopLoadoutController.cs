@@ -4,7 +4,7 @@ using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
 
-namespace TankArena.UI
+namespace TankArena.UI.Shop
 {
 	public class WeaponsShopLoadoutController : MonoBehaviour {
 

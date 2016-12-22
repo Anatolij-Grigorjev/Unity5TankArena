@@ -10,7 +10,7 @@ using System;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 
-namespace TankArena.UI 
+namespace TankArena.UI.Shop 
 {
 	public class TopLevelShopController : MonoBehaviour {
 
