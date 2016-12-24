@@ -10,6 +10,7 @@ namespace TankArena.Constants
         //ALL
         public const string EK_NAME = "name";
         public const string EK_ID = "id";
+        public const string EK_PRICE = "price";
 
         //PREFABBED
         public const string EK_ENTITY_PREFAB = "entity_prefab";

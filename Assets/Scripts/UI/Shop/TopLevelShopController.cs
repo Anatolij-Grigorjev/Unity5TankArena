@@ -9,6 +9,7 @@ using TankArena.Models.Characters;
 using System;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
+using TankArena.Models;
 
 namespace TankArena.UI.Shop 
 {
@@ -19,6 +20,7 @@ namespace TankArena.UI.Shop
 		public Image backgroundImage;
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
+		public MonoBehaviour[] soldItemsScripts;
 		public UserShopInfoController playerInfoScript;
 		public CurrentLoadoutController currentLoadoutController;
 		public Button goToOtherButton;
@@ -106,12 +108,18 @@ namespace TankArena.UI.Shop
 					//engage screen startup script
 					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController)
 						.RefreshLoadoutView(playerTank.TankTurret);
+					(soldItemsScripts[currentShopIndex] as SoldWeaponsListController).SetItems(
+						EntitiesStore.Instance.Weapons.Values.ToList()
+					);
 					break;
 				case UIShopStates.SHOP_GARAGE:
 					goToOtherButton.GetComponentInChildren<Text>().text = UIShopButtonTexts.SHOP_GARAGE_HEADER_TEXT;
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
 					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController)
 						.RefreshLoadoutView(playerTank);
+					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).SetItems(
+						EntitiesStore.Instance.TankParts.Values.ToList()
+					);
 					break;
 			}
 		}

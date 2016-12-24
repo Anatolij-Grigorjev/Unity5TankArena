@@ -44,6 +44,14 @@ namespace TankArena.Models
             }
         }
 
+        public float Price
+        {
+            get 
+            {
+                return (float)properties[EK.EK_PRICE];
+            }
+        }
+
 
         protected Dictionary<String, object> properties;
 
@@ -72,6 +80,7 @@ namespace TankArena.Models
         {
             properties[EK.EK_ID] = json[EK.EK_ID].Value;
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
+            properties[EK.EK_PRICE] = json[EK.EK_PRICE].Value;
         }
 
         /// <summary>
