@@ -21,6 +21,7 @@ namespace TankArena.UI.Shop
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
 		public MonoBehaviour[] soldItemsScripts;
+		public GameObject[] soldItemsPanes;
 		public UserShopInfoController playerInfoScript;
 		public CurrentLoadoutController currentLoadoutController;
 		public Button goToOtherButton;
@@ -108,6 +109,7 @@ namespace TankArena.UI.Shop
 					//engage screen startup script
 					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController)
 						.RefreshLoadoutView(playerTank.TankTurret);
+					DisableAllBut(currentShopIndex);
 					(soldItemsScripts[currentShopIndex] as SoldWeaponsListController).SetItems(
 						EntitiesStore.Instance.Weapons.Values.ToList()
 					);
@@ -117,12 +119,20 @@ namespace TankArena.UI.Shop
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
 					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController)
 						.RefreshLoadoutView(playerTank);
+					DisableAllBut(currentShopIndex);
 					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).SetItems(
 						EntitiesStore.Instance.TankParts.Values.ToList()
 					);
 					break;
 			}
 		}
+		private void DisableAllBut(int enabledIndex)
+		{
+			foreach(GameObject pane in soldItemsPanes)
+			{
+				pane.SetActive(false);
+			}
+			soldItemsPanes[enabledIndex].SetActive(true);
+		}
 	}
-
 }
