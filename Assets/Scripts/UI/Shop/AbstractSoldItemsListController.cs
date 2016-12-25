@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using TankArena.Models;
 using TankArena.Constants;
+using TankArena.Utils;
 
 public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T: FileLoadedEntityModel
 {
@@ -12,7 +13,7 @@ public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T
 	public Transform parentContainer;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		visibleObjectsMap = new Dictionary<T, GameObject>();
 		UpdateListView();
@@ -36,7 +37,25 @@ public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T
 		//no need to do anything if item already there
 		if (!ItemInList(item))
 		{
-			visibleObjectsMap[item] = MakeGOForItem(item);
+			visibleObjectsMap.Add(item, MakeGOForItem(item));
+		}
+	}
+
+	protected static void SetGODescription(GameObject theGO, T item)
+	{
+		var textBorderImageChild = 
+				theGO.GetComponentsInChildren<Image>()
+				.Where(image => image.CompareTag(Tags.TAG_UI_SHOP_ITEM_TEXT_PARENT))
+				.First();
+			
+		if (textBorderImageChild != null) 
+		{
+			var imageText = textBorderImageChild.GetComponentInChildren<Text>();
+			imageText.text = string.Format(
+				"{0} (${1})",
+				item.Name,
+				item.Price
+			);
 		}
 	}
 
@@ -57,7 +76,7 @@ public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T
 		{
 			if (!ItemInList(item))
 			{
-				visibleObjectsMap[item] = MakeGOForItem(item);
+				visibleObjectsMap.Add(item, MakeGOForItem(item));
 			}		
 		}
 

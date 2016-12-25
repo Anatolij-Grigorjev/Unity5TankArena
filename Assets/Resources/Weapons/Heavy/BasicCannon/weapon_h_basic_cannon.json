@@ -1,6 +1,7 @@
 {
 	"id": "WPN_H_cannon01",
 	"name": "Basic Cannon",
+	"price": 50.79,
 	"on_turret_position": "!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"wpn_type": 1,
 	"damage": 35.7
@@ -9,7 +10,7 @@
 	"range": 100,
 	"clip_size": 4,
 	"shop_item": "!img;Weapons\\Heavy\\BasicCannon\\Images\\shop_img",
-	"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\spritesheet_0",
+	"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
 	"behavior_type" : "heavy_projectile_at_target",
 	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
 	"shot_sound" : "!snd;Weapons\\Heavy\\BasicCannon\\Sounds\\shot",

@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using TankArena.Models.Tank;
 using System;
+using UnityEngine.UI;
+using TankArena.Constants;
 
 namespace TankArena.UI.Shop
 {
@@ -21,21 +24,43 @@ namespace TankArena.UI.Shop
 			var itemType = item.GetType();
 			if (itemType.IsAssignableFrom(typeof(TankChassis)))
 			{
-				throw new NotImplementedException("No shop item implemented for tank chassis!");
+				return MakeTankPartGO(item, chassisItemPrefab);
 			} else if (itemType.IsAssignableFrom(typeof(TankTurret)))
 			{
-				throw new NotImplementedException("No shop item implemented for tank turret!");
+				return MakeTankPartGO(item, turretItemPrefab);
 			} else if (itemType.IsAssignableFrom(typeof(TankEngine)))
 			{
-				throw new NotImplementedException("No shop item implemented for tank engine!");
+				return MakeTankPartGO(item, engineItemPrefab);
 			} else if (itemType.IsAssignableFrom(typeof(TankTracks)))
 			{
-				throw new NotImplementedException("No shop item implemented for tank tracks!");
+				return MakeTankPartGO(item, tracksItemPrefab);
 			} else 
 			{
             	throw new NotImplementedException("No shop item implemented for unknown generic part!");
 			}
         }
+
+		private GameObject MakeTankPartGO(TankPart part, GameObject prefab)
+		{
+			var newPart = Instantiate(
+				prefab,
+				Vector3.zero,
+				Quaternion.identity,
+				parentContainer
+			) as GameObject;
+
+			var avatar = newPart.GetComponentsInChildren<Image>()
+				.Where(image => image.CompareTag(Tags.TAG_UI_SHOP_ITEM_IMAGE))
+				.First();
+			if (avatar != null) 
+			{
+				avatar.sprite = part.ShopItem;
+			}
+
+			SetGODescription(newPart, part);
+
+			return newPart;
+		}
 
         // Use this for initialization
         void Start () {

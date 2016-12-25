@@ -80,7 +80,7 @@ namespace TankArena.Models
         {
             properties[EK.EK_ID] = json[EK.EK_ID].Value;
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
-            properties[EK.EK_PRICE] = json[EK.EK_PRICE].Value;
+            properties[EK.EK_PRICE] = json[EK.EK_PRICE].AsFloat;
         }
 
         /// <summary>

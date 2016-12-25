@@ -44,7 +44,7 @@ namespace TankArena.UI.Shop
 
 			//load player data before updating UI
 			LoadPlayer();
-			//TODO: update all loadout text before specific ui
+			
 			UpdateLoadoutText(playerTank);
 			playerInfoScript.RefreshLoadoutView(
 				playerModel.Avatar,

@@ -23,25 +23,19 @@ public class SoldWeaponsListController: AbstractSoldItemsListController<BaseWeap
 				Quaternion.identity,
 				parentContainer
 			) as GameObject;
-
-			var textBorderImageChild = 
+			//set weapon sprite
+			var imageGO = 
 				theGO.GetComponentsInChildren<Image>()
-				.Where(image => image.CompareTag(Tags.TAG_UI_SHOP_ITEM_TEXT_PARENT))
-				.FirstOrDefault(null);
-			
-			if (textBorderImageChild != null) 
-			{
-				GameObject itemText = new GameObject(
-					"SoldItemText",
-					new Type[] { typeof(Text) }
-				);
-				itemText.transform.parent = textBorderImageChild.transform;
-				itemText.GetComponent<Text>().text = String.Format(
-					"{0} (${1})",
-					item.Name
-				);
+				.Where(image => image.CompareTag(Tags.TAG_UI_SHOP_ITEM_IMAGE))
+				.First();
 
+			if (imageGO != null)
+			{
+				imageGO.sprite = item.ShopItem;
 			}
+
+			//set weapon text (add to invisible child in prefab because unity is a bugless engine like that)
+			SetGODescription(theGO, item);
 			
 			return theGO;
 

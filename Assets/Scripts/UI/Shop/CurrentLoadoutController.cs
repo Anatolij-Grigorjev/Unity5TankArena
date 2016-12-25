@@ -17,7 +17,7 @@ namespace TankArena.UI.Shop
 		public List<Text> weaponValues;
 
 		// Use this for initialization
-		void Start () {
+		void Awake () {
 			chassisValue.text = "???";
 			turretValue.text = "???";
 			tracksValue.text = "???";
