@@ -58,6 +58,7 @@ namespace TankArena.UI.Shop
 			}
 
 			SetGODescription(newPart, part);
+			SetGOHeight(newPart);
 
 			return newPart;
 		}
