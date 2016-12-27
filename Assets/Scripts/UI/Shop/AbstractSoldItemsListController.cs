@@ -47,7 +47,7 @@ public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T
 		goTransform.sizeDelta = new Vector2(0, UIShopItems.PREFERRED_ITEM_HEIGHT);
 	}
 
-	protected static void SetGODescription(GameObject theGO, T item)
+	protected static void SetGODescription(GameObject theGO, T item, bool itemInUse = false)
 	{
 		var textBorderImageChild = 
 				theGO.GetComponentsInChildren<Image>()
@@ -62,6 +62,11 @@ public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T
 				item.Name,
 				item.Price
 			);
+
+			if (itemInUse) 
+			{
+				imageText.color = Color.red;
+			}
 		}
 	}
 

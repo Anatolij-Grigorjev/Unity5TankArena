@@ -5,6 +5,7 @@ using TankArena.Models.Tank;
 using System;
 using UnityEngine.UI;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.UI.Shop
 {
@@ -14,6 +15,10 @@ namespace TankArena.UI.Shop
 		public GameObject turretItemPrefab;
 		public GameObject engineItemPrefab;
 		public GameObject tracksItemPrefab;
+		public Sprite outOfStockSprite;
+
+		[HideInInspector]
+		public Tank playerData;
 
         public override GameObject MakeGOForItem(TankPart item)
         {
@@ -49,18 +54,26 @@ namespace TankArena.UI.Shop
 				parentContainer
 			) as GameObject;
 
+			bool itemInUse = ItemInUse(part);
+
 			var avatar = newPart.GetComponentsInChildren<Image>()
 				.Where(image => image.CompareTag(Tags.TAG_UI_SHOP_ITEM_IMAGE))
 				.First();
 			if (avatar != null) 
 			{
-				avatar.sprite = part.ShopItem;
+				avatar.sprite = itemInUse? outOfStockSprite : part.ShopItem;
 			}
 
-			SetGODescription(newPart, part);
+			SetGODescription(newPart, part, itemInUse);
 			SetGOHeight(newPart);
 
 			return newPart;
+		}
+
+		private bool ItemInUse(TankPart part)
+		{
+			//use the set tank data!
+			return true;
 		}
 
         // Use this for initialization
