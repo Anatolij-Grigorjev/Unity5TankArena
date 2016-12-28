@@ -120,6 +120,8 @@ namespace TankArena.UI.Shop
 					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController)
 						.RefreshLoadoutView(playerTank);
 					DisableAllBut(currentShopIndex);
+					//set the current tank before the items
+					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).playerData = this.playerTank;
 					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).SetItems(
 						EntitiesStore.Instance.TankParts.Values.ToList()
 					);

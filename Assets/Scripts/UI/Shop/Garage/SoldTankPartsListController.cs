@@ -72,8 +72,18 @@ namespace TankArena.UI.Shop
 
 		private bool ItemInUse(TankPart part)
 		{
-			//use the set tank data!
-			return true;
+			if (playerData != null && part != null)
+			{
+				foreach(TankPart tankPart in playerData.partsArray)
+				{
+					if (tankPart.Id == part.Id)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
         // Use this for initialization
