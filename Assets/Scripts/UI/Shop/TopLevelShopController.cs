@@ -29,19 +29,9 @@ namespace TankArena.UI.Shop
 		//model is good to show avatars n stuff
 		public PlayableCharacter playerModel;
 		public Tank playerTank;
-		private string[][] partDescriptions = new string[4][];
 
 		// Use this for initialization
 		void Start () {
-			//init descriptions array
-			for (int i = 0; i < partDescriptions.GetLength(0); i++)
-			{
-				partDescriptions[i] = new string[2];
-				for (int j = 0; j < partDescriptions[i].Length; j++) 
-				{
-					partDescriptions[i][j] = String.Empty;
-				}
-			}
 
 			//load player data before updating UI
 			LoadPlayer();
@@ -109,6 +99,7 @@ namespace TankArena.UI.Shop
 					//engage screen startup script
 					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController)
 						.RefreshLoadoutView(playerTank.TankTurret);
+					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
 					(soldItemsScripts[currentShopIndex] as SoldWeaponsListController).SetItems(
 						EntitiesStore.Instance.Weapons.Values.ToList()
@@ -119,6 +110,7 @@ namespace TankArena.UI.Shop
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
 					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController)
 						.RefreshLoadoutView(playerTank);
+					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
 					//set the current tank before the items
 					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).playerData = this.playerTank;
@@ -135,6 +127,11 @@ namespace TankArena.UI.Shop
 				pane.SetActive(false);
 			}
 			soldItemsPanes[enabledIndex].SetActive(true);
+			foreach(IAbstractLoadoutController script in loadoutScreensScripts)
+			{
+				script.ToggleLoadout(false);
+			}
+			(loadoutScreensScripts[enabledIndex] as IAbstractLoadoutController).ToggleLoadout(true);
 		}
 	}
 }

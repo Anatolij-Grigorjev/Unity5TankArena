@@ -3,10 +3,11 @@ using UnityEngine.UI;
 using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.UI.Shop
 {
-	public class WeaponsShopLoadoutController : MonoBehaviour {
+	public class WeaponsShopLoadoutController : MonoBehaviour, IAbstractLoadoutController {
 
 		// Use this for initialization
 		public Image turretImage;
@@ -21,6 +22,12 @@ namespace TankArena.UI.Shop
 		// Update is called once per frame
 		void Update () {
 		
+		}
+
+		public void ToggleLoadout(bool enable)
+		{
+			// DBG.Log("Weapons controller activating loadout: {0}", enable);
+			turretImage.gameObject.SetActive(enable);
 		}
 
 		public void RefreshLoadoutView(TankTurret turretData)
