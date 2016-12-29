@@ -12,6 +12,7 @@ namespace TankArena.UI.Shop
 		public Image chassisImage;
 		public Image tracksImage;
 		public Image engineImage;
+		public GameObject chassisAndEngineHolder;
 		private Tank currentTankData;
 		// Use this for initialization
 		void Start () {
@@ -41,7 +42,7 @@ namespace TankArena.UI.Shop
 		{
 			// DBG.Log("Garage controller activating loadout: {0}", enable);
 			turretImage.gameObject.SetActive(enable);
-			chassisImage.gameObject.SetActive(enable);
+			chassisAndEngineHolder.SetActive(enable);
 			tracksImage.gameObject.SetActive(enable);
 			engineImage.gameObject.SetActive(enable);
 		}
