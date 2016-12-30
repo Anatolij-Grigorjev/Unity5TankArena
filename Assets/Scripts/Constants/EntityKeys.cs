@@ -46,6 +46,7 @@ namespace TankArena.Constants
         public const string EK_DEACCELERATION = "deacceleration";
         public const string EK_IDLE_SOUND = "idle_sound";
         public const string EK_REVVING_SOUND = "revving_sound";
+        public const string EK_INITIAL_THRUST = "initial_thrust";
 
         //TANK TURRET
         public const string EK_HEAVY_WEAPON_SLOTS = "heavy_weapon_slots";
