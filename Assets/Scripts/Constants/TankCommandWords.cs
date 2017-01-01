@@ -8,6 +8,7 @@ namespace TankArena.Constants
     public enum TankCommandWords
     {
         TANK_COMMAND_MOVE,
+        TANK_COMMAND_MOVE_TURRET,
         TANK_COMMAND_BRAKE,
         TANK_COMMAND_FIRE,
         TANK_COMMAND_KEEP_FIRING,

@@ -44,7 +44,15 @@ namespace TankArena.Controllers
         void Update()
         {
 
-            PerformTurretRotation();
+            // PerformTurretRotation();
+            var turretMoveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE_TURRET);
+            if (Math.Abs(turretMoveAxis) > 0.0f) 
+            {
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
+                    { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis }
+                }));
+            }
+
 
             var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
             var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);

@@ -67,6 +67,10 @@ namespace TankArena.Controllers
                         tracksController.AnimateTurn(turn, throttle); 
                         tank.Move(throttle, turn);
                         break;
+                    case TankCommandWords.TANK_COMMAND_MOVE_TURRET:
+                        var intensity = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY];
+                        turretController.TurnTurret(intensity);
+                        break;
                     case TankCommandWords.TANK_COMMAND_BRAKE:
                         tracksController.AnimateThrottle(0.0f);
                         var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
