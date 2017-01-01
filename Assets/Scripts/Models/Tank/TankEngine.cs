@@ -54,16 +54,6 @@ namespace TankArena.Models.Tank
                 return (float)properties[EK.EK_DEACCELERATION];
             }
         }
-        ///<summary>
-        /// Initial force push provided by the engine to start the tank going
-        ///</summary>
-        public float InitialThrust
-        {
-            get 
-            {
-                return (float)properties[EK.EK_INITIAL_THRUST];
-            }
-        }
         /// <summary>
         /// Sound engien makes while tank is not moving
         /// </summary>

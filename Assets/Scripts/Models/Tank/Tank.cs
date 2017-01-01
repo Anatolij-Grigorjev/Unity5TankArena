@@ -149,15 +149,16 @@ namespace TankArena.Models.Tank
             rigidBody.freezeRotation = turn == 0.0;
             var enginePowerCoef = TankEngine.Torque / Mass;
             var allowedTopSpeed = (TankEngine.TopSpeed * enginePowerCoef);
-            var currentVelocity = rigidBody.velocity.magnitude;
-            DBG.Log("Current velocity: {0}", rigidBody.velocity);    
-            var acceleration = TankEngine.Acceleration * throttle * (allowedTopSpeed - currentVelocity);
+            var currentVelocity = rigidBody.velocity.magnitude + 0.1f;
+            DBG.Log("Current velocity: {0}", currentVelocity);    
+            var acceleration = TankEngine.Acceleration * throttle 
+                * enginePowerCoef * (allowedTopSpeed / currentVelocity);
             //do throttle
             //attempt culling acceleration? need to ensure velocity and top speed are congruent
             if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
             {
                 // DBG.Log("Applying thrust: {0}", transform.up * acceleration * Time.deltaTime);
-                rigidBody.AddForce(transform.up * acceleration * Time.deltaTime);
+                rigidBody.AddForce(transform.up * acceleration * 1/*Time.deltaTime*/);
             }
              
             //do spin
