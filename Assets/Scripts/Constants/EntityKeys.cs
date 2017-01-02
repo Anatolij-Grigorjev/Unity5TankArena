@@ -52,6 +52,7 @@ namespace TankArena.Constants
         public const string EK_HEAVY_WEAPON_SLOTS = "heavy_weapon_slots";
         public const string EK_LIGHT_WEAPON_SLOTS = "light_weapon_slots";
         public const string EK_WEAPONS_SHOP_IMAGE = "weapons_shop";
+        public const string EK_TURRET_SPIN_SPEED = "spin_speed";
 
         //TANK CHASSIS
         public const string EK_INTEGRITY = "integrity";

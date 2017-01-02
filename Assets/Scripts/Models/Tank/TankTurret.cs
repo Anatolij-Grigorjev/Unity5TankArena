@@ -46,6 +46,13 @@ namespace TankArena.Models.Tank
                 return (Sprite)properties[EK.EK_WEAPONS_SHOP_IMAGE];
             }
         }
+        public float SpinSpeed
+        {
+            get 
+            {
+                return (float)properties[EK.EK_TURRET_SPIN_SPEED];
+            }
+        }
         new public String EntityKey
         {
             get
@@ -69,6 +76,7 @@ namespace TankArena.Models.Tank
         {
             base.LoadPropertiesFromJSON(json);
 
+            properties[EK.EK_TURRET_SPIN_SPEED] = json[EK.EK_TURRET_SPIN_SPEED].AsFloat;
             properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
             allWeaponSlots = new List<WeaponSlot>();
             foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {
@@ -97,6 +105,8 @@ namespace TankArena.Models.Tank
             if (controller is TankTurretController)
             {
                 TankTurretController turretController = (TankTurretController)(object)controller;
+                turretController.TurnCoef = SpinSpeed;
+                
                 int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>
                 {

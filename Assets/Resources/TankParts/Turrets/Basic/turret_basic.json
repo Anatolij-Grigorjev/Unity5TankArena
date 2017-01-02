@@ -7,6 +7,7 @@
 	"garage_item": "!img;TankParts\\Turrets\\Basic\\Images\\garage_img",
 	"weapons_shop": "!img;TankParts\\Turrets\\Basic\\Images\\weapon_shop_img",
 	"spritesheet": "!sprites;TankParts\\Turrets\\Basic\\Images\\Sprites\\turret_basic_spritesheet_0",
+	"spin_speed": 20.5,
 	"light_weapon_slots": [
 		"!wpnslt;0;!transf;-45.4;50.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0"
 	],

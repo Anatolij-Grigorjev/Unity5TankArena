@@ -10,16 +10,13 @@ namespace TankArena.Controllers
     {
 
         public Transform Rotator;
-        public float turnCoef;
-        bool isRotating;
-        //base turn coef (TODO: extrapolate turn efficiency from turret properties)
-        private const float TURN_BASE_COEF = (21 * 0.69314718055994530941723212145818f);
+        private float turnCoef = 0.0f;
+        private const float TURN_BASE_COEF = 0.69314718055994530941723212145818f;
 
         // Use this for initialization
         public void Start()
         {
-            turnCoef = TURN_BASE_COEF;
-            isRotating = false;
+            
             TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
             var rotatorGO = new GameObject("Rotator");
             rotatorGO.transform.parent = parentObject.transform;
@@ -29,17 +26,22 @@ namespace TankArena.Controllers
             Rotator = rotatorGO.transform;
         }
 
+        ///<summary> 
+        ///Turn coefficient to which spin speed should be applied
+        ///Indicates turret spinniness
+        ///</summary>
+        public float TurnCoef
+        {
+            set 
+            {
+                turnCoef = value * TURN_BASE_COEF; 
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {
-            if (!isRotating && (turnCoef > TURN_BASE_COEF)) 
-            {
-                turnCoef = TURN_BASE_COEF;
-            }
-            if (isRotating) 
-            {
-                isRotating = false;
-            }
+            
         }
 
 
@@ -59,7 +61,7 @@ namespace TankArena.Controllers
 
         public void TurnTurret(float intensity)
         {
-            if (!isRotating) isRotating = true;
+            
             var wantedEuler = Rotator.localRotation.eulerAngles;
             wantedEuler.z += (intensity * turnCoef);
             DBG.Log("Wanted Rotation: {0}", wantedEuler);
