@@ -64,7 +64,7 @@ namespace TankArena.Controllers
             
             var wantedEuler = Rotator.localRotation.eulerAngles;
             wantedEuler.z += (intensity * turnCoef);
-            DBG.Log("Wanted Rotation: {0}", wantedEuler);
+            // DBG.Log("Wanted Rotation: {0}", wantedEuler);
             var wantedRotation = Quaternion.Euler(wantedEuler);
             Rotator.localRotation =
                 Quaternion.Lerp(Rotator.localRotation, wantedRotation, Time.fixedDeltaTime);
