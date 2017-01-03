@@ -150,7 +150,7 @@ namespace TankArena.Models.Tank
             var enginePowerCoef = TankEngine.Torque / Mass;
             var allowedTopSpeed = (TankEngine.TopSpeed * enginePowerCoef);
             var currentVelocity = rigidBody.velocity.magnitude + 0.1f;
-            DBG.Log("Current velocity: {0}", currentVelocity);    
+            // DBG.Log("Current velocity: {0}", currentVelocity);    
             var acceleration = TankEngine.Acceleration * throttle 
                 * enginePowerCoef * (allowedTopSpeed / currentVelocity);
             //do throttle

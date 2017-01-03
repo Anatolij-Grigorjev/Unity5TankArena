@@ -20,11 +20,12 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot()
         {
+
             if (!controller.weaponAnimationController.GetBool(AnimationParameters.WPN_IS_FIRING)) {
                 controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
             }
-
-            return true;
+            //get the direction and position vectors
+            return base.PrepareShot();
         }
 
         public override void OnReloadStarted() 

@@ -10,6 +10,7 @@ namespace TankArena.Controllers
     {
 
         public Transform Rotator;
+        public AudioSource rotationSound;
         private float turnCoef = 0.0f;
         private const float TURN_BASE_COEF = 0.69314718055994530941723212145818f;
 
@@ -61,13 +62,27 @@ namespace TankArena.Controllers
 
         public void TurnTurret(float intensity)
         {
-            
-            var wantedEuler = Rotator.localRotation.eulerAngles;
-            wantedEuler.z += (intensity * turnCoef);
-            // DBG.Log("Wanted Rotation: {0}", wantedEuler);
-            var wantedRotation = Quaternion.Euler(wantedEuler);
-            Rotator.localRotation =
-                Quaternion.Lerp(Rotator.localRotation, wantedRotation, Time.fixedDeltaTime);
+            //actual rotation
+            if (intensity != 0.0f)
+            {
+                if (!rotationSound.isPlaying) 
+                {
+                    rotationSound.Play();
+                }
+                var wantedEuler = Rotator.localRotation.eulerAngles;
+                wantedEuler.z += (intensity * turnCoef);
+                // DBG.Log("Wanted Rotation: {0}", wantedEuler);
+                var wantedRotation = Quaternion.Euler(wantedEuler);
+                Rotator.localRotation =
+                    Quaternion.Lerp(Rotator.localRotation, wantedRotation, Time.fixedDeltaTime);
+            } else 
+            {
+                //stop rotation
+                if (rotationSound.isPlaying)
+                {
+                    rotationSound.Stop();
+                }
+            }
         }
     }
 }

@@ -5,26 +5,23 @@ namespace TankArena.Models.Weapons.Behaviors
 {
     public abstract class WeaponBasicProjectileAtTargetAdapter: WeaponModelSaveAdapter
     {
-        public override void OnReloadStarted()
-        {
-            var reloadSound = controller.GetComponentInChildren<AudioSource>();
-            if (reloadSound != null) {
-                reloadSound.Play();
-            }
-        }
+
+        //vars at moment of shot not to influence shot direction
+        protected Vector3 shotTimePosition;
+        protected Vector3 shotTimeUp;
 
         public override bool PerformShot()
         {
+            DBG.Log("Shot time position: {0}, up: {1}", shotTimePosition, shotTimeUp);
             bool didHit = false;
-            var transform = controller.transform;
             DBG.Log("Feeder: {0}", controller.gameObject);
-            RaycastHit2D firstHit = Physics2D.Raycast(transform.position, transform.up, weapon.Range, layerMask);
+            RaycastHit2D firstHit = Physics2D.Raycast(shotTimePosition, shotTimeUp, weapon.Range, layerMask);
 
             Vector3 pos = new Vector3(firstHit.point.x, firstHit.point.y);
             //point is a fake, set a new one
             if (firstHit.collider == null)
             {
-                pos = transform.position + (weapon.Range * transform.up);
+                pos = shotTimePosition + (weapon.Range * shotTimeUp);
             }
             else 
             {
@@ -49,6 +46,8 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot() 
         {
+            shotTimePosition = controller.transform.position;
+            shotTimeUp = controller.transform.up;
             return true;
         }
 

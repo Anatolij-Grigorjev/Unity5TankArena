@@ -12,7 +12,6 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             if (didHit)
             {
-                controller.shotAudio.Play();
                 var theShot = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
                 theShot.layer = LayerMasks.L_EXPLOSIONS_LAYER;
                 theShot.GetComponent<ExplosionController>().damage = weapon.Damage;
@@ -25,13 +24,14 @@ namespace TankArena.Models.Weapons.Behaviors
                 controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
             }
 
-            return true;
+            //save position adn up vectors into behavior
+            return base.PrepareShot();
         }
 
         public override void OnReloadStarted() 
         {
             base.OnReloadStarted();
-            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
+            StopShooting();
         }
 
 	}

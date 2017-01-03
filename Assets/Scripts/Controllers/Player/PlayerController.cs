@@ -25,6 +25,7 @@ namespace TankArena.Controllers
         public float Cash { get; set; }
 
         private bool wasMoving = false;
+        private bool wasRotating = false;
 
         private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
         {
@@ -48,8 +49,16 @@ namespace TankArena.Controllers
             var turretMoveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE_TURRET);
             if (Math.Abs(turretMoveAxis) > 0.0f) 
             {
+                wasRotating = true;
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
                     { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis }
+                }));
+            } else if (wasRotating) 
+            {
+                wasRotating = false;
+                //send the stop rotation command
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
+                    { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, 0.0f }
                 }));
             }
 

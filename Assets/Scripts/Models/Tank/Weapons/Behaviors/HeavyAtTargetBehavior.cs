@@ -22,6 +22,9 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PrepareShot()
         {
+            //get the shot up and position vectors
+            base.PrepareShot();
+            
             if (!isPreparing && beats <= 0)
             {
                 controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);

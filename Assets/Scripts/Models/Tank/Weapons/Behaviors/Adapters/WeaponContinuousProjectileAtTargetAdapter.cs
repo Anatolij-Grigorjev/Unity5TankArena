@@ -14,6 +14,7 @@ namespace TankArena.Models.Weapons.Behaviors
         IEnumerator<float> shotStopCoroutine;
         public override bool PerformShot()
         {
+
             base.PerformShot();
 
             if (shotStopCoroutine == null || !shotStopCoroutineRunning) 
@@ -32,11 +33,30 @@ namespace TankArena.Models.Weapons.Behaviors
 
             if (!weapon.isShooting)
             {
-                controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
+                StopShooting();
             }
 
             shotStopCoroutineRunning = false;
         } 
+
+
+        protected void StopShooting()
+        {
+            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
+            controller.shotAudio.loop = false;
+            controller.shotAudio.Stop();
+        }
         
+
+        public override bool PrepareShot()
+        {
+            if (!controller.shotAudio.loop)
+            {
+                controller.shotAudio.loop = true;
+                controller.shotAudio.Play();
+            }
+
+            return base.PrepareShot();
+        }
     }
 }

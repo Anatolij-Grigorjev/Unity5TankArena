@@ -53,6 +53,13 @@ namespace TankArena.Models.Tank
                 return (float)properties[EK.EK_TURRET_SPIN_SPEED];
             }
         }
+        public AudioClip SpinSound
+        {
+            get 
+            {
+                return (AudioClip)properties[EK.EK_TURRET_SPIN_SOUND];
+            }
+        }
         new public String EntityKey
         {
             get
@@ -77,6 +84,7 @@ namespace TankArena.Models.Tank
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_TURRET_SPIN_SPEED] = json[EK.EK_TURRET_SPIN_SPEED].AsFloat;
+            properties[EK.EK_TURRET_SPIN_SOUND] = ResolveSpecialContent(json[EK.EK_TURRET_SPIN_SOUND].Value);
             properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
             allWeaponSlots = new List<WeaponSlot>();
             foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {
@@ -106,7 +114,7 @@ namespace TankArena.Models.Tank
             {
                 TankTurretController turretController = (TankTurretController)(object)controller;
                 turretController.TurnCoef = SpinSpeed;
-                
+
                 int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>
                 {
@@ -157,10 +165,12 @@ namespace TankArena.Models.Tank
             var reloadSoundPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_WEAPON_RELOAD) as GameObject;
             var reloadSound = GameObject.Instantiate(reloadSoundPrefab);
             reloadSound.transform.parent = weaponGO.transform;
+            //weapon reload sound is uusally default, so this is not common
             if (weaponSlot.Weapon.ReloadSound != null)
             {
                 reloadSound.GetComponent<AudioSource>().clip = weaponSlot.Weapon.ReloadSound;
             }
+            weaponSlot.Weapon.WeaponBehavior.SetWeaponReloadSound(reloadSound.GetComponent<AudioSource>());
 
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;

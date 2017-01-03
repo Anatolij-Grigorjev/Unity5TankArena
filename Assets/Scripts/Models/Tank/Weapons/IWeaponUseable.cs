@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TankArena.Controllers.Weapons;
+using UnityEngine;
 
 namespace TankArena.Models.Weapons.Behaviors
 {
@@ -13,6 +14,8 @@ namespace TankArena.Models.Weapons.Behaviors
         void SetWeaponController(BaseWeaponController controller); 
 
         void SetHitLayersMask(int layerMask);
+        
+        void SetWeaponReloadSound(AudioSource reloadSound);
 
         /// <summary>
         /// Do preparations needed before taking the shot, liek heating up barrel, etc
