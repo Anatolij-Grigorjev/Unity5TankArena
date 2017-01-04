@@ -44,6 +44,9 @@ namespace TankArena.Models
             }
         }
 
+        ///<summary>
+        /// Item price, presented in shops
+        /// </summary>
         public float Price
         {
             get 
@@ -53,7 +56,7 @@ namespace TankArena.Models
         }
 
 
-        protected Dictionary<String, object> properties;
+        public Dictionary<String, object> properties;
 
         private static String CULL_PATH = "Resources" + Path.DirectorySeparatorChar;
         private static int CULL_LENGTH = CULL_PATH.Length;
