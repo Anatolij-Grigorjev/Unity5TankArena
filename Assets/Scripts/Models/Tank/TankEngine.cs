@@ -96,7 +96,6 @@ namespace TankArena.Models.Tank
             properties[EK.EK_TORQUE] = json[EK.EK_TORQUE].AsFloat;
             properties[EK.EK_ACCELERATION] = json[EK.EK_ACCELERATION].AsFloat;
             properties[EK.EK_DEACCELERATION] = json[EK.EK_DEACCELERATION].AsFloat;
-            properties[EK.EK_INITIAL_THRUST] = json[EK.EK_INITIAL_THRUST].AsFloat;
             properties[EK.EK_IDLE_SOUND] = ResolveSpecialContent(json[EK.EK_IDLE_SOUND]);
             properties[EK.EK_REVVING_SOUND] = ResolveSpecialContent(json[EK.EK_REVVING_SOUND]);
         }

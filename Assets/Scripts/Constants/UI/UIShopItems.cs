@@ -20,5 +20,6 @@ namespace TankArena.Constants
 		public static readonly Color ITEM_LABEL_COLOR_TANK_PART_ENGINE = Color.blue;
 		public const string ITEM_LABEL_TEXT_TANK_PART_TRACKS = "TANK TRACKS";
 		public static readonly Color ITEM_LABEL_COLOR_TANK_PART_TRACKS = Color.yellow;
+		public const string ITEM_PROPERTY_UNKNOWN = "<unknown>";
 	}
 }

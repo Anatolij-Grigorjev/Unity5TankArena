@@ -46,7 +46,6 @@ namespace TankArena.Constants
         public const string EK_DEACCELERATION = "deacceleration";
         public const string EK_IDLE_SOUND = "idle_sound";
         public const string EK_REVVING_SOUND = "revving_sound";
-        public const string EK_INITIAL_THRUST = "initial_thrust";
 
         //TANK TURRET
         public const string EK_HEAVY_WEAPON_SLOTS = "heavy_weapon_slots";
@@ -72,6 +71,33 @@ namespace TankArena.Constants
         public const string EK_SHOT_SOUND = "shot_sound";
         public const string EK_RELOAD_SOUND = "reload_sound";
         public const string EK_WEAPON_ANIMATION = "weapon_animations";
+
+
+
+        //DISPLAY PROPS
+        public static readonly Dictionary<string, string> ENTITY_KEYS_DISPLAY_MAP = new Dictionary<string, string>() 
+        {
+            { EK_NAME, "Name"},
+            { EK_PRICE, "Price"},
+            { EK_MASS, "Weight"},
+            { EK_COUPLING, "Coupling" },
+            { EK_TURN_SPEED, "Turn Speed" },
+            { EK_LOWER_INTEGRITY, "Integrity" },
+            { EK_TOP_SPEED, "Top Velocity"},
+            { EK_TORQUE, "Power"},
+            { EK_ACCELERATION, "Acceleration"},
+            { EK_DEACCELERATION, "Breaking"},
+            { EK_HEAVY_WEAPON_SLOTS, "Heavy Weapons"},
+            { EK_LIGHT_WEAPON_SLOTS, "Light Weapons"},
+            { EK_TURRET_SPIN_SPEED, "Turn Speed"},
+            { EK_INTEGRITY, "Integrity"},
+            { EK_DAMAGE, "Damage"},
+            { EK_RELOAD_TIME, "Reload Time"},
+            { EK_RATE_OF_FIRE, "Rate of Fire"},
+            { EK_RANGE, "Range"},
+            { EK_CLIP_SIZE, "Clip Size"}
+
+        };
         
     }
 }
