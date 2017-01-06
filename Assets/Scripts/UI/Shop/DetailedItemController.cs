@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using TankArena.Models;
 using TankArena.Models.Tank;
 using TankArena.Models.Weapons;
-using static TankArena.Constants.UIShopItems;
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -39,8 +38,8 @@ namespace TankArena.UI.Shop
 			this.data = entity;
 			var dataType = data.GetType();
 
-			var labelColor = ITEM_LABEL_COLOR_OTHER;
-			var labelText = ITEM_LABEL_TEXT_OTHER;
+			var labelColor = UIShopItems.ITEM_LABEL_COLOR_OTHER;
+			var labelText = UIShopItems.ITEM_LABEL_TEXT_OTHER;
 			Sprite itemSprite = null;
 
 			if (dataType.IsAssignableFrom(typeof(TankPart)))
@@ -50,20 +49,20 @@ namespace TankArena.UI.Shop
 				itemSprite = dataPart.ShopItem;
 				if (dataType.IsAssignableFrom(typeof(TankChassis)))
 				{
-					labelColor = ITEM_LABEL_COLOR_TANK_PART_CHASSIS;
-					labelText = ITEM_LABEL_TEXT_TANK_PART_CHASSIS;
+					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_CHASSIS;
+					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_CHASSIS;
 				} else if (dataType.IsAssignableFrom(typeof(TankTurret)))
 				{
-					labelColor = ITEM_LABEL_COLOR_TANK_PART_TURRET;
-					labelText = ITEM_LABEL_TEXT_TANK_PART_TURRET;
+					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_TURRET;
+					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_TURRET;
 				} else if (dataType.IsAssignableFrom(typeof(TankEngine)))
 				{
-					labelColor = ITEM_LABEL_COLOR_TANK_PART_ENGINE;
-					labelText = ITEM_LABEL_TEXT_TANK_PART_ENGINE;
+					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_ENGINE;
+					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_ENGINE;
 				} else if (dataType.IsAssignableFrom(typeof(TankTracks)))
 				{
-					labelColor = ITEM_LABEL_COLOR_TANK_PART_TRACKS;
-					labelText = ITEM_LABEL_TEXT_TANK_PART_TRACKS;
+					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_TRACKS;
+					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_TRACKS;
 				}
 				
 
