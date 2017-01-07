@@ -24,7 +24,6 @@ namespace TankArena.UI.Shop
 		public GameObject[] soldItemsPanes;
 		public UserShopInfoController playerInfoScript;
 		public CurrentLoadoutController currentLoadoutController;
-		public DetailedItemController detailedItemController;
 		public Button goToOtherButton;
 		public float playerCash;
 		//model is good to show avatars n stuff

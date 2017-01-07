@@ -66,6 +66,7 @@ namespace TankArena.UI.Shop
 
 			SetGODescription(newPart, part, itemInUse);
 			SetGOHeight(newPart);
+			AddInlineItemControllerToGO(newPart, part);
 
 			return newPart;
 		}

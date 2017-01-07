@@ -37,7 +37,8 @@ public class SoldWeaponsListController: AbstractSoldItemsListController<BaseWeap
 			//set weapon text (add to invisible child in prefab because unity is a bugless engine like that)
 			SetGODescription(theGO, item);
 			SetGOHeight(theGO);
-			
+			AddInlineItemControllerToGO(theGO, item);
+
 			return theGO;
 
 		} else 
