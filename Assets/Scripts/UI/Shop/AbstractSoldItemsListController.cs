@@ -6,6 +6,7 @@ using TankArena.Models;
 using TankArena.Constants;
 using TankArena.Utils;
 using UnityEngine.EventSystems;
+using TankArena.Models.Tank;
 
 namespace TankArena.UI.Shop
 {
@@ -15,6 +16,7 @@ namespace TankArena.UI.Shop
 		
 		public RectTransform parentContainer;
 		public DetailedItemController detailsPaneController;
+		public Tank playerData;
 
 		// Use this for initialization
 		void Awake () 
@@ -53,13 +55,21 @@ namespace TankArena.UI.Shop
 
 		protected void AddInlineItemControllerToGO(GameObject theGO, T item)
 		{
+			if (detailsPaneController.CurrentLoadout == null)
+			{
+				detailsPaneController.CurrentLoadout = playerData;
+			}
 			theGO.AddComponent(typeof(InlineShopItemController));
 			var controller = theGO.GetComponent<InlineShopItemController>();
 			controller.Data = item;
 			controller.ContentPaneGO = parentContainer.gameObject;
 			controller.detailsPaneGO = detailsPaneController;
 
-			
+			var eventTriggers = GetComponent<EventTrigger>();
+			var triggerEntry = new EventTrigger.Entry();
+			triggerEntry.eventID = EventTriggerType.PointerClick;
+			triggerEntry.callback.AddListener( (data) => { controller.OnItemClicked(); } );
+			eventTriggers.triggers.Add(triggerEntry);
 		}
 
 		protected static void SetGODescription(GameObject theGO, T item, bool itemInUse = false)

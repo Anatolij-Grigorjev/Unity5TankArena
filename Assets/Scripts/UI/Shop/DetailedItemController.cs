@@ -8,6 +8,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.UI.Shop
 {
@@ -71,7 +72,12 @@ namespace TankArena.UI.Shop
 			{
 				//this is a weapon
 				BaseWeapon dataWeapon = (BaseWeapon)this.data;
+				itemSprite = dataWeapon.ShopItem;
 
+				labelColor = dataWeapon.Type == WeaponTypes.HEAVY? 
+					UIShopItems.ITEM_LABEL_COLOR_WEAPON_HEAVY : UIShopItems.ITEM_LABEL_COLOR_WEAPON_LIGHT;
+				labelText = dataWeapon.Type == WeaponTypes.HEAVY?
+					UIShopItems.ITEM_LABEL_TEXT_WEAPON_HEAVY : UIShopItems.ITEM_LABEL_TEXT_WEAPON_LIGHT;
 
 			} 
 
@@ -133,9 +139,10 @@ namespace TankArena.UI.Shop
 			var vType = v.GetType();
 			
 			//this is a collection, take length instead of collection itself
-			if (typeof(IEnumerable).IsAssignableFrom(vType))
+			if (typeof(ICollection).IsAssignableFrom(vType))
 			{
-				return ((List<object>)v).Count;
+				
+				return ((ICollection)v).Count;
 			}
 
 			//return value as-is

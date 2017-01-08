@@ -101,9 +101,9 @@ namespace TankArena.UI.Shop
 						.RefreshLoadoutView(playerTank.TankTurret);
 					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
-					(soldItemsScripts[currentShopIndex] as SoldWeaponsListController).SetItems(
-						EntitiesStore.Instance.Weapons.Values.ToList()
-					);
+					var soldWeaponsListController = soldItemsScripts[currentShopIndex] as SoldWeaponsListController;
+					soldWeaponsListController.playerData = playerTank;
+					soldWeaponsListController.SetItems(EntitiesStore.Instance.Weapons.Values.ToList());
 					break;
 				case UIShopStates.SHOP_GARAGE:
 					goToOtherButton.GetComponentInChildren<Text>().text = UIShopButtonTexts.SHOP_GARAGE_HEADER_TEXT;
@@ -113,10 +113,9 @@ namespace TankArena.UI.Shop
 					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
 					//set the current tank before the items
-					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).playerData = this.playerTank;
-					(soldItemsScripts[currentShopIndex] as SoldTankPartsListController).SetItems(
-						EntitiesStore.Instance.TankParts.Values.ToList()
-					);
+					var soldPartsListController = soldItemsScripts[currentShopIndex] as SoldTankPartsListController;
+					soldPartsListController.playerData = this.playerTank;
+					soldPartsListController.SetItems(EntitiesStore.Instance.TankParts.Values.ToList());
 					break;
 			}
 		}

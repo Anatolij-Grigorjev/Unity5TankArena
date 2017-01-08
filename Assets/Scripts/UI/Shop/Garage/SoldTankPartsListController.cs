@@ -17,9 +17,6 @@ namespace TankArena.UI.Shop
 		public GameObject tracksItemPrefab;
 		public Sprite outOfStockSprite;
 
-		[HideInInspector]
-		public Tank playerData;
-
         public override GameObject MakeGOForItem(TankPart item)
         {
 			if (item == null)
