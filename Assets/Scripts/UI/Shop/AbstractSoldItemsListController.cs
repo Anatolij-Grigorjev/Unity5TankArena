@@ -65,7 +65,8 @@ namespace TankArena.UI.Shop
 			controller.ContentPaneGO = parentContainer.gameObject;
 			controller.detailsPaneGO = detailsPaneController;
 
-			var eventTriggers = GetComponent<EventTrigger>();
+			theGO.AddComponent(typeof(EventTrigger));
+			var eventTriggers = theGO.GetComponent<EventTrigger>();
 			var triggerEntry = new EventTrigger.Entry();
 			triggerEntry.eventID = EventTriggerType.PointerClick;
 			triggerEntry.callback.AddListener( (data) => { controller.OnItemClicked(); } );

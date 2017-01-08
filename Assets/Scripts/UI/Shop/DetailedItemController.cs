@@ -43,24 +43,24 @@ namespace TankArena.UI.Shop
 			var labelText = UIShopItems.ITEM_LABEL_TEXT_OTHER;
 			Sprite itemSprite = null;
 
-			if (dataType.IsAssignableFrom(typeof(TankPart)))
+			if (typeof(TankPart).IsAssignableFrom(dataType))
 			{
 				//this is a tank part
 				TankPart dataPart = (TankPart)this.data;
 				itemSprite = dataPart.ShopItem;
-				if (dataType.IsAssignableFrom(typeof(TankChassis)))
+				if (typeof(TankChassis).IsAssignableFrom(dataType))
 				{
 					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_CHASSIS;
 					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_CHASSIS;
-				} else if (dataType.IsAssignableFrom(typeof(TankTurret)))
+				} else if (typeof(TankTurret).IsAssignableFrom(dataType))
 				{
 					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_TURRET;
 					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_TURRET;
-				} else if (dataType.IsAssignableFrom(typeof(TankEngine)))
+				} else if (typeof(TankEngine).IsAssignableFrom(dataType))
 				{
 					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_ENGINE;
 					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_ENGINE;
-				} else if (dataType.IsAssignableFrom(typeof(TankTracks)))
+				} else if (typeof(TankTracks).IsAssignableFrom(dataType))
 				{
 					labelColor = UIShopItems.ITEM_LABEL_COLOR_TANK_PART_TRACKS;
 					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_TRACKS;
@@ -68,7 +68,7 @@ namespace TankArena.UI.Shop
 				
 
 
-			} else if (dataType.IsAssignableFrom(typeof(BaseWeapon)))
+			} else if (typeof(BaseWeapon).IsAssignableFrom(dataType))
 			{
 				//this is a weapon
 				BaseWeapon dataWeapon = (BaseWeapon)this.data;
@@ -159,13 +159,13 @@ namespace TankArena.UI.Shop
 			TankPart currentPart = null;
 			var dataType = data.GetType();
 
-			if (dataType.IsAssignableFrom(typeof(TankChassis))) 
+			if (typeof(TankChassis).IsAssignableFrom(dataType)) 
 				currentPart = CurrentLoadout.TankChassis; 
-			else if (dataType.IsAssignableFrom(typeof(TankTurret))) 
+			else if (typeof(TankTurret).IsAssignableFrom(dataType)) 
 				currentPart = CurrentLoadout.TankTurret;
-			else if (dataType.IsAssignableFrom(typeof(TankEngine))) 
+			else if (typeof(TankEngine).IsAssignableFrom(dataType)) 
 				currentPart = CurrentLoadout.TankEngine;
-			else if (dataType.IsAssignableFrom(typeof(TankTracks))) 
+			else if (typeof(TankTracks).IsAssignableFrom(dataType)) 
 				currentPart = CurrentLoadout.TankTracks;
 
 			if (currentPart == null) 
