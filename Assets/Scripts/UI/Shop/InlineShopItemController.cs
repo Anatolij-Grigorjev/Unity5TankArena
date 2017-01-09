@@ -8,7 +8,6 @@ namespace TankArena.UI.Shop
 
 	public class InlineShopItemController: MonoBehaviour {
 
-		public GameObject ContentPaneGO;
 		public DetailedItemController detailsPaneGO;
 		private FileLoadedEntityModel data;
 
@@ -35,10 +34,10 @@ namespace TankArena.UI.Shop
 		public void OnItemClicked()
 		{
 			
-			if (ContentPaneGO.activeInHierarchy) 
-			{
-				ContentPaneGO.SetActive(false);
-			}
+			// if (ContentPaneGO.activeInHierarchy) 
+			// {
+			// 	ContentPaneGO.SetActive(false);
+			// }
 			if (!detailsPaneGO.gameObject.activeInHierarchy)
 			{
 				detailsPaneGO.gameObject.SetActive(true);

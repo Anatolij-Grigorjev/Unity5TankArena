@@ -20,13 +20,16 @@ namespace TankArena.UI.Shop
 		public Text itemLabelText;
 		public Image itemLabelImage;
 
+		public GameObject usualSwitchButton;
+		public GameObject backToItemsButton;
+
 		public Tank CurrentLoadout { get; set; }
 
 		private FileLoadedEntityModel data;
 
 		// Use this for initialization
 		void Start () {
-		
+			
 		}
 		
 		// Update is called once per frame
@@ -36,6 +39,8 @@ namespace TankArena.UI.Shop
 
 		public void SetItem(FileLoadedEntityModel entity)
 		{
+			usualSwitchButton.SetActive(false);
+			backToItemsButton.SetActive(true);
 			this.data = entity;
 			var dataType = data.GetType();
 
@@ -82,7 +87,7 @@ namespace TankArena.UI.Shop
 			} 
 
 			itemLabelImage.color = labelColor;
-			itemLabelText.text = labelText;
+			itemLabelText.text = labelText + String.Format(" ({0}$)", entity.Price);
 			if (itemSprite != null)
 			{
 				itemImage.sprite = itemSprite;

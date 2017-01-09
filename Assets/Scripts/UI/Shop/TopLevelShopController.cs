@@ -25,6 +25,8 @@ namespace TankArena.UI.Shop
 		public UserShopInfoController playerInfoScript;
 		public CurrentLoadoutController currentLoadoutController;
 		public Button goToOtherButton;
+		public Button backToItemsButton;
+		public DetailedItemController detailedItemController;
 		public float playerCash;
 		//model is good to show avatars n stuff
 		public PlayableCharacter playerModel;
@@ -62,6 +64,14 @@ namespace TankArena.UI.Shop
 				}
 				UpdateUIForState(currentShopIndex);
 			});
+
+			backToItemsButton.onClick.AddListener(() => {
+				
+				goToOtherButton.gameObject.SetActive(true);
+				backToItemsButton.gameObject.SetActive(false);
+				detailedItemController.gameObject.SetActive(false);
+			});
+			backToItemsButton.gameObject.SetActive(false);
 		}
 
         private void LoadPlayer()

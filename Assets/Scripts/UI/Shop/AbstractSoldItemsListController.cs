@@ -62,7 +62,6 @@ namespace TankArena.UI.Shop
 			theGO.AddComponent(typeof(InlineShopItemController));
 			var controller = theGO.GetComponent<InlineShopItemController>();
 			controller.Data = item;
-			controller.ContentPaneGO = parentContainer.gameObject;
 			controller.detailsPaneGO = detailsPaneController;
 
 			theGO.AddComponent(typeof(EventTrigger));
