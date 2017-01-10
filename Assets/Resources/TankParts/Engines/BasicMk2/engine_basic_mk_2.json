@@ -1,0 +1,15 @@
+{
+	"id": "ENG_basic02",
+	"name": "Basic Engine Mk. II",
+	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"mass": 1.0,
+	"shop_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\garage_img",
+	"top_speed": 47.89,
+	"torque": 75.4,
+	"acceleration": 150.9,
+	"deacceleration": 35.5,
+	"price": 250.55,
+	"idle_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_idle",
+	"revving_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_revving"
+}

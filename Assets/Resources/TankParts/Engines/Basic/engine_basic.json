@@ -1,6 +1,6 @@
 {
 	"id": "ENG_basic01",
-	"name": "Basic Engine",
+	"name": "Basic Engine Mk. I",
 	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"mass": 1.0,
 	"shop_item": "!img;TankParts\\Engines\\Basic\\Images\\shop_img",
@@ -9,6 +9,7 @@
 	"torque": 55.4,
 	"acceleration": 110.5,
 	"deacceleration": 15.5,
+	"price": 51.10,
 	"idle_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_idle",
 	"revving_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_revving"
 }

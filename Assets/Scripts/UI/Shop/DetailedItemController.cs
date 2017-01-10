@@ -97,7 +97,7 @@ namespace TankArena.UI.Shop
 
         private string StringifyProperties(FileLoadedEntityModel data)
         {
-			bool isCompareable = data.GetType().IsAssignableFrom(typeof(TankPart)) && CurrentLoadout != null;
+			bool isCompareable = typeof(TankPart).IsAssignableFrom(data.GetType()) && CurrentLoadout != null;
 
 			StringBuilder builder = new StringBuilder();
 			var displayKeys = EntityKeys.ENTITY_KEYS_DISPLAY_MAP;
@@ -186,10 +186,10 @@ namespace TankArena.UI.Shop
 				{
 					if (currentValue.GetType().IsAssignableFrom(typeof(int)))
 					{
-						return (int)currentValue - (int)thisValue;
+						return (int)thisValue - (int)currentValue;
 					} else 
 					{
-						return (float)currentValue - (float)thisValue;
+						return (float)thisValue - (float)currentValue;
 					}
 				} else 
 				{

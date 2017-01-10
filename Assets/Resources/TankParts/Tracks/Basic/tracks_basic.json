@@ -8,6 +8,7 @@
 	"coupling": 3.1,
 	"turn_speed": 125.5,
 	"lower_integrity": 5,
+	"price": 50.33,
 	"spritesheet": "!sprites;TankParts\\Tracks\\Basic\\Images\\Sprites\\tracks_basic_spritesheet_0",
 	"left_track_pos": "!transf;0.3;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
 	"right_track_pos": "!transf;1.9;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0"
