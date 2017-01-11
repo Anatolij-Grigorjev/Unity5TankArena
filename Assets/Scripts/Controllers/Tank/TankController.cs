@@ -45,8 +45,10 @@ namespace TankArena.Controllers
         // Use this for initialization
         public override void Awake () {
             base.Awake(); 
-
             tankRigidBody = GetComponent<Rigidbody2D>();
+            Tank = EntitiesStore.Instance.CurrentTank;
+
+            DBG.Log("Tank Controller Awoke!");
 	    }
 	
 	    protected override void HandleNOOP() 

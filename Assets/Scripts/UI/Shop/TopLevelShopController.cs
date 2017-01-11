@@ -27,24 +27,15 @@ namespace TankArena.UI.Shop
 		public Button goToOtherButton;
 		public Button backToItemsButton;
 		public DetailedItemController detailedItemController;
-		public float playerCash;
 		//model is good to show avatars n stuff
-		public PlayableCharacter playerModel;
-		public Tank playerTank;
 
 		// Use this for initialization
 		void Start () {
 
 			//load player data before updating UI
 			LoadPlayer();
-			
-			UpdateLoadoutText(playerTank);
-			playerInfoScript.RefreshLoadoutView(
-				playerModel.Avatar,
-				playerModel.Name,
-				playerCash,
-				playerTank.Mass
-			);
+			UpdateLoadoutText();
+			playerInfoScript.RefreshLoadoutView();
 
 			//update UI specific to shop type
 			UpdateUIForState(currentShopIndex);
@@ -76,16 +67,7 @@ namespace TankArena.UI.Shop
 
         private void LoadPlayer()
         {
-			//player always has a selected character. this code will come from main menu later, for now hardcoded
-            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "lugnut";
-            //filter search to specific map because its faster AND for type safety
-            playerModel = EntitiesStore.Instance.Characters[characterCode];
-			//setting more actual data
-            playerCash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : playerModel.StartingCash;
-			
-			//load the tank into memory
-			var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : playerModel.StartingTankCode;
-            playerTank = Tank.FromCode(tankCode);
+			Player.LoadFromPlayerPrefs();
         }
 
         // Update is called once per frame
@@ -93,9 +75,9 @@ namespace TankArena.UI.Shop
 			
 		}
 
-		private void UpdateLoadoutText(Tank tankData)
+		private void UpdateLoadoutText()
 		{
-			currentLoadoutController.RefreshLoadoutView(tankData);
+			currentLoadoutController.RefreshLoadoutView();
 		}
 
 		protected void UpdateUIForState(int currentState)
@@ -107,24 +89,20 @@ namespace TankArena.UI.Shop
 					goToOtherButton.GetComponentInChildren<Text>().text = UIShopButtonTexts.SHOP_WEAPONS_HEADER_TEXT;
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
 					//engage screen startup script
-					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController)
-						.RefreshLoadoutView(playerTank.TankTurret);
+					(loadoutScreensScripts[currentShopIndex] as WeaponsShopLoadoutController).RefreshLoadoutView();
 					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
 					var soldWeaponsListController = soldItemsScripts[currentShopIndex] as SoldWeaponsListController;
-					soldWeaponsListController.playerData = playerTank;
 					soldWeaponsListController.SetItems(EntitiesStore.Instance.Weapons.Values.ToList());
 					break;
 				case UIShopStates.SHOP_GARAGE:
 					goToOtherButton.GetComponentInChildren<Text>().text = UIShopButtonTexts.SHOP_GARAGE_HEADER_TEXT;
 					backgroundImage.sprite = shopBGImages[currentShopIndex];
-					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController)
-						.RefreshLoadoutView(playerTank);
+					(loadoutScreensScripts[currentShopIndex] as GarageShopLoadoutController).RefreshLoadoutView();
 					//disable other sold items pane and loadout
 					DisableAllBut(currentShopIndex);
 					//set the current tank before the items
 					var soldPartsListController = soldItemsScripts[currentShopIndex] as SoldTankPartsListController;
-					soldPartsListController.playerData = this.playerTank;
 					soldPartsListController.SetItems(EntitiesStore.Instance.TankParts.Values.ToList());
 					break;
 			}

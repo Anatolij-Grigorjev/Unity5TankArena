@@ -25,6 +25,8 @@ namespace TankArena.Controllers
             transform.parent = rotatorGO.transform;
 
             Rotator = rotatorGO.transform;
+
+            DBG.Log("Turret Controller Awoke!");
         }
 
         ///<summary> 

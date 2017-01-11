@@ -35,7 +35,7 @@ namespace TankArena.Controllers
         {
             base.Awake();
             
-            
+            DBG.Log("Chassis Controller Awoke!");
         }
 
         // Update is called once per frame

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TankArena.Models.Tank;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -13,6 +14,8 @@ namespace TankArena.Controllers
 	    public override void Awake () {
 
             base.Awake();
+
+            DBG.Log("Engine Controller Awoke!");
 	    }
 	
 	    // Update is called once per frame

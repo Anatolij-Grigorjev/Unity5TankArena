@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using TankArena.Models.Characters;
+using TankArena.Utils;
 
 namespace TankArena.UI.Shop
 {
@@ -24,13 +25,13 @@ namespace TankArena.UI.Shop
 		}
 
 
-		public void RefreshLoadoutView(Sprite avatar, string name, float cash, float mass)
+		public void RefreshLoadoutView()
 		{
-		
-			playerAvatar.sprite = avatar;
-			playerName.text = name.ToUpper();
-			playerCash.text = "$" + cash.ToString();
-			playerMassText.text = "MASS: " + mass.ToString();
+			var player = EntitiesStore.Instance.Player;
+			playerAvatar.sprite = player.Character.Avatar;
+			playerName.text = player.Character.Name.ToUpper();
+			playerCash.text = "$" + player.Cash.ToString();
+			playerMassText.text = "MASS: " + player.CurrentTank.Mass.ToString();
 		}
 
 	}

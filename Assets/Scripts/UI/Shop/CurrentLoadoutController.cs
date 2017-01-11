@@ -31,8 +31,9 @@ namespace TankArena.UI.Shop
 		
 		}
 
-		public void RefreshLoadoutView(Tank tankData)
+		public void RefreshLoadoutView()
 		{
+			var tankData = EntitiesStore.Instance.CurrentTank;
 			chassisValue.text = tankData.TankChassis.Name;
 			turretValue.text = tankData.TankTurret.Name;
 			tracksValue.text = tankData.TankTracks.Name;

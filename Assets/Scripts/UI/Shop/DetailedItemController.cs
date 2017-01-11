@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
+using UnityEngine.Events;
 
 namespace TankArena.UI.Shop
 {
@@ -19,26 +20,45 @@ namespace TankArena.UI.Shop
 		public Text itemDescriptionText;
 		public Text itemLabelText;
 		public Image itemLabelImage;
-
+		public Button buyItemButton;
+		public AudioSource purchaseSound;
 		public GameObject usualSwitchButton;
 		public GameObject backToItemsButton;
-
-		public Tank CurrentLoadout { get; set; }
+		Tank CurrentLoadout;
 
 		private FileLoadedEntityModel data;
 
 		// Use this for initialization
-		void Start () {
+		void Start ()
+		{
 			
 		}
 		
 		// Update is called once per frame
-		void Update () {
+		void Update ()
+		{
 		
 		}
 
-		public void SetItem(FileLoadedEntityModel entity)
+		private UnityAction createTankPartPurchaseAction()
 		{
+			return () =>
+			{
+				var cash = EntitiesStore.Instance.Player.Cash;
+				//player can buy this
+				if (cash >= data.Price)
+				{
+					purchaseSound.Play();
+				}
+			};
+		}
+
+		public void SetItem(FileLoadedEntityModel entity)
+		{	
+			CurrentLoadout = EntitiesStore.Instance.CurrentTank;
+			//remove listeners before we add the right one
+			buyItemButton.onClick.RemoveAllListeners();
+
 			usualSwitchButton.SetActive(false);
 			backToItemsButton.SetActive(true);
 			this.data = entity;
@@ -71,7 +91,7 @@ namespace TankArena.UI.Shop
 					labelText = UIShopItems.ITEM_LABEL_TEXT_TANK_PART_TRACKS;
 				}
 				
-
+				buyItemButton.onClick.AddListener(createTankPartPurchaseAction());
 
 			} else if (typeof(BaseWeapon).IsAssignableFrom(dataType))
 			{

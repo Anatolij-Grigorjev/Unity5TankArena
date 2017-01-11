@@ -19,7 +19,7 @@ namespace TankArena.Controllers
         public Rigidbody2D partRigidBody;
         [HideInInspector]
         public GameObject parentObject;
-
+        private bool isAwake = false;
         public T Model
         {
             get
@@ -29,7 +29,10 @@ namespace TankArena.Controllers
             set
             {
                 data = value;
-                data.SetDataToController(this);
+                if (isAwake)
+                {
+                    data.SetDataToController(this);
+                }
             }
         }
 
@@ -42,6 +45,8 @@ namespace TankArena.Controllers
             { 
                 data.SetDataToController(this);
             }
+            
+            isAwake = true;
         }
 
     }

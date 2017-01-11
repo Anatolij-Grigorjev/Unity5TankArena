@@ -7,25 +7,22 @@ using TankArena.Utils;
 using TankArena.Constants;
 using System.Collections.Generic;
 using System;
+using TankArena.Models;
 
 namespace TankArena.Controllers
 {
     public class PlayerController : MonoBehaviour
     {
 
-        private PlayableCharacter character;
         public TankController tankController;
 
         public Queue<TankCommand> commands;
 
         public float moveDeadzone = 0.1f;
-        //[HideInInspector]
-        public float Health { get; set; }
-        //[HideInInspector]
-        public float Cash { get; set; }
 
         private bool wasMoving = false;
         private bool wasRotating = false;
+        public Player player;
 
         private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
         {
@@ -37,7 +34,7 @@ namespace TankArena.Controllers
         // Use this for initialization
         void Start()
         {
-            LoadFromPlayerPrefs();
+            player = EntitiesStore.Instance.Player;
             commands = tankController.Commands;
         }
 
@@ -146,36 +143,6 @@ namespace TankArena.Controllers
             //    turretRotator.rotation.eulerAngles,
             //    transform.rotation.eulerAngles,
             //    turretRotator.rotation.eulerAngles - transform.rotation.eulerAngles);
-        }
-
-        private void SaveToPlayerPrefs()
-        {
-            //take the current player customizations and save them into the preferences
-            PlayerPrefs.SetString(PP.PP_CHARACTER, character.Id);
-            PlayerPrefs.SetString(PP.PP_TANK, tankController.Tank.ToCode());
-            PlayerPrefs.SetFloat(PP.PP_HEALTH, Health);
-            PlayerPrefs.SetFloat(PP.PP_CASH, Cash);
-
-            //flush the prefs
-            PlayerPrefs.Save();
-        }
-
-        private void LoadFromPlayerPrefs()
-        {
-
-            //construct player character and tank from encoded keys of ids
-            //tank encoded as key-value map, key type of component, value is entity id
-
-            //player always has a selected character. this code will come from main menu later, for now hardcoded
-            var characterCode = PlayerPrefs.HasKey(PP.PP_CHARACTER) ? PlayerPrefs.GetString(PP.PP_CHARACTER) : "lugnut";
-            //filter search to specific map because its faster AND for type safety
-            character = EntitiesStore.Instance.Characters[characterCode];
-
-            //these keys might be absent if new game
-            var tankCode = PlayerPrefs.HasKey(PP.PP_TANK) ? PlayerPrefs.GetString(PP.PP_TANK) : character.StartingTankCode;
-            tankController.Tank = Tank.FromCode(tankCode);
-            Health = PlayerPrefs.HasKey(PP.PP_HEALTH) ? PlayerPrefs.GetFloat(PP.PP_HEALTH) : character.StartingHealth;
-            Cash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : character.StartingCash;
         }
     }
 }

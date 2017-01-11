@@ -28,6 +28,8 @@ namespace TankArena.Controllers
             tracksAnimations = new Animator[] { tracksLeftTrackAnimationController, tracksRightTrackAnimationController };
 
             base.Awake();
+
+            DBG.Log("Tracks Controller Awoke!");
 	    }
 	
 	    // Update is called once per frame

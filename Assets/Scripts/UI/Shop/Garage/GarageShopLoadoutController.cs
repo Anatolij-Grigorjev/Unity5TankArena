@@ -24,10 +24,10 @@ namespace TankArena.UI.Shop
 		
 		}
 
-		public void RefreshLoadoutView(Tank tankData)
+		public void RefreshLoadoutView()
 		{
+			var tankData = EntitiesStore.Instance.CurrentTank;
 			currentTankData = tankData;
-
 			turretImage.color = Color.white;
 			turretImage.sprite = tankData.TankTurret.GarageItem;
 			chassisImage.color = Color.white;

@@ -30,8 +30,9 @@ namespace TankArena.UI.Shop
 			turretImage.gameObject.SetActive(enable);
 		}
 
-		public void RefreshLoadoutView(TankTurret turretData)
+		public void RefreshLoadoutView()
 		{
+			var turretData = EntitiesStore.Instance.CurrentTank.TankTurret;
 			if (currentTurret == null || currentTurret.Id != turretData.Id) {
 				currentTurret = turretData;
 				//turret image GO is also the one to attach weapon slots to

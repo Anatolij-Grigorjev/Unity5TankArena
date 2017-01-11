@@ -16,7 +16,6 @@ namespace TankArena.UI.Shop
 		
 		public RectTransform parentContainer;
 		public DetailedItemController detailsPaneController;
-		public Tank playerData;
 
 		// Use this for initialization
 		void Awake () 
@@ -55,10 +54,6 @@ namespace TankArena.UI.Shop
 
 		protected void AddInlineItemControllerToGO(GameObject theGO, T item)
 		{
-			if (detailsPaneController.CurrentLoadout == null)
-			{
-				detailsPaneController.CurrentLoadout = playerData;
-			}
 			theGO.AddComponent(typeof(InlineShopItemController));
 			var controller = theGO.GetComponent<InlineShopItemController>();
 			controller.Data = item;
