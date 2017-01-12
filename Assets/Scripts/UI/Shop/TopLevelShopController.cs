@@ -34,11 +34,8 @@ namespace TankArena.UI.Shop
 
 			//load player data before updating UI
 			LoadPlayer();
-			UpdateLoadoutText();
-			playerInfoScript.RefreshLoadoutView();
 
-			//update UI specific to shop type
-			UpdateUIForState(currentShopIndex);
+			RefreshUI();
 
 			goToOtherButton.onClick.AddListener(() => {
 				switch(shopStates[currentShopIndex])
@@ -63,6 +60,15 @@ namespace TankArena.UI.Shop
 				detailedItemController.gameObject.SetActive(false);
 			});
 			backToItemsButton.gameObject.SetActive(false);
+		}
+
+		public void RefreshUI()
+		{
+			UpdateLoadoutText();
+			playerInfoScript.RefreshLoadoutView();
+
+			//update UI specific to shop type
+			UpdateUIForState(currentShopIndex);
 		}
 
         private void LoadPlayer()

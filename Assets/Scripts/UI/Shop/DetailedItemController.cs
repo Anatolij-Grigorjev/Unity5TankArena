@@ -24,6 +24,9 @@ namespace TankArena.UI.Shop
 		public AudioSource purchaseSound;
 		public GameObject usualSwitchButton;
 		public GameObject backToItemsButton;
+		public GameObject msgBox;
+		public TopLevelShopController parentController;
+		public Text msgBoxText;
 		Tank CurrentLoadout;
 
 		private FileLoadedEntityModel data;
@@ -31,7 +34,7 @@ namespace TankArena.UI.Shop
 		// Use this for initialization
 		void Start ()
 		{
-			
+
 		}
 		
 		// Update is called once per frame
@@ -48,12 +51,54 @@ namespace TankArena.UI.Shop
 				//player can buy this
 				if (cash >= data.Price)
 				{
+					if (EntitiesStore.Instance.CurrentTank.HasPart((TankPart)this.data))
+					{
+						DisplayMessageBox(UIShopButtonTexts.SHOP_ALREADY_HAVE_PART_MSG_BOX);
+						return;
+					}
 					purchaseSound.Play();
+					SlotInNewPart((TankPart)data);
+					EntitiesStore.Instance.Player.Cash -= data.Price;
+					parentController.RefreshUI();
+				} else {
+					DisplayMessageBox(UIShopButtonTexts.SHOP_NOT_ENOUGH_MSG_BOX);		
 				}
 			};
 		}
 
-		public void SetItem(FileLoadedEntityModel entity)
+		private void DisplayMessageBox(String message)
+		{
+			msgBoxText.text = message;
+			msgBox.SetActive(true);
+		}
+
+        private void SlotInNewPart(TankPart data)
+        {
+            var Current = EntitiesStore.Instance.CurrentTank;
+
+			var dataType = data.GetType();
+			if (typeof(TankChassis).IsAssignableFrom(dataType))
+			{
+				Current.TankChassis = (TankChassis)data;
+			} else if (typeof(TankTurret).IsAssignableFrom(dataType))
+			{
+				Current.TankTurret = (TankTurret)data;
+			} else if (typeof(TankEngine).IsAssignableFrom(dataType))
+			{
+				Current.TankEngine = (TankEngine)data;
+			} else if (typeof(TankTracks).IsAssignableFrom(dataType))
+			{
+				Current.TankTracks = (TankTracks)data;
+			} else 
+			{
+				string error = String.Format("SOMETHING IS VERY WRONG!!! PERSON PAID FOR TANK PART THAT IS NOT TANK PART!!!"+
+					" THING: {0}, TYPE: {1}", data, dataType);
+				DBG.Log(error);
+				DisplayMessageBox(error);
+			}
+        }
+
+        public void SetItem(FileLoadedEntityModel entity)
 		{	
 			CurrentLoadout = EntitiesStore.Instance.CurrentTank;
 			//remove listeners before we add the right one

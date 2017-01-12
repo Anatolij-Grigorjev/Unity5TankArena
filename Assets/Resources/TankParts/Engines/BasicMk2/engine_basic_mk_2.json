@@ -2,7 +2,7 @@
 	"id": "ENG_basic02",
 	"name": "Basic Engine Mk. II",
 	"on_tank_position": "!transf;0.5;0.5;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
-	"mass": 1.0,
+	"mass": 5.3,
 	"shop_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\garage_img",
 	"top_speed": 47.89,

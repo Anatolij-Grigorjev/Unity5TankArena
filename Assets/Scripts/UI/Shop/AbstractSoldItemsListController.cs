@@ -26,6 +26,12 @@ namespace TankArena.UI.Shop
 
 		public void SetItems(List<T> items) 
 		{
+			//setting items means from scratch
+			foreach(T item in visibleObjectsMap.Keys)
+			{
+				RemoveItem(item);
+			}
+			visibleObjectsMap.Clear();
 			//add the GO n stuff to the data
 			foreach(T item in items) 
 			{
@@ -90,7 +96,7 @@ namespace TankArena.UI.Shop
 			}
 		}
 
-		//remove item and required GO
+		//remove required GO, leaves item as key in map
 		public void RemoveItem(T item) 
 		{
 			if (ItemInList(item))

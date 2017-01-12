@@ -224,5 +224,26 @@ namespace TankArena.Models.Tank
 
             return codeBuilder.ToString();
         }
+
+        ///<summary>
+        ///Check if the tank currently has the specified part in its equipment (checking against parts ids)
+        ///</summary>
+        public bool HasPart(TankPart part)
+        {
+            if (part == null)
+            {
+                return false;
+            }
+
+            foreach(TankPart tp in partsArray)
+            {
+                if (tp.Id.Equals(part.Id))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
