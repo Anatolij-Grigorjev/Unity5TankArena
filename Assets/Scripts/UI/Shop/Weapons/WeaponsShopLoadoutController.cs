@@ -35,6 +35,10 @@ namespace TankArena.UI.Shop
 			var turretData = EntitiesStore.Instance.CurrentTank.TankTurret;
 			if (currentTurret == null || currentTurret.Id != turretData.Id) {
 				currentTurret = turretData;
+
+				//TODO: keep map of slot prefabs and slots to them. helps keep track of data for purchase
+				//and helps kill old prefabs before installing new ones if the turret is updated
+
 				//turret image GO is also the one to attach weapon slots to
 				//so might as well
 				turretImage.sprite = currentTurret.WeaponsShopImage;

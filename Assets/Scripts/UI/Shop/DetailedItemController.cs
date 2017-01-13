@@ -42,12 +42,47 @@ namespace TankArena.UI.Shop
 		{
 		
 		}
+		private UnityAction createBaseWeaponPurchaseAction()
+		{
+			return () => 
+			{
+				var cash = EntitiesStore.Instance.Player.Cash;
+				
+				//player can buy this
+				if (cash >= data.Price)
+				{
+					//check if person has the right slots of type
+					BaseWeapon dataWeapon = (BaseWeapon)this.data;
+					var slotObjects = GameObject.FindGameObjectsWithTag(
+						dataWeapon.Type == WeaponTypes.HEAVY? Tags.TAG_SHOP_HEAVY_SLOT : Tags.TAG_SHOP_LIGHT_SLOT
+					);
+					if (slotObjects == null || slotObjects.Length <= 0) 
+					{
+						DisplayMessageBox(UIShopButtonTexts.SHOP_NO_APPROPRIATE_SLOTS);
+						return;
+					}
 
+					//rename button to let them know what to do
+					var prevText = itemLabelText.text;
+					itemLabelText.text = UIShopButtonTexts.SHOP_CHOSE_WEAPON_SLOT;
+
+					//glow the GOs
+					foreach(GameObject slotGo in slotObjects)
+					{
+						slotGo.GetComponent<Animator>().SetTrigger(AnimationParameters.TRIGGER_GLOW_SLOT);
+					}
+
+				} else {
+					DisplayMessageBox(UIShopButtonTexts.SHOP_NOT_ENOUGH_MSG_BOX);		
+				}
+			};
+		}
 		private UnityAction createTankPartPurchaseAction()
 		{
 			return () =>
 			{
 				var cash = EntitiesStore.Instance.Player.Cash;
+				
 				//player can buy this
 				if (cash >= data.Price)
 				{
@@ -57,8 +92,9 @@ namespace TankArena.UI.Shop
 						return;
 					}
 					purchaseSound.Play();
-					SlotInNewPart((TankPart)data);
-					EntitiesStore.Instance.Player.Cash -= data.Price;
+					var oldPart = SlotInNewPart((TankPart)data);
+					var pricediff = data.Price - oldPart.Price;
+					EntitiesStore.Instance.Player.Cash -= pricediff;
 					parentController.RefreshUI();
 				} else {
 					DisplayMessageBox(UIShopButtonTexts.SHOP_NOT_ENOUGH_MSG_BOX);		
@@ -72,30 +108,41 @@ namespace TankArena.UI.Shop
 			msgBox.SetActive(true);
 		}
 
-        private void SlotInNewPart(TankPart data)
+		//Slot in new part and return old one
+        private TankPart SlotInNewPart(TankPart newPart)
         {
             var Current = EntitiesStore.Instance.CurrentTank;
 
-			var dataType = data.GetType();
+			var dataType = newPart.GetType();
 			if (typeof(TankChassis).IsAssignableFrom(dataType))
 			{
-				Current.TankChassis = (TankChassis)data;
+				var oldChassis = Current.TankChassis;
+				Current.TankChassis = (TankChassis)newPart;
+				return oldChassis;
 			} else if (typeof(TankTurret).IsAssignableFrom(dataType))
 			{
-				Current.TankTurret = (TankTurret)data;
+				var oldTurret = Current.TankTurret;
+				Current.TankTurret = (TankTurret)newPart;
+				return oldTurret;
 			} else if (typeof(TankEngine).IsAssignableFrom(dataType))
 			{
-				Current.TankEngine = (TankEngine)data;
+				var oldEngine = Current.TankEngine;
+				Current.TankEngine = (TankEngine)newPart;
+				return oldEngine;
 			} else if (typeof(TankTracks).IsAssignableFrom(dataType))
 			{
-				Current.TankTracks = (TankTracks)data;
+				var oldTracks = Current.TankTracks;
+				Current.TankTracks = (TankTracks)newPart;
+				return oldTracks;
 			} else 
 			{
 				string error = String.Format("SOMETHING IS VERY WRONG!!! PERSON PAID FOR TANK PART THAT IS NOT TANK PART!!!"+
-					" THING: {0}, TYPE: {1}", data, dataType);
+					" THING: {0}, TYPE: {1}", newPart, dataType);
 				DBG.Log(error);
 				DisplayMessageBox(error);
 			}
+			
+			return newPart;
         }
 
         public void SetItem(FileLoadedEntityModel entity)
@@ -149,6 +196,7 @@ namespace TankArena.UI.Shop
 				labelText = dataWeapon.Type == WeaponTypes.HEAVY?
 					UIShopItems.ITEM_LABEL_TEXT_WEAPON_HEAVY : UIShopItems.ITEM_LABEL_TEXT_WEAPON_LIGHT;
 
+				buyItemButton.onClick.AddListener(createBaseWeaponPurchaseAction());
 			} 
 
 			itemLabelImage.color = labelColor;

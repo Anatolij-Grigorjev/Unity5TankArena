@@ -20,5 +20,7 @@ namespace TankArena.Constants
         public const String TAG_SPAWNER_MARKER = "BySpawn";
         public const String TAG_BACK_TO_ITEMS_BTN = "back_to_items_button";
         public const String TAG_MSG_BOX_TEXT = "msg_box_text";
+        public const String TAG_SHOP_HEAVY_SLOT = "shop_heavy_slot";
+        public const String TAG_SHOP_LIGHT_SLOT = "shop_light_slot";
     }
 }

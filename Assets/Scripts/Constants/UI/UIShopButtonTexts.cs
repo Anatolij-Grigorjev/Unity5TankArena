@@ -9,7 +9,8 @@ namespace TankArena.Constants
         public static string SHOP_NOT_ENOUGH_MSG_BOX = "You don't have enough money to buy this.\n" + 
             "Try spending more time fighting in the arena!";
         public static string SHOP_ALREADY_HAVE_PART_MSG_BOX = "You already have this part installed on the tank!";
-
+        public static string SHOP_CHOSE_WEAPON_SLOT = "Chose the destination weapon slot...";
+        public static string SHOP_NO_APPROPRIATE_SLOTS = "You dont have these types of slots on your turret!";
 
 
     }
