@@ -4,6 +4,8 @@ using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
 using TankArena.Utils;
+using System.Collections.Generic;
+using TankArena.Models.Weapons;
 
 namespace TankArena.UI.Shop
 {
@@ -14,9 +16,10 @@ namespace TankArena.UI.Shop
 		public TankTurret currentTurret;
 		public GameObject emptyLighSlotPrefab;
 		public GameObject emptyHeavySlotPrefab;
+		public Dictionary<GameObject, WeaponSlot> slotsGOs = new Dictionary<GameObject, WeaponSlot>(); 
 		
 		void Start () {
-		
+
 		}
 		
 		// Update is called once per frame
@@ -35,9 +38,11 @@ namespace TankArena.UI.Shop
 			var turretData = EntitiesStore.Instance.CurrentTank.TankTurret;
 			if (currentTurret == null || currentTurret.Id != turretData.Id) {
 				currentTurret = turretData;
-
-				//TODO: keep map of slot prefabs and slots to them. helps keep track of data for purchase
-				//and helps kill old prefabs before installing new ones if the turret is updated
+				foreach (GameObject go in slotsGOs.Keys)
+				{
+					Destroy(go);
+				}
+				slotsGOs.Clear();
 
 				//turret image GO is also the one to attach weapon slots to
 				//so might as well
@@ -45,7 +50,7 @@ namespace TankArena.UI.Shop
 				var parentGO = turretImage.gameObject;
 
 				currentTurret.allWeaponSlots.ForEach(slot => {
-
+					
 					GameObject slotGO = Instantiate(
 						slot.WeaponType == WeaponTypes.LIGHT? emptyLighSlotPrefab : emptyHeavySlotPrefab,
 						new Vector3(),
@@ -54,14 +59,23 @@ namespace TankArena.UI.Shop
 					) as GameObject;
 					//assign true position
 					slot.ShopTransform.CopyToTransform(slotGO.transform);
-
-					//assign weapon image if present
-					if (slot.Weapon != null) 
-					{
-						var weapon = slot.Weapon;
-						slotGO.GetComponent<Image>().sprite = weapon.ShopItem;
-					}
+					//put in dictionary
+					slotsGOs.Add(slotGO, slot);
 				});
+
+			}
+			RefreshSlotWeapons();
+		}
+
+		public void RefreshSlotWeapons() 
+		{
+			foreach(GameObject slotGO in slotsGOs.Keys)
+			{
+				var slot = slotsGOs[slotGO];
+				if (slot!= null && slot.Weapon != null)
+				{
+					slotGO.GetComponent<Image>().sprite = slot.Weapon.ShopItem;
+				}
 			}
 		}
 	}

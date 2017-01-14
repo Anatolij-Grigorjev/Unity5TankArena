@@ -26,6 +26,7 @@ namespace TankArena.UI.Shop
 		public GameObject backToItemsButton;
 		public GameObject msgBox;
 		public TopLevelShopController parentController;
+		public WeaponsShopLoadoutController weaponsShopLoadoutController;
 		public Text msgBoxText;
 		Tank CurrentLoadout;
 
@@ -69,7 +70,32 @@ namespace TankArena.UI.Shop
 					//glow the GOs
 					foreach(GameObject slotGo in slotObjects)
 					{
-						slotGo.GetComponent<Animator>().SetTrigger(AnimationParameters.TRIGGER_GLOW_SLOT);
+						var slotAnimator = slotGo.GetComponent<Animator>();
+						slotAnimator.SetTrigger(AnimationParameters.TRIGGER_GLOW_SLOT);
+						var slotButton = slotGo.AddComponent<Button>();
+						//slot was selected
+						slotButton.onClick.AddListener(() => 
+						{
+							//stop animation
+							slotAnimator.SetTrigger(AnimationParameters.TRIGGER_GLOW_SLOT);
+							//perform purchase sound
+							purchaseSound.Play();
+							//change weapon in the right slot
+							WeaponSlot slot = weaponsShopLoadoutController.slotsGOs[slotGo];
+							//sell the old weapon first
+							if (slot.Weapon != null)
+							{
+								EntitiesStore.Instance.Player.Cash += slot.Weapon.Price;
+							}
+							slot.Weapon = dataWeapon;
+							EntitiesStore.Instance.Player.Cash -= dataWeapon.Price;
+							//restore details button text
+							itemLabelText.text = prevText;
+
+							parentController.RefreshUI();
+
+							Destroy(slotButton);
+						});
 					}
 
 				} else {
