@@ -14,5 +14,6 @@ namespace TankArena.Constants
         public const string TRACKS_DIRECTION_INT = "Direction";
         public const string TRUCK_DEATH_TRIGGER = "Death";
         public const string TRIGGER_GLOW_SLOT = "Pulsate";
+        public const string TRIGGER_PART_SLOTTED = "Slotted";
     }
 }

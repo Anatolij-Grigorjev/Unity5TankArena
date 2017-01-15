@@ -28,6 +28,10 @@ namespace TankArena.UI.Shop
 		public TopLevelShopController parentController;
 		public WeaponsShopLoadoutController weaponsShopLoadoutController;
 		public Text msgBoxText;
+		public Image chassisPartImage;
+		public Image turretPartImage;
+		public Image tracksPartImage;
+		public Image enginePartImage;
 		Tank CurrentLoadout;
 
 		private FileLoadedEntityModel data;
@@ -41,7 +45,13 @@ namespace TankArena.UI.Shop
 		// Update is called once per frame
 		void Update ()
 		{
-		
+			var axis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
+			DBG.Log("enginePartImage: {0}", enginePartImage);
+			DBG.Log("enginePartImage.rectTransform: {0}", enginePartImage.rectTransform);
+			DBG.Log("enginePartImage.rectTransform.rotation: {0}", enginePartImage.rectTransform.rotation);
+			var rot = enginePartImage.rectTransform.rotation.eulerAngles;
+			rot.z += axis * 15.0f;
+			enginePartImage.rectTransform.rotation = Quaternion.Euler(rot);
 		}
 		private UnityAction createBaseWeaponPurchaseAction()
 		{
@@ -63,9 +73,10 @@ namespace TankArena.UI.Shop
 						return;
 					}
 
-					//rename button to let them know what to do
+					//rename button and disable clicking it
 					var prevText = itemLabelText.text;
 					itemLabelText.text = UIShopButtonTexts.SHOP_CHOSE_WEAPON_SLOT;
+					buyItemButton.enabled = false;
 
 					//glow the GOs
 					foreach(GameObject slotGo in slotObjects)
@@ -89,8 +100,9 @@ namespace TankArena.UI.Shop
 							}
 							slot.Weapon = dataWeapon;
 							EntitiesStore.Instance.Player.Cash -= dataWeapon.Price;
-							//restore details button text
+							//restore details button 
 							itemLabelText.text = prevText;
+							buyItemButton.enabled = true;
 
 							parentController.RefreshUI();
 
@@ -134,7 +146,7 @@ namespace TankArena.UI.Shop
 			msgBox.SetActive(true);
 		}
 
-		//Slot in new part and return old one
+		///Slot in new part and return old one
         private TankPart SlotInNewPart(TankPart newPart)
         {
             var Current = EntitiesStore.Instance.CurrentTank;
@@ -144,21 +156,29 @@ namespace TankArena.UI.Shop
 			{
 				var oldChassis = Current.TankChassis;
 				Current.TankChassis = (TankChassis)newPart;
+				chassisPartImage.gameObject.GetComponent<Animator>()
+					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
 				return oldChassis;
 			} else if (typeof(TankTurret).IsAssignableFrom(dataType))
 			{
 				var oldTurret = Current.TankTurret;
 				Current.TankTurret = (TankTurret)newPart;
+				turretPartImage.gameObject.GetComponent<Animator>()
+					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
 				return oldTurret;
 			} else if (typeof(TankEngine).IsAssignableFrom(dataType))
 			{
 				var oldEngine = Current.TankEngine;
 				Current.TankEngine = (TankEngine)newPart;
+				enginePartImage.gameObject.GetComponent<Animator>()
+					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
 				return oldEngine;
 			} else if (typeof(TankTracks).IsAssignableFrom(dataType))
 			{
 				var oldTracks = Current.TankTracks;
 				Current.TankTracks = (TankTracks)newPart;
+				tracksPartImage.gameObject.GetComponent<Animator>()
+					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
 				return oldTracks;
 			} else 
 			{
