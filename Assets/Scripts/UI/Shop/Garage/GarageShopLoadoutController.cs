@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.UI.Shop
 {
@@ -45,6 +46,31 @@ namespace TankArena.UI.Shop
 			chassisAndEngineHolder.SetActive(enable);
 			tracksImage.gameObject.SetActive(enable);
 			engineImage.gameObject.SetActive(enable);
+		}
+
+		public void SlotPartAnimation(TankPart part)
+		{
+			Image rightImage = null;
+			var dataType = part.GetType();
+			if (typeof(TankChassis).IsAssignableFrom(dataType))
+			{
+				rightImage = chassisImage;
+			} else if (typeof(TankTurret).IsAssignableFrom(dataType))
+			{
+				rightImage = turretImage;
+			} else if (typeof(TankEngine).IsAssignableFrom(dataType))
+			{
+				rightImage = engineImage;
+			} else if (typeof(TankTracks).IsAssignableFrom(dataType))
+			{
+				rightImage = tracksImage;
+			} else 
+			{
+			}
+			if (rightImage != null)
+			{
+				rightImage.gameObject.GetComponent<Animator>().SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
+			}
 		}
 
 	}

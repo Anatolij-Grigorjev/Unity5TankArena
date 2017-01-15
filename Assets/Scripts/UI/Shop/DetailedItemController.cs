@@ -27,11 +27,9 @@ namespace TankArena.UI.Shop
 		public GameObject msgBox;
 		public TopLevelShopController parentController;
 		public WeaponsShopLoadoutController weaponsShopLoadoutController;
+		public GarageShopLoadoutController garageShopLoadoutController;
 		public Text msgBoxText;
-		public Image chassisPartImage;
-		public Image turretPartImage;
-		public Image tracksPartImage;
-		public Image enginePartImage;
+		
 		Tank CurrentLoadout;
 
 		private FileLoadedEntityModel data;
@@ -45,13 +43,7 @@ namespace TankArena.UI.Shop
 		// Update is called once per frame
 		void Update ()
 		{
-			var axis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
-			DBG.Log("enginePartImage: {0}", enginePartImage);
-			DBG.Log("enginePartImage.rectTransform: {0}", enginePartImage.rectTransform);
-			DBG.Log("enginePartImage.rectTransform.rotation: {0}", enginePartImage.rectTransform.rotation);
-			var rot = enginePartImage.rectTransform.rotation.eulerAngles;
-			rot.z += axis * 15.0f;
-			enginePartImage.rectTransform.rotation = Quaternion.Euler(rot);
+
 		}
 		private UnityAction createBaseWeaponPurchaseAction()
 		{
@@ -150,36 +142,24 @@ namespace TankArena.UI.Shop
         private TankPart SlotInNewPart(TankPart newPart)
         {
             var Current = EntitiesStore.Instance.CurrentTank;
-
+			TankPart oldPart = null;
 			var dataType = newPart.GetType();
 			if (typeof(TankChassis).IsAssignableFrom(dataType))
 			{
-				var oldChassis = Current.TankChassis;
+				oldPart = Current.TankChassis;
 				Current.TankChassis = (TankChassis)newPart;
-				chassisPartImage.gameObject.GetComponent<Animator>()
-					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
-				return oldChassis;
 			} else if (typeof(TankTurret).IsAssignableFrom(dataType))
 			{
-				var oldTurret = Current.TankTurret;
+				oldPart = Current.TankTurret;
 				Current.TankTurret = (TankTurret)newPart;
-				turretPartImage.gameObject.GetComponent<Animator>()
-					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
-				return oldTurret;
 			} else if (typeof(TankEngine).IsAssignableFrom(dataType))
 			{
-				var oldEngine = Current.TankEngine;
+				oldPart = Current.TankEngine;
 				Current.TankEngine = (TankEngine)newPart;
-				enginePartImage.gameObject.GetComponent<Animator>()
-					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
-				return oldEngine;
 			} else if (typeof(TankTracks).IsAssignableFrom(dataType))
 			{
-				var oldTracks = Current.TankTracks;
+				oldPart = Current.TankTracks;
 				Current.TankTracks = (TankTracks)newPart;
-				tracksPartImage.gameObject.GetComponent<Animator>()
-					.SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
-				return oldTracks;
 			} else 
 			{
 				string error = String.Format("SOMETHING IS VERY WRONG!!! PERSON PAID FOR TANK PART THAT IS NOT TANK PART!!!"+
@@ -188,7 +168,15 @@ namespace TankArena.UI.Shop
 				DisplayMessageBox(error);
 			}
 			
-			return newPart;
+			if (oldPart != null)
+			{
+				garageShopLoadoutController.SlotPartAnimation(oldPart);
+
+				return oldPart;
+			} else 
+			{
+				return newPart;
+			}
         }
 
         public void SetItem(FileLoadedEntityModel entity)
