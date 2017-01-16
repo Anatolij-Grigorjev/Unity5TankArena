@@ -4,6 +4,8 @@ using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
+using MovementEffects;
+using System.Collections.Generic;
 
 namespace TankArena.UI.Shop
 {
@@ -15,6 +17,11 @@ namespace TankArena.UI.Shop
 		public Image engineImage;
 		public GameObject chassisAndEngineHolder;
 		private Tank currentTankData;
+
+		private readonly float SCALE_DELTA = 1.1f;
+		private readonly float REGULAR_SCALE = Mathf.Sqrt(Vector3.one.magnitude);
+		private readonly float MAX_MAGNITUDE = Mathf.Sqrt(7.5f);
+
 		// Use this for initialization
 		void Start () {
 		
@@ -69,8 +76,29 @@ namespace TankArena.UI.Shop
 			}
 			if (rightImage != null)
 			{
-				rightImage.gameObject.GetComponent<Animator>().SetTrigger(AnimationParameters.TRIGGER_PART_SLOTTED);
+				Timing.RunCoroutine(_SlotScaler(rightImage));
+				
 			}
+		}
+
+		private IEnumerator<float> _SlotScaler(Image rightImage)
+		{	
+			DBG.Log("Magnitude: {0}, maxitude: {1}", 
+				rightImage.rectTransform.localScale.magnitude, MAX_MAGNITUDE);
+			while(rightImage.rectTransform.localScale.magnitude < MAX_MAGNITUDE)
+			{
+				rightImage.rectTransform.localScale *= SCALE_DELTA;
+				yield return Timing.WaitForSeconds(Time.deltaTime);
+			}
+
+			while (rightImage.rectTransform.localScale.magnitude > REGULAR_SCALE)
+			{
+				rightImage.rectTransform.localScale *= (1.0f / SCALE_DELTA);
+				yield return Timing.WaitForSeconds(1.0f / 10.0f);
+			}
+
+			rightImage.rectTransform.localScale = Vector3.one;
+			yield break;
 		}
 
 	}
