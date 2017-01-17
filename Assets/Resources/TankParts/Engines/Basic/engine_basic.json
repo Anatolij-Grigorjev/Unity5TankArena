@@ -11,5 +11,6 @@
 	"deacceleration": 15.5,
 	"price": 51.10,
 	"idle_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_idle",
-	"revving_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_revving"
+	"revving_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_revving",
+	"description": "Mark I in a series of average engines. This specimen represents an entry point of the unremarkable series, boasting nothing more than a moderate desire to help get you there. Eventually."
 }

@@ -15,5 +15,6 @@
 	],
 	"heavy_weapon_slots": [
 		"!wpnslt;1;!transf;61.5;31.5;0.0;0.0;0.0;0.0;0.9;0.9;1.0"
-	]
+	],
+	"description": "The average, middle of the road, working man's turret. Slowish rotation speed ensures an attack that is more tactical then reactionary, but given one of each weapon slot type and relatively low price, the potential for almost anything is there."
 }

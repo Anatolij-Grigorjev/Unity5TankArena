@@ -94,7 +94,7 @@ namespace TankArena.UI.Shop
 			while (rightImage.rectTransform.localScale.magnitude > REGULAR_SCALE)
 			{
 				rightImage.rectTransform.localScale *= (1.0f / SCALE_DELTA);
-				yield return Timing.WaitForSeconds(1.0f / 10.0f);
+				yield return Timing.WaitForSeconds(UIShopTiming.SHOP_ANIMATION_WAIT_SEC);
 			}
 
 			rightImage.rectTransform.localScale = Vector3.one;

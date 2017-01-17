@@ -17,6 +17,7 @@ namespace TankArena.UI.Shop
 	public class DetailedItemController : MonoBehaviour {
 
 		public Image itemImage;
+		public Text itemPropsText;
 		public Text itemDescriptionText;
 		public Text itemLabelText;
 		public Image itemLabelImage;
@@ -239,7 +240,8 @@ namespace TankArena.UI.Shop
 			{
 				itemImage.sprite = itemSprite;
 			}
-			itemDescriptionText.text = StringifyProperties(this.data);
+			itemPropsText.text = StringifyProperties(this.data);
+			itemDescriptionText.text = this.data.Description;
 		}
 
         private string StringifyProperties(FileLoadedEntityModel data)

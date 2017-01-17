@@ -54,6 +54,16 @@ namespace TankArena.Models
                 return (float)properties[EK.EK_PRICE];
             }
         }
+        ///<summary>
+        ///Description of item in shop
+        ///</summary>
+        public string Description
+        {
+            get 
+            {
+                return (string)properties[EK.EK_DESCRIPTION];
+            }
+        }
 
 
         public Dictionary<String, object> properties;
@@ -84,6 +94,7 @@ namespace TankArena.Models
             properties[EK.EK_ID] = json[EK.EK_ID].Value;
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
             properties[EK.EK_PRICE] = json[EK.EK_PRICE].AsFloat;
+            properties[EK.EK_DESCRIPTION] = json[EK.EK_DESCRIPTION].Value;
         }
 
         /// <summary>
