@@ -6,6 +6,7 @@ using TankArena.Models.Tank;
 using TankArena.Models.Weapons;
 using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
@@ -126,6 +127,19 @@ namespace TankArena.UI.Shop
 					var oldPart = SlotInNewPart((TankPart)data);
 					var pricediff = data.Price - oldPart.Price;
 					EntitiesStore.Instance.Player.Cash -= pricediff;
+					//sold part was a turret, let person know they sold weapons
+					if (typeof(TankTurret).IsAssignableFrom(oldPart.GetType()))
+					{
+						TankTurret oldTurret = (TankTurret)oldPart;
+						var oldFullSlots = oldTurret.allWeaponSlots.FindAll(slot => slot.Weapon != null);
+						var count = oldFullSlots.Count;
+						if (count > 0)
+						{
+							var sum = oldFullSlots.Sum(slot => slot.Weapon.Price);
+							EntitiesStore.Instance.Player.Cash += sum;
+							DisplayMessageBox(UIShopButtonTexts.SHOP_SOLD_N_WEAPONS_FOR_M(count, sum));
+						}
+					}
 					parentController.RefreshUI();
 				} else {
 					DisplayMessageBox(UIShopButtonTexts.SHOP_NOT_ENOUGH_MSG_BOX);		

@@ -10,6 +10,7 @@ using System;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 using TankArena.Models;
+using UnityEngine.SceneManagement;
 
 namespace TankArena.UI.Shop 
 {
@@ -84,6 +85,11 @@ namespace TankArena.UI.Shop
 		private void UpdateLoadoutText()
 		{
 			currentLoadoutController.RefreshLoadoutView();
+		}
+
+		public void LoadArena()
+		{
+			SceneManager.LoadScene(SceneIds.SCENE_ARENA_ID);
 		}
 
 		protected void UpdateUIForState(int currentState)

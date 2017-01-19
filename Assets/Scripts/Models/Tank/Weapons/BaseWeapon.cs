@@ -282,7 +282,7 @@ namespace TankArena.Models.Weapons
         {
             TankTurretController turret = controller.turretController;
             //deref turret by id from controller
-            OnTurretPosition[turret.Data.Id].CopyToTransform(controller.transform);
+            OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
 
             controller.damage = Damage;

@@ -38,6 +38,8 @@ namespace TankArena.UI.Shop
 			turretValue.text = tankData.TankTurret.Name;
 			tracksValue.text = tankData.TankTracks.Name;
 			engineValue.text = tankData.TankEngine.Name;
+			//prepare weapon values (since most turrets dont have all 4 slots)
+			weaponValues.ForEach(text => text.text = "---");
 
 			tankData.TankTurret.allWeaponSlots.ForEachWithIndex((slot, ind) => {
 
