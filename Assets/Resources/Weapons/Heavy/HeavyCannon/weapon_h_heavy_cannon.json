@@ -2,7 +2,9 @@
 	"id": "WPN_H_heavy01",
 	"name": "Heavy Cannon",
 	"price": 112.79,
-	"on_turret_position": "!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"on_turret_position": {
+		"TUR_basic01" : "!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
+	},
 	"wpn_type": 1,
 	"damage": 135.7
 ,	"reload": 3.5,

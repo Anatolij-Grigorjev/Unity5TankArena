@@ -193,10 +193,13 @@ namespace TankArena.Models.Weapons
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_ON_TURRET_POSITION] = new Dictionary<String, TransformState>();
-            JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].asObject;
-            foreach(KeyValuePair codeStatePair in transforms)
+            JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].AsObject;
+            foreach(KeyValuePair<String, JSONNode> codeStatePair in transforms)
             {
-                OnTurretPosition.Add(codeStatePair.Key, ResolveSpecialContent(codeStatePair.Value));
+                OnTurretPosition.Add(
+                    codeStatePair.Key, 
+                    (TransformState)ResolveSpecialContent(codeStatePair.Value.Value)
+                );
             }
             properties[EK.EK_WEAPON_TYPE] = (WeaponTypes)json[EK.EK_WEAPON_TYPE].AsInt;
             properties[EK.EK_DAMAGE] = json[EK.EK_DAMAGE].AsFloat;
