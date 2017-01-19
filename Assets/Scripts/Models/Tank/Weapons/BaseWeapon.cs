@@ -17,13 +17,13 @@ namespace TankArena.Models.Weapons
     public class BaseWeapon : FileLoadedEntityModel
     {
         /// <summary>
-        /// Weapon in-game position, relative to turret GO transform
+        /// Weapon in-game position, relative to turret GO transform (keys are turret ids)
         /// </summary>
-        public TransformState OnTurretPosition
+        public Dictionary<string, TransformState> OnTurretPosition
         {
             get
             {
-                return (TransformState)properties[EK.EK_ON_TURRET_POSITION];
+                return (Dictionary<string, TransformState>)properties[EK.EK_ON_TURRET_POSITION];
             }
         }
         /// <summary>
@@ -192,7 +192,12 @@ namespace TankArena.Models.Weapons
         {
             base.LoadPropertiesFromJSON(json);
 
-            properties[EK.EK_ON_TURRET_POSITION] = ResolveSpecialContent(json[EK.EK_ON_TURRET_POSITION].Value);
+            properties[EK.EK_ON_TURRET_POSITION] = new Dictionary<String, TransformState>();
+            JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].asObject;
+            foreach(KeyValuePair codeStatePair in transforms)
+            {
+                OnTurretPosition.Add(codeStatePair.Key, ResolveSpecialContent(codeStatePair.Value));
+            }
             properties[EK.EK_WEAPON_TYPE] = (WeaponTypes)json[EK.EK_WEAPON_TYPE].AsInt;
             properties[EK.EK_DAMAGE] = json[EK.EK_DAMAGE].AsFloat;
             properties[EK.EK_RELOAD_TIME] = json[EK.EK_RELOAD_TIME].AsFloat;
@@ -275,7 +280,9 @@ namespace TankArena.Models.Weapons
 
         public virtual void SetDataToController(BaseWeaponController controller)
         {
-            OnTurretPosition.CopyToTransform(controller.transform);
+            TankTurretController turret = controller.turretController;
+            //deref turret by id from controller
+            OnTurretPosition[turret.Data.Id].CopyToTransform(controller.transform);
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
 
             controller.damage = Damage;

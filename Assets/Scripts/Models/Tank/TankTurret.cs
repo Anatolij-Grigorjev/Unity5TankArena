@@ -127,9 +127,9 @@ namespace TankArena.Models.Tank
                         weaponGO.transform.parent = turretController.transform;
                         
                         var wpnController = weaponGO.GetComponent<BaseWeaponController>();
+                        wpnController.turretController = turretController;
                         wpnController.WeaponSlot = slot;
                         slot.weaponController = wpnController;
-                        wpnController.turretController = turretController;
                     } 
                     else
                     {
