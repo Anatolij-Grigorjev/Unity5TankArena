@@ -7,6 +7,7 @@ using TankArena.Models.Weapons;
 using TankArena.Utils;
 using DBG = TankArena.Utils.DBG;
 using Serialization = TankArena.Utils.EntitySerializationManager;
+using TankArena.Constants;
 
 namespace TankArena.Models.Tank
 {
@@ -103,6 +104,7 @@ namespace TankArena.Models.Tank
         }
         private GameObject parentGO;
         private Rigidbody2D rigidBody;
+        private GameObject chassisRotator;
         private Transform transform;
 
         public Tank(TankChassis chassis, TankTurret turret)
@@ -140,6 +142,11 @@ namespace TankArena.Models.Tank
         /// </summary>
         public void Move(float throttle, float turn)
         {
+            if (chassisRotator == null)
+            {
+                //lazy initialization on the rotator to allow for it to be created n stuff
+                chassisRotator = GameObject.FindWithTag(Tags.TAG_CHASSIS_ROTATOR);
+            }
             //only affect rigid body drag if the tank is actually using its engine
             if (throttle != 0.0 || turn != 0.0)
             {
@@ -153,20 +160,19 @@ namespace TankArena.Models.Tank
             // DBG.Log("Current velocity: {0}", currentVelocity);    
             var acceleration = TankEngine.Acceleration * throttle 
                 * enginePowerCoef * (allowedTopSpeed / currentVelocity);
-            //do throttle
+            //do throttle (on main object body because both chassis and turret move together)
             //attempt culling acceleration? need to ensure velocity and top speed are congruent
             if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
             {
                 // DBG.Log("Applying thrust: {0}", transform.up * acceleration * Time.deltaTime);
-                rigidBody.AddForce(transform.up * acceleration * 1/*Time.deltaTime*/);
+                rigidBody.AddForce(chassisRotator.transform.up * acceleration * 1/*Time.deltaTime*/);
             }
              
-            //do spin
+            //do spin (only on chassis because turret rotates separately)
             var turnPower = turn * TankTracks.TurnSpeed;
             if (turnPower != 0.0)
             {
-                
-                rigidBody.MoveRotation(rigidBody.rotation + turnPower * Time.deltaTime);
+                chassisRotator.transform.Rotate(Vector3.forward, turnPower * Time.deltaTime, Space.World);
             }
         }
 

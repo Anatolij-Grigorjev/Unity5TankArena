@@ -31,11 +31,22 @@ namespace TankArena.Controllers
         }
 
         // Use this for initialization
+
+        public Transform Rotator;
         public override void Awake()
         {
             base.Awake();
             
             DBG.Log("Chassis Controller Awoke!");
+
+            var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);
+            rotatorGO.tag = Tags.TAG_CHASSIS_ROTATOR;
+            rotatorGO.transform.parent = parentObject.transform;
+            Model.TurretPivot.CopyToTransform(rotatorGO.transform);
+            transform.parent = rotatorGO.transform;
+
+            Rotator = rotatorGO.transform;
+
         }
 
         // Update is called once per frame

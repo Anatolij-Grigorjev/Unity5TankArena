@@ -6,7 +6,7 @@
 	"shop_item": "!img;TankParts\\Tracks\\Basic\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Tracks\\Basic\\Images\\garage_img",
 	"coupling": 3.1,
-	"turn_speed": 125.5,
+	"turn_speed": 50.5,
 	"lower_integrity": 5,
 	"price": 50.33,
 	"spritesheet": "!sprites;TankParts\\Tracks\\Basic\\Images\\Sprites\\tracks_basic_spritesheet_0",

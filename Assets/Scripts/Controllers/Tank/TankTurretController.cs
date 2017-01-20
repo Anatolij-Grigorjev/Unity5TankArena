@@ -3,6 +3,7 @@ using System.Collections;
 using TankArena.Models.Tank;
 using System;
 using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.Controllers
 {
@@ -19,7 +20,8 @@ namespace TankArena.Controllers
         {
             
             TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
-            var rotatorGO = new GameObject("Rotator");
+            var rotatorGO = new GameObject(Tags.TAG_TURRET_ROTATOR);
+            rotatorGO.tag = Tags.TAG_TURRET_ROTATOR;
             rotatorGO.transform.parent = parentObject.transform;
             chassis.TurretPivot.CopyToTransform(rotatorGO.transform);
             transform.parent = rotatorGO.transform;

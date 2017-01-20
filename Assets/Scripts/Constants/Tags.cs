@@ -22,5 +22,8 @@ namespace TankArena.Constants
         public const String TAG_MSG_BOX_TEXT = "msg_box_text";
         public const String TAG_SHOP_HEAVY_SLOT = "shop_heavy_slot";
         public const String TAG_SHOP_LIGHT_SLOT = "shop_light_slot";
+        public const String TAG_TANK_CHASSIS_GO = "TankChassis";
+        public const String TAG_TURRET_ROTATOR = "TurretRotator";
+        public const String TAG_CHASSIS_ROTATOR = "ChassisRotator";
     }
 }
