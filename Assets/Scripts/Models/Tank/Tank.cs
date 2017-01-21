@@ -105,6 +105,7 @@ namespace TankArena.Models.Tank
         private GameObject parentGO;
         private Rigidbody2D rigidBody;
         private GameObject chassisRotator;
+        private GameObject turretRotator;
         private Transform transform;
 
         public Tank(TankChassis chassis, TankTurret turret)
@@ -142,10 +143,11 @@ namespace TankArena.Models.Tank
         /// </summary>
         public void Move(float throttle, float turn)
         {
-            if (chassisRotator == null)
+            if (chassisRotator == null || turretRotator == null)
             {
                 //lazy initialization on the rotator to allow for it to be created n stuff
                 chassisRotator = GameObject.FindWithTag(Tags.TAG_CHASSIS_ROTATOR);
+                turretRotator = GameObject.FindWithTag(Tags.TAG_TURRET_ROTATOR);
             }
             //only affect rigid body drag if the tank is actually using its engine
             if (throttle != 0.0 || turn != 0.0)
@@ -172,6 +174,7 @@ namespace TankArena.Models.Tank
             var turnPower = turn * TankTracks.TurnSpeed;
             if (turnPower != 0.0)
             {
+                turretRotator.transform.Rotate(Vector3.forward, turnPower * Time.deltaTime, Space.World);
                 chassisRotator.transform.Rotate(Vector3.forward, turnPower * Time.deltaTime, Space.World);
             }
         }

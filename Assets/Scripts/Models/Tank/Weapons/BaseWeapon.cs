@@ -284,8 +284,12 @@ namespace TankArena.Models.Weapons
         public virtual void SetDataToController(BaseWeaponController controller)
         {
             TankTurretController turret = controller.turretController;
-            //deref turret by id from controller
-            OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);
+            //weapon might be mounted on light enemies without turrets
+            if (turret != null) 
+            {
+                //deref turret by id from controller
+                OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);
+            }
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
 
             controller.damage = Damage;
