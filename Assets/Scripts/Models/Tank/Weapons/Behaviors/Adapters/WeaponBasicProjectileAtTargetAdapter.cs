@@ -1,5 +1,6 @@
 using UnityEngine;
 using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.Models.Weapons.Behaviors
 {
@@ -15,18 +16,26 @@ namespace TankArena.Models.Weapons.Behaviors
             DBG.Log("Shot time position: {0}, up: {1}", shotTimePosition, shotTimeUp);
             bool didHit = false;
             DBG.Log("Feeder: {0}", controller.gameObject);
-            RaycastHit2D firstHit = Physics2D.Raycast(shotTimePosition, shotTimeUp, weapon.Range, layerMask);
-
-            Vector3 pos = new Vector3(firstHit.point.x, firstHit.point.y);
-            //point is a fake, set a new one
-            if (firstHit.collider == null)
+            int count = Physics2D.CircleCastNonAlloc(
+                shotTimePosition, 
+                projectileRadius, 
+                shotTimeUp,
+                hitsNonAlloc,
+                weapon.Range,
+                layerMask
+            );
+            didHit = count > 0;
+            DBG.Log("Got results: {0}, from firing {1}", count, weapon.Name);
+            Vector3 pos = Vector3.zero;
+            DBG.Log("Weapon Layer mask: {0}, default and enemy layer mask: {1}", layerMask, LayerMasks.LM_DEFAULT_AND_ENEMY);
+            if (!didHit)
             {
                 pos = shotTimePosition + (weapon.Range * shotTimeUp);
             }
             else 
             {
-                DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject );
-                didHit = true;
+                DBG.Log("Hit collider of GO: {0}", hitsNonAlloc[0].collider.gameObject);
+                pos = new Vector3(hitsNonAlloc[0].point.x, hitsNonAlloc[0].point.y);
             }
 
             CreateAndConfigureProjectile(didHit, pos);
