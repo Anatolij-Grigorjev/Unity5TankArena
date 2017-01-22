@@ -36,6 +36,13 @@ namespace TankArena.Models.Weapons
                 return (WeaponTypes)properties[EK.EK_WEAPON_TYPE];
             }
         }
+        public int ProjectileWidth
+        {
+            get 
+            {
+                return (int)properties[EK.EK_PROJECTILE_WIDTH];
+            }
+        }
 
         public WeaponBehaviors.Types WeaponBehaviorType
         {
@@ -210,6 +217,7 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
+            properties[EK.EK_PROJECTILE_WIDTH] = json[EK.EK_PROJECTILE_WIDTH].AsInt;
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
             properties[EK.EK_WEAPON_BEHAVIOR_TYPE] = Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);

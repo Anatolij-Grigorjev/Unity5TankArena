@@ -66,8 +66,9 @@ namespace TankArena.Controllers
             {
                 this.target = target;
                 //bit shift target layer into 1 to get proper layer mask
-                this.targetLayerMask = 1 << target.layer;
-
+                //also always shift default layer of terrain not to raycast over it
+                this.targetLayerMask = 1 << (target.layer | LayerMasks.L_DEFAULT_LAYER);
+                
                 unitCommands.Enqueue(new TankCommand(TankCommandWords.AI_COMMAND_TARGET_AQUIRED, new Dictionary<string, object>() {
                     { TankCommandParamKeys.AI_CMD_LAYER_MASK, targetLayerMask }
                 }));

@@ -14,6 +14,8 @@ namespace TankArena.Models.Weapons.Behaviors
         protected AudioSource reloadAudio;
         protected BaseWeapon weapon;
         protected int layerMask;
+        protected RaycastHit2D[] hitsNonAlloc;
+        protected int projectileWidth;
 
         public abstract void OnReloadFinished();
         public virtual void OnReloadStarted()
@@ -32,6 +34,7 @@ namespace TankArena.Models.Weapons.Behaviors
         public void SetWeaponModel(BaseWeapon weapon)
         {
             this.weapon = weapon;
+            SetProjectileWidth(weapon.ProjectileWidth);
         }
         public void SetHitLayersMask(int layerMask) 
         {
@@ -40,6 +43,10 @@ namespace TankArena.Models.Weapons.Behaviors
         public void SetWeaponReloadSound(AudioSource reloadSound)
         {
             this.reloadAudio = reloadSound;
+        }
+        public void SetProjectileWidth(int width) 
+        {
+            this.projectileWidth = width;
         }
 
         public abstract void WhileReloading();
