@@ -15,7 +15,7 @@
 	"spritesheet": "!sprites;Weapons\\Heavy\\HeavyCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
 	"behavior_type" : "heavy_projectile_at_target",
 	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
-	"projectile_width" : 4.0,
+	"projectile_width" : 0.4,
 	"shot_sound" : "!snd;Weapons\\Heavy\\HeavyCannon\\Sounds\\shot",
 	"weapon_animations" : "!anim_contr;Weapons\\Heavy\\HeavyCannon\\Animation\\Controllers\\BasicHeavyAnimationController"
 }

@@ -15,15 +15,15 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             DBG.Log("Shot time position: {0}, up: {1}", shotTimePosition, shotTimeUp);
             bool didHit = false;
-            DBG.Log("Feeder: {0}", controller.gameObject);
-            RaycastHit2D firstHit = Physics2D.CircleCast(
+            int count = Physics2D.CircleCastNonAlloc(
                 shotTimePosition, 
-                5.0f,
+                projectileRadius,
                 shotTimeUp,
+                hitsNonAlloc,
                 weapon.Range,
                 layerMask
             );
-            didHit = firstHit.collider != null;
+            didHit = count > 0;
             Vector3 pos = Vector3.zero;
             if (!didHit)
             {
@@ -31,6 +31,7 @@ namespace TankArena.Models.Weapons.Behaviors
             }
             else 
             {
+                var firstHit = hitsNonAlloc[0];
                 DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject);
                 pos = new Vector3(firstHit.point.x, firstHit.point.y);
             }

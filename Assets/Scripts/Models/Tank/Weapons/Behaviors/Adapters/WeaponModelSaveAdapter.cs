@@ -14,8 +14,8 @@ namespace TankArena.Models.Weapons.Behaviors
         protected AudioSource reloadAudio;
         protected BaseWeapon weapon;
         protected int layerMask;
-        protected RaycastHit2D[] hitsNonAlloc = new RaycastHit2D[3];
-        protected int projectileRadius;
+        protected RaycastHit2D[] hitsNonAlloc = new RaycastHit2D[1];
+        protected float projectileRadius;
 
         public abstract void OnReloadFinished();
         public virtual void OnReloadStarted()
@@ -35,6 +35,7 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             this.weapon = weapon;
             SetProjectileWidth(weapon.ProjectileWidth);
+            DBG.Log("Set model {0}, with radius {1}", weapon.Name, projectileRadius);
         }
         public void SetHitLayersMask(int layerMask) 
         {
@@ -44,7 +45,7 @@ namespace TankArena.Models.Weapons.Behaviors
         {
             this.reloadAudio = reloadSound;
         }
-        public void SetProjectileWidth(int width) 
+        public void SetProjectileWidth(float width) 
         {
             this.projectileRadius = width;
         }
