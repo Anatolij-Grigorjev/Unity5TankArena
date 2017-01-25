@@ -74,6 +74,12 @@ namespace TankArena.Constants
         public const string EK_RELOAD_SOUND = "reload_sound";
         public const string EK_WEAPON_ANIMATION = "weapon_animations";
 
+        //MAPS
+        public const string EK_THUMBNAIL = "thumbnail";
+        public const string EK_TOTAL_ENEMIES = "total_enemies";
+        public const string EK_ENEMY_TYPES = "enemy_types";
+        public const string EK_PLACEMENT_POINT = "placement_point";
+
 
 
         //DISPLAY PROPS

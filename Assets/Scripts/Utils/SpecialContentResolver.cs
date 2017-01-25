@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 using TankArena.Constants;
 using TankArena.Models.Weapons;
 
@@ -11,9 +9,12 @@ namespace TankArena.Utils
 {
     class SpecialContentResolver
     {
+
+        private static readonly char[] COMMON_ARRAY_DELIM = { ';' };
+
         private static Func<String, TransformState> transformDeserializer = transform => 
         {
-            var _9floats = transform.Split(new char[] { ';' }, 9)
+            var _9floats = transform.Split(COMMON_ARRAY_DELIM, 9)
                 .Select(strNum => float.Parse(strNum)).ToArray();
 
             float[] positionFloats = new float[] { _9floats[0], _9floats[1], _9floats[2] };
@@ -40,19 +41,26 @@ namespace TankArena.Utils
             { "!go;", gameObjectPath => { return Resources.Load<GameObject>(gameObjectPath); } },
             { "!box;", rectNums => 
                 {
-                    var _4floats = rectNums.Split(new char[] {';'}, 4)
+                    var _4floats = rectNums.Split(COMMON_ARRAY_DELIM, 4)
                         .Select(floatStr => float.Parse(floatStr)).ToArray();
                     return new Rect(_4floats[0], _4floats[1], _4floats[2], _4floats[3]);
                 }
             },
             { "!wpnslt;", slotDescriptor => 
                 {
-                    var typeAndTransform = slotDescriptor.Split(new char[] {';'}, 2);
+                    var typeAndTransform = slotDescriptor.Split(COMMON_ARRAY_DELIM, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
                     TransformState transform = typeAndTransform.Length > 1?
                         (TransformState)Resolve(typeAndTransform[1]) : null;
 
                     return new WeaponSlot(weaponType, transform);
+                }
+            },
+            { "!v3;", vector3 => 
+                {
+                    var vectorComponents = vector3.Split(COMMON_ARRAY_DELIM, 3)
+                        .Select(compStr => float.Parse(compStr)).ToArray();
+                    return new Vector3(vectorComponents[0], vectorComponents[1], vectorComponents[2]);
                 }
             }
         };
@@ -65,7 +73,7 @@ namespace TankArena.Utils
                 if (content.StartsWith(resolver.Key))
                 {
                     DBG.Log("Got resolver key: {0}", resolver.Key);
-                    var keyAndContent = content.Split(new char[]{';'}, 2);
+                    var keyAndContent = content.Split(COMMON_ARRAY_DELIM, 2);
                     if (keyAndContent.Length < 2)
                     {
                         return content;

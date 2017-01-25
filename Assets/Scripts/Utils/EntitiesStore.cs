@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using TankArena.Models;
 using TankArena.Models.Tank;
 using TankArena.Models.Weapons;
 using TankArena.Models.Characters;
+using TankArena.Models.Level;
 
 namespace TankArena.Utils
 {
@@ -18,11 +17,13 @@ namespace TankArena.Utils
         public Dictionary<String, PlayableCharacter> Characters { get { return loadedCharacters; } }
         public Dictionary<String, TankPart> TankParts { get { return loadedTankParts; } }
         public Dictionary<String, BaseWeapon> Weapons { get { return loadedWeapons; } }
+        public Dictionary<String, LevelModel> Levels { get { return loadedLevels; } }
 
         private Dictionary<String, FileLoadedEntityModel> loadedEntities;
         private Dictionary<String, PlayableCharacter> loadedCharacters;
         private Dictionary<String, TankPart> loadedTankParts;
         private Dictionary<String, BaseWeapon> loadedWeapons;
+        private Dictionary<String, LevelModel> loadedLevels;
 
         //GOs can check this before getting a reference 
         //going because they might be half loaded before these are
@@ -36,6 +37,15 @@ namespace TankArena.Utils
         {
             
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
+
+            //Load all Levels
+            loadedLevels = new Dictionary<string, LevelModel>();
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                @"Levels",
+                path => { return new LevelModel(path); },
+                loadedLevels
+            );
+            CopyToEntitiesDict(loadedLevels);
 
             //Load all characters
             loadedCharacters = new Dictionary<string, PlayableCharacter>();
