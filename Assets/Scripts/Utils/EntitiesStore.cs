@@ -29,9 +29,6 @@ namespace TankArena.Utils
         //going because they might be half loaded before these are
         public bool isReady = false;
 
-        public Tank CurrentTank { get; set; }
-        public Player Player { get; set; }
-
 
         public void Awake()
         {
@@ -94,8 +91,9 @@ namespace TankArena.Utils
             );
             CopyToEntitiesDict(loadedWeapons);
 
-            Models.Player.LoadFromPlayerPrefs();
-            CurrentTank = Player.CurrentTank;
+            CurrentState.Instance.SetPlayer(Player.LoadFromPlayerPrefs());
+            CurrentState.Instance.CurrentLevel = Levels.First().Value;
+            DBG.Log("Loaded level: {0}", CurrentState.Instance.CurrentLevel);
             GetStatus();
             
             isReady = true;

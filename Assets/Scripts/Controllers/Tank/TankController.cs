@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
-using System;
 
 namespace TankArena.Controllers
 {
@@ -46,7 +43,7 @@ namespace TankArena.Controllers
         public override void Awake () {
             base.Awake(); 
             tankRigidBody = GetComponent<Rigidbody2D>();
-            Tank = EntitiesStore.Instance.CurrentTank;
+            Tank = CurrentState.Instance.CurrentTank;
 
             DBG.Log("Tank Controller Awoke!");
 	    }

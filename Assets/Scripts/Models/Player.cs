@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 using TankArena.Models.Characters;
 
 namespace TankArena.Models
 {
-	public class Player 
+    public class Player 
 	{
 
 		public float Health;
@@ -17,7 +16,7 @@ namespace TankArena.Models
 		///<summary>
 		///Loads from player prefs and puts into the EntityStore
 		///</summary>
-		public static void LoadFromPlayerPrefs()
+		public static Player LoadFromPlayerPrefs()
         {
 			Player player = new Player();
             //construct player character and tank from encoded keys of ids
@@ -35,13 +34,12 @@ namespace TankArena.Models
             player.Cash = PlayerPrefs.HasKey(PP.PP_CASH) ? PlayerPrefs.GetFloat(PP.PP_CASH) : character.StartingCash;
 			player.Character = character;
 
-			EntitiesStore.Instance.Player = player;
-			EntitiesStore.Instance.CurrentTank = player.CurrentTank;
+			return player;
         }
 
 		public static void SaveToPlayerPrefs()
         {
-			var player = EntitiesStore.Instance.Player;
+			var player = CurrentState.Instance.Player;
             //take the current player customizations and save them into the preferences
             PlayerPrefs.SetString(PP.PP_CHARACTER, player.Character.Id);
             PlayerPrefs.SetString(PP.PP_TANK, player.CurrentTank.ToCode());

@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
-using System.Text;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
 using TankArena.Constants;
-using TankArena.Models.Tank;
-using TankArena.Models.Characters;
-using System;
-using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 using TankArena.Models;
 using UnityEngine.SceneManagement;
 
-namespace TankArena.UI.Shop 
+namespace TankArena.UI.Shop
 {
-	public class TopLevelShopController : MonoBehaviour {
+    public class TopLevelShopController : MonoBehaviour {
 
 		public List<UIShopStates> shopStates;
 		public int currentShopIndex;
 		public Image backgroundImage;
+		public Text levelDisclaimerText;
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
 		public MonoBehaviour[] soldItemsScripts;
@@ -34,7 +30,8 @@ namespace TankArena.UI.Shop
 		void Start () {
 
 			//load player data before updating UI
-			LoadPlayer();
+			EntitiesStore.Instance.GetStatus();
+			LoadLevelText();
 
 			RefreshUI();
 
@@ -72,10 +69,18 @@ namespace TankArena.UI.Shop
 			UpdateUIForState(currentShopIndex);
 		}
 
-        private void LoadPlayer()
-        {
-			Player.LoadFromPlayerPrefs();
-        }
+		private void LoadLevelText()
+		{
+			var levelModel = CurrentState.Instance.CurrentLevel;
+
+			var newText = levelDisclaimerText.text;
+			newText = newText
+			.Replace("{level}", levelModel.Name)
+			.Replace("{count}", levelModel.TotalEnemies.ToString())
+			.Replace("{types}", string.Join(", ", levelModel.EnemyTypes.ToArray()));
+
+			levelDisclaimerText.text = newText;
+		}
 
         // Update is called once per frame
         void Update () {

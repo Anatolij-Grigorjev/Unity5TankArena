@@ -27,7 +27,7 @@ namespace TankArena.UI.Shop
 
 		public void RefreshLoadoutView()
 		{
-			var player = EntitiesStore.Instance.Player;
+			var player = CurrentState.Instance.Player;
 			playerAvatar.sprite = player.Character.Avatar;
 			playerName.text = player.Character.Name.ToUpper();
 			playerCash.text = "$" + player.Cash.ToString();

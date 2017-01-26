@@ -51,7 +51,7 @@ namespace TankArena.UI.Shop
 		{
 			return () => 
 			{
-				var cash = EntitiesStore.Instance.Player.Cash;
+				var cash = CurrentState.Instance.Player.Cash;
 				
 				//player can buy this
 				if (cash >= data.Price)
@@ -90,10 +90,10 @@ namespace TankArena.UI.Shop
 							//sell the old weapon first
 							if (slot.Weapon != null)
 							{
-								EntitiesStore.Instance.Player.Cash += slot.Weapon.Price;
+								CurrentState.Instance.Player.Cash += slot.Weapon.Price;
 							}
 							slot.Weapon = dataWeapon;
-							EntitiesStore.Instance.Player.Cash -= dataWeapon.Price;
+							CurrentState.Instance.Player.Cash -= dataWeapon.Price;
 							//restore details button 
 							itemLabelText.text = prevText;
 							buyItemButton.enabled = true;
@@ -113,12 +113,12 @@ namespace TankArena.UI.Shop
 		{
 			return () =>
 			{
-				var cash = EntitiesStore.Instance.Player.Cash;
+				var cash = CurrentState.Instance.Player.Cash;
 				
 				//player can buy this
 				if (cash >= data.Price)
 				{
-					if (EntitiesStore.Instance.CurrentTank.HasPart((TankPart)this.data))
+					if (CurrentState.Instance.CurrentTank.HasPart((TankPart)this.data))
 					{
 						DisplayMessageBox(UIShopButtonTexts.SHOP_ALREADY_HAVE_PART_MSG_BOX);
 						return;
@@ -126,7 +126,7 @@ namespace TankArena.UI.Shop
 					purchaseSound.Play();
 					var oldPart = SlotInNewPart((TankPart)data);
 					var pricediff = data.Price - oldPart.Price;
-					EntitiesStore.Instance.Player.Cash -= pricediff;
+					CurrentState.Instance.Player.Cash -= pricediff;
 					//sold part was a turret, let person know they sold weapons
 					if (typeof(TankTurret).IsAssignableFrom(oldPart.GetType()))
 					{
@@ -136,7 +136,7 @@ namespace TankArena.UI.Shop
 						if (count > 0)
 						{
 							var sum = oldFullSlots.Sum(slot => slot.Weapon.Price);
-							EntitiesStore.Instance.Player.Cash += sum;
+							CurrentState.Instance.Player.Cash += sum;
 							DisplayMessageBox(UIShopButtonTexts.SHOP_SOLD_N_WEAPONS_FOR_M(count, sum));
 						}
 					}
@@ -156,7 +156,7 @@ namespace TankArena.UI.Shop
 		///Slot in new part and return old one
         private TankPart SlotInNewPart(TankPart newPart)
         {
-            var Current = EntitiesStore.Instance.CurrentTank;
+            var Current = CurrentState.Instance.CurrentTank;
 			TankPart oldPart = null;
 			var dataType = newPart.GetType();
 			if (typeof(TankChassis).IsAssignableFrom(dataType))
@@ -196,7 +196,7 @@ namespace TankArena.UI.Shop
 
         public void SetItem(FileLoadedEntityModel entity)
 		{	
-			CurrentLoadout = EntitiesStore.Instance.CurrentTank;
+			CurrentLoadout = CurrentState.Instance.CurrentTank;
 			//remove listeners before we add the right one
 			buyItemButton.onClick.RemoveAllListeners();
 

@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using TankArena.Models.Tank;
 using TankArena.Utils;
 
 namespace TankArena.UI.Shop
 {
-	public class CurrentLoadoutController : MonoBehaviour {
+    public class CurrentLoadoutController : MonoBehaviour {
 
 
 		public Text chassisValue;
@@ -33,7 +32,7 @@ namespace TankArena.UI.Shop
 
 		public void RefreshLoadoutView()
 		{
-			var tankData = EntitiesStore.Instance.CurrentTank;
+			var tankData = CurrentState.Instance.CurrentTank;
 			chassisValue.text = tankData.TankChassis.Name;
 			turretValue.text = tankData.TankTurret.Name;
 			tracksValue.text = tankData.TankTracks.Name;

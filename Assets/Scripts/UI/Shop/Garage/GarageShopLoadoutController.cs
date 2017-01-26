@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 
 namespace TankArena.UI.Shop
 {
-	public class GarageShopLoadoutController : MonoBehaviour, IAbstractLoadoutController {
+    public class GarageShopLoadoutController : MonoBehaviour, IAbstractLoadoutController {
 
 		public Image turretImage;
 		public Image chassisImage;
@@ -34,7 +33,7 @@ namespace TankArena.UI.Shop
 
 		public void RefreshLoadoutView()
 		{
-			var tankData = EntitiesStore.Instance.CurrentTank;
+			var tankData = CurrentState.Instance.CurrentTank;
 			currentTankData = tankData;
 			turretImage.color = Color.white;
 			turretImage.sprite = tankData.TankTurret.GarageItem;

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
 using TankArena.Utils;
@@ -9,7 +8,7 @@ using TankArena.Models.Weapons;
 
 namespace TankArena.UI.Shop
 {
-	public class WeaponsShopLoadoutController : MonoBehaviour, IAbstractLoadoutController {
+    public class WeaponsShopLoadoutController : MonoBehaviour, IAbstractLoadoutController {
 
 		// Use this for initialization
 		public Image turretImage;
@@ -35,7 +34,7 @@ namespace TankArena.UI.Shop
 
 		public void RefreshLoadoutView()
 		{
-			var turretData = EntitiesStore.Instance.CurrentTank.TankTurret;
+			var turretData = CurrentState.Instance.CurrentTank.TankTurret;
 			if (currentTurret == null || currentTurret.Id != turretData.Id) {
 				currentTurret = turretData;
 				foreach (GameObject go in slotsGOs.Keys)

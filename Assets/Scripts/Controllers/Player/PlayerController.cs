@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using TankArena.Models.Characters;
-using TankArena.Models.Tank;
-using PP = TankArena.Constants.PlayerPrefsKeys;
 using TankArena.Utils;
 using TankArena.Constants;
 using System.Collections.Generic;
@@ -34,7 +30,7 @@ namespace TankArena.Controllers
         // Use this for initialization
         void Start()
         {
-            player = EntitiesStore.Instance.Player;
+            player = CurrentState.Instance.Player;
             commands = tankController.Commands;
         }
 

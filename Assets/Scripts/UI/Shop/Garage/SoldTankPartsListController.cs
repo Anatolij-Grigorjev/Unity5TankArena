@@ -70,7 +70,7 @@ namespace TankArena.UI.Shop
 
 		private bool ItemInUse(TankPart part)
 		{
-			var playerData = EntitiesStore.Instance.CurrentTank;
+			var playerData = CurrentState.Instance.CurrentTank;
 			if (playerData != null && part != null)
 			{
 				foreach(TankPart tankPart in playerData.partsArray)
