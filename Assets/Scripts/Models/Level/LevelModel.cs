@@ -37,7 +37,13 @@ namespace TankArena.Models.Level
                 return (Vector3)properties[EK.EK_PLACEMENT_POINT];
             }
         }
-
+        public GameObject MapPrefab
+        {
+            get 
+            {
+                return (GameObject)properties[EK.EK_MAP_PREFAB];
+            }
+        }
         
         public LevelModel(String filepath): base(filepath)
         {
@@ -57,6 +63,7 @@ namespace TankArena.Models.Level
             }
             properties[EK.EK_ENEMY_TYPES] = list;
             properties[EK.EK_PLACEMENT_POINT] = ResolveSpecialContent(json[EK.EK_PLACEMENT_POINT].Value);
+            properties[EK.EK_MAP_PREFAB] = ResolveSpecialContent(json[EK.EK_MAP_PREFAB].Value);
         }
 
 

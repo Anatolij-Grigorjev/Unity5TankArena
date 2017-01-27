@@ -2,11 +2,12 @@
 	"id": "map_sandy_rock",
 	"name": "Sandy Rock",
 	"thumbnail": "!img;Levels\\SandyRock\\thumbnail", 
+	"map_prefab": "go!;Levels\\SandyRock\\sandy_rock_small",
 	"total_enemies": 30,
 	"enemy_types": [
 		"Light AV",
 		"Light Truck"
 	],
 	"placement_point": "!v3;-500.0;500.0;0.0",
-	"description": "A warm abandoned area near an old excavation site, perfect for everyday violence courtesy of the Tank Arena team." 
+	"description": "A warm abandoned area near an old excavation site, perfect for everyday violence courtesy of the TankArena™ team." 
 }
