@@ -6,6 +6,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models;
 using UnityEngine.SceneManagement;
+using TankArena.Models.Level;
 
 namespace TankArena.UI.Shop
 {
@@ -24,6 +25,12 @@ namespace TankArena.UI.Shop
 		public Button goToOtherButton;
 		public Button backToItemsButton;
 		public DetailedItemController detailedItemController;
+		private Dictionary<string, object> levelInfoMappings = new Dictionary<string, object>() {
+			{ UITextKeyMappings.MAPPING_ARENA_NAME, null },
+			{ UITextKeyMappings.MAPPING_ARENA_ENEMIES_COUNT, null },
+			{ UITextKeyMappings.MAPPING_ARENA_ENEMY_TYPES, null }
+		};
+		private readonly string LEVEL_INFO_TEMPLATE = "";
 		//model is good to show avatars n stuff
 
 		// Use this for initialization
@@ -74,12 +81,17 @@ namespace TankArena.UI.Shop
 			var levelModel = CurrentState.Instance.CurrentLevel;
 
 			var newText = levelDisclaimerText.text;
-			newText = newText
-			.Replace("{level}", levelModel.Name)
-			.Replace("{count}", levelModel.TotalEnemies.ToString())
-			.Replace("{types}", string.Join(", ", levelModel.EnemyTypes.ToArray()));
+			newText = TextUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(levelModel));
 
 			levelDisclaimerText.text = newText;
+		}
+		private Dictionary<string, object> MapLevelInfo(LevelModel level) 
+		{
+			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_NAME] = level.Name;
+			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_ENEMIES_COUNT] = level.TotalEnemies;
+			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_ENEMY_TYPES] = string.Join(", ", level.EnemyTypes.ToArray());
+
+			return levelInfoMappings;
 		}
 
         // Update is called once per frame
