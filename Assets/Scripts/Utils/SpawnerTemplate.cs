@@ -4,6 +4,8 @@ using TankArena.Models;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using System.Collections.Generic;
+using TankArena.Controllers;
+using System;
 
 namespace TankArena.Utils 
 {
@@ -33,18 +35,18 @@ namespace TankArena.Utils
 				return (string)properties[EK.EK_TARGET_TAG];
 			}
 		}
-		public Vector2 SpreadMinXY
+		public Vector3 SpreadMinXY
 		{
 			get 
 			{
-				return (Vector2)properties[EK.EK_SPREAD_MIN_XY];
+				return (Vector3)properties[EK.EK_SPREAD_MIN_XY];
 			}
 		}
-		public Vector2 SPreadMaxXY
+		public Vector3 SpreadMaxXY
 		{
 			get 
 			{
-				return (Vector2)properties[EK.EK_SPREAD_MAX_XY];
+				return (Vector3)properties[EK.EK_SPREAD_MAX_XY];
 			}
 		}
 		public float GracePeriod
@@ -78,7 +80,47 @@ namespace TankArena.Utils
 			properties[EK.EK_SPREAD_MAX_XY] = ResolveSpecialContent(json[EK.EK_SPREAD_MAX_XY].Value);
 			properties[EK.EK_GRACE_PERIOD] = json[EK.EK_GRACE_PERIOD].AsFloat;
 
-			//TODO: properties[EK.EK_SPAWN_OBJECTS] = json[EK.EK_SPAWN_OBJECTS].Value;
+			Dictionary<GameObject, float> spawnerObjects = new Dictionary<GameObject, float>();
+			foreach(JSONClass node in json[EK.EK_SPAWN_OBJECTS].AsArray)
+			{
+				var prefab = ResolveSpecialContent(node[EK.EK_SPAWN_PREFAB].Value) as GameObject;
+				float probability = node[EK.EK_SPAWN_PROBABILITY].AsFloat;
+
+				spawnerObjects.Add(prefab, probability);
+			}
+			properties[EK.EK_SPAWN_OBJECTS] = spawnerObjects;
+		}
+
+		public GameObject FromTemplate(Vector3 position)
+		{
+			var spawnerGO = new GameObject("SPAWNER-" + Id);
+			//sleep spawner till its ready
+			spawnerGO.SetActive(false);
+			spawnerGO.transform.parent = null;
+			spawnerGO.transform.position = position;
+			
+			//do the magic
+			var controller = spawnerGO.AddComponent<SpawnerController>();
+
+			controller.spawnMinXY = SpreadMinXY;
+			controller.spawnMaxXY = SpreadMaxXY;
+			controller.spawnPool = SpawnPool;
+			controller.simultaneousInstances = Simultaenous;
+			controller.gracePeriod = GracePeriod;
+			int i = 0;
+			controller.prefabs = new GameObject[SpawnObjects.Count];
+			controller.spawnProbabilities = new float[SpawnObjects.Count];
+			foreach(KeyValuePair<GameObject, float> spawnObject in SpawnObjects)
+			{
+				controller.prefabs[i] = spawnObject.Key;
+				controller.spawnProbabilities[i] = spawnObject.Value;
+				i++;
+			}
+			controller.target = GameObject.FindGameObjectWithTag(TargetTag);
+
+			//awaken the spawner
+			spawnerGO.SetActive(true);
+			return spawnerGO;
 		}
 
 	}

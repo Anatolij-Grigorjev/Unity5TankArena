@@ -18,12 +18,14 @@ namespace TankArena.Utils
         public Dictionary<String, TankPart> TankParts { get { return loadedTankParts; } }
         public Dictionary<String, BaseWeapon> Weapons { get { return loadedWeapons; } }
         public Dictionary<String, LevelModel> Levels { get { return loadedLevels; } }
+        public Dictionary<String, SpawnerTemplate> SpawnerTemplates { get { return loadedSpawnerTemplates; } }
 
         private Dictionary<String, FileLoadedEntityModel> loadedEntities;
         private Dictionary<String, PlayableCharacter> loadedCharacters;
         private Dictionary<String, TankPart> loadedTankParts;
         private Dictionary<String, BaseWeapon> loadedWeapons;
         private Dictionary<String, LevelModel> loadedLevels;
+        private Dictionary<String, SpawnerTemplate> loadedSpawnerTemplates;
 
         //GOs can check this before getting a reference 
         //going because they might be half loaded before these are
@@ -34,6 +36,15 @@ namespace TankArena.Utils
         {
             
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
+
+            //Load all spawner templates
+            loadedSpawnerTemplates = new Dictionary<string, SpawnerTemplate>();
+            EntitiesLoaderUtil.loadAllEntitesAtPath(
+                @"Enemies\SpawnerTemplates",
+                path => { return new SpawnerTemplate(path); },
+                loadedSpawnerTemplates
+            );
+            CopyToEntitiesDict(loadedSpawnerTemplates);
 
             //Load all Levels
             loadedLevels = new Dictionary<string, LevelModel>();

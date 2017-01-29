@@ -93,6 +93,8 @@ namespace TankArena.Constants
         public const string EK_SPREAD_MIN_XY = "spread_min_xy";
         public const string EK_SPREAD_MAX_XY = "spread_max_xy";
         public const string EK_GRACE_PERIOD = "grace_period";
+        public const string EK_SPAWN_PREFAB = "spawn_prefab";
+        public const string EK_SPAWN_PROBABILITY = "spawn_probability";
 
         //DISPLAY PROPS
         public static readonly Dictionary<string, string> ENTITY_KEYS_DISPLAY_MAP = new Dictionary<string, string>() 

@@ -88,6 +88,7 @@ namespace TankArena.Models.Level
 
                 spwnDict.Add(spawnerCode, spawnerLocation);
             }
+            properties[EK.EK_SPAWNERS_LIST] = spwnDict;
         }
 
 

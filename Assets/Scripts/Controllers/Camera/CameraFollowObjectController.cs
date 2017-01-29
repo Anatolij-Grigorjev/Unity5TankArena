@@ -29,9 +29,10 @@ namespace TankArena.Controllers
         // Use this for initialization
         void Start()
         {
-
             //Calculate and store the offset value by getting the distance between the object's position and camera's position.
-            Target = starter;
+            if (starter != null) {
+                Target = starter;
+            }
         }
 
         // LateUpdate is called after Update each frame
