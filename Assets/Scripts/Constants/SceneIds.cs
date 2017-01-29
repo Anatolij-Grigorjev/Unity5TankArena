@@ -5,4 +5,6 @@ public class SceneIds {
 
 	public const int SCENE_ARENA_ID = 0;
 	public const int SCENE_SHOP_ID = 1;
+	public const int SCENE_ARENA_SELECT_ID = 2;
+	public const int SCENE_LOADING_ID = 3;
 }

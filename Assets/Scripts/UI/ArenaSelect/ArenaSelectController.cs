@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TankArena.Models.Level;
 using TankArena.Constants;
 using TankArena.Utils;
+using UnityEngine.SceneManagement;
 
 public class ArenaSelectController : MonoBehaviour {
 
@@ -85,6 +86,15 @@ public class ArenaSelectController : MonoBehaviour {
 		arenaModels = new List<LevelModel>(EntitiesStore.Instance.Levels.Values);
 		currentArenaIndex = 999;
 		CurrentArenaIndex = 0;
+	}
+
+
+	public void PlaySelectedArena()
+	{
+		if (CurrentState.Instance.CurrentLevel != null)
+		{
+			SceneManager.LoadScene(SceneIds.SCENE_LOADING_ID);
+		}
 	}
 	
 }
