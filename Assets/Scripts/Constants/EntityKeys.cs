@@ -79,9 +79,20 @@ namespace TankArena.Constants
         public const string EK_TOTAL_ENEMIES = "total_enemies";
         public const string EK_ENEMY_TYPES = "enemy_types";
         public const string EK_PLACEMENT_POINT = "placement_point";
+        public const string EK_PLAYER_SPAWN_POINT = "player_location";
         public const string EK_MAP_PREFAB = "map_prefab";
+        public const string EK_SPAWNERS_LIST = "spawners";
+        public const string EK_SPAWNERS_LIST_SPAWNER_ID = "spawner_id";
+        public const string EK_SPAWNERS_LIST_SPAWNER_LOCATION = "spawner_location";
 
-
+        //SPAWNER_TEMPLATE
+        public const string EK_SIMULTANEOUS = "simultaneous";
+        public const string EK_SPAWN_POOL = "spawn_pool";
+        public const string EK_TARGET_TAG = "target_tag";
+        public const string EK_SPAWN_OBJECTS = "spawn_objects";
+        public const string EK_SPREAD_MIN_XY = "spread_min_xy";
+        public const string EK_SPREAD_MAX_XY = "spread_max_xy";
+        public const string EK_GRACE_PERIOD = "grace_period";
 
         //DISPLAY PROPS
         public static readonly Dictionary<string, string> ENTITY_KEYS_DISPLAY_MAP = new Dictionary<string, string>() 

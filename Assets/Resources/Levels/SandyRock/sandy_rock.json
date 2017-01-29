@@ -9,5 +9,12 @@
 		"Light Truck"
 	],
 	"placement_point": "!v3;-500.0;500.0;0.0",
+	"player_location": "!v3;0.0;0.0;0.0",
+	"spawners": [
+		{
+			"spawner_location": "!v3;-335.0;185.0;0.0",
+			"spawner_id": "spwn_10_3_light_av_truck"
+		}
+	],
 	"description": "A warm abandoned area near an old excavation site, perfect for everyday violence courtesy of the TankArena™ team." 
 }
