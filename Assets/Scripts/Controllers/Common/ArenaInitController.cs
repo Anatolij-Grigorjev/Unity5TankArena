@@ -22,8 +22,12 @@ namespace TankArena.Controllers
 				//place the map itself
 				Instantiate(levelModel.MapPrefab, levelModel.PlacementPoint, Quaternion.identity);
 
-				//create the player (with tag required by spawner), assign to camera
+				//create the player (with tag required by spawner), assign to camera (make sure player in camera center)
 				var player = Instantiate(playerPrefab, levelModel.PlayerSpawnPoint, Quaternion.identity) as GameObject;
+				//camera needs to remain behind map tho
+				var cameraPos = levelModel.PlayerSpawnPoint;
+				cameraPos.z = -10.0f;
+				Camera.main.gameObject.transform.position = cameraPos;
 				var cameraFollowController = Camera.main.GetComponent<CameraFollowObjectController>();
 				cameraFollowController.SetGO(player);
 
@@ -36,6 +40,8 @@ namespace TankArena.Controllers
 					spawnerTemplate.FromTemplate(spawnerInfo.Value);
 				}
 			}
+			//loading done
+			Destroy(gameObject);
 		}
 	}
 }

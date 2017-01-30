@@ -1,0 +1,19 @@
+{
+	"id": "map_sandy_graveyard",
+	"name": "Sandy Graveyard",
+	"thumbnail": "!img;Levels\\SandyGraveyard\\thumbnail", 
+	"map_prefab": "!go;Levels\\SandyGraveyard\\sandy_graveyard",
+	"total_enemies": 5,
+	"enemy_types": [
+		"Light Truck"
+	],
+	"placement_point": "!v3;-500.0;250.0;0.0",
+	"player_location": "!v3;50.0;-60.0;0.0",
+	"spawners": [
+		{
+			"spawner_location": "!v3;-350.0;105.0;0.0",
+			"spawner_id": "spwn_5_2_light_truck"
+		}
+	],
+	"description": "A desolte location long abandoned by both man and beast. Only the most desperate of combatants venture this far out of regulation territory, usually intending fights to the death." 
+}

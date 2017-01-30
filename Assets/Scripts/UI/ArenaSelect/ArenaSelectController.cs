@@ -43,6 +43,7 @@ public class ArenaSelectController : MonoBehaviour {
 				var selectedModel = arenaModels[Safe(currentArenaIndex)];
 				SetArenaModel(selectedModel);
 				CurrentState.Instance.CurrentLevel = selectedModel;
+				DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentLevel.Id);
 			}
 		}
 	}

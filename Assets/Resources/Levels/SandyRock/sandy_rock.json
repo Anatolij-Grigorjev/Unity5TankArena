@@ -3,7 +3,7 @@
 	"name": "Sandy Rock",
 	"thumbnail": "!img;Levels\\SandyRock\\thumbnail", 
 	"map_prefab": "!go;Levels\\SandyRock\\sandy_rocky_small",
-	"total_enemies": 30,
+	"total_enemies": 10,
 	"enemy_types": [
 		"Light AV",
 		"Light Truck"
