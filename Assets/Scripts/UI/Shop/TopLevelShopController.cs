@@ -81,7 +81,7 @@ namespace TankArena.UI.Shop
 			var levelModel = CurrentState.Instance.CurrentLevel;
 
 			var newText = levelDisclaimerText.text;
-			newText = TextUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(levelModel));
+			newText = UIUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(levelModel));
 
 			levelDisclaimerText.text = newText;
 		}

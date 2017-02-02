@@ -1,10 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TankArena.Utils
 {
-    public class TextUtils
+    public class UIUtils
     {
-        private TextUtils() {}
+        private UIUtils() {}
 
         public static string ApplyPropsToTemplate(string template, Dictionary<string, object> mappings)
         {
@@ -17,6 +19,15 @@ namespace TankArena.Utils
             }
 
             return final;
+        }
+
+        public static int SafeIndex(int index, ICollection data)
+        {
+            if (data == null || data.Count == 0)
+            {
+                return 0;
+            }
+            return Mathf.Clamp(index, 0, data.Count);
         }
     }
 }

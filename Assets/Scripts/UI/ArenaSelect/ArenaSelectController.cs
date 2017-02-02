@@ -42,17 +42,12 @@ namespace TankArena.UI.Arena
 					currentArenaIndex = value;
 					prevArenaButton.gameObject.SetActive(currentArenaIndex > 0);
 					nextArenaButton.gameObject.SetActive(currentArenaIndex < (arenaModels.Count - 1) );
-					var selectedModel = arenaModels[Safe(currentArenaIndex)];
+					var selectedModel = arenaModels[UIUtils.SafeIndex(currentArenaIndex, arenaModels)];
 					SetArenaModel(selectedModel);
 					CurrentState.Instance.CurrentLevel = selectedModel;
 					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentLevel.Id);
 				}
 			}
-		}
-
-		private int Safe(int index)
-		{
-			return Mathf.Clamp(index, 0, arenaModels.Count - 1);
 		}
 
 		private void SetArenaModel(LevelModel arena)
@@ -62,7 +57,7 @@ namespace TankArena.UI.Arena
 				arenaNameText.text = arena.Name;
 				arenaThumbnail.sprite = arena.Thumbnail;
 				arenaDescriptionText.text = arena.Description;
-				arenaPropsText.text = TextUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(arena));
+				arenaPropsText.text = UIUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(arena));
 			}
 		}
 		private Dictionary<string, object> MapLevelInfo(LevelModel level) 
@@ -75,11 +70,11 @@ namespace TankArena.UI.Arena
 
 		public void NextArenaButtonClick()
 		{
-			CurrentArenaIndex = Safe(currentArenaIndex + 1);
+			CurrentArenaIndex = UIUtils.SafeIndex(currentArenaIndex + 1, arenaModels);
 		}
 		public void PrevArenaButtonClick()
 		{
-			CurrentArenaIndex = Safe(currentArenaIndex - 1);
+			CurrentArenaIndex = UIUtils.SafeIndex(currentArenaIndex - 1, arenaModels);
 		}
 
 		// Use this for initialization

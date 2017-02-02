@@ -25,5 +25,9 @@ namespace TankArena.Constants
         public const String TAG_TANK_CHASSIS_GO = "TankChassis";
         public const String TAG_TURRET_ROTATOR = "TurretRotator";
         public const String TAG_CHASSIS_ROTATOR = "ChassisRotator";
+        public static String TAG_CHARACTER_AVATAR(int rowIndex, int columnIndex)
+        {
+            return String.Format("CharAvatar_{0}{1}", rowIndex, columnIndex);
+        }
     }
 }
