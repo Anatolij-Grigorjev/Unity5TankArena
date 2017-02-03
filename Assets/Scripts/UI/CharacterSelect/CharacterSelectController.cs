@@ -16,9 +16,14 @@ namespace TankArena.UI.Characters
 		private const int GRID_ROW_LENGTH = 2;
 
 		private const int GRID_COLS_COUNT = 2;
+		private static readonly Color COLOR_TINT_SELECTED_AVATAR = Color.cyan;
+		static CharacterSelectController() {
+			COLOR_TINT_SELECTED_AVATAR.a = 0.5f;
+		}
 
 		public Image[][] avatarsGrid;
 		public Image sceneBackground;
+		public Image characterModel;
 		public Text characterName;
 
 		public List<PlayableCharacter> characterData;
@@ -37,7 +42,28 @@ namespace TankArena.UI.Characters
 			{
 				int safeIndex = UIUtils.SafeIndex(value, characterData);
 				
+				var lastSelectedImage = GetSelectedAvatar(currentCharacterIndex);
+				lastSelectedImage.color = Color.white;
+				var newImage = GetSelectedAvatar(safeIndex);
+				newImage.color = COLOR_TINT_SELECTED_AVATAR;
+				currentCharacterIndex = safeIndex;
+
+				UpdateUI(currentCharacterIndex);
 			}
+		}
+
+		private Image GetSelectedAvatar(int index)
+		{
+			return avatarsGrid[index / GRID_ROW_LENGTH][index % GRID_COLS_COUNT];
+		}
+
+		private void UpdateUI(int selectedChar)
+		{
+			var model = characterData[selectedChar];
+
+			characterName.text = model.Name;
+			sceneBackground.sprite = model.Background;
+			characterModel.sprite = model.CharacterModel;
 		}
 
 		public void Awake()
@@ -61,16 +87,26 @@ namespace TankArena.UI.Characters
 				}
 				for (int i = 0; i < characterData.Count; i++)
 				{
-					DBG.Log("i:{0}\ni / ROWS: {1}\ni % COLS:{2}", i, i / GRID_ROW_LENGTH, i % GRID_COLS_COUNT);
 					avatarsGrid[i / GRID_ROW_LENGTH][i % GRID_COLS_COUNT].sprite = characterData[i].Avatar;
 				}
 			}
+
+			CharacterIndex = 0;
 		}
 
 		//TODO: handle keyboard input for character selection
 		public void Update()
 		{
-
+			var vert = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
+			if (Mathf.Abs(vert) > 0.5)
+			{
+				CharacterIndex += (int)(Mathf.Sign(vert) * GRID_COLS_COUNT);
+			}
+			var horiz = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
+			if (Mathf.Abs(horiz) > 0.5)
+			{
+				CharacterIndex += (int)(Mathf.Sign(horiz));
+			}
 		}
 
 	}

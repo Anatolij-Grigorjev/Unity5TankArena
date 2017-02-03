@@ -23,7 +23,7 @@ namespace TankArena.Utils
 
         public static int SafeIndex(int index, ICollection data)
         {
-            if (data == null || data.Count == 0)
+            if (data == null || data.Count <= 1)
             {
                 return 0;
             }
