@@ -9,9 +9,9 @@ namespace TankArena.UI.Shop
 	public class InlineShopItemController: MonoBehaviour {
 
 		public DetailedItemController detailsPaneGO;
-		private FileLoadedEntityModel data;
+		private ShopPurchaseableEntityModel data;
 
-		public FileLoadedEntityModel Data
+		public ShopPurchaseableEntityModel Data
 		{
 			get 
 			{

@@ -34,7 +34,7 @@ namespace TankArena.UI.Shop
 		
 		Tank CurrentLoadout;
 
-		private FileLoadedEntityModel data;
+		private ShopPurchaseableEntityModel data;
 
 		// Use this for initialization
 		void Start ()
@@ -194,7 +194,7 @@ namespace TankArena.UI.Shop
 			}
         }
 
-        public void SetItem(FileLoadedEntityModel entity)
+        public void SetItem(ShopPurchaseableEntityModel entity)
 		{	
 			CurrentLoadout = CurrentState.Instance.CurrentTank;
 			//remove listeners before we add the right one

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TankArena.Utils
 {
@@ -17,5 +18,14 @@ namespace TankArena.Utils
             var i = 0;
             foreach ( var e in ie ) action( e, i++ );
         }
+
+        public static GameObject ClearChildren(this GameObject parent)
+        {
+            foreach (Transform child in parent.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            return parent;
+        }
+ 
     }
 }

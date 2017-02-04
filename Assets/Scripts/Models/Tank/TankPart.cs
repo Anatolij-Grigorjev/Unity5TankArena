@@ -12,7 +12,7 @@ using TankArena.Controllers;
 
 namespace TankArena.Models.Tank
 {
-    public abstract class TankPart : FileLoadedEntityModel
+    public abstract class TankPart : ShopPurchaseableEntityModel
     {
 
         /// <summary>
@@ -33,16 +33,6 @@ namespace TankArena.Models.Tank
             get
             {
                 return (float)properties[EK.EK_MASS];
-            }
-        }
-        /// <summary>
-        /// Component identifying image in shop view
-        /// </summary>
-        public Sprite ShopItem
-        {
-            get
-            {
-                return (Sprite)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
         /// <summary>
@@ -95,7 +85,6 @@ namespace TankArena.Models.Tank
 
             properties[EK.EK_ON_TANK_POSITION] = ResolveSpecialContent(json[EK.EK_ON_TANK_POSITION].Value);
             properties[EK.EK_MASS] = json[EK.EK_MASS].AsFloat;
-            properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_GARAGE_ITEM_IMAGE].Value);
             if (GarageItem == null)
             {

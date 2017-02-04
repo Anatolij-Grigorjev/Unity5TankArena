@@ -10,7 +10,7 @@ using TankArena.Models.Tank;
 
 namespace TankArena.UI.Shop
 {
-	public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T: FileLoadedEntityModel
+	public abstract class AbstractSoldItemsListController<T> : MonoBehaviour where T: ShopPurchaseableEntityModel
 	{
 		private Dictionary<T, GameObject> visibleObjectsMap;
 		

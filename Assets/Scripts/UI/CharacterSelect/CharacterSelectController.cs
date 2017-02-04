@@ -7,6 +7,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models.Characters;
 using UnityEngine.SceneManagement;
+using TankArena.Models;
 
 namespace TankArena.UI.Characters
 {
@@ -25,8 +26,11 @@ namespace TankArena.UI.Characters
 		public Image sceneBackground;
 		public Image characterModel;
 		public Text characterName;
+		public GameObject loadoutGrid;
+		public GameObject loadoutGridItem;
 
 		public List<PlayableCharacter> characterData;
+		private List<ShopPurchaseableEntityModel> loadoutItems;
 
 		public Button selectAndPlay;
 
@@ -64,13 +68,31 @@ namespace TankArena.UI.Characters
 			characterName.text = model.Name;
 			sceneBackground.sprite = model.Background;
 			characterModel.sprite = model.CharacterModel;
+
+			//redo loadout
+			loadoutItems.Clear();
+			loadoutGrid.ClearChildren();
+
+			loadoutItems.AddRange(model.StartingTank.partsArray);
+			loadoutItems.AddRange(model.StartingTank.TankTurret.allWeaponSlots.Select(slot => slot.Weapon).ToArray());
+
+			loadoutItems.ForEach(shopItem => {
+				var itemGO = Instantiate(loadoutGridItem, Vector3.zero, Quaternion.identity, loadoutGrid.transform) as GameObject;
+				var childTr = itemGO.transform.GetChild(0);
+				if (childTr != null) 
+				{
+					childTr.gameObject.GetComponent<Image>().sprite = shopItem.ShopItem;
+				}
+			});
 		}
 
 		public void Awake()
 		{
-			//ensure entities loaded
+			loadoutItems = new List<ShopPurchaseableEntityModel>();
+			//ensure entities loaded (characters have decoded tanks)
 			var entities = EntitiesStore.Instance;
-
+			entities.GetStatus();
+			
 			characterData = entities.Characters.Values.ToList();
 			if (characterData != null && characterData.Count > 0) 
 			{

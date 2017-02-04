@@ -43,19 +43,8 @@ namespace TankArena.Models
                 return SK.SK_ENTITY;
             }
         }
-
         ///<summary>
-        /// Item price, presented in shops
-        /// </summary>
-        public float Price
-        {
-            get 
-            {
-                return (float)properties[EK.EK_PRICE];
-            }
-        }
-        ///<summary>
-        ///Description of item in shop
+        ///Description of item
         ///</summary>
         public string Description
         {
@@ -93,7 +82,6 @@ namespace TankArena.Models
         {
             properties[EK.EK_ID] = json[EK.EK_ID].Value;
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
-            properties[EK.EK_PRICE] = json[EK.EK_PRICE].AsFloat;
             properties[EK.EK_DESCRIPTION] = json[EK.EK_DESCRIPTION].Value;
         }
 

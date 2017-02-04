@@ -14,7 +14,7 @@ using TankArena.Controllers;
 
 namespace TankArena.Models.Weapons
 {
-    public class BaseWeapon : FileLoadedEntityModel
+    public class BaseWeapon : ShopPurchaseableEntityModel
     {
         /// <summary>
         /// Weapon in-game position, relative to turret GO transform (keys are turret ids)
@@ -107,16 +107,6 @@ namespace TankArena.Models.Weapons
             get
             {
                 return (int)properties[EK.EK_CLIP_SIZE];
-            }
-        }
-        /// <summary>
-        /// Image to identify weapon in shop screen
-        /// </summary>
-        public Sprite ShopItem
-        {
-            get
-            {
-                return (Sprite)properties[EK.EK_SHOP_ITEM_IMAGE];
             }
         }
 
@@ -214,7 +204,6 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_RATE_OF_FIRE] = json[EK.EK_RATE_OF_FIRE].AsFloat;
             properties[EK.EK_RANGE] = json[EK.EK_RANGE].AsFloat;
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
-            properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
             properties[EK.EK_PROJECTILE_WIDTH] = json[EK.EK_PROJECTILE_WIDTH].AsFloat;

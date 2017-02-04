@@ -64,6 +64,8 @@ namespace TankArena.Models.Characters
             }
         }
 
+        public Tank.Tank StartingTank;
+
         public PlayableCharacter(string filePath) : base(filePath)
         {
 
