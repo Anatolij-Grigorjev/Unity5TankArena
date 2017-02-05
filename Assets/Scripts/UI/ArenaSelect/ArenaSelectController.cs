@@ -13,6 +13,7 @@ namespace TankArena.UI.Arena
 
 
 		public Image arenaThumbnail;
+		public Image arenaSnapshot;
 		public Text arenaNameText;
 		public Text arenaDescriptionText;
 		public Text arenaPropsText;
@@ -56,6 +57,7 @@ namespace TankArena.UI.Arena
 			{
 				arenaNameText.text = arena.Name;
 				arenaThumbnail.sprite = arena.Thumbnail;
+				arenaSnapshot.sprite = arena.Snapshot;
 				arenaDescriptionText.text = arena.Description;
 				arenaPropsText.text = UIUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(arena));
 			}

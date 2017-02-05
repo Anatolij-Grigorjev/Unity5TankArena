@@ -16,6 +16,13 @@ namespace TankArena.Models.Level
                 return (Sprite)properties[EK.EK_THUMBNAIL];
             }
         }
+        public Sprite Snapshot
+        {
+            get 
+            {
+                return (Sprite)properties[EK.EK_SNAPSHOT];
+            }
+        }
         public int TotalEnemies
         {
             get 
@@ -69,6 +76,7 @@ namespace TankArena.Models.Level
             base.LoadPropertiesFromJSON(json);
 
             properties[EK.EK_THUMBNAIL] = ResolveSpecialContent(json[EK.EK_THUMBNAIL].Value);
+            properties[EK.EK_SNAPSHOT] = ResolveSpecialContent(json[EK.EK_SNAPSHOT].Value);
             properties[EK.EK_TOTAL_ENEMIES] = json[EK.EK_TOTAL_ENEMIES].AsInt;
             var list = new List<string>();
             foreach(JSONNode node in json[EK.EK_ENEMY_TYPES].AsArray)

@@ -11,10 +11,10 @@
 	"price": 59.88,
 	"spin_sound": "!snd;TankParts\\Turrets\\Basic\\Sounds\\rotation",
 	"light_weapon_slots": [
-		"!wpnslt;0;!transf;-45.4;50.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0"
+		"!wpnslt;0;!transf;-150.0;85.0;0.0;0.0;0.0;0.0;0.8;0.8;1.0"
 	],
 	"heavy_weapon_slots": [
-		"!wpnslt;1;!transf;61.5;31.5;0.0;0.0;0.0;0.0;0.9;0.9;1.0"
+		"!wpnslt;1;!transf;145.0;85.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
 	],
 	"description": "The average, middle of the road, working man's turret. Slowish rotation speed ensures an attack that is more tactical then reactionary, but given one of each weapon slot type and relatively low price, the potential for almost anything is there."
 }
