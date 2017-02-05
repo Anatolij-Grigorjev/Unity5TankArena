@@ -27,7 +27,7 @@ namespace TankArena.Utils
             {
                 return 0;
             }
-            return Mathf.Clamp(index, 0, data.Count);
+            return Mathf.Clamp(index, 0, data.Count - 1);
         }
     }
 }

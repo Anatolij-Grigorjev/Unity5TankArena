@@ -45,7 +45,7 @@ namespace TankArena.UI.Characters
 			set 
 			{
 				int safeIndex = UIUtils.SafeIndex(value, characterData);
-				
+				DBG.Log("Value: {0}, Safe: {1}", value, safeIndex);
 				var lastSelectedImage = GetSelectedAvatar(currentCharacterIndex);
 				lastSelectedImage.color = Color.white;
 				var newImage = GetSelectedAvatar(safeIndex);
@@ -119,15 +119,15 @@ namespace TankArena.UI.Characters
 		//TODO: handle keyboard input for character selection
 		public void Update()
 		{
-			var vert = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
-			if (Mathf.Abs(vert) > 0.5)
+			var pressed = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_TANK_MOVE);
+			if (pressed)
 			{
-				CharacterIndex += (int)(Mathf.Sign(vert) * GRID_COLS_COUNT);
+				CharacterIndex += (int)(GRID_COLS_COUNT);
 			}
-			var horiz = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
-			if (Mathf.Abs(horiz) > 0.5)
+			pressed = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_TANK_TURN);
+			if (pressed)
 			{
-				CharacterIndex += (int)(Mathf.Sign(horiz));
+				CharacterIndex += (int)(1);
 			}
 		}
 

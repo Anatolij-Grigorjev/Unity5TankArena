@@ -1,0 +1,10 @@
+{
+	"id": "cletus",
+	"name": "Cletus",
+	"avatar": "!img;Characters\\Cletus\\Images\\avatar", 
+	"background": "!img;Characters\\Cletus\\Images\\background",
+	"char_model": "!img;Characters\\Cletus\\Images\\model",
+	"start_cash": 10.52,
+	"start_health": 100,
+	"start_tank": "chassis=CH_basic01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_light_mini01,L_0=WPN_L_basic_gatling01|0"
+}
