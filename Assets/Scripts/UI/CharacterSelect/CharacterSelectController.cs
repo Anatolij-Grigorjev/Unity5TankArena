@@ -51,6 +51,7 @@ namespace TankArena.UI.Characters
 				var newImage = GetSelectedAvatar(safeIndex);
 				newImage.color = COLOR_TINT_SELECTED_AVATAR;
 				currentCharacterIndex = safeIndex;
+				
 
 				UpdateUI(currentCharacterIndex);
 			}
@@ -92,7 +93,6 @@ namespace TankArena.UI.Characters
 			//ensure entities loaded (characters have decoded tanks)
 			var entities = EntitiesStore.Instance;
 			entities.GetStatus();
-			
 			characterData = entities.Characters.Values.ToList();
 			if (characterData != null && characterData.Count > 0) 
 			{
@@ -107,9 +107,18 @@ namespace TankArena.UI.Characters
 						 GameObject.FindGameObjectWithTag(Tags.TAG_CHARACTER_AVATAR(i, j)).GetComponent<Image>();
 					}
 				}
+
+				//set buttons on the avatars and set no buttons for non-avatar squares
 				for (int i = 0; i < characterData.Count; i++)
 				{
-					avatarsGrid[i / GRID_ROW_LENGTH][i % GRID_COLS_COUNT].sprite = characterData[i].Avatar;
+					var gridImage = avatarsGrid[i / GRID_ROW_LENGTH][i % GRID_COLS_COUNT];
+					gridImage.sprite = characterData[i].Avatar;
+					gridImage.gameObject.AddComponent<Button>();
+					DBG.Log("Button {0} index {1}", characterData[i].Name, i);
+					var model = characterData[i];
+					gridImage.gameObject.GetComponent<Button>().onClick.AddListener(() => { 
+						CharacterIndex = characterData.FindIndex(other => model.Id == other.Id);
+					});
 				}
 			}
 
@@ -119,16 +128,7 @@ namespace TankArena.UI.Characters
 		//TODO: handle keyboard input for character selection
 		public void Update()
 		{
-			var pressed = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_TANK_MOVE);
-			if (pressed)
-			{
-				CharacterIndex += (int)(GRID_COLS_COUNT);
-			}
-			pressed = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_TANK_TURN);
-			if (pressed)
-			{
-				CharacterIndex += (int)(1);
-			}
+			
 		}
 
 	}
