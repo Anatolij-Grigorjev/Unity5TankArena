@@ -23,11 +23,13 @@ namespace TankArena.UI.Characters
 		}
 
 		public Image[][] avatarsGrid;
+		public Sprite defaultImage;
 		public Image sceneBackground;
 		public Image characterModel;
 		public Text characterName;
 		public GameObject loadoutGrid;
 		public GameObject loadoutGridItem;
+		public Text characterMoney;
 
 		public List<PlayableCharacter> characterData;
 		private List<ShopPurchaseableEntityModel> loadoutItems;
@@ -69,7 +71,7 @@ namespace TankArena.UI.Characters
 			characterName.text = model.Name;
 			sceneBackground.sprite = model.Background;
 			characterModel.sprite = model.CharacterModel;
-
+			characterMoney.text = "$" + model.StartingCash;
 			//redo loadout
 			loadoutItems.Clear();
 			loadoutGrid.ClearChildren();
@@ -105,6 +107,7 @@ namespace TankArena.UI.Characters
 					{
 						avatarsGrid[i][j] =
 						 GameObject.FindGameObjectWithTag(Tags.TAG_CHARACTER_AVATAR(i, j)).GetComponent<Image>();
+						avatarsGrid[i][j].sprite = defaultImage;
 					}
 				}
 
@@ -125,10 +128,22 @@ namespace TankArena.UI.Characters
 			CharacterIndex = 0;
 		}
 
-		//TODO: handle keyboard input for character selection
 		public void Update()
 		{
 			
+		}
+
+		public void SelectCharacter()
+		{
+			var model = characterData[CharacterIndex];
+			var player = CurrentState.Instance.Player;
+			player.Cash = model.StartingCash;
+			player.Character = model;
+			player.CurrentTank = model.StartingTank;
+			player.Health = model.StartingHealth;
+
+			CurrentState.Instance.SetPlayer(player);
+			SceneManager.LoadScene(SceneIds.SCENE_ARENA_SELECT_ID);
 		}
 
 	}
