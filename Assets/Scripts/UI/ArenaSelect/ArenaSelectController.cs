@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using TankArena.Models.Level;
 using TankArena.Constants;
 using TankArena.Utils;
-using UnityEngine.SceneManagement;
 
 namespace TankArena.UI.Arena
 {
-	public class ArenaSelectController : MonoBehaviour {
+    public class ArenaSelectController : MonoBehaviour {
 
 
 		public Image arenaThumbnail;
@@ -44,14 +42,14 @@ namespace TankArena.UI.Arena
 					prevArenaButton.gameObject.SetActive(currentArenaIndex > 0);
 					nextArenaButton.gameObject.SetActive(currentArenaIndex < (arenaModels.Count - 1) );
 					var selectedModel = arenaModels[UIUtils.SafeIndex(currentArenaIndex, arenaModels)];
-					SetArenaModel(selectedModel);
+					SetArenaModelUI(selectedModel);
 					CurrentState.Instance.CurrentLevel = selectedModel;
 					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentLevel.Id);
 				}
 			}
 		}
 
-		private void SetArenaModel(LevelModel arena)
+		private void SetArenaModelUI(LevelModel arena)
 		{
 			if (arena != null) 
 			{
@@ -93,7 +91,7 @@ namespace TankArena.UI.Arena
 		{
 			if (CurrentState.Instance.CurrentLevel != null)
 			{
-				SceneManager.LoadScene(SceneIds.SCENE_LOADING_ID);
+				TransitionUtil.StartTransitionTo(SceneIds.SCENE_SHOP_ID);
 			}
 		}
 		

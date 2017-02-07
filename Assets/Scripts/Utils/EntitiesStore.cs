@@ -106,11 +106,6 @@ namespace TankArena.Utils
             Characters.Values.ToList().ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
             });
-
-            CurrentState.Instance.SetPlayer(new Player());
-            // CurrentState.Instance.SetPlayer(Player.LoadFromPlayerPrefs());
-            CurrentState.Instance.CurrentLevel = Levels.First().Value;
-            DBG.Log("Loaded level: {0}", CurrentState.Instance.CurrentLevel);
             GetStatus();
             
             isReady = true;

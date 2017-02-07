@@ -1,17 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models.Characters;
-using UnityEngine.SceneManagement;
 using TankArena.Models;
 
 namespace TankArena.UI.Characters
 {
-	public class CharacterSelectController: MonoBehaviour
+    public class CharacterSelectController: MonoBehaviour
 	{
 
 		private const int GRID_ROW_LENGTH = 2;
@@ -143,7 +141,8 @@ namespace TankArena.UI.Characters
 			player.Health = model.StartingHealth;
 
 			CurrentState.Instance.SetPlayer(player);
-			SceneManager.LoadScene(SceneIds.SCENE_ARENA_SELECT_ID);
+			
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
 		}
 
 	}

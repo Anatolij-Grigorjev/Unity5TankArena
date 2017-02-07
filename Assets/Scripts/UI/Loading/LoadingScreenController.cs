@@ -37,6 +37,6 @@ public class LoadingScreenController : MonoBehaviour {
 	{
 		EntitiesStore.Instance.GetStatus();
 		yield return 0.0f;
-		SceneManager.LoadScene(SceneIds.SCENE_SHOP_ID);
+		SceneManager.LoadScene(CurrentState.Instance.NextSceneId);
 	}
 }

@@ -4,8 +4,6 @@ using UnityEngine.UI;
 using System.Linq;
 using TankArena.Constants;
 using TankArena.Utils;
-using TankArena.Models;
-using UnityEngine.SceneManagement;
 using TankArena.Models.Level;
 
 namespace TankArena.UI.Shop
@@ -30,7 +28,7 @@ namespace TankArena.UI.Shop
 			{ UITextKeyMappings.MAPPING_ARENA_ENEMIES_COUNT, null },
 			{ UITextKeyMappings.MAPPING_ARENA_ENEMY_TYPES, null }
 		};
-		private readonly string LEVEL_INFO_TEMPLATE = "";
+		private readonly string LEVEL_INFO_TEMPLATE = "\tLevel: {level}\n\tEnemies Count: {count}\n\tEnemy Types: {types}";
 		//model is good to show avatars n stuff
 
 		// Use this for initialization
@@ -106,7 +104,7 @@ namespace TankArena.UI.Shop
 
 		public void LoadArena()
 		{
-			SceneManager.LoadScene(SceneIds.SCENE_ARENA_ID);
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_ID);
 		}
 
 		protected void UpdateUIForState(int currentState)
