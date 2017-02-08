@@ -60,6 +60,8 @@ namespace TankArena.UI.Shop
 					slot.ShopTransform.CopyToTransform(slotGO.transform);
 					//put in dictionary
 					slotsGOs.Add(slotGO, slot);
+
+					slotGO.transform.position = slotGO.transform.position;
 				});
 
 			}

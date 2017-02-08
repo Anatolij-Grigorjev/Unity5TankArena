@@ -3,6 +3,7 @@ using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Models;
 using TankArena.Models.Level;
+using System;
 
 namespace TankArena.Utils 
 {
@@ -11,9 +12,7 @@ namespace TankArena.Utils
 
 		protected CurrentState() 
 		{
-			Player = new Player();
-			CurrentTank = null;
-			CurrentLevel = null;
+			ResetState();
 		}
 
 		public Tank CurrentTank { get; set; }
@@ -26,7 +25,18 @@ namespace TankArena.Utils
 			Player = player;
 			CurrentTank = player.CurrentTank;
 		}
-		
-	}
+
+        public void ClearPlayer()
+        {
+            ResetState();
+        }
+
+		private void ResetState()
+		{
+			Player = new Player();
+			CurrentTank = null;
+			CurrentLevel = null;
+		}
+    }
 }
 

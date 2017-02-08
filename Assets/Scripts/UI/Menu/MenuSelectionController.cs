@@ -10,22 +10,27 @@ namespace TankArena.UI
 	{
 
 		public Image playerAvatar;
+		public GameObject initialOptions;
+		public GameObject playerOptions;
 
 		// Use this for initialization
 		void Start ()
 		{
+			//no character picked yet
 			if (CurrentState.Instance.Player.Character == null)
 			{
-				TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
+				playerOptions.SetActive(false);
+				initialOptions.SetActive(true);
+				playerAvatar.gameObject.SetActive(false);
+			} else 
+			{
+				playerAvatar.gameObject.SetActive(true);
+				playerAvatar.sprite = CurrentState.Instance.Player.Character.Avatar;
+				playerOptions.SetActive(true);
+				initialOptions.SetActive(false);
 			}
-			playerAvatar.sprite = CurrentState.Instance.Player.Character.Avatar;
 		}
 		
-		// Update is called once per frame
-		void Update () 
-		{
-		
-		}
 
 		public void PickArena() 
 		{
@@ -45,6 +50,15 @@ namespace TankArena.UI
 		public void PickExit()
 		{
 			Application.Quit();
+		}
+		public void PickBack()
+		{
+			CurrentState.Instance.ClearPlayer();
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
+		}
+		public void PickStartGame()
+		{
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 		}
 	}
 }
