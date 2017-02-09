@@ -6,6 +6,9 @@ using TankArena.Models.Tank;
 using TankArena.Models.Weapons;
 using TankArena.Models.Characters;
 using TankArena.Models.Level;
+using System.Collections;
+using CielaSpike;
+using System.IO;
 
 namespace TankArena.Utils
 {
@@ -34,7 +37,15 @@ namespace TankArena.Utils
 
         public void Awake()
         {
-            
+            DBG.Log("Working from path: {0}", EntitiesLoaderUtil.BASE_DATA_PATH);
+            Task task;
+            this.StartCoroutineAsync(LoadEntites(), out task);
+
+        }
+
+        public IEnumerator<float> LoadEntites()
+        {
+            DBG.Log("START LOADING ENTITIES!");
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
 
             //Load all spawner templates
@@ -109,6 +120,8 @@ namespace TankArena.Utils
             GetStatus();
             
             isReady = true;
+
+            yield return 0.0f;
         }
 
         private void CopyToEntitiesDict<T>(Dictionary<String, T> dict) where T : FileLoadedEntityModel
@@ -129,9 +142,15 @@ namespace TankArena.Utils
 
         public void GetStatus()
         {
-            //print amounts of loaded entities
-            //as status info. Good for eager lazy loading
-            DBG.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
+            if (loadedEntities != null) 
+            {
+                //print amounts of loaded entities
+                //as status info. Good for eager lazy loading
+                DBG.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
+            } else 
+            {
+                DBG.Log("Entites not loaded yet!");
+            }
         }
 
        

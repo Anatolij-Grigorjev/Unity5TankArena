@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using TankArena.Constants;
 using TankArena.Models.Weapons;
+using CielaSpike;
 
 namespace TankArena.Utils
 {
@@ -78,6 +79,7 @@ namespace TankArena.Utils
                     {
                         return content;
                     }
+                    
                     return resolver.Value(keyAndContent[1]);
                 }
             }

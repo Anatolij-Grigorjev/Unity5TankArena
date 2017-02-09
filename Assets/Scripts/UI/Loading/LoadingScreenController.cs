@@ -25,20 +25,15 @@ public class LoadingScreenController : MonoBehaviour {
 				animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, 1);
 			}
 		}
-
-		Timing.RunCoroutine(_StartLoading(), Segment.SlowUpdate);
+		StartCoroutine(_StartLoading());
+		DBG.Log("LOADING SCREEN ANIMATEING");
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	private IEnumerator<float> _StartLoading()
+	private IEnumerator _StartLoading()
 	{
-		Task task;
-		StartCoroutineAsync(EntitiesStore.Instance.GetStatus(), out task);
-		yield return 0.0f;
+		yield return new WaitUntil(() => EntitiesStore.Instance.isReady);
+		
 		SceneManager.LoadScene(CurrentState.Instance.NextSceneId);
 	}
 }

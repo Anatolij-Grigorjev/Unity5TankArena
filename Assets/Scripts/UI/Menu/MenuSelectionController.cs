@@ -22,7 +22,7 @@ namespace TankArena.UI
 				playerOptions.SetActive(false);
 				initialOptions.SetActive(true);
 				playerAvatar.gameObject.SetActive(false);
-				TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
+				// TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 			} else 
 			{
 				playerAvatar.gameObject.SetActive(true);

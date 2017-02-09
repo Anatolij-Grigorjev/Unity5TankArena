@@ -11,7 +11,7 @@ namespace TankArena.Utils
     class EntitiesLoaderUtil
     {
 
-        private static readonly String BASE_DATA_PATH = Path.Combine(APP.dataPath, "Resources");
+        public static readonly String BASE_DATA_PATH = Path.Combine(APP.dataPath, "Resources");
 
         private EntitiesLoaderUtil() { }
 

@@ -67,9 +67,9 @@ namespace TankArena.Models
             var relativePath = filePath.Substring(filePath.IndexOf(CULL_PATH) + CULL_LENGTH);
             relativePath = relativePath.Substring(0, relativePath.LastIndexOf("."));
             DBG.Log("Transformed path for relative loading: {0}", relativePath);
-            var jsonText = Resources.Load<TextAsset>(relativePath) as TextAsset;
+            var jsonText = File.ReadAllText(filePath);
             DBG.Log("Loaded Json Text for entity: {0}", jsonText);
-            var json = JSON.Parse(jsonText.text);
+            var json = JSON.Parse(jsonText);
             LoadPropertiesFromJSON(json);
         }
 
