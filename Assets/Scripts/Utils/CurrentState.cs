@@ -33,7 +33,7 @@ namespace TankArena.Utils
 
 		private void ResetState()
 		{
-			Player = new Player();
+			Player = null;
 			CurrentTank = null;
 			CurrentLevel = null;
 		}

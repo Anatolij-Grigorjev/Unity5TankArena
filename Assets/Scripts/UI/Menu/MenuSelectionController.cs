@@ -17,11 +17,12 @@ namespace TankArena.UI
 		void Start ()
 		{
 			//no character picked yet
-			if (CurrentState.Instance.Player.Character == null)
+			if (CurrentState.Instance.Player == null)
 			{
 				playerOptions.SetActive(false);
 				initialOptions.SetActive(true);
 				playerAvatar.gameObject.SetActive(false);
+				TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 			} else 
 			{
 				playerAvatar.gameObject.SetActive(true);
@@ -34,7 +35,7 @@ namespace TankArena.UI
 
 		public void PickArena() 
 		{
-			if (CurrentState.Instance.Player.Character == null)
+			if (CurrentState.Instance.Player == null)
 			{
 				TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 			} else 

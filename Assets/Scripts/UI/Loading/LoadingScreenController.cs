@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TankArena.Constants;
 using MovementEffects;
+using CielaSpike;
 using System.Collections.Generic;
 using TankArena.Utils;
 using UnityEngine.SceneManagement;
@@ -35,7 +36,8 @@ public class LoadingScreenController : MonoBehaviour {
 
 	private IEnumerator<float> _StartLoading()
 	{
-		EntitiesStore.Instance.GetStatus();
+		Task task;
+		StartCoroutineAsync(EntitiesStore.Instance.GetStatus(), out task);
 		yield return 0.0f;
 		SceneManager.LoadScene(CurrentState.Instance.NextSceneId);
 	}

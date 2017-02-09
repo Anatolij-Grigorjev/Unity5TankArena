@@ -35,6 +35,7 @@ namespace TankArena.UI.Characters
 		public Button selectAndPlay;
 
 		private int currentCharacterIndex;
+		private string playerName;
 
 		public int CharacterIndex
 		{
@@ -134,7 +135,7 @@ namespace TankArena.UI.Characters
 		public void SelectCharacter()
 		{
 			var model = characterData[CharacterIndex];
-			var player = CurrentState.Instance.Player;
+			var player = new Player(playerName);
 			player.Cash = model.StartingCash;
 			player.Character = model;
 			player.CurrentTank = model.StartingTank;
