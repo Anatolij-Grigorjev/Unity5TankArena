@@ -9,6 +9,7 @@ using TankArena.Models.Level;
 using System.Collections;
 using CielaSpike;
 using System.IO;
+using MovementEffects;
 
 namespace TankArena.Utils
 {
@@ -38,89 +39,139 @@ namespace TankArena.Utils
         public void Awake()
         {
             DBG.Log("Working from path: {0}", EntitiesLoaderUtil.BASE_DATA_PATH);
-            Task task;
-            this.StartCoroutineAsync(LoadEntites(), out task);
-
+            
+            Timing.RunCoroutine(LoadEntites());
         }
 
         public IEnumerator<float> LoadEntites()
         {
             DBG.Log("START LOADING ENTITIES!");
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
-
+            var loaderHandles = new List<IEnumerator<float>>();
+            yield return Timing.WaitForSeconds(0.5f);
             //Load all spawner templates
-            loadedSpawnerTemplates = new Dictionary<string, SpawnerTemplate>();
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"Enemies\SpawnerTemplates",
-                path => { return new SpawnerTemplate(path); },
-                loadedSpawnerTemplates
-            );
-            CopyToEntitiesDict(loadedSpawnerTemplates);
-
+            loaderHandles.Add(Timing.RunCoroutine(_LoadSpawners()));
             //Load all Levels
-            loadedLevels = new Dictionary<string, LevelModel>();
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"Levels",
-                path => { return new LevelModel(path); },
-                loadedLevels
-            );
-            CopyToEntitiesDict(loadedLevels);
-
+            loaderHandles.Add(Timing.RunCoroutine(_LoadLevels()));
             //Load all characters
-            loadedCharacters = new Dictionary<string, PlayableCharacter>();
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"Characters",
-                path => { return new PlayableCharacter(path); },
-                loadedCharacters
-            );
-            CopyToEntitiesDict(loadedCharacters);
+            loaderHandles.Add(Timing.RunCoroutine(_LoadCharacters()));
+            //Load all types of Tank Parts
+            loaderHandles.Add(Timing.RunCoroutine(_LoadAllTankParts()));
+            //Load all types of Weapons
+            loaderHandles.Add(Timing.RunCoroutine(_LoadAllWeapons()));
 
-            //Load All Tank Parts
-            loadedTankParts = new Dictionary<string, TankPart>();
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"TankParts\Engines",
-                path => { return new TankEngine(path); },
-                loadedTankParts
-            );
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"TankParts\Tracks",
-                path => { return new TankTracks(path); },
-                loadedTankParts
-            );
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"TankParts\Chassis",
-                path => { return new TankChassis(path); },
-                loadedTankParts
-            );
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"TankParts\Turrets",
-                path => { return new TankTurret(path); },
-                loadedTankParts
-            );
-            CopyToEntitiesDict(loadedTankParts);
-
-            //Load All Weapons
-            loadedWeapons = new Dictionary<string, BaseWeapon>();
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"Weapons\Heavy",
-                path => { return new BaseWeapon(path); },
-                loadedWeapons
-            );
-            EntitiesLoaderUtil.loadAllEntitesAtPath(
-                @"Weapons\Light",
-                path => { return new BaseWeapon(path); },
-                loadedWeapons
-            );
-            CopyToEntitiesDict(loadedWeapons);
+            //finish all laodings
+            foreach(var handle in loaderHandles)
+            {
+                yield return Timing.WaitForSeconds(0.5f);
+                yield return Timing.WaitUntilDone(handle);
+            }
 
             //load character tanks
-            Characters.Values.ToList().ForEach(character => {
+            var charsList = Characters.Values.ToList();
+            DBG.Log("Waiting to load char data..");
+            while (charsList.Count < 1 ||
+                 charsList.Any(character => String.IsNullOrEmpty(character.StartingTankCode))) 
+            {
+                yield return Timing.WaitForSeconds(0.8f);
+            }
+            charsList.ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
             });
-            GetStatus();
             
             isReady = true;
 
+            yield return 0.0f;
+        }
+
+        private IEnumerator<float> _LoadAllWeapons()
+        {
+            loadedWeapons = new Dictionary<string, BaseWeapon>();
+            var lightHandle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Weapons\Heavy",
+                path => { return new BaseWeapon(path); },
+                loadedWeapons
+            ));
+            yield return Timing.WaitUntilDone(lightHandle);
+            var heavyHandle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Weapons\Light",
+                path => { return new BaseWeapon(path); },
+                loadedWeapons
+            ));
+            yield return Timing.WaitUntilDone(heavyHandle);
+            CopyToEntitiesDict(loadedWeapons);
+            DBG.Log("Loaded All Weapons!");
+            yield return 0.0f;
+        }
+        private IEnumerator<float> _LoadAllTankParts()
+        {
+            loadedTankParts = new Dictionary<string, TankPart>();
+            var handles = new List<IEnumerator<float>>();
+            handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"TankParts\Engines",
+                path => { return new TankEngine(path); },
+                loadedTankParts
+            )));
+            handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"TankParts\Tracks",
+                path => { return new TankTracks(path); },
+                loadedTankParts
+            )));
+            handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"TankParts\Chassis",
+                path => { return new TankChassis(path); },
+                loadedTankParts
+            )));
+            handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"TankParts\Turrets",
+                path => { return new TankTurret(path); },
+                loadedTankParts
+            )));
+            foreach(var coHandle in handles)
+            {
+                yield return Timing.WaitUntilDone(coHandle);
+            }
+            CopyToEntitiesDict(loadedTankParts);
+            DBG.Log("Loaded All Tank Parts!");
+            yield return 0.0f;
+        }
+        private IEnumerator<float> _LoadCharacters() 
+        {
+            loadedCharacters = new Dictionary<string, PlayableCharacter>();
+            var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Characters",
+                path => { return new PlayableCharacter(path); },
+                loadedCharacters
+            ));
+            yield return Timing.WaitUntilDone(handle);
+            CopyToEntitiesDict(loadedCharacters);
+            DBG.Log("Loaded Characters!");
+            yield return 0.0f;
+        }
+        private IEnumerator<float> _LoadLevels()
+        {
+            loadedLevels = new Dictionary<string, LevelModel>();
+            var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Levels",
+                path => { return new LevelModel(path); },
+                loadedLevels
+            ));
+            yield return Timing.WaitUntilDone(handle);
+            CopyToEntitiesDict(loadedLevels);
+            DBG.Log("Loaded Levels!");
+            yield return 0.0f;
+        }
+        private IEnumerator<float> _LoadSpawners() 
+        {
+            loadedSpawnerTemplates = new Dictionary<string, SpawnerTemplate>();
+            var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Enemies\SpawnerTemplates",
+                path => { return new SpawnerTemplate(path); },
+                loadedSpawnerTemplates
+            ));
+            yield return Timing.WaitUntilDone(handle);
+            CopyToEntitiesDict(loadedSpawnerTemplates);
+            DBG.Log("Loaded Spawners!");
             yield return 0.0f;
         }
 

@@ -9,6 +9,7 @@ using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using DBG = TankArena.Utils.DBG;
 using TankArena.Utils;
 using UnityEngine;
+using MovementEffects;
 using SimpleJSON;
 
 namespace TankArena.Models
@@ -70,7 +71,9 @@ namespace TankArena.Models
             var jsonText = File.ReadAllText(filePath);
             DBG.Log("Loaded Json Text for entity: {0}", jsonText);
             var json = JSON.Parse(jsonText);
-            LoadPropertiesFromJSON(json);
+            //entity id comes out synchornously, to map it to storage
+            properties[EK.EK_ID] = json[EK.EK_ID].Value;
+            Timing.RunCoroutine(_LoadPropertiesFromJSON(json), Segment.Update);
         }
 
         public FileLoadedEntityModel(FileLoadedEntityModel model) 
@@ -78,11 +81,12 @@ namespace TankArena.Models
             this.properties = new Dictionary<string, object>(model.properties);
         }
 
-        protected virtual void LoadPropertiesFromJSON(JSONNode json)
+        protected virtual IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            properties[EK.EK_ID] = json[EK.EK_ID].Value;
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;
             properties[EK.EK_DESCRIPTION] = json[EK.EK_DESCRIPTION].Value;
+
+            yield return 0.0f;
         }
 
         /// <summary>

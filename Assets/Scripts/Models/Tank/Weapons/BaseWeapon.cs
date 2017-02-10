@@ -11,6 +11,7 @@ using TankArena.Utils;
 using TankArena.Controllers.Weapons;
 using TankArena.Models.Weapons.Behaviors;
 using TankArena.Controllers;
+using MovementEffects;
 
 namespace TankArena.Models.Weapons
 {
@@ -166,7 +167,7 @@ namespace TankArena.Models.Weapons
 
         public BaseWeapon(string filePath) : base(filePath)
         {
-            InitValues();
+            // InitValues();
         }
 
         private void InitValues() 
@@ -185,9 +186,10 @@ namespace TankArena.Models.Weapons
             InitValues();
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
 
             properties[EK.EK_ON_TURRET_POSITION] = new Dictionary<String, TransformState>();
             JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].AsObject;
@@ -218,6 +220,10 @@ namespace TankArena.Models.Weapons
             {
                 properties[EK.EK_RELOAD_SOUND] = null;
             }
+
+            InitValues();
+
+            yield return 0.0f;
         }
 
         public void Shoot(AmmoCounterController ammoController)

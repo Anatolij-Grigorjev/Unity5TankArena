@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using EK = TankArena.Constants.EntityKeys;
 using SimpleJSON;
+using MovementEffects;
 
 namespace TankArena.Models.Characters
 {
@@ -71,16 +72,17 @@ namespace TankArena.Models.Characters
 
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
-
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
             properties[EK.EK_AVATAR_IMAGE] =  ResolveSpecialContent(json[EK.EK_AVATAR_IMAGE].Value);
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialContent(json[EK.EK_BACKGROUND_IMAGE].Value);
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_CASH] = json[EK.EK_CHARACTER_STARTER_CASH].AsFloat;
             properties[EK.EK_CHARACTER_STARTER_HEALTH] = json[EK.EK_CHARACTER_STARTER_HEALTH].AsFloat;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
+            yield return 0.0f;
         }
 
     }

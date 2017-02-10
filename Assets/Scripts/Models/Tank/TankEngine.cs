@@ -7,6 +7,7 @@ using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
 using TankArena.Controllers;
+using MovementEffects;
 
 namespace TankArena.Models.Tank
 {
@@ -88,9 +89,10 @@ namespace TankArena.Models.Tank
         {
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
 
             properties[EK.EK_TOP_SPEED] = json[EK.EK_TOP_SPEED].AsFloat;
             properties[EK.EK_TORQUE] = json[EK.EK_TORQUE].AsFloat;
@@ -98,6 +100,8 @@ namespace TankArena.Models.Tank
             properties[EK.EK_DEACCELERATION] = json[EK.EK_DEACCELERATION].AsFloat;
             properties[EK.EK_IDLE_SOUND] = ResolveSpecialContent(json[EK.EK_IDLE_SOUND]);
             properties[EK.EK_REVVING_SOUND] = ResolveSpecialContent(json[EK.EK_REVVING_SOUND]);
+
+            yield return 0.0f;
         }
 
 

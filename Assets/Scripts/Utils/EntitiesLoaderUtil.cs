@@ -15,7 +15,7 @@ namespace TankArena.Utils
 
         private EntitiesLoaderUtil() { }
 
-        public static void loadAllEntitesAtPath<T>(string baseLoadPath, Func<string, T> generator, Dictionary<String, T> consumer) 
+        public static IEnumerator<float> _LoadAllEntitesAtPath<T>(string baseLoadPath, Func<string, T> generator, Dictionary<String, T> consumer) 
             where T : FileLoadedEntityModel
         {
             var fullPath = Path.Combine(BASE_DATA_PATH, baseLoadPath);
@@ -24,8 +24,12 @@ namespace TankArena.Utils
             {
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);
+                //yield after every entity loaded
+                yield return 0.0f;
             }
             DBG.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
+
+            yield return 0.0f;
         }
     }
 }

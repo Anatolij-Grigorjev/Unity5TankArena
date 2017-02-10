@@ -8,6 +8,7 @@ using TankArena.Utils;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
+using MovementEffects;
 
 namespace TankArena.Models.Tank
 {
@@ -74,9 +75,10 @@ namespace TankArena.Models.Tank
         {
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
 
             properties[EK.EK_COUPLING] = json[EK.EK_COUPLING].AsFloat;
             properties[EK.EK_LOWER_INTEGRITY] = json[EK.EK_LOWER_INTEGRITY].AsFloat;
@@ -84,6 +86,8 @@ namespace TankArena.Models.Tank
 
             properties[EK.EK_LEFT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_LEFT_TRACK_POSITION].Value);
             properties[EK.EK_RIGHT_TRACK_POSITION] = ResolveSpecialContent(json[EK.EK_RIGHT_TRACK_POSITION].Value);
+
+            yield return 0.0f;
         }
 
         public override void SetDataToController<T>(BaseTankPartController<T> controller)

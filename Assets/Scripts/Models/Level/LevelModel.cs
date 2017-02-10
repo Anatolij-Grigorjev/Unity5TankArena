@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TankArena.Models;
+using MovementEffects;
 using EK = TankArena.Constants.EntityKeys;
 using System.Collections.Generic;
 using SimpleJSON;
@@ -71,9 +72,11 @@ namespace TankArena.Models.Level
 
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
+
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
 
             properties[EK.EK_THUMBNAIL] = ResolveSpecialContent(json[EK.EK_THUMBNAIL].Value);
             properties[EK.EK_SNAPSHOT] = ResolveSpecialContent(json[EK.EK_SNAPSHOT].Value);
@@ -97,6 +100,8 @@ namespace TankArena.Models.Level
                 spwnDict.Add(spawnerCode, spawnerLocation);
             }
             properties[EK.EK_SPAWNERS_LIST] = spwnDict;
+
+            yield return 0.0f;
         }
 
 

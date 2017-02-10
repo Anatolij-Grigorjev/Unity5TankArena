@@ -6,6 +6,7 @@ using EK = TankArena.Constants.EntityKeys;
 using System.Collections.Generic;
 using TankArena.Controllers;
 using System;
+using MovementEffects;
 
 namespace TankArena.Utils 
 {
@@ -69,9 +70,10 @@ namespace TankArena.Utils
 
 		}
 
-		protected override void LoadPropertiesFromJSON(JSONNode json)
+		protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
 		{
-			base.LoadPropertiesFromJSON(json);
+			var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+			yield return Timing.WaitUntilDone(handle);
 
 			properties[EK.EK_SIMULTANEOUS] = json[EK.EK_SIMULTANEOUS].AsInt;
 			properties[EK.EK_SPAWN_POOL] = json[EK.EK_SPAWN_POOL].AsInt;
@@ -89,6 +91,8 @@ namespace TankArena.Utils
 				spawnerObjects.Add(prefab, probability);
 			}
 			properties[EK.EK_SPAWN_OBJECTS] = spawnerObjects;
+			
+			yield return 0.0f;
 		}
 
 		public GameObject FromTemplate(Vector3 position)

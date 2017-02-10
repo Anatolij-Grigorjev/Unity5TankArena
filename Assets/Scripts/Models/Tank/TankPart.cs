@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using SimpleJSON;
 using TankArena.Utils;
 using TankArena.Controllers;
+using MovementEffects;
 
 namespace TankArena.Models.Tank
 {
@@ -79,10 +80,10 @@ namespace TankArena.Models.Tank
         {
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
-
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
             properties[EK.EK_ON_TANK_POSITION] = ResolveSpecialContent(json[EK.EK_ON_TANK_POSITION].Value);
             properties[EK.EK_MASS] = json[EK.EK_MASS].AsFloat;
             properties[EK.EK_GARAGE_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_GARAGE_ITEM_IMAGE].Value);
@@ -93,6 +94,8 @@ namespace TankArena.Models.Tank
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_ACTIVE_SPRITES] = json[EK.EK_ACTIVE_SPRITES].AsInt > 0? json[EK.EK_ACTIVE_SPRITES].AsInt : 1;
             properties[EK.EK_COLLISION_BOX] = ResolveSpecialContent(json[EK.EK_COLLISION_BOX].Value);
+
+            yield return 0.0f;
         }
 
         public virtual void SetRendererSprite(SpriteRenderer renderer, int spriteIndex)

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using MovementEffects;
 using SimpleJSON;
 using UnityEngine;
 using EK = TankArena.Constants.EntityKeys;
@@ -33,12 +35,14 @@ namespace TankArena.Models
         public ShopPurchaseableEntityModel(String path): base(path) {}
         public ShopPurchaseableEntityModel(ShopPurchaseableEntityModel model) : base(model) {}
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json); 
-            
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
             properties[EK.EK_PRICE] = json[EK.EK_PRICE].AsFloat;
             properties[EK.EK_SHOP_ITEM_IMAGE] = ResolveSpecialContent(json[EK.EK_SHOP_ITEM_IMAGE].Value);
+
+            yield return 0.0f;
         }
 
     }

@@ -12,6 +12,7 @@ using TankArena.Utils;
 using TankArena.Controllers;
 using TankArena.Controllers.Weapons;
 using TankArena.Constants;
+using MovementEffects;
 
 namespace TankArena.Models.Tank
 {
@@ -74,14 +75,12 @@ namespace TankArena.Models.Tank
         public TankTurret(string filePath) : base(filePath)
         {
             weaponSlotSerializerDictionary = new Dictionary<string, List<WeaponSlot>>();
-
-            weaponSlotSerializerDictionary.Add("L", LightWeaponSlots);
-            weaponSlotSerializerDictionary.Add("H", HeavyWeaponSlots);
         }
 
-        protected override void LoadPropertiesFromJSON(JSONNode json)
+        protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-            base.LoadPropertiesFromJSON(json);
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
 
             properties[EK.EK_TURRET_SPIN_SPEED] = json[EK.EK_TURRET_SPIN_SPEED].AsFloat;
             properties[EK.EK_TURRET_SPIN_SOUND] = ResolveSpecialContent(json[EK.EK_TURRET_SPIN_SOUND].Value);
@@ -103,7 +102,10 @@ namespace TankArena.Models.Tank
                     allWeaponSlots.AddRange(slotsList);
                 }
             }
-          
+            weaponSlotSerializerDictionary.Add("L", LightWeaponSlots);
+            weaponSlotSerializerDictionary.Add("H", HeavyWeaponSlots);
+
+            yield return 0.0f;
         }
 
         public override void SetDataToController<T>(BaseTankPartController<T> controller)
