@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MovementEffects;
+using TankArena.Constants;
 using TankArena.Models;
 using APP = UnityEngine.Application;
 
@@ -25,7 +27,7 @@ namespace TankArena.Utils
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);
                 //yield after every entity loaded
-                yield return 0.0f;
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
             }
             DBG.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
 

@@ -13,6 +13,7 @@ public class LoadingScreenController : MonoBehaviour {
 	public Animator lTrackAnimator;
 	public Animator rTrackAnimator;
 	private Animator[] animators;
+	public Text loadingStatusText;
 
 	// Use this for initialization
 	void Start () {
@@ -27,16 +28,35 @@ public class LoadingScreenController : MonoBehaviour {
 		}
 
 		
+		loadingStatusText.text = "Proceeding with load...";
+		Timing.RunCoroutine(_StartLoading());
 
-		StartCoroutine(_StartLoading());
 		DBG.Log("LOADING SCREEN ANIMATEING");
+	}
+
+	private IEnumerator<float> _LabelSetter(EntitiesStore store)
+	{
+		
+		loadingStatusText.text = store.GetStatus();
+		while (!store.isReady)
+		{
+			yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
+			//script might be exiting
+			if (loadingStatusText != null) 
+			{
+				loadingStatusText.text = store.GetStatus();
+			}
+		}
+
+		yield return 0.0f;
 	}
 	
 	// Update is called once per frame
-	private IEnumerator _StartLoading()
+	private IEnumerator<float> _StartLoading()
 	{
-		yield return new WaitForSeconds(1.5f);
-		yield return new WaitUntil(() => EntitiesStore.Instance.isReady);
+		yield return Timing.WaitForSeconds(LoadingParameters.LOADING_INITIAL_DELAY);
+		Timing.RunCoroutine(_LabelSetter(EntitiesStore.Instance), Segment.Update);
+		yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
 		
 		SceneManager.LoadScene(CurrentState.Instance.NextSceneId);
 	}

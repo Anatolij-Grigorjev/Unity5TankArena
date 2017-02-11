@@ -10,6 +10,7 @@ using System.Collections;
 using CielaSpike;
 using System.IO;
 using MovementEffects;
+using TankArena.Constants;
 
 namespace TankArena.Utils
 {
@@ -34,21 +35,23 @@ namespace TankArena.Utils
         //GOs can check this before getting a reference 
         //going because they might be half loaded before these are
         public bool isReady = false;
-
+        private string status = "";
+        public IEnumerator<float> dataLoadCoroutine;
 
         public void Awake()
         {
             DBG.Log("Working from path: {0}", EntitiesLoaderUtil.BASE_DATA_PATH);
             
-            Timing.RunCoroutine(LoadEntites());
+            dataLoadCoroutine = Timing.RunCoroutine(LoadEntites());
         }
 
         public IEnumerator<float> LoadEntites()
         {
             DBG.Log("START LOADING ENTITIES!");
+            status = "Started loading entities...";
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
             var loaderHandles = new List<IEnumerator<float>>();
-            yield return Timing.WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_TYPES);
             //Load all spawner templates
             loaderHandles.Add(Timing.RunCoroutine(_LoadSpawners()));
             //Load all Levels
@@ -63,7 +66,7 @@ namespace TankArena.Utils
             //finish all laodings
             foreach(var handle in loaderHandles)
             {
-                yield return Timing.WaitForSeconds(0.5f);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_TYPES);
                 yield return Timing.WaitUntilDone(handle);
             }
 
@@ -73,7 +76,7 @@ namespace TankArena.Utils
             while (charsList.Count < 1 ||
                  charsList.Any(character => String.IsNullOrEmpty(character.StartingTankCode))) 
             {
-                yield return Timing.WaitForSeconds(0.8f);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
             }
             charsList.ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
@@ -81,6 +84,8 @@ namespace TankArena.Utils
             
             isReady = true;
 
+            status = "Loading scene...";
+            
             yield return 0.0f;
         }
 
@@ -100,6 +105,7 @@ namespace TankArena.Utils
             ));
             yield return Timing.WaitUntilDone(heavyHandle);
             CopyToEntitiesDict(loadedWeapons);
+            status = "Loaded Weapons...";
             DBG.Log("Loaded All Weapons!");
             yield return 0.0f;
         }
@@ -132,6 +138,7 @@ namespace TankArena.Utils
                 yield return Timing.WaitUntilDone(coHandle);
             }
             CopyToEntitiesDict(loadedTankParts);
+            status = "Loaded tank parts...";
             DBG.Log("Loaded All Tank Parts!");
             yield return 0.0f;
         }
@@ -145,6 +152,7 @@ namespace TankArena.Utils
             ));
             yield return Timing.WaitUntilDone(handle);
             CopyToEntitiesDict(loadedCharacters);
+            status = "Loaded characters...";
             DBG.Log("Loaded Characters!");
             yield return 0.0f;
         }
@@ -158,6 +166,7 @@ namespace TankArena.Utils
             ));
             yield return Timing.WaitUntilDone(handle);
             CopyToEntitiesDict(loadedLevels);
+            status = "Loaded levels...";
             DBG.Log("Loaded Levels!");
             yield return 0.0f;
         }
@@ -171,6 +180,7 @@ namespace TankArena.Utils
             ));
             yield return Timing.WaitUntilDone(handle);
             CopyToEntitiesDict(loadedSpawnerTemplates);
+            status = "Loaded spawners...";
             DBG.Log("Loaded Spawners!");
             yield return 0.0f;
         }
@@ -191,17 +201,9 @@ namespace TankArena.Utils
             );
         }
 
-        public void GetStatus()
+        public string GetStatus()
         {
-            if (loadedEntities != null) 
-            {
-                //print amounts of loaded entities
-                //as status info. Good for eager lazy loading
-                DBG.Log("Loaded total of {0} entities.\n", loadedEntities.Count);
-            } else 
-            {
-                DBG.Log("Entites not loaded yet!");
-            }
+            return status;
         }
 
        
