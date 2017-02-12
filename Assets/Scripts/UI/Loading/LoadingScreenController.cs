@@ -40,7 +40,7 @@ public class LoadingScreenController : MonoBehaviour {
 		loadingStatusText.text = store.GetStatus();
 		while (!store.isReady)
 		{
-			yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
+			yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT / 4);
 			//script might be exiting
 			if (loadingStatusText != null) 
 			{

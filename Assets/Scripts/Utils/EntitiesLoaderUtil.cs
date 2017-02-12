@@ -27,7 +27,7 @@ namespace TankArena.Utils
                 var entity = generator(fileName);
                 consumer.Add(entity.Id, entity);
                 //yield after every entity loaded
-                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
             }
             DBG.Log("Loaded {0} entites of type {1}", consumer.Count, typeof(T).FullName);
 

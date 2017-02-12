@@ -51,7 +51,7 @@ namespace TankArena.Utils
             status = "Started loading entities...";
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
             var loaderHandles = new List<IEnumerator<float>>();
-            yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_TYPES);
+            yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_LONG);
             //Load all spawner templates
             loaderHandles.Add(Timing.RunCoroutine(_LoadSpawners()));
             //Load all Levels
@@ -66,7 +66,7 @@ namespace TankArena.Utils
             //finish all laodings
             foreach(var handle in loaderHandles)
             {
-                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_TYPES);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_LONG);
                 yield return Timing.WaitUntilDone(handle);
             }
 
@@ -76,7 +76,7 @@ namespace TankArena.Utils
             while (charsList.Count < 1 ||
                  charsList.Any(character => String.IsNullOrEmpty(character.StartingTankCode))) 
             {
-                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_BETWEEN_ENTITES);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
             }
             charsList.ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
