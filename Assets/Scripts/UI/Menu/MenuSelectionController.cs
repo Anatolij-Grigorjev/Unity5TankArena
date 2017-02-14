@@ -59,7 +59,7 @@ namespace TankArena.UI
 		}
 		public void PickStartGame()
 		{
-			TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_SAVE_SLOTS_ID);
 		}
 	}
 }

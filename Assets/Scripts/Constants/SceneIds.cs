@@ -9,4 +9,5 @@ public class SceneIds {
 	public const int SCENE_LOADING_ID = 4;
 	public const int SCENE_CHARACTER_SELECT_ID = 5;
 	public const int SCENE_MENU_ID = 0;
+	public const int SCENE_SAVE_SLOTS_ID = 6;
 }
