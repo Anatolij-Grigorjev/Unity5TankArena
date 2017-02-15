@@ -20,41 +20,48 @@ namespace TankArena.Models
         public Player(string saveFileLocation)
         {
             this.saveLocation = saveFileLocation;
+        }
+
+        public static Player LoadPlayerFromLocation(string location)
+        {
+            var player = new Player(location);
+            PopulatePlayerFromLocation(player, location);
+            return player;
+        }
+
+        private static void PopulatePlayerFromLocation(Player player, string location)
+        {
             try 
             {
-                var jsonText = File.ReadAllText(this.saveLocation);
+                var jsonText = File.ReadAllText(location);
                 try 
                 {
                     JSONNode json = JSONNode.Parse(jsonText);
 
-                    Name = json[PP.PP_NAME].Value;
-                    Health = json[PP.PP_HEALTH].AsFloat;
-                    Cash = json[PP.PP_CASH].AsFloat;
-                    Character = EntitiesStore.Instance.Characters[(json[PP.PP_CHARACTER].Value)];
-                    CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
+                    player.Name = json[PP.PP_NAME].Value;
+                    player.Health = json[PP.PP_HEALTH].AsFloat;
+                    player.Cash = json[PP.PP_CASH].AsFloat;
+                    player.Character = EntitiesStore.Instance.Characters[(json[PP.PP_CHARACTER].Value)];
+                    player.CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
 
                 } catch (Exception ex) 
                 {
                     //save game corrupt
                     DBG.Log("Savegame at {0} had corrupt data: {1}, making new character! Exception: {2}",
-                         this.saveLocation, jsonText, ex);
+                         location, jsonText, ex);
                 }
             } catch (FileNotFoundException ex)
             {
                 //save game doesnt exist yet, will make new save data later
                 DBG.Log("No savegame found at {0}, making new character! Exception: {1}",
-                    this.saveLocation, ex);
+                    location, ex);
             }
-
         }
 
-		///<summary>
-		///Loads from player prefs and puts into the EntityStore
-		///</summary>
-		public static Player LoadFromPlayerPrefs(string saveFileLocation)
+        public static void LoadCurrentPlayer() 
         {
-			Player player = new Player(saveFileLocation);
-			return player;
+            var player = CurrentState.Instance.Player;
+            PopulatePlayerFromLocation(player, player.saveLocation);
         }
 
 		public static void SaveCurrentPlayer()
@@ -63,11 +70,18 @@ namespace TankArena.Models
             //take the current player customizations and save them into the preferences
             JSONClass saveJson = new JSONClass();
             
+            //player always has a name
             saveJson.Add(PP.PP_NAME, player.Name);
             saveJson.Add(PP.PP_HEALTH, player.Health.ToString());
             saveJson.Add(PP.PP_CASH, player.Cash.ToString());
-            saveJson.Add(PP.PP_CHARACTER, player.Character.Id);
-            saveJson.Add(PP.PP_TANK, player.CurrentTank.ToCode());
+            if (player.Character != null) 
+            {
+                saveJson.Add(PP.PP_CHARACTER, player.Character.Id);
+            }
+            if (player.CurrentTank != null) 
+            {
+                saveJson.Add(PP.PP_TANK, player.CurrentTank.ToCode());
+            }
 
             //persist the file
             File.WriteAllText(player.saveLocation, saveJson.ToString());
