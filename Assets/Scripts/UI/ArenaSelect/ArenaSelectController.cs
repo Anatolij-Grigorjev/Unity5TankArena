@@ -43,8 +43,8 @@ namespace TankArena.UI.Arena
 					nextArenaButton.gameObject.SetActive(currentArenaIndex < (arenaModels.Count - 1) );
 					var selectedModel = arenaModels[UIUtils.SafeIndex(currentArenaIndex, arenaModels)];
 					SetArenaModelUI(selectedModel);
-					CurrentState.Instance.CurrentLevel = selectedModel;
-					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentLevel.Id);
+					CurrentState.Instance.CurrentArena = selectedModel;
+					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentArena.Id);
 				}
 			}
 		}
@@ -89,7 +89,7 @@ namespace TankArena.UI.Arena
 
 		public void PlaySelectedArena()
 		{
-			if (CurrentState.Instance.CurrentLevel != null)
+			if (CurrentState.Instance.CurrentArena != null)
 			{
 				TransitionUtil.StartTransitionTo(SceneIds.SCENE_SHOP_ID);
 			}

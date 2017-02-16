@@ -16,15 +16,15 @@ namespace TankArena.UI
 		// Use this for initialization
 		void Start ()
 		{
-			//no character picked yet
+			//no character picked yet, main menu
 			if (CurrentState.Instance.Player == null)
 			{
 				playerOptions.SetActive(false);
 				initialOptions.SetActive(true);
 				playerAvatar.gameObject.SetActive(false);
-				// TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 			} else 
 			{
+				//character picked, character menu
 				playerAvatar.gameObject.SetActive(true);
 				playerAvatar.sprite = CurrentState.Instance.Player.Character.Avatar;
 				playerOptions.SetActive(true);

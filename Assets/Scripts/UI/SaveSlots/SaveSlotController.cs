@@ -17,10 +17,17 @@ namespace TankArena.UI
 		public Image playerAvatar;
 		public Text slotDescription;
 		public GameObject loadoutBG;
+		public GameObject inputBoxGO;
 		private string DESCRIPTION_TEMPLATE = "Player: {name}\t\t\tCash: {cash}\nLast Level Played: {level}\nCurrent Loadout:";
 		private Dictionary<string, object> mappedInfo;
 		// Use this for initialization
 		void Start () {
+			if (inputBoxGO.activeInHierarchy) 
+			{
+				inputBoxGO.SetActive(false);
+			}
+			inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
+
 			mappedInfo = new Dictionary<string, object>();
 			model = Player.LoadPlayerFromLocation(saveSlot);
 
@@ -32,7 +39,51 @@ namespace TankArena.UI
 			{
 				model = null;
 			}
+
+			ProcessButton();
 		}
+
+		private void ProcessInputtedName(string name)
+		{
+			//this is called after input box has provided a new player name
+			//TODO: process name into a new player and transition to character select
+			//after initial save
+		}
+
+		private void ProcessButton()
+		{
+			var button = this.GetComponent<Button>();
+			if (model == null) 
+			{
+				//no model in this slot yet
+				if ((bool)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_SLOTS_FOR_LOAD])
+				{
+					//the scene was opened for loading, so no buttons for the slots with no model
+					Destroy(button);
+				} else 
+				{
+					//no model but we saving, so can use this slot
+					button.onClick.AddListener(() => {
+						//call up the input field, other function will take it form there
+						inputBoxGO.SetActive(true);
+					});
+				}
+			} else 
+			{
+				//there is an existing slot model
+				if ((bool)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_SLOTS_FOR_LOAD])
+				{
+					//loading is possible, we do just that and move on to arenas
+					CurrentState.Instance.SetPlayer(model);
+					TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
+				} else 
+				{
+					//this is saving and we want to override save slot
+					//TODO: this logic right here
+				}
+			}
+		}
+
 
 		private void RefreshUI()
 		{

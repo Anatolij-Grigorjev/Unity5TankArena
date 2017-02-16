@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using TankArena.Models.Tank;
 using TankArena.Models;
 using TankArena.Models.Level;
@@ -17,8 +17,9 @@ namespace TankArena.Utils
 
 		public Tank CurrentTank { get; set; }
 		public Player Player { get; set; }
-		public LevelModel CurrentLevel { get; set; }
+		public LevelModel CurrentArena { get; set; }
 		public int NextSceneId { get; set; }
+		public Dictionary<string, object> CurrentSceneParams { get; set; }
 
 		public void SetPlayer(Player player)
 		{
@@ -35,8 +36,11 @@ namespace TankArena.Utils
 		{
 			Player = null;
 			CurrentTank = null;
-			CurrentLevel = null;
+			CurrentArena = null;
+			CurrentSceneParams = null;
 		}
+
+
     }
 }
 

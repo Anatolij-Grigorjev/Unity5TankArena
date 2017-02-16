@@ -15,7 +15,7 @@ namespace TankArena.Controllers
 		{
 			//ensure entities loaded
 			EntitiesStore.Instance.GetStatus();
-			LevelModel levelModel = CurrentState.Instance.CurrentLevel;	
+			LevelModel levelModel = CurrentState.Instance.CurrentArena;	
 
 			if (levelModel != null)
 			{
