@@ -37,7 +37,7 @@ namespace TankArena.Utils
 			Player = null;
 			CurrentTank = null;
 			CurrentArena = null;
-			CurrentSceneParams = null;
+			CurrentSceneParams = new Dictionary<string, object>();
 		}
 
 

@@ -9,7 +9,14 @@ namespace TankArena.Utils
         public static void StartTransitionTo(int sceneId, Dictionary<string ,object> sceneParams = null)
         {
             CurrentState.Instance.NextSceneId = sceneId;
-            CurrentState.Instance.CurrentSceneParams = sceneParams;
+            CurrentState.Instance.CurrentSceneParams.Clear();
+            if (sceneParams != null) 
+            {
+                foreach(var param in sceneParams) 
+                {
+                    CurrentState.Instance.CurrentSceneParams.Add(param.Key, param.Value);
+                }
+            }
             SceneManager.LoadScene(SceneIds.SCENE_LOADING_ID);
         }
     }

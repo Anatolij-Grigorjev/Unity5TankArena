@@ -135,12 +135,13 @@ namespace TankArena.UI.Characters
 		public void SelectCharacter()
 		{
 			var model = characterData[CharacterIndex];
-			var player = new Player(playerName);
+			var player = CurrentState.Instance.Player;
 			player.Cash = model.StartingCash;
 			player.Character = model;
 			player.CurrentTank = model.StartingTank;
 			player.Health = model.StartingHealth;
-
+			
+			Player.SaveCurrentPlayer();
 			CurrentState.Instance.SetPlayer(player);
 			
 			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);

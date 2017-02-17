@@ -67,6 +67,8 @@ namespace TankArena.Models
 		public static void SaveCurrentPlayer()
         {
 			var player = CurrentState.Instance.Player;
+
+            DBG.Log("Saving player: {0}", player);
             //take the current player customizations and save them into the preferences
             JSONClass saveJson = new JSONClass();
             

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TankArena.Utils;
+using TankArena.Constants;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace TankArena.UI
 {
@@ -60,6 +62,12 @@ namespace TankArena.UI
 		public void PickStartGame()
 		{
 			TransitionUtil.StartTransitionTo(SceneIds.SCENE_SAVE_SLOTS_ID);
+		}
+		public void PickLoadGame()
+		{
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_SAVE_SLOTS_ID, new Dictionary<string, object>() {
+				{TransitionParams.PARAM_SLOTS_FOR_LOAD, true}
+			});
 		}
 	}
 }

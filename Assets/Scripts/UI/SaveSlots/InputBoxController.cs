@@ -10,12 +10,17 @@ namespace TankArena.UI
 
 		public Button cancelButton;
 		public Button enterButton;
+		public InputField inputField;
 		public string inputName;
 		public ProcessName externalAction;
 
 		// Use this for initialization
 		void Start () 
 		{
+
+			inputField.onEndEdit.AddListener(UpdateName);
+			inputField.onValueChanged.AddListener(UpdateName);
+
 		}
 
 		public void EnterClicked()
