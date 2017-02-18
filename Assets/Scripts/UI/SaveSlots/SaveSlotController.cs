@@ -26,7 +26,6 @@ namespace TankArena.UI
 			{
 				inputBoxGO.SetActive(false);
 			}
-			inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
 
 			mappedInfo = new Dictionary<string, object>();
 			model = Player.LoadPlayerFromLocation(saveSlot);
@@ -34,11 +33,12 @@ namespace TankArena.UI
 			//save slot actually contain a player
 			if (model.CurrentTank != null && model.Character != null)
 			{
-				RefreshUI();
+				//TODO:??
 			} else 
 			{
 				model = null;
 			}
+			RefreshUI();
 
 			ProcessButton();
 		}
@@ -46,6 +46,10 @@ namespace TankArena.UI
 		private void ProcessInputtedName(string name)
 		{
 			DBG.Log("Got input name: {0}", name);
+			if (String.IsNullOrEmpty(name)) 
+			{
+				return;
+			}
 			//this is called after input box has provided a new player name
 			//process name into a new player and transition to character select
 			//after initial save
@@ -80,6 +84,7 @@ namespace TankArena.UI
 					button.onClick.AddListener(() => {
 						//call up the input field, other function will take it form there
 						inputBoxGO.SetActive(true);
+						inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
 					});
 				}
 			} else 
@@ -127,14 +132,25 @@ namespace TankArena.UI
 						go.transform.SetParent(loadoutBG.transform, false);
 					});
 				}
+			} else 
+			{
+				slotDescription.text = UIUtils.ApplyPropsToTemplate(DESCRIPTION_TEMPLATE, MapSlotInfo(null));
 			}
 		}
 
         private Dictionary<string, object> MapSlotInfo(Player model)
         {
-            mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = "???";
-			mappedInfo[UITextKeyMappings.MAPPING_PLAYER_CASH] = model.Cash;
-			mappedInfo[UITextKeyMappings.MAPPING_PLAYER_NAME] = model.Name;
+			if (model != null) 
+			{
+				mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = "???";
+				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_CASH] = model.Cash;
+				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_NAME] = model.Name;
+			} else 
+			{
+				mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = "???";
+				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_CASH] = "<EMPTY>";
+				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_NAME] = "<EMPTY>";
+			}
 
 			return mappedInfo;
         }
