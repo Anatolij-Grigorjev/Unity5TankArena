@@ -2,6 +2,9 @@
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
+using MovementEffects;
+using System;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
@@ -43,12 +46,18 @@ namespace TankArena.Controllers
         public override void Awake () {
             base.Awake(); 
             tankRigidBody = GetComponent<Rigidbody2D>();
+            Timing.RunCoroutine(_Awake());
+	    }
+
+        private IEnumerator<float> _Awake()
+        {
+            yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
             Tank = CurrentState.Instance.CurrentTank;
 
             DBG.Log("Tank Controller Awoke!");
-	    }
-	
-	    protected override void HandleNOOP() 
+        }
+
+        protected override void HandleNOOP() 
         {
             chassisController.engineController.StartIdle();
         }

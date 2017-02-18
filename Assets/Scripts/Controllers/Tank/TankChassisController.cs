@@ -4,6 +4,8 @@ using TankArena.Models.Tank;
 using System;
 using TankArena.Utils;
 using TankArena.Constants;
+using MovementEffects;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
@@ -37,6 +39,14 @@ namespace TankArena.Controllers
         {
             base.Awake();
             
+            Timing.RunCoroutine(_Awake());
+
+        }
+
+        private IEnumerator<float> _Awake()
+        {
+            yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);   
+            yield return Timing.WaitForSeconds(2.0f);
             DBG.Log("Chassis Controller Awoke!");
 
             var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);
@@ -46,7 +56,6 @@ namespace TankArena.Controllers
             transform.parent = rotatorGO.transform;
 
             Rotator = rotatorGO.transform;
-
         }
 
         // Update is called once per frame
