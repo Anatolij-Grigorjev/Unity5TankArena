@@ -45,6 +45,8 @@ namespace TankArena.Constants
         public const string EK_TORQUE = "torque";
         public const string EK_ACCELERATION = "acceleration";
         public const string EK_DEACCELERATION = "deacceleration";
+        public const string EK_BOOST_ACCELERATION = "boost_acceleration";
+        public const string EK_BOOST_RECHARGE = "boost_recharge";
         public const string EK_IDLE_SOUND = "idle_sound";
         public const string EK_REVVING_SOUND = "revving_sound";
 
@@ -110,6 +112,8 @@ namespace TankArena.Constants
             { EK_TORQUE, "Power"},
             { EK_ACCELERATION, "Acceleration"},
             { EK_DEACCELERATION, "Breaking"},
+            { EK_BOOST_ACCELERATION, "Starter Boost"},
+            { EK_BOOST_RECHARGE, "Starter Recharge"},
             { EK_HEAVY_WEAPON_SLOTS, "Heavy Weapons"},
             { EK_LIGHT_WEAPON_SLOTS, "Light Weapons"},
             { EK_TURRET_SPIN_SPEED, "Turn Speed"},

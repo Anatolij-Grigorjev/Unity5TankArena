@@ -56,6 +56,26 @@ namespace TankArena.Models.Tank
             }
         }
         /// <summary>
+        /// Acceleration applied by engine during initial boost (fast start)
+        /// </summary>
+        public float BoostAcceleration
+        {
+            get 
+            {
+                return (float)properties[EK.EK_BOOST_ACCELERATION];
+            }
+        }
+        /// <summary>
+        /// Time it takes to recharge an applied boost (in seconds)
+        /// </summary>
+        public float BoostRecharge
+        {
+            get 
+            {
+                return (float)properties[EK.EK_BOOST_RECHARGE];
+            }
+        }
+        /// <summary>
         /// Sound engien makes while tank is not moving
         /// </summary>
         public AudioClip IdleSound
@@ -84,11 +104,11 @@ namespace TankArena.Models.Tank
                 return SK.SK_TANK_ENGINE;
             }
         }
-
-        public TankEngineController controller;
+        private bool isBoostReady;
 
         public TankEngine(string filePath) : base(filePath)
         {
+            isBoostReady = true;
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
@@ -100,6 +120,8 @@ namespace TankArena.Models.Tank
             properties[EK.EK_TORQUE] = json[EK.EK_TORQUE].AsFloat;
             properties[EK.EK_ACCELERATION] = json[EK.EK_ACCELERATION].AsFloat;
             properties[EK.EK_DEACCELERATION] = json[EK.EK_DEACCELERATION].AsFloat;
+            properties[EK.EK_BOOST_ACCELERATION] = json[EK.EK_BOOST_ACCELERATION].AsFloat;
+            properties[EK.EK_BOOST_RECHARGE] = json[EK.EK_BOOST_RECHARGE].AsFloat;
             properties[EK.EK_IDLE_SOUND] = ResolveSpecialContent(json[EK.EK_IDLE_SOUND]);
             properties[EK.EK_REVVING_SOUND] = ResolveSpecialContent(json[EK.EK_REVVING_SOUND]);
 
@@ -114,11 +136,30 @@ namespace TankArena.Models.Tank
             if (controller is TankEngineController)
             {
                 TankEngineController engineController = (TankEngineController)(object)controller;
-                this.controller = engineController;
                 engineController.audioIdle.clip = IdleSound;
                 engineController.audioRevving.clip = RevvingSound;
             }
         }
 
+        
+
+        public float TryBoost()
+        {
+            if (isBoostReady) 
+            {
+                isBoostReady = false;
+                Timing.RunCoroutine(_RechargeBoost());
+                return BoostAcceleration;
+            } else 
+            {
+                return Acceleration;
+            }
+        }
+
+        private IEnumerator<float> _RechargeBoost()
+        {
+            yield return Timing.WaitForSeconds(BoostRecharge);
+            isBoostReady = true;
+        }
     }
 }

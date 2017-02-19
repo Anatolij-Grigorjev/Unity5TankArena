@@ -9,6 +9,8 @@
 	"torque": 75.4,
 	"acceleration": 150.9,
 	"deacceleration": 35.5,
+	"boost_acceleration": 721.6,
+	"boost_recharge": 3.1,
 	"price": 250.55,
 	"idle_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_idle",
 	"revving_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_revving",
