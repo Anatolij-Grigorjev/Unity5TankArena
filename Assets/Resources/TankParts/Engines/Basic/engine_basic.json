@@ -5,7 +5,7 @@
 	"mass": 1.0,
 	"shop_item": "!img;TankParts\\Engines\\Basic\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Engines\\Basic\\Images\\garage_img",
-	"top_speed": 50.89,
+	"top_speed": 60.89,
 	"torque": 55.4,
 	"acceleration": 110.5,
 	"deacceleration": 15.5,

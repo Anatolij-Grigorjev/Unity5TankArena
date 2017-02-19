@@ -159,18 +159,20 @@ namespace TankArena.Models.Tank
             var enginePowerCoef = TankEngine.Torque / Mass;
             var allowedTopSpeed = (TankEngine.TopSpeed * enginePowerCoef);
             var currentVelocity = rigidBody.velocity.magnitude + 0.1f;
-            // DBG.Log("Current velocity: {0}", currentVelocity);    
-            var acceleration = TankEngine.Acceleration * throttle 
+            var boost = Math.Abs(throttle) >= 0.1f && (currentVelocity < allowedTopSpeed / 2) ? 
+                TankEngine.controller.ProcessBoost() : 1.0f;
+            DBG.Log("Current velocity: {0}", currentVelocity);    
+            var acceleration = (boost * TankEngine.Acceleration) * throttle 
                 * enginePowerCoef * (allowedTopSpeed / currentVelocity);
             //do throttle (on main object body because both chassis and turret move together)
             //attempt culling acceleration? need to ensure velocity and top speed are congruent
             if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
             {
-                // DBG.Log("Applying thrust: {0}", transform.up * acceleration * Time.deltaTime);
+                DBG.Log("Applying thrust: {0}", transform.up * acceleration);
                 rigidBody.AddForce(chassisRotator.transform.up * acceleration * 1/*Time.deltaTime*/);
             }
              
-            //do spin (only on chassis because turret rotates separately)
+            //do spin (both chasis and turretn becuae this is a single tank)
             var turnPower = turn * TankTracks.TurnSpeed;
             if (turnPower != 0.0)
             {

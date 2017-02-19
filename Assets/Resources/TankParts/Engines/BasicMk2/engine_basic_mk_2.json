@@ -5,12 +5,12 @@
 	"mass": 5.3,
 	"shop_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Engines\\BasicMk2\\Images\\garage_img",
-	"top_speed": 47.89,
+	"top_speed": 75.89,
 	"torque": 75.4,
 	"acceleration": 150.9,
 	"deacceleration": 35.5,
 	"price": 250.55,
 	"idle_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_idle",
 	"revving_sound": "!snd;TankParts\\Engines\\BasicMk2\\Sounds\\engine_revving",
-	"description": "Mark II in a series of average engines. This one ups the price and the ante considerably, boasting higher acceleration and a more stable lower top speed, better suited for both chasing down an enemy and making your own hasty escape. Is your chassis worth the pricepoint?"
+	"description": "Mark II in a series of average engines. This one ups the price and the ante considerably, boasting higher acceleration and a more stable top speed, better suited for both chasing down an enemy and making your own hasty escape. Is your chassis worth the pricepoint?"
 }

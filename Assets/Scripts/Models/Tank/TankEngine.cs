@@ -85,6 +85,8 @@ namespace TankArena.Models.Tank
             }
         }
 
+        public TankEngineController controller;
+
         public TankEngine(string filePath) : base(filePath)
         {
         }
@@ -112,7 +114,7 @@ namespace TankArena.Models.Tank
             if (controller is TankEngineController)
             {
                 TankEngineController engineController = (TankEngineController)(object)controller;
-
+                this.controller = engineController;
                 engineController.audioIdle.clip = IdleSound;
                 engineController.audioRevving.clip = RevvingSound;
             }
