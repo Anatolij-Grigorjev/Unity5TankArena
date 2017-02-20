@@ -37,6 +37,10 @@ namespace TankArena.Controllers
         ///</summary>
         public float TurnCoef
         {
+            get 
+            {
+                return turnCoef;
+            }
             set 
             {
                 turnCoef = value * TURN_BASE_COEF; 
@@ -74,7 +78,7 @@ namespace TankArena.Controllers
                     rotationSound.Play();
                 }
                 var wantedEuler = Rotator.localRotation.eulerAngles;
-                wantedEuler.z += (intensity * turnCoef);
+                wantedEuler.z += (intensity * TurnCoef);
                 // DBG.Log("Wanted Rotation: {0}", wantedEuler);
                 var wantedRotation = Quaternion.Euler(wantedEuler);
                 Rotator.localRotation =
