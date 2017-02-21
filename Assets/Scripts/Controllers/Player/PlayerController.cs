@@ -88,6 +88,11 @@ namespace TankArena.Controllers
                 }));
             }
 
+            if (Input.GetMouseButton(0))
+            {
+                AddTurretRotation();
+            }
+
             CollectWeaponsInput();
 
             //check reload input
@@ -98,6 +103,31 @@ namespace TankArena.Controllers
             }
         }
 
+        private void AddTurretRotation()
+        {
+            var rotator = tankController.turretController.Rotator;
+            var angle = GetAngleDiffToMouseFrom(rotator);
+            
+            var initialRotationDiff = rotator.localEulerAngles.z - angle;
+            //set regions where the CCW natural cosine rotation is the quickest
+            //use other direction rotation otherwise
+            var turnCCW = true;
+            // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
+            //find out the angular difference via cos (helps that its periodic)
+            var rotationDiff = (turnCCW? 1 : -1) * 
+                Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
+            DBG.Log("Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff);
+            DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
+            //rotation difference too large not to adjust turret
+            if (Math.Abs(rotationDiff) > 5.0f) 
+            {
+                var intensity = rotationDiff / tankController.turretController.TurnCoef;
+                DBG.Log("Turn intensity: {0}", intensity);
+                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
+                    { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
+                }));
+            }
+        }
         private void CollectWeaponsInput()
         {
             //check for input in all weapon groups
@@ -110,24 +140,7 @@ namespace TankArena.Controllers
             }
             if (hasFire)
             {
-                var rotator = tankController.turretController.Rotator;
-                var angle = GetAngleDiffToMouseFrom(rotator);
-                DBG.Log("mouse angle: {0}", angle);
-                var rotationDiff = rotator.localEulerAngles.z - angle;
-                //rotate the other way if bad difference
-                if (Math.Abs(rotationDiff) > 180) {
-                    rotationDiff = angle - rotator.localEulerAngles.z;
-                }
-                DBG.Log("angle diff: {0}", rotationDiff);
-                //rotation difference too large not to adjust turret
-                if (Math.Abs(rotationDiff) > 15.0f) 
-                {
-                    var intensity = angle / tankController.turretController.TurnCoef;
-                    DBG.Log("Turn intensity: {0}", intensity);
-                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
-                        { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
-                    }));
-                }
+                AddTurretRotation();
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>
                 {
                     { TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs) }
