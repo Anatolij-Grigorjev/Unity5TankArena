@@ -132,18 +132,10 @@ namespace TankArena.Controllers
             }
         }
         private bool ShouldTurnCCW(float fromAngle, float toAngle) {
-            // //CCW rotation means from smaller angle to bigger, but have
-            // //to respect circular value edge cases
-            // var distToOriginFrom = fromAngle > 180? 360 - fromAngle : -fromAngle;
-            // var distToOriginTo = toAngle > 180? 360 - toAngle : -toAngle;
-
-            // //distance to origin denotes distance to zero/360 from current angle, 
-            // //shorter at the 180 mark.
-            // //when the distance is greater at from, we rotate CCW
-            // //distance is greater if its at a smaller below 180 angle or at 
-            // //a larger above 180
-            // return distToOriginFrom > distToOriginTo;
-
+            // check the rotation coverage of the fromAngle up to 180 degrees
+            // looping the circle if need be
+            // if the toAngle is wihtin that coverage, we spin CCW
+            // if the toAngle is on the other side of the circle, its a CW turn
 
             var coverageFrom = (fromAngle + 180) % 360;
             if (coverageFrom < fromAngle) 
