@@ -107,25 +107,52 @@ namespace TankArena.Controllers
         {
             var rotator = tankController.turretController.Rotator;
             var angle = GetAngleDiffToMouseFrom(rotator);
-            
-            var initialRotationDiff = rotator.localEulerAngles.z - angle;
+            if (!(angle > 0.0f && angle < 90.0f)) {
+                angle += 360.0f;
+            }
+            int rotatorDegrees = (int)rotator.eulerAngles.z;
+            var initialRotationDiff = Mathf.Abs(rotatorDegrees - angle);
             //set regions where the CCW natural cosine rotation is the quickest
             //use other direction rotation otherwise
-            var turnCCW = true;
+            var turnCCW = ShouldTurnCCW(rotatorDegrees, angle);
             // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
             //find out the angular difference via cos (helps that its periodic)
             var rotationDiff = (turnCCW? 1 : -1) * 
                 Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
-            DBG.Log("Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff);
+            DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
             DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
             //rotation difference too large not to adjust turret
-            if (Math.Abs(rotationDiff) > 5.0f) 
+            if (Math.Abs(rotationDiff) > 1.0f) 
             {
-                var intensity = rotationDiff / tankController.turretController.TurnCoef;
+                var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
                 DBG.Log("Turn intensity: {0}", intensity);
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
                     { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
                 }));
+            }
+        }
+        private bool ShouldTurnCCW(float fromAngle, float toAngle) {
+            // //CCW rotation means from smaller angle to bigger, but have
+            // //to respect circular value edge cases
+            // var distToOriginFrom = fromAngle > 180? 360 - fromAngle : -fromAngle;
+            // var distToOriginTo = toAngle > 180? 360 - toAngle : -toAngle;
+
+            // //distance to origin denotes distance to zero/360 from current angle, 
+            // //shorter at the 180 mark.
+            // //when the distance is greater at from, we rotate CCW
+            // //distance is greater if its at a smaller below 180 angle or at 
+            // //a larger above 180
+            // return distToOriginFrom > distToOriginTo;
+
+
+            var coverageFrom = (fromAngle + 180) % 360;
+            if (coverageFrom < fromAngle) 
+            {
+                return (toAngle > fromAngle && toAngle < 360)
+                 || (toAngle > 0 && toAngle < coverageFrom);
+
+            } else {
+                return (toAngle > fromAngle && toAngle < coverageFrom);
             }
         }
         private void CollectWeaponsInput()
