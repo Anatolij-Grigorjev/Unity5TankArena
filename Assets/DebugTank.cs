@@ -11,6 +11,8 @@ using TankArena.Controllers;
 
 public class DebugTank : MonoBehaviour {
 
+	public GameObject enemyPrefab;
+
 	// Use this for initialization
 	void Awake () {
 		EntitiesStore.Instance.GetStatus();
@@ -26,7 +28,7 @@ public class DebugTank : MonoBehaviour {
 		DBG.Log("Loading done!");
         var player = new Player("debug");
 		player.Cash = 90;
-		player.Character = EntitiesStore.Instance.Characters["lugnut"];
+		player.Character = EntitiesStore.Instance.Characters["cletus"];
 		player.Name = "Debug";
 		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);
 		CurrentState.Instance.SetPlayer(player);
@@ -34,6 +36,12 @@ public class DebugTank : MonoBehaviour {
 		gameObject.GetComponentsInChildren<MonoBehaviour>().ToList().ForEach(script => {
 			script.enabled = true;
 		});
+		if (enemyPrefab != null) {
+			yield return Timing.WaitForSeconds(10.0f);
+			DBG.Log("Deploying enemy!");
+			var enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
+			enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
+		}
     }
 
     // Update is called once per frame
