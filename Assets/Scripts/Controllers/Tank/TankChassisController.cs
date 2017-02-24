@@ -46,7 +46,8 @@ namespace TankArena.Controllers
         private IEnumerator<float> _Awake()
         {
             yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);   
-            yield return Timing.WaitForSeconds(2.0f);
+            yield return Timing.WaitForSeconds(3.0f);
+            DBG.Log("TankChassisController done waiting 5s");
             DBG.Log("Chassis Controller Awoke!");
 
             var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);

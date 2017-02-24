@@ -52,6 +52,9 @@ namespace TankArena.Controllers
         private IEnumerator<float> _Awake()
         {
             yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
+            yield return Timing.WaitForSeconds(1.0f);
+            DBG.Log("TankController done waiting 2s");
+            DBG.Log("CurrentTank: {0} | rigidBody: {1}", CurrentState.Instance.CurrentTank, tankRigidBody);
             Tank = CurrentState.Instance.CurrentTank;
 
             DBG.Log("Tank Controller Awoke!");

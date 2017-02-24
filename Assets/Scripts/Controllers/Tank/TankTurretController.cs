@@ -4,6 +4,8 @@ using TankArena.Models.Tank;
 using System;
 using TankArena.Utils;
 using TankArena.Constants;
+using MovementEffects;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
@@ -19,6 +21,12 @@ namespace TankArena.Controllers
         public void Start()
         {
             
+            Timing.RunCoroutine(_Start());
+        }
+
+        private IEnumerator<float> _Start() 
+        {
+            yield return Timing.WaitForSeconds(1.0f);
             TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
             var rotatorGO = new GameObject(Tags.TAG_TURRET_ROTATOR);
             rotatorGO.tag = Tags.TAG_TURRET_ROTATOR;

@@ -9,7 +9,7 @@ namespace TankArena.Controllers
 {
     public class PlayerController : MonoBehaviour
     {
-        public Sprite targetSprite;
+        public GameObject targetLockObject;
         public TankController tankController;
 
         public Queue<TankCommand> commands;
@@ -90,6 +90,8 @@ namespace TankArena.Controllers
                 }));
             }
 
+            CollectLockOn();
+
             CollectWeaponsInput();
 
             //check reload input
@@ -98,27 +100,40 @@ namespace TankArena.Controllers
             {
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_RELOAD));
             }
+        }
 
-            var target = Input.GetButton(ControlsButtonNames.BTN_NAME_HANDBREAK);
+        private void CollectLockOn()
+        {
+            var target = Input.GetButton(ControlsButtonNames.BTN_NAME_LOCKON);
             if (target)
             {
-                Vector2 origin = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
-                                          Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+                Vector2 origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, 0f);
-                DBG.Log("Searching at mouse pos: {0}", Input.mousePosition);
+                DBG.Log("Searching at mouse pos: {0} | World: {1}", Input.mousePosition, origin);
                 if (hit.collider != null) 
                 {
                     DBG.Log("Hit! collider: {0}", hit.collider);
-                    var rectGo = new GameObject("target-rect", 
-                        new Type[] {
-                            typeof(SpriteRenderer)
+                    if (hit.collider != null && hit.collider.gameObject != null) 
+                    {
+                        var oldLock = GameObject.FindGameObjectWithTag(Tags.TAG_ENEMY_LOCK);
+                        if (oldLock != null)
+                        {
+                            Destroy(oldLock);
                         }
-                    );
-                    //check if not go already there, etc.
-                    rectGo.GetComponent<SpriteRenderer>().sprite = targetSprite;
-                    //sprite rendered layer of go
-                    rectGo.transform.SetParent(hit.collider.gameObject.transform, false);
-                    goLock = hit.collider.gameObject;
+                        var enemyGo = hit.collider.gameObject;
+                        var rectGo = Instantiate(
+                            targetLockObject, 
+                            hit.centroid,
+                            Quaternion.identity,
+                            enemyGo.transform
+                        ) as GameObject;
+                        //gotta bring the graphic to the right sorting layer
+                        rectGo.GetComponent<SpriteRenderer>().sortingLayerName = SortingLayerConstants.ENEMY_SORTING_LAYER_NAME;
+
+                        goLock = enemyGo;
+                    }
+                    
                 }
             }
         }
@@ -152,8 +167,13 @@ namespace TankArena.Controllers
             // }
             // //no need to fire yet if rotation too large
             // return Math.Abs(rotationDiff) < 0.1f;
-            transform.right = goLock.transform.position - tankController.turretController.Rotator.transform.position;
-            return false;
+            if (goLock == null) 
+            {
+                return true;
+            }
+            tankController.turretController.Rotator.transform.up = 
+                goLock.transform.position - tankController.turretController.Rotator.transform.position;
+            return true;
         }
         private bool ShouldTurnCCW(float fromAngle, float toAngle) {
             // check the rotation coverage of the fromAngle up to 180 degrees

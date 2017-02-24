@@ -29,5 +29,6 @@ namespace TankArena.Constants
         {
             return String.Format("CharAvatar_{0}{1}", rowIndex, columnIndex);
         }
+        public const String TAG_ENEMY_LOCK = "EnemyLock";
     }
 }

@@ -236,6 +236,11 @@ namespace TankArena.Models.Tank
             return codeBuilder.ToString();
         }
 
+        public override String ToString() 
+        {
+            return ToCode();
+        }
+
         ///<summary>
         ///Check if the tank currently has the specified part in its equipment (checking against parts ids)
         ///</summary>

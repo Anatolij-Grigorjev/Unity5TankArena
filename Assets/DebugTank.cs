@@ -30,9 +30,11 @@ public class DebugTank : MonoBehaviour {
 		player.Cash = 90;
 		player.Character = EntitiesStore.Instance.Characters["cletus"];
 		player.Name = "Debug";
+		DBG.Log("Starting tank code: {0}", player.Character.StartingTankCode);
 		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);
+		DBG.Log("Player tank: {0}", player.CurrentTank);
 		CurrentState.Instance.SetPlayer(player);
-
+		DBG.Log("Player tank: {0}", CurrentState.Instance.CurrentTank);
 		gameObject.GetComponentsInChildren<MonoBehaviour>().ToList().ForEach(script => {
 			script.enabled = true;
 		});
