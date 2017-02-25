@@ -124,7 +124,7 @@ namespace TankArena.Controllers
                         var enemyGo = hit.collider.gameObject;
                         var rectGo = Instantiate(
                             targetLockObject, 
-                            hit.centroid,
+                            hit.collider.bounds.center,
                             Quaternion.identity,
                             enemyGo.transform
                         ) as GameObject;
@@ -140,40 +140,42 @@ namespace TankArena.Controllers
 
         private bool AddTurretRotation()
         {
-            // var rotator = tankController.turretController.Rotator;
-            // var angle = GetAngleDiffToMouseFrom(rotator);
-            // if (!(angle > 0.0f && angle < 90.0f)) {
-            //     angle += 360.0f;
-            // }
-            // int rotatorDegrees = (int)rotator.eulerAngles.z;
-            // var initialRotationDiff = Mathf.Abs(rotatorDegrees - angle);
-            // //set regions where the CCW natural cosine rotation is the quickest
-            // //use other direction rotation otherwise
-            // var turnCCW = ShouldTurnCCW(rotatorDegrees, angle);
-            // // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
-            // //find out the angular difference via cos (helps that its periodic)
-            // var rotationDiff = (turnCCW? 1 : -1) * 
-            //     Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
-            // DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
-            // DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
-            // //rotation difference too large not to adjust turret
-            // if (Math.Abs(rotationDiff) > 0.1f) 
-            // {
-            //     var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
-            //     DBG.Log("Turn intensity: {0}", intensity);
-            //     commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
-            //         { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
-            //     }));
-            // }
-            // //no need to fire yet if rotation too large
-            // return Math.Abs(rotationDiff) < 0.1f;
+            var rotator = tankController.turretController.Rotator;
             if (goLock == null) 
             {
+                var angle = GetAngleDiffToMouseFrom(rotator);
+                if (!(angle > 0.0f && angle < 90.0f)) {
+                    angle += 360.0f;
+                }
+                int rotatorDegrees = (int)rotator.eulerAngles.z;
+                var initialRotationDiff = Mathf.Abs(rotatorDegrees - angle);
+                //set regions where the CCW natural cosine rotation is the quickest
+                //use other direction rotation otherwise
+                var turnCCW = ShouldTurnCCW(rotatorDegrees, angle);
+                // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
+                //find out the angular difference via cos (helps that its periodic)
+                var rotationDiff = (turnCCW? 1 : -1) * 
+                    Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
+                DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
+                DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
+                //rotation difference too large not to adjust turret
+                if (Math.Abs(rotationDiff) > 0.1f) 
+                {
+                    var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
+                    DBG.Log("Turn intensity: {0}", intensity);
+                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
+                        { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
+                    }));
+                }
+                //no need to fire yet if rotation too large
+                return Math.Abs(rotationDiff) < 0.1f;
+            } else 
+            {
+
+                var angle = Vector2.Angle(rotator.transform.up, goLock.transform.up);
+                DBG.Log("vecotr2 angle: {0}", angle);
                 return true;
             }
-            tankController.turretController.Rotator.transform.up = 
-                goLock.transform.position - tankController.turretController.Rotator.transform.position;
-            return true;
         }
         private bool ShouldTurnCCW(float fromAngle, float toAngle) {
             // check the rotation coverage of the fromAngle up to 180 degrees
