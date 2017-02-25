@@ -42,13 +42,14 @@ namespace TankArena.Controllers
 
             // PerformTurretRotation();
             var turretMoveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE_TURRET);
-            if (Math.Abs(turretMoveAxis) > 0.0f) 
+            if (Math.Abs(turretMoveAxis) > 0.0f)
             {
                 wasRotating = true;
                 commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
                     { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis }
                 }));
-            } else if (wasRotating) 
+            }
+            else if (wasRotating)
             {
                 wasRotating = false;
                 //send the stop rotation command
@@ -66,7 +67,8 @@ namespace TankArena.Controllers
             {
                 wasMoving = true;
                 commands.Enqueue(TankCommand.MoveCommand(moveAxis, turnAxis));
-            } else
+            }
+            else
             {
                 if (wasMoving)
                 {
@@ -108,13 +110,13 @@ namespace TankArena.Controllers
             if (target)
             {
                 Vector2 origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                
+
                 RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, 0f);
                 DBG.Log("Searching at mouse pos: {0} | World: {1}", Input.mousePosition, origin);
-                if (hit.collider != null) 
+                if (hit.collider != null)
                 {
                     DBG.Log("Hit! collider: {0}", hit.collider);
-                    if (hit.collider != null && hit.collider.gameObject != null) 
+                    if (hit.collider != null && hit.collider.gameObject != null)
                     {
                         var oldLock = GameObject.FindGameObjectWithTag(Tags.TAG_ENEMY_LOCK);
                         if (oldLock != null)
@@ -123,7 +125,7 @@ namespace TankArena.Controllers
                         }
                         var enemyGo = hit.collider.gameObject;
                         var rectGo = Instantiate(
-                            targetLockObject, 
+                            targetLockObject,
                             hit.collider.bounds.center,
                             Quaternion.identity,
                             enemyGo.transform
@@ -133,7 +135,7 @@ namespace TankArena.Controllers
 
                         goLock = enemyGo;
                     }
-                    
+
                 }
             }
         }
@@ -141,10 +143,11 @@ namespace TankArena.Controllers
         private bool AddTurretRotation()
         {
             var rotator = tankController.turretController.Rotator;
-            if (goLock == null) 
+            if (goLock == null)
             {
                 var angle = GetAngleDiffToMouseFrom(rotator);
-                if (!(angle > 0.0f && angle < 90.0f)) {
+                if (!(angle > 0.0f && angle < 90.0f))
+                {
                     angle += 360.0f;
                 }
                 int rotatorDegrees = (int)rotator.eulerAngles.z;
@@ -154,12 +157,12 @@ namespace TankArena.Controllers
                 var turnCCW = ShouldTurnCCW(rotatorDegrees, angle);
                 // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
                 //find out the angular difference via cos (helps that its periodic)
-                var rotationDiff = (turnCCW? 1 : -1) * 
+                var rotationDiff = (turnCCW ? 1 : -1) *
                     Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
                 DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
                 DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
                 //rotation difference too large not to adjust turret
-                if (Math.Abs(rotationDiff) > 0.1f) 
+                if (Math.Abs(rotationDiff) > 0.1f)
                 {
                     var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
                     DBG.Log("Turn intensity: {0}", intensity);
@@ -169,27 +172,36 @@ namespace TankArena.Controllers
                 }
                 //no need to fire yet if rotation too large
                 return Math.Abs(rotationDiff) < 0.1f;
-            } else 
+            }
+            else
             {
-
-                var angle = Vector2.Angle(rotator.transform.up, goLock.transform.up);
-                DBG.Log("vecotr2 angle: {0}", angle);
+                //position difference from the rotator to the lock object
+                var diff = goLock.transform.position - rotator.transform.position;
+                var up = rotator.transform.up;
+                rotator.transform.up = diff;
+                // DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
+                // var angle = Mathf.Atan2(diff.y - up.y, diff.x - up.x) * Mathf.Rad2Deg;
+                // DBG.Log("angle: {0}", angle);
                 return true;
             }
         }
-        private bool ShouldTurnCCW(float fromAngle, float toAngle) {
+
+        private bool ShouldTurnCCW(float fromAngle, float toAngle)
+        {
             // check the rotation coverage of the fromAngle up to 180 degrees
             // looping the circle if need be
             // if the toAngle is wihtin that coverage, we spin CCW
             // if the toAngle is on the other side of the circle, its a CW turn
 
             var coverageFrom = (fromAngle + 180) % 360;
-            if (coverageFrom < fromAngle) 
+            if (coverageFrom < fromAngle)
             {
                 return (toAngle > fromAngle && toAngle < 360)
                  || (toAngle > 0 && toAngle < coverageFrom);
 
-            } else {
+            }
+            else
+            {
                 return (toAngle > fromAngle && toAngle < coverageFrom);
             }
         }
@@ -205,7 +217,7 @@ namespace TankArena.Controllers
             }
             if (hasFire)
             {
-                if (AddTurretRotation()) 
+                if (AddTurretRotation())
                 {
                     commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>
                     {
@@ -215,7 +227,8 @@ namespace TankArena.Controllers
             }
         }
 
-        private float GetAngleDiffToMouseFrom(Transform go) {
+        private float GetAngleDiffToMouseFrom(Transform go)
+        {
 
             Vector2 mousePos = Input.mousePosition;
             var screenPoint = Camera.main.WorldToScreenPoint(go.position);
