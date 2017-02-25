@@ -13,10 +13,13 @@ namespace TankArena.Controllers
         private Tank tank;
         private Rigidbody2D tankRigidBody;
         private PolygonCollider2D tankCollider;
-
+        public DebugTank debugController;
         public TankChassisController chassisController;
         public TankTurretController turretController;
         public TankTracksController tracksController;
+        public TankEngineController engineController;
+        
+        public IEnumerator<float> tankControllerAwake;
 
         public Tank Tank {
             get
@@ -46,18 +49,30 @@ namespace TankArena.Controllers
         public override void Awake () {
             base.Awake(); 
             tankRigidBody = GetComponent<Rigidbody2D>();
-            Timing.RunCoroutine(_Awake());
 	    }
 
-        private IEnumerator<float> _Awake()
+        public void Start() 
         {
-            yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
-            yield return Timing.WaitForSeconds(1.0f);
-            DBG.Log("TankController done waiting 2s");
+            tankControllerAwake = Timing.RunCoroutine(_Awake());
+        }
+
+        private IEnumerator<float> _Awake()
+        {   
+            if (debugController == null) 
+            {
+                yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
+            } else 
+            {
+                yield return Timing.WaitUntilDone(debugController.debugStuffLoader);
+            }
+
             DBG.Log("CurrentTank: {0} | rigidBody: {1}", CurrentState.Instance.CurrentTank, tankRigidBody);
             Tank = CurrentState.Instance.CurrentTank;
-
-            DBG.Log("Tank Controller Awoke!");
+            turretController.enabled = true;
+            tracksController.enabled = true;
+            engineController.enabled = true;
+            chassisController.enabled = true;
+            DBG.Log("Tank Controller Ready!");
         }
 
         protected override void HandleNOOP() 

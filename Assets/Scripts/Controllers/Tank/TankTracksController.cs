@@ -29,7 +29,7 @@ namespace TankArena.Controllers
 
             base.Awake();
 
-            DBG.Log("Tracks Controller Awoke!");
+            DBG.Log("Tracks Controller Ready!");
 	    }
 	
 	    // Update is called once per frame

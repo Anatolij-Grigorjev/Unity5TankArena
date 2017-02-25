@@ -38,17 +38,16 @@ namespace TankArena.Controllers
         public override void Awake()
         {
             base.Awake();
-            
-            Timing.RunCoroutine(_Awake());
+        }
 
+        public void Start() 
+        {
+            Timing.RunCoroutine(_Awake());
         }
 
         private IEnumerator<float> _Awake()
         {
-            yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);   
-            yield return Timing.WaitForSeconds(3.0f);
-            DBG.Log("TankChassisController done waiting 5s");
-            DBG.Log("Chassis Controller Awoke!");
+            yield return Timing.WaitUntilDone(tankController.tankControllerAwake);   
 
             var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);
             rotatorGO.tag = Tags.TAG_CHASSIS_ROTATOR;
@@ -57,6 +56,7 @@ namespace TankArena.Controllers
             transform.parent = rotatorGO.transform;
 
             Rotator = rotatorGO.transform;
+            DBG.Log("Chassis controller Ready!");
         }
 
         // Update is called once per frame

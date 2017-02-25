@@ -14,7 +14,7 @@ namespace TankArena.Controllers
 	    public override void Awake () {
 
             base.Awake();
-            DBG.Log("Engine Controller Awoke!");
+            DBG.Log("Engine Controller Ready!");
 	    }
 	
 	    // Update is called once per frame

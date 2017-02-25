@@ -19,6 +19,7 @@ namespace TankArena.Controllers
         public Rigidbody2D partRigidBody;
         [HideInInspector]
         public GameObject parentObject;
+        public TankController tankController;
         private bool isAwake = false;
         public T Model
         {

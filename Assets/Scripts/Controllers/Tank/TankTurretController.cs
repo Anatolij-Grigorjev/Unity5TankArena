@@ -26,7 +26,7 @@ namespace TankArena.Controllers
 
         private IEnumerator<float> _Start() 
         {
-            yield return Timing.WaitForSeconds(1.0f);
+            yield return Timing.WaitUntilDone(tankController.tankControllerAwake);
             TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
             var rotatorGO = new GameObject(Tags.TAG_TURRET_ROTATOR);
             rotatorGO.tag = Tags.TAG_TURRET_ROTATOR;
@@ -36,7 +36,7 @@ namespace TankArena.Controllers
 
             Rotator = rotatorGO.transform;
 
-            DBG.Log("Turret Controller Awoke!");
+            DBG.Log("Turret Controller Ready!");
         }
 
         ///<summary> 
