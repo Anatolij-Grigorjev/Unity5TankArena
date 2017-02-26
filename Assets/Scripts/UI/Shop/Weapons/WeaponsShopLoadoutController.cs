@@ -5,6 +5,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using System.Collections.Generic;
 using TankArena.Models.Weapons;
+using MovementEffects;
 
 namespace TankArena.UI.Shop
 {
@@ -52,7 +53,7 @@ namespace TankArena.UI.Shop
 					
 					GameObject slotGO = Instantiate(
 						slot.WeaponType == WeaponTypes.LIGHT? emptyLighSlotPrefab : emptyHeavySlotPrefab,
-						new Vector3(),
+						slot.ShopTransform.position,
 						Quaternion.identity,
 						parentGO.transform
 					) as GameObject;
@@ -60,8 +61,7 @@ namespace TankArena.UI.Shop
 					slot.ShopTransform.CopyToTransform(slotGO.transform);
 					//put in dictionary
 					slotsGOs.Add(slotGO, slot);
-
-					slotGO.transform.position = slotGO.transform.position;
+					slotGO.GetComponent<RectTransform>().anchoredPosition = slot.ShopTransform.position;
 				});
 
 			}
