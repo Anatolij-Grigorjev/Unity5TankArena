@@ -20,7 +20,13 @@ namespace TankArena.Controllers
         private bool wasRotating = false;
         public Player player;
 
+        //LOCKON VARS
         private GameObject goLock;
+        private float prevAngle = 180.0f;
+        private float prevDirection = -1.0f;
+        private bool isLockedOn = false;
+        //larges allowed angle after which turret just snaps to target
+        private const float LOCKON_ANGLE_THRESHOLD = 4.5f;
 
         private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
         {
@@ -136,7 +142,25 @@ namespace TankArena.Controllers
                         goLock = enemyGo;
                     }
 
+                } else 
+                {
+                    //clear the lock if it exists
+                    ClearLockOn();
                 }
+            }
+        }
+
+        private void ClearLockOn() 
+        {
+            isLockedOn = false;
+            prevAngle = 180.0f;
+            prevDirection = -1.0f;
+            goLock = null;
+
+            var oldLock = GameObject.FindGameObjectWithTag(Tags.TAG_ENEMY_LOCK);
+            if (oldLock != null)
+            {
+                Destroy(oldLock);
             }
         }
 
@@ -145,6 +169,11 @@ namespace TankArena.Controllers
             var rotator = tankController.turretController.Rotator;
             if (goLock == null)
             {
+                //make sure old lockon not happening after enemy death
+                if (isLockedOn)
+                {
+                    ClearLockOn();
+                }
                 var angle = GetAngleDiffToMouseFrom(rotator);
                 if (!(angle > 0.0f && angle < 90.0f))
                 {
@@ -171,18 +200,47 @@ namespace TankArena.Controllers
                     }));
                 }
                 //no need to fire yet if rotation too large
-                return Math.Abs(rotationDiff) < 0.1f;
+                return Math.Abs(rotationDiff) < 1.0f;
             }
             else
             {
+                float angle = 0.0f;
+                float direction = 1.0f;
                 //position difference from the rotator to the lock object
-                var diff = goLock.transform.position - rotator.transform.position;
-                var up = rotator.transform.up;
-                rotator.transform.up = diff;
-                // DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
-                // var angle = Mathf.Atan2(diff.y - up.y, diff.x - up.x) * Mathf.Rad2Deg;
-                // DBG.Log("angle: {0}", angle);
-                return true;
+                var diff = (goLock.transform.position - rotator.transform.position);
+                if (isLockedOn) 
+                {
+                    rotator.transform.up = diff;
+                } else 
+                {
+                    var up = rotator.transform.up * rotator.transform.position.magnitude;
+                    DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
+                    angle = Vector2.Angle(diff, up);
+                    DBG.Log("angle: {0}", angle);
+                    //lockon threshold
+                    if (angle < LOCKON_ANGLE_THRESHOLD)
+                    {
+                        //do lockon
+                        isLockedOn = true;
+                        rotator.transform.up = diff;
+                        angle = 0.0f;
+                    }
+                    //switch turn direction if the angle didnt get smaller from rotation
+                    direction = angle < prevAngle? prevDirection : -prevDirection;
+                    //rotation intensity to lockon is normalized
+                    var intensity = 1.0f * direction;
+                    DBG.Log("Turn intensity: {0}", intensity);
+                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
+                        { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
+                    }));
+                }
+
+                //remmeber old angle and irection values
+                prevAngle = angle;
+                prevDirection = direction;
+
+                //fire if angle is small enough
+                return angle < 1.0f;
             }
         }
 
