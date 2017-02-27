@@ -21,10 +21,13 @@ namespace TankArena.UI
 		void Start () 
 		{
 			DBG.Log("Starting input dialogue!");
-			inputField.onEndEdit.RemoveAllListeners();
-			inputField.onEndEdit.AddListener(UpdateName);
-			inputField.onValueChanged.RemoveAllListeners();
-			inputField.onValueChanged.AddListener(UpdateName);
+			if (inputField != null) 
+			{
+				inputField.onEndEdit.RemoveAllListeners();
+				inputField.onEndEdit.AddListener(UpdateName);
+				inputField.onValueChanged.RemoveAllListeners();
+				inputField.onValueChanged.AddListener(UpdateName);
+			}
 			slotGOs = new GameObject[3];
 			//disable save slots to ensure correct click
 			foreach(int slotNum in new int[] {1, 2, 3})
@@ -54,6 +57,16 @@ namespace TankArena.UI
 			if (externalAction != null) 
 			{
 				externalAction(inputName);
+			}
+		}
+
+		public void OKClicked() 
+		{
+			gameObject.SetActive(false);
+			ToggleSaveSlotButtons(true);
+			if (externalAction != null) 
+			{
+				externalAction("true");
 			}
 		}
 

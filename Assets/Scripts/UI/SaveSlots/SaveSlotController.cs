@@ -18,6 +18,7 @@ namespace TankArena.UI
 		public Text slotDescription;
 		public GameObject loadoutBG;
 		public GameObject inputBoxGO;
+		public GameObject overwriteSaveBoxGO;
 		private string DESCRIPTION_TEMPLATE = "Player: {name}\t\t\tCash: {cash}\nLast Level Played: {level}\nCurrent Loadout:";
 		private Dictionary<string, object> mappedInfo;
 		// Use this for initialization
@@ -62,6 +63,17 @@ namespace TankArena.UI
 			TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 		}
 
+		private void ProcessOverwriteOK(string should)
+		{
+			if (!String.IsNullOrEmpty(should)) 
+			{
+				DBG.Log("Overwriting save data!");
+				//call up the input field, other function will take it form there
+				inputBoxGO.SetActive(true);
+				inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
+			}
+		}
+
 		private void ProcessButton()
 		{
 			var button = this.GetComponent<Button>();
@@ -100,7 +112,11 @@ namespace TankArena.UI
 				} else 
 				{
 					//this is saving and we want to override save slot
-					//TODO: this logic right here
+					button.onClick.AddListener(() => {
+						//call up dialogue, it takes things from here
+						overwriteSaveBoxGO.SetActive(true);
+						overwriteSaveBoxGO.GetComponent<InputBoxController>().externalAction = ProcessOverwriteOK;
+					});
 				}
 			}
 		}
