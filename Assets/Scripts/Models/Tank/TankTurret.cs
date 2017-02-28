@@ -175,7 +175,7 @@ namespace TankArena.Models.Tank
             weaponSlot.Weapon.WeaponBehavior.SetWeaponReloadSound(reloadSound.GetComponent<AudioSource>());
 
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingLayerName = SortingLayerConstants.WEAPON_DEFAULT_LAYER_NAME;
+            spriteRenderer.sortingLayerName = SortingLayerConstants.PLAYER_SORTING_LAYER_NAME;
             spriteRenderer.sortingOrder = SortingLayerConstants.WEAPON_DEFAULT_LAYER_ORDER;
 
             var shotAudio = weaponGO.GetComponent<AudioSource>();
