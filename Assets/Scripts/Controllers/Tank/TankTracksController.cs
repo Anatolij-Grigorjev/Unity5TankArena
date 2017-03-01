@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Constants;
 using System;
@@ -46,7 +45,6 @@ namespace TankArena.Controllers
             {
                 animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
             }
-
 
             //PrintTracksAnim();
         }
