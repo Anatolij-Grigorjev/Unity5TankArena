@@ -2,21 +2,31 @@
 using TankArena.Models.Tank;
 using TankArena.Constants;
 using System;
+using System.Linq;
 using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
-    public class TankTracksController : BaseTankPartController<TankTracks> {
+    public class TankTracksController : BaseTankPartController<TankTracks>
+    {
 
         public SpriteRenderer tracksLeftTrackRenderer;
         public SpriteRenderer tracksRightTrackRenderer;
         public Animator tracksLeftTrackAnimationController;
         public Animator tracksRightTrackAnimationController;
+        public GameObject trackTrailPrefab;
+        public float maxTracksTrailCoolDown;
+        public int maxTrackTrailLength;
+        [HideInInspector]
+        public int currentTrackTrailLength;
+        private float currentTrackTrailCooldown;
+
 
         public Animator[] tracksAnimations;
 
-	    // Use this for initialization
-	    public override void Awake () {
+        // Use this for initialization
+        public override void Awake()
+        {
             var leftTrack = GameObject.FindGameObjectWithTag(Tags.TAG_LEFT_TRACK);
             var rightTrack = GameObject.FindGameObjectWithTag(Tags.TAG_RIGHT_TRACK);
             tracksLeftTrackRenderer = leftTrack.GetComponent<SpriteRenderer>();
@@ -26,15 +36,47 @@ namespace TankArena.Controllers
 
             tracksAnimations = new Animator[] { tracksLeftTrackAnimationController, tracksRightTrackAnimationController };
 
+            currentTrackTrailCooldown = 0.0f;
+            currentTrackTrailLength = 0;
+
             base.Awake();
 
             DBG.Log("Tracks Controller Ready!");
-	    }
-	
-	    // Update is called once per frame
-	    void Update () {
-	
-	    }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            //make trail
+            //trail is not at max trailers, lets trail it
+            if (currentTrackTrailCooldown <= 0.0f)
+            {
+                //track is moving, lets see if we need to trail it
+                if (currentTrackTrailLength < maxTrackTrailLength)
+                {
+                    //handle tracks individually here
+                    var trackDirection = tracksLeftTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT);
+                    if (trackDirection != 0.0f)
+                    {
+                        //only make prefab if we are moving and all that other good stuff
+                        //but keep updating the colldowns n stuff
+                        currentTrackTrailCooldown = maxTracksTrailCoolDown;
+                        var trailGO = Instantiate(
+                        trackTrailPrefab
+                        , transform.position
+                        , transform.rotation) as GameObject;
+                        trailGO.GetComponent<TracksTrailController>().tankTracksController = this;
+                    }
+                }
+            }
+            else
+            {
+                //continue cooldown
+                currentTrackTrailCooldown -= Time.deltaTime;
+            }
+
+
+        }
 
         public void AnimateThrottle(float throttle)
         {
