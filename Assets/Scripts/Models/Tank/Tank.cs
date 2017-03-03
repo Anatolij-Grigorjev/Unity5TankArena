@@ -156,20 +156,13 @@ namespace TankArena.Models.Tank
             }
             //purely goin forward
             rigidBody.freezeRotation = turn == 0.0;
-            var enginePowerCoef = TankEngine.Torque / Mass;
-            var allowedTopSpeed = (TankEngine.TopSpeed * enginePowerCoef);
-            var currentVelocity = rigidBody.velocity.magnitude + 0.1f;
-            var engineAcceleration = 
-                (currentVelocity < allowedTopSpeed) && throttle != 0.0f ? TankEngine.TryBoost() : TankEngine.Acceleration;
-            DBG.Log("Current velocity: {0}", currentVelocity);    
-            var acceleration = engineAcceleration * throttle 
-                * enginePowerCoef * (allowedTopSpeed / currentVelocity);
             //do throttle (on main object body because both chassis and turret move together)
             //attempt culling acceleration? need to ensure velocity and top speed are congruent
-            if (acceleration != 0.0 && currentVelocity < allowedTopSpeed)
+            if (tankEngine.currentAcceleration != 0.0f) 
             {
-                DBG.Log("Applying thrust: {0}", transform.up * acceleration);
-                rigidBody.AddForce(chassisRotator.transform.up * acceleration * 1/*Time.deltaTime*/);
+                var vorceVector = chassisRotator.transform.up * (TankEngine.currentAcceleration * Mass) * throttle;
+                DBG.Log("Providing tank with force: {0}", vorceVector);
+                rigidBody.AddForce(vorceVector);
             }
              
             //do spin (both chasis and turretn becuae this is a single tank)
@@ -185,10 +178,11 @@ namespace TankArena.Models.Tank
         {
             if (keepApplying)
             {
-                rigidBody.drag += TankEngine.Deacceleration;
+                rigidBody.drag += TankEngine.DeaccelerationRate;
             }
             else
             {
+                //finished breaking
                 rigidBody.drag = TankTracks.Coupling;
             }
         }

@@ -20,61 +20,74 @@ namespace TankArena.Controllers
         [HideInInspector]
         public int currentTrackTrailLength;
         private float currentTrackTrailCooldown;
+        [HideInInspector]
+        public bool isBreaking;
 
+        private GameObject rightTrack;
+        private GameObject leftTrack;
+        
 
         public Animator[] tracksAnimations;
 
         // Use this for initialization
         public override void Awake()
         {
-            var leftTrack = GameObject.FindGameObjectWithTag(Tags.TAG_LEFT_TRACK);
-            var rightTrack = GameObject.FindGameObjectWithTag(Tags.TAG_RIGHT_TRACK);
+            isBreaking = false;
+            leftTrack = GameObject.FindGameObjectWithTag(Tags.TAG_LEFT_TRACK);
+            rightTrack = GameObject.FindGameObjectWithTag(Tags.TAG_RIGHT_TRACK);
             tracksLeftTrackRenderer = leftTrack.GetComponent<SpriteRenderer>();
             tracksLeftTrackAnimationController = leftTrack.GetComponent<Animator>();
             tracksRightTrackRenderer = rightTrack.GetComponent<SpriteRenderer>();
             tracksRightTrackAnimationController = rightTrack.GetComponent<Animator>();
-
             tracksAnimations = new Animator[] { tracksLeftTrackAnimationController, tracksRightTrackAnimationController };
 
             currentTrackTrailCooldown = 0.0f;
             currentTrackTrailLength = 0;
 
             base.Awake();
-
+            
             DBG.Log("Tracks Controller Ready!");
         }
 
         // Update is called once per frame
         void Update()
         {
-            //make trail
-            //trail is not at max trailers, lets trail it
-            if (currentTrackTrailCooldown <= 0.0f)
+            if (isBreaking)
             {
-                //track is moving, lets see if we need to trail it
-                if (currentTrackTrailLength < maxTrackTrailLength)
+                //make trail
+                //trail is not at max trailers, lets trail it
+                if (currentTrackTrailCooldown <= 0.0f)
                 {
-                    //handle tracks individually here
-                    var trackDirection = tracksLeftTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT);
-                    if (trackDirection != 0.0f)
+                    //track is moving, lets see if we need to trail it
+                    if (currentTrackTrailLength < maxTrackTrailLength)
                     {
-                        //only make prefab if we are moving and all that other good stuff
-                        //but keep updating the colldowns n stuff
                         currentTrackTrailCooldown = maxTracksTrailCoolDown;
-                        var trailGO = Instantiate(
+
+                        //left trail
+                        var position = tracksLeftTrackRenderer.bounds.center;
+                        position.y -= tracksLeftTrackRenderer.bounds.extents.y;
+                        var leftTrailGO = Instantiate(
                         trackTrailPrefab
-                        , transform.position
-                        , transform.rotation) as GameObject;
-                        trailGO.GetComponent<TracksTrailController>().tankTracksController = this;
+                        , position
+                        , leftTrack.transform.rotation) as GameObject;
+                        leftTrailGO.GetComponent<TracksTrailController>().tankTracksController = this;
+
+                        //right trail
+                        position = tracksRightTrackRenderer.bounds.center;
+                        position.y -= tracksRightTrackRenderer.bounds.extents.y;
+                        var rightTrailGO = Instantiate(
+                        trackTrailPrefab
+                        , position
+                        , rightTrack.transform.rotation) as GameObject;
+                        rightTrailGO.GetComponent<TracksTrailController>().tankTracksController = this;
                     }
                 }
+                else
+                {
+                    //continue cooldown
+                    currentTrackTrailCooldown -= Time.deltaTime;
+                }
             }
-            else
-            {
-                //continue cooldown
-                currentTrackTrailCooldown -= Time.deltaTime;
-            }
-
 
         }
 

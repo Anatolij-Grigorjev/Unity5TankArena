@@ -41,12 +41,10 @@ namespace TankArena.Constants
         public const string EK_RIGHT_TRACK_POSITION = "right_track_pos";
 
         //TANK ENGINE
-        public const string EK_TOP_SPEED = "top_speed";
+        public const string EK_MAX_ACCELERATION = "max_acceleration";
         public const string EK_TORQUE = "torque";
-        public const string EK_ACCELERATION = "acceleration";
-        public const string EK_DEACCELERATION = "deacceleration";
-        public const string EK_BOOST_ACCELERATION = "boost_acceleration";
-        public const string EK_BOOST_RECHARGE = "boost_recharge";
+        public const string EK_ACCELERATION_RATE = "acceleration_rate";
+        public const string EK_DEACCELERATION_RATE = "deacceleration_rate";
         public const string EK_IDLE_SOUND = "idle_sound";
         public const string EK_REVVING_SOUND = "revving_sound";
 
@@ -108,12 +106,10 @@ namespace TankArena.Constants
             { EK_COUPLING, "Coupling" },
             { EK_TURN_SPEED, "Turn Speed" },
             { EK_LOWER_INTEGRITY, "Integrity" },
-            { EK_TOP_SPEED, "Top Velocity"},
+            { EK_MAX_ACCELERATION, "Max Acceleration"},
             { EK_TORQUE, "Power"},
-            { EK_ACCELERATION, "Acceleration"},
-            { EK_DEACCELERATION, "Breaking"},
-            { EK_BOOST_ACCELERATION, "Starter Boost"},
-            { EK_BOOST_RECHARGE, "Starter Recharge"},
+            { EK_ACCELERATION_RATE, "Acceleration Rate"},
+            { EK_DEACCELERATION_RATE, "Deacceleration Rate"},
             { EK_HEAVY_WEAPON_SLOTS, "Heavy Weapons"},
             { EK_LIGHT_WEAPON_SLOTS, "Light Weapons"},
             { EK_TURRET_SPIN_SPEED, "Turn Speed"},

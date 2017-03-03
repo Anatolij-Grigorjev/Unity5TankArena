@@ -16,11 +16,11 @@ namespace TankArena.Models.Tank
         /// <summary>
         /// Top speed this engine can provide a tank of adequate weight, in map units per minute
         /// </summary>
-        public float TopSpeed
+        public float MaxAcceleration
         {
             get
             {
-                return (float)properties[EK.EK_TOP_SPEED];
+                return (float)properties[EK.EK_MAX_ACCELERATION];
             }
         }
 
@@ -38,41 +38,21 @@ namespace TankArena.Models.Tank
         /// <summary>
         /// Engine acceleration provided adequate mass. This rate will be used to climb to top speed
         /// </summary>
-        public float Acceleration
+        public float AccelerationRate
         {
             get
             {
-                return (float)properties[EK.EK_ACCELERATION];
+                return (float)properties[EK.EK_ACCELERATION_RATE];
             }
         }
         /// <summary>
         /// Engien deacceleration assuming adequate mass. This will be used for breaking.
         /// </summary>
-        public float Deacceleration
+        public float DeaccelerationRate
         {
             get
             {
-                return (float)properties[EK.EK_DEACCELERATION];
-            }
-        }
-        /// <summary>
-        /// Acceleration applied by engine during initial boost (fast start)
-        /// </summary>
-        public float BoostAcceleration
-        {
-            get 
-            {
-                return (float)properties[EK.EK_BOOST_ACCELERATION];
-            }
-        }
-        /// <summary>
-        /// Time it takes to recharge an applied boost (in seconds)
-        /// </summary>
-        public float BoostRecharge
-        {
-            get 
-            {
-                return (float)properties[EK.EK_BOOST_RECHARGE];
+                return (float)properties[EK.EK_DEACCELERATION_RATE];
             }
         }
         /// <summary>
@@ -104,11 +84,13 @@ namespace TankArena.Models.Tank
                 return SK.SK_TANK_ENGINE;
             }
         }
-        private bool isBoostReady;
+        
+
+        public float currentAcceleration;
 
         public TankEngine(string filePath) : base(filePath)
         {
-            isBoostReady = true;
+            currentAcceleration = 0.0f;
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
@@ -116,12 +98,10 @@ namespace TankArena.Models.Tank
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
             yield return Timing.WaitUntilDone(handle);
 
-            properties[EK.EK_TOP_SPEED] = json[EK.EK_TOP_SPEED].AsFloat;
+            properties[EK.EK_MAX_ACCELERATION] = json[EK.EK_MAX_ACCELERATION].AsFloat;
             properties[EK.EK_TORQUE] = json[EK.EK_TORQUE].AsFloat;
-            properties[EK.EK_ACCELERATION] = json[EK.EK_ACCELERATION].AsFloat;
-            properties[EK.EK_DEACCELERATION] = json[EK.EK_DEACCELERATION].AsFloat;
-            properties[EK.EK_BOOST_ACCELERATION] = json[EK.EK_BOOST_ACCELERATION].AsFloat;
-            properties[EK.EK_BOOST_RECHARGE] = json[EK.EK_BOOST_RECHARGE].AsFloat;
+            properties[EK.EK_ACCELERATION_RATE] = json[EK.EK_ACCELERATION_RATE].AsFloat;
+            properties[EK.EK_DEACCELERATION_RATE] = json[EK.EK_DEACCELERATION_RATE].AsFloat;
             properties[EK.EK_IDLE_SOUND] = ResolveSpecialContent(json[EK.EK_IDLE_SOUND]);
             properties[EK.EK_REVVING_SOUND] = ResolveSpecialContent(json[EK.EK_REVVING_SOUND]);
 
@@ -142,24 +122,5 @@ namespace TankArena.Models.Tank
         }
 
         
-
-        public float TryBoost()
-        {
-            if (isBoostReady) 
-            {
-                isBoostReady = false;
-                Timing.RunCoroutine(_RechargeBoost());
-                return BoostAcceleration;
-            } else 
-            {
-                return Acceleration;
-            }
-        }
-
-        private IEnumerator<float> _RechargeBoost()
-        {
-            yield return Timing.WaitForSeconds(BoostRecharge);
-            isBoostReady = true;
-        }
     }
 }

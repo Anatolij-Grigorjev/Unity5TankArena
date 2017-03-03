@@ -88,9 +88,10 @@ namespace TankArena.Controllers
                     case TankCommandWords.TANK_COMMAND_MOVE:
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
-                        chassisController.engineController.StartRevving();
+                        engineController.StartRevving();
                         tracksController.AnimateThrottle(throttle);
-                        tracksController.AnimateTurn(turn, throttle); 
+                        tracksController.AnimateTurn(turn, throttle);
+                        engineController.isMoving = throttle != 0.0f; 
                         tank.Move(throttle, turn);
                         break;
                     case TankCommandWords.TANK_COMMAND_MOVE_TURRET:
@@ -100,6 +101,7 @@ namespace TankArena.Controllers
                     case TankCommandWords.TANK_COMMAND_BRAKE:
                         tracksController.AnimateThrottle(0.0f);
                         var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
+                        tracksController.isBreaking = keepApplying;
                         tank.ApplyBreaks(keepApplying);
                         break;
                     case TankCommandWords.TANK_COMMAND_FIRE:
