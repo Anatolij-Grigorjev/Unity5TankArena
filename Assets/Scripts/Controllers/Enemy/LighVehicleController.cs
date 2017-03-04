@@ -29,6 +29,7 @@ namespace TankArena.Controllers
         public float maxIntegrity;
         private float integrity;
 
+        //first in a chain of death controllers
         public DeathPostPrefabsController deathController;
 
         public ValueBasedSpriteAssigner damageLevelSprites;
@@ -132,6 +133,9 @@ namespace TankArena.Controllers
 
         public void EngageDeath() 
         {
+            this.aiController.enabled = false;
+            this.enabled = false;
+            vehicleRigidBody.mass = 999;
             deathController.Enable();
         }
 

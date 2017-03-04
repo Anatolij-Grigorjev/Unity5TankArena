@@ -64,8 +64,10 @@ namespace TankArena.Controllers
                         currentTrackTrailCooldown = maxTracksTrailCoolDown;
 
                         //left trail
+                        var extents = tracksLeftTrackRenderer.bounds.extents;
                         var position = tracksLeftTrackRenderer.bounds.center;
-                        position.y -= tracksLeftTrackRenderer.bounds.extents.y;
+                        position.x -= (extents.x * Mathf.Sin(transform.eulerAngles.z * Mathf.Rad2Deg));
+                        position.y -= (extents.y * Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad));
                         var leftTrailGO = Instantiate(
                         trackTrailPrefab
                         , position
@@ -73,8 +75,10 @@ namespace TankArena.Controllers
                         leftTrailGO.GetComponent<TracksTrailController>().tankTracksController = this;
 
                         //right trail
+                        extents = tracksRightTrackRenderer.bounds.extents;
                         position = tracksRightTrackRenderer.bounds.center;
-                        position.y -= tracksRightTrackRenderer.bounds.extents.y;
+                        position.x -= (extents.x * Mathf.Sin(transform.eulerAngles.z * Mathf.Rad2Deg));
+                        position.y -= (extents.y * Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad));
                         var rightTrailGO = Instantiate(
                         trackTrailPrefab
                         , position

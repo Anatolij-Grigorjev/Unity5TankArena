@@ -7,6 +7,8 @@ namespace TankArena.Controllers {
 	public class DeathPostPrefabsController : MonoBehaviour {
 
 		public GameObject deathPrefabs;
+		public float interSpawnDelay;
+		private float currentInterDelay;
 		public int spawnCount;
 		private int currentSpawnCount = 0;
 		public Vector2 spawnMinXY;
@@ -15,9 +17,14 @@ namespace TankArena.Controllers {
 
 		[HideInInspector]
 		private bool isDying = false;
+
+		public DeathPostPrefabsController nextController;
+		public float nextInChainDelay = 0.0f;
+		private float currentChainDelay;
 		// Use this for initialization
 		void Awake () {
-		
+			currentInterDelay = 0.0f;
+			currentChainDelay = nextInChainDelay;
 		}
 		
 		// Update is called once per frame
@@ -27,11 +34,34 @@ namespace TankArena.Controllers {
 			{
 				if (currentSpawnCount < spawnCount) 
 				{
-					SpawnPrefab();
-					currentSpawnCount++;
+					if (currentInterDelay <= 0.0f)
+					{
+						currentInterDelay = interSpawnDelay;
+						SpawnPrefab();
+						currentSpawnCount++;
+					} else 
+					{
+						currentInterDelay -= Time.deltaTime;
+					}
 				} else 
 				{
-					Die();
+					if (nextController == null) 
+					{
+						//last controller in spawn chain, time to die
+						Die(	);
+					} else 
+					{
+						if (currentChainDelay <= 0.0f)
+						{
+							currentChainDelay = nextInChainDelay;
+							nextController.Enable();
+							this.isDying = false;
+							this.enabled = false;
+						} else 
+						{
+							currentChainDelay -= Time.deltaTime;
+						}
+					}
 				}
 			}
 		}
