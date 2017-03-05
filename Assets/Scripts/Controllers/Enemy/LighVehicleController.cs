@@ -131,11 +131,19 @@ namespace TankArena.Controllers
             }
         }
 
+        private void StopPhysicsMovement()
+        {
+            vehicleRigidBody.mass = 999;
+            vehicleRigidBody.isKinematic = true;
+            vehicleRigidBody.velocity = Vector3.zero;
+            vehicleRigidBody.angularVelocity = 0.0f;
+        }
+
         public void EngageDeath() 
         {
             this.aiController.enabled = false;
             this.enabled = false;
-            vehicleRigidBody.mass = 999;
+            StopPhysicsMovement();
             deathController.Enable();
         }
 

@@ -117,7 +117,7 @@ namespace TankArena.Controllers
             {
                 Vector2 origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.zero, 0f);
+                RaycastHit2D hit = Physics2D.CircleCast(origin, 10.0f, Vector2.zero, 0.0f, LayerMasks.LM_ENEMY);
                 DBG.Log("Searching at mouse pos: {0} | World: {1}", Input.mousePosition, origin);
                 if (hit.collider != null)
                 {

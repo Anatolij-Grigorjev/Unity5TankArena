@@ -235,8 +235,14 @@ namespace TankArena.Controllers
                     var hit = lastLookResults[i];
                     if (hit.transform != null) {
                         // DBG.Log("Inspecting ray result {0}", hit.transform.gameObject);
-                        if (hit.transform.gameObject == target) {
-                            return true;    
+                        if (hit.transform.gameObject.CompareTag(Tags.TAG_MAP_COLLISION)) 
+                        {
+
+                            //dun see shit, there is a wall in the way
+                            return false;    
+                        } else if (hit.transform.gameObject.CompareTag(Tags.TAG_PLAYER))
+                        {
+                            return true;
                         }
                     }
                 }

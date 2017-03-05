@@ -9,6 +9,7 @@ namespace TankArena.Controllers
 
         private Animator anim;
         public float damage;
+        public GameObject postBoomDecal;
 
         // Use this for initialization
         void Awake()
@@ -20,6 +21,18 @@ namespace TankArena.Controllers
                 animLength += clip.length;
             }
             Destroy(gameObject, animLength);
+        }
+
+        void SpawnDecal()
+        {
+            if (postBoomDecal != null)
+            {
+                Instantiate(
+                    postBoomDecal,
+                    transform.position,
+                    transform.rotation
+                );
+            }
         }
 
         void OnTriggerEnter2D(Collider2D other)
