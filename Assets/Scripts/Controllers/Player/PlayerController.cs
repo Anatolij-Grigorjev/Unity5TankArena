@@ -194,7 +194,7 @@ namespace TankArena.Controllers
                 if (Math.Abs(rotationDiff) > 0.1f)
                 {
                     var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
-                    DBG.Log("Turn intensity: {0}", intensity);
+                    // DBG.Log("Turn intensity: {0}", intensity);
                     commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
                         { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
                     }));
@@ -229,7 +229,7 @@ namespace TankArena.Controllers
                     direction = angle < prevAngle? prevDirection : -prevDirection;
                     //rotation intensity to lockon is normalized
                     var intensity = 1.0f * direction;
-                    DBG.Log("Turn intensity: {0}", intensity);
+                    // DBG.Log("Turn intensity: {0}", intensity);
                     commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
                         { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
                     }));
@@ -291,15 +291,15 @@ namespace TankArena.Controllers
             Vector2 mousePos = Input.mousePosition;
             var screenPoint = Camera.main.WorldToScreenPoint(go.position);
             var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
-            //DBG.Log("Current rotations: turret: {0}, {1}, chassis: {2}, {3}", 
-            //    turretRotator.eulerAngles.z, 
-            //    turretRotator.localEulerAngles.z,
-            //    transform.eulerAngles.z,
-            //    transform.localEulerAngles.z);
-            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg - transform.eulerAngles.z;
+            DBG.Log("Current positions: \nmousePos: {0} | goPos: {1}, goScreen: {2}", 
+               mousePos, 
+               go.position,
+               screenPoint);
+            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;// - go.transform.eulerAngles.z;
+            DBG.Log("raw angle: {0}", angle);
             //angle will get calculated based of the difference of main tank rotation and turret rotation
             var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
-            //DBG.Log("Wanted z-rotation: {0}", angle);  
+            DBG.Log("Offset: {0}", offset);  
 
             // turretRotator.localRotation =
             //     Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.7f);

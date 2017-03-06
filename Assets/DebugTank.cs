@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using TankArena.Utils;
 using TankArena.Models;
 using TankArena.Models.Tank;
 using MovementEffects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using TankArena.Controllers;
 
 public class DebugTank : MonoBehaviour {
@@ -29,7 +26,7 @@ public class DebugTank : MonoBehaviour {
 		DBG.Log("Loading done!");
         var player = new Player("dummy-save-location");
 		player.Cash = 90;
-		player.Character = EntitiesStore.Instance.Characters["cletus"];
+		player.Character = EntitiesStore.Instance.Characters["lugnut"];
 		DBG.Log("Loading info for character {0}", player.Character.Name);
 		player.Name = "Debug";
 		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);
