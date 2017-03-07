@@ -91,7 +91,8 @@ namespace TankArena.Controllers
                         engineController.StartRevving();
                         tracksController.AnimateThrottle(throttle);
                         tracksController.AnimateTurn(turn, throttle);
-                        engineController.isMoving = throttle != 0.0f; 
+                        //only keep throttle going if turning aint intense, otherwise loose speed
+                        engineController.isMoving = throttle != 0.0f && Math.Abs(turn) <= 0.5f; 
                         tank.Move(throttle, turn);
                         break;
                     case TankCommandWords.TANK_COMMAND_MOVE_TURRET:

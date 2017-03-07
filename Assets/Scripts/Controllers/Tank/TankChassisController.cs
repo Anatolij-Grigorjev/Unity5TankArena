@@ -16,6 +16,7 @@ namespace TankArena.Controllers
         public TankTracksController tracksController;
         public ValueBasedSpriteAssigner damageAssigner;
         public DeathPostPrefabsController deathController;
+        public AudioSource rockCrashThud;
 
         public float maxIntegrity;
         private float integrity;
@@ -35,6 +36,7 @@ namespace TankArena.Controllers
         // Use this for initialization
 
         public Transform Rotator;
+        public Rigidbody2D tankRigidBody;
         public override void Awake()
         {
             base.Awake();
@@ -54,6 +56,7 @@ namespace TankArena.Controllers
             rotatorGO.transform.parent = parentObject.transform;
             Model.TurretPivot.CopyToTransform(rotatorGO.transform);
             transform.parent = rotatorGO.transform;
+            tankRigidBody = parentObject.GetComponent<Rigidbody2D>();
 
             Rotator = rotatorGO.transform;
             DBG.Log("Chassis controller Ready!");
@@ -63,6 +66,19 @@ namespace TankArena.Controllers
         void Update()
         {
 
+        }
+
+        
+        void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.tag == Tags.TAG_MAP_COLLISION) 
+            {
+                DBG.Log("Collision velocity: {0}", other.relativeVelocity);
+                if (!rockCrashThud.isPlaying && other.relativeVelocity.magnitude > 75.0f)
+                {
+                    rockCrashThud.Play();
+                }
+            }
         }
 
         public void ApplyDamage(GameObject damager)

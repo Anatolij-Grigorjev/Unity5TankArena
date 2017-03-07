@@ -161,7 +161,7 @@ namespace TankArena.Models.Tank
             if (tankEngine.currentAcceleration != 0.0f) 
             {
                 var vorceVector = chassisRotator.transform.up * (TankEngine.currentAcceleration * Mass) * throttle;
-                DBG.Log("Providing tank with force: {0}", vorceVector);
+                // DBG.Log("Providing tank with force: {0}", vorceVector);
                 rigidBody.AddForce(vorceVector);
             }
              
