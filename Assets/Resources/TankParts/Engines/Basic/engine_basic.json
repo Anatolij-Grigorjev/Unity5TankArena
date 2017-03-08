@@ -6,7 +6,7 @@
 	"shop_item": "!img;TankParts\\Engines\\Basic\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Engines\\Basic\\Images\\garage_img",
 	"max_acceleration": 66.89,
-	"torque": 55.4,
+	"torque": 35.4,
 	"acceleration_rate": 15.5,
 	"deacceleration_rate": 15.5,
 	"price": 51.10,

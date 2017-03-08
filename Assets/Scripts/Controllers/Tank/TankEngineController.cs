@@ -14,13 +14,17 @@ namespace TankArena.Controllers
         [HideInInspector]
         public bool isMoving;
 
+        //max acceleration from model, adjusted for mass and torque balance
+        public float adjustedMaxAcceleration;
         // Use this for initialization
         public override void Awake()
         {
 
             base.Awake();
             isMoving = false;
+
             DBG.Log("Engine Controller Ready!");
+
         }
 
         
@@ -29,13 +33,14 @@ namespace TankArena.Controllers
             //update acceleration changes if the thing is moving
             if (isMoving)
             {
-                if (Model.currentAcceleration < Model.MaxAcceleration) 
+    
+                if (Model.currentAcceleration < adjustedMaxAcceleration) 
                 {
                     Model.currentAcceleration =
                         Mathf.Clamp(
                         Model.currentAcceleration + Model.AccelerationRate * Time.deltaTime,
                         0.0f,
-                        Model.MaxAcceleration);
+                        adjustedMaxAcceleration);
                 }
             } else
             {
@@ -45,7 +50,7 @@ namespace TankArena.Controllers
                         Mathf.Clamp(
                             Model.currentAcceleration - Model.DeaccelerationRate * Time.deltaTime,
                             0.0f,
-                            Model.MaxAcceleration
+                            adjustedMaxAcceleration
                         );
                 }
             }

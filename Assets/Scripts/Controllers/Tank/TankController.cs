@@ -37,6 +37,11 @@ namespace TankArena.Controllers
                 tank.ParentGO = gameObject;
                 chassisController.parentObject = gameObject;
                 turretController.parentObject = gameObject;
+                engineController.parentObject = gameObject;
+
+                engineController.adjustedMaxAcceleration = 
+                    engineController.Model.MaxAcceleration * (engineController.Model.Torque / tank.Mass);
+                DBG.Log("Adjusted Max Acceleration: {0}", engineController.adjustedMaxAcceleration);
             }
         }
 
