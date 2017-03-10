@@ -13,6 +13,9 @@ namespace TankArena.Constants
         public const string EK_PRICE = "price";
         public const string EK_DESCRIPTION = "description";
 
+        // ENEMY 
+        public const string EK_VALUE = "value";
+
         //PREFABBED
         public const string EK_ENTITY_PREFAB = "entity_prefab";
 

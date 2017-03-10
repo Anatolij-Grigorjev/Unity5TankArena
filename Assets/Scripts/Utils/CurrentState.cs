@@ -20,6 +20,7 @@ namespace TankArena.Utils
 		public LevelModel CurrentArena { get; set; }
 		public int NextSceneId { get; set; }
 		public Dictionary<string, object> CurrentSceneParams { get; set; }
+		public Dictionary<EnemyType, int> CurrentArenaStats { get; set; }
 
 		public void SetPlayer(Player player)
 		{
@@ -38,6 +39,20 @@ namespace TankArena.Utils
 			CurrentTank = null;
 			CurrentArena = null;
 			CurrentSceneParams = new Dictionary<string, object>();
+			ResetArenaStats();
+		}
+
+		public void ResetArenaStats()
+		{
+			CurrentArenaStats = new Dictionary<EnemyType, int>();
+			//entities loaded? reset with types intact
+			if (EntitiesStore.Instance.isReady)
+			{
+				foreach (KeyValuePair<String, EnemyType> type in EntitiesStore.Instance.EnemyTypes)
+				{
+					CurrentArenaStats.Add(type.Value, 0);
+				}
+			} 
 		}
 
 

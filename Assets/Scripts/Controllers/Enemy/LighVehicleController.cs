@@ -12,6 +12,8 @@ namespace TankArena.Controllers
         public BaseWeaponController baseWeaponController;
 
         public String cannonId;
+        //important for the cash you get
+        public String enemyTypeId;
 
         //MOTION////
         public float vehicleAcceleration;
@@ -144,6 +146,12 @@ namespace TankArena.Controllers
             this.aiController.enabled = false;
             this.enabled = false;
             StopPhysicsMovement();
+            var enemyType = EntitiesStore.Instance.EnemyTypes[enemyTypeId];
+            var stats = CurrentState.Instance.CurrentArenaStats;
+            if (!stats.ContainsKey(enemyType)) {
+                stats.Add(enemyType, 0);
+            }
+            stats[enemyType]++;
             deathController.Enable();
         }
 

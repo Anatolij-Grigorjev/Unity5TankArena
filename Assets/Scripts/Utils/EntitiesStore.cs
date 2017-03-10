@@ -24,6 +24,7 @@ namespace TankArena.Utils
         public Dictionary<String, BaseWeapon> Weapons { get { return loadedWeapons; } }
         public Dictionary<String, LevelModel> Levels { get { return loadedLevels; } }
         public Dictionary<String, SpawnerTemplate> SpawnerTemplates { get { return loadedSpawnerTemplates; } }
+        public Dictionary<String, EnemyType> EnemyTypes { get { return loadedEnemyTypes; } } 
 
         private Dictionary<String, FileLoadedEntityModel> loadedEntities;
         private Dictionary<String, PlayableCharacter> loadedCharacters;
@@ -31,6 +32,7 @@ namespace TankArena.Utils
         private Dictionary<String, BaseWeapon> loadedWeapons;
         private Dictionary<String, LevelModel> loadedLevels;
         private Dictionary<String, SpawnerTemplate> loadedSpawnerTemplates;
+        private Dictionary<String, EnemyType> loadedEnemyTypes;
 
         //GOs can check this before getting a reference 
         //going because they might be half loaded before these are
@@ -42,16 +44,16 @@ namespace TankArena.Utils
         {
             DBG.Log("Working from path: {0}", EntitiesLoaderUtil.BASE_DATA_PATH);
             
-            dataLoadCoroutine = Timing.RunCoroutine(LoadEntites());
+            dataLoadCoroutine = Timing.RunCoroutine(_LoadEntites());
         }
 
-        public IEnumerator<float> LoadEntites()
+        public IEnumerator<float> _LoadEntites()
         {
             DBG.Log("START LOADING ENTITIES!");
             status = "Started loading entities...";
             loadedEntities = new Dictionary<string, FileLoadedEntityModel>();
             var loaderHandles = new List<IEnumerator<float>>();
-            yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_LONG);
+            yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
             //Load all spawner templates
             loaderHandles.Add(Timing.RunCoroutine(_LoadSpawners()));
             //Load all Levels
@@ -62,11 +64,13 @@ namespace TankArena.Utils
             loaderHandles.Add(Timing.RunCoroutine(_LoadAllTankParts()));
             //Load all types of Weapons
             loaderHandles.Add(Timing.RunCoroutine(_LoadAllWeapons()));
+            //load all types of EnemyTypes
+            loaderHandles.Add(Timing.RunCoroutine(_LoadEnemyTypes()));
 
             //finish all laodings
             foreach(var handle in loaderHandles)
             {
-                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_LONG);
+                yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
                 yield return Timing.WaitUntilDone(handle);
             }
 
@@ -182,6 +186,21 @@ namespace TankArena.Utils
             CopyToEntitiesDict(loadedSpawnerTemplates);
             status = "Loaded spawners...";
             DBG.Log("Loaded Spawners!");
+            yield return 0.0f;
+        }
+
+        private IEnumerator<float> _LoadEnemyTypes()
+        {
+            loadedEnemyTypes = new Dictionary<String, EnemyType>();
+            var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Enemies\Types",
+                path => { return new EnemyType(path); },
+                loadedEnemyTypes
+            ));
+            yield return Timing.WaitUntilDone(handle);
+            CopyToEntitiesDict(loadedEnemyTypes);
+            status = "Loaded enemy types...";
+            DBG.Log("Loaded enemy types!");
             yield return 0.0f;
         }
 
