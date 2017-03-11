@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TankArena.Controllers;
 using System;
 using MovementEffects;
+using TankArena.Constants;
 
 namespace TankArena.Utils 
 {
@@ -98,6 +99,7 @@ namespace TankArena.Utils
 		public GameObject FromTemplate(Vector3 position)
 		{
 			var spawnerGO = new GameObject("SPAWNER-" + Id);
+			spawnerGO.tag = Tags.TAG_SPAWNER;
 			//sleep spawner till its ready
 			spawnerGO.SetActive(false);
 			spawnerGO.transform.parent = null;

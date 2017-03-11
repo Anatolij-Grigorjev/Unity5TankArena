@@ -45,14 +45,14 @@ namespace TankArena.Utils
 		public void ResetArenaStats()
 		{
 			CurrentArenaStats = new Dictionary<EnemyType, int>();
-			//entities loaded? reset with types intact
-			if (EntitiesStore.Instance.isReady)
-			{
-				foreach (KeyValuePair<String, EnemyType> type in EntitiesStore.Instance.EnemyTypes)
-				{
-					CurrentArenaStats.Add(type.Value, 0);
-				}
-			} 
+			//cant do this because constructors
+			// if (EntitiesStore.Instance.isReady)
+			// {
+			// 	foreach (KeyValuePair<String, EnemyType> type in EntitiesStore.Instance.EnemyTypes)
+			// 	{
+			// 		CurrentArenaStats.Add(type.Value, 0);
+			// 	}
+			// } 
 		}
 
 

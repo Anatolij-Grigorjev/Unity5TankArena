@@ -3,11 +3,15 @@ using System.Collections;
 using TankArena.Utils;
 using TankArena.Models.Level;
 using System.Collections.Generic;
+using MovementEffects;
+using TankArena.Constants;
 
 namespace TankArena.Controllers
 {
 
 	public class ArenaInitController : MonoBehaviour {
+
+		private const float POST_START_WAIT = 3.0f;
 
 		//Initialize level
 		public GameObject playerPrefab;
@@ -40,8 +44,46 @@ namespace TankArena.Controllers
 					spawnerTemplate.FromTemplate(spawnerInfo.Value);
 				}
 			}
-			//loading done
-			Destroy(gameObject);
+			//loading done, start awaiting end of fight
+			Timing.RunCoroutine(_WaitForEnd());
+		}
+
+
+		private IEnumerator<float> _WaitForEnd()
+		{
+			yield return Timing.WaitForSeconds(POST_START_WAIT);
+
+
+			bool finishThis = false;
+			while (!finishThis) 
+			{
+				//check for death of player
+				var player = GameObject.FindGameObjectWithTag(Tags.TAG_PLAYER);
+
+				if (player == null)
+				{
+					finishThis = true;
+					DBG.Log("My player gone!");
+				}
+
+				var spawners = GameObject.FindGameObjectsWithTag(Tags.TAG_SPAWNER);
+				if (spawners == null || spawners.Length == 0)
+				{
+					finishThis = true;
+					DBG.Log("My enemies gone!");
+				}
+
+				if (finishThis)
+				{
+					yield return Timing.WaitForSeconds(POST_START_WAIT);
+
+					TransitionUtil.StartTransitionTo(SceneIds.SCENE_POST_ARENA_TALLY);
+
+				}
+				//check once every 1.5 seconds
+				yield return Timing.WaitForSeconds(1.5f);
+			}
+			
 		}
 	}
 }

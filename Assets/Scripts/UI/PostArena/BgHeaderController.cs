@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TankArena.Utils;
 
 namespace TankArena.UI
 {
@@ -13,12 +14,15 @@ namespace TankArena.UI
 		// Use this for initialization
 		void Start () 
 		{
-		
+			var player = CurrentState.Instance.Player;
+
+			avatarHolder.sprite = player.Character.Avatar;
+			SetCash(player.Cash);
 		}
 		
-		// Update is called once per frame
-		void Update () {
-		
+		public void SetCash(float cash)
+		{
+			cashHolder.text = "$" + cash;
 		}
 	}
 }

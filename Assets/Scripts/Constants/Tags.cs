@@ -18,6 +18,7 @@ namespace TankArena.Constants
         public const String TAG_UI_SHOP_ITEM_IMAGE = "sold_item_image";
         public const String TAG_MAP_COLLISION = "MapCollision";
         public const String TAG_SPAWNER_MARKER = "BySpawn";
+        public const String TAG_SPAWNER = "Spawner";
         public const String TAG_BACK_TO_ITEMS_BTN = "back_to_items_button";
         public const String TAG_MSG_BOX_TEXT = "msg_box_text";
         public const String TAG_SHOP_HEAVY_SLOT = "shop_heavy_slot";

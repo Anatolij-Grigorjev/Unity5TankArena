@@ -104,6 +104,7 @@ namespace TankArena.UI.Shop
 
 		public void LoadArena()
 		{
+			CurrentState.Instance.ResetArenaStats();
 			TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_ID);
 		}
 
