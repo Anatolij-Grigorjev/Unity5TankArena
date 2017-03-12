@@ -141,10 +141,9 @@ namespace TankArena.UI.Characters
 			player.CurrentTank = model.StartingTank;
 			player.Health = model.StartingHealth;
 			
-			Player.SaveCurrentPlayer();
 			CurrentState.Instance.SetPlayer(player);
 			
-			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
+			TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_MENU_ID);
 		}
 
 	}

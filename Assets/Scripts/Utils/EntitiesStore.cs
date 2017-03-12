@@ -11,6 +11,7 @@ using CielaSpike;
 using System.IO;
 using MovementEffects;
 using TankArena.Constants;
+using UnityEngine;
 
 namespace TankArena.Utils
 {
@@ -39,6 +40,7 @@ namespace TankArena.Utils
         public bool isReady = false;
         private string status = "";
         public IEnumerator<float> dataLoadCoroutine;
+        public GameObject SavingTextPrefab { get; set; }
 
         public void Awake()
         {
@@ -85,6 +87,9 @@ namespace TankArena.Utils
             charsList.ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
             });
+
+            //load saving SavingTextPrefab
+            SavingTextPrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_SAVING_TEXT) as GameObject;
             
             isReady = true;
 

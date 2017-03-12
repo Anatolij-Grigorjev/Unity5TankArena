@@ -15,5 +15,6 @@ namespace TankArena.Constants
         public const string TRUCK_DEATH_TRIGGER = "Death";
         public const string TRIGGER_GLOW_SLOT = "Pulsate";
         public const string TRIGGER_PART_SLOTTED = "Slotted";
+        public const string TIGGER_SAVING_DONE = "SavingDone";
     }
 }

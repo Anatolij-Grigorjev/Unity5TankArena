@@ -57,10 +57,8 @@ namespace TankArena.UI
 			Player newPlayer = new Player(saveSlot);
 			newPlayer.Name = name;
 			CurrentState.Instance.SetPlayer(newPlayer);
-			//initial save
-			Player.SaveCurrentPlayer();
-			//transition
-			TransitionUtil.StartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
+			//initial save and char select
+			TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 		}
 
 		private void ProcessOverwriteOK(string should)
