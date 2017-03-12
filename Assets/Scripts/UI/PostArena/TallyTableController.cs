@@ -53,14 +53,37 @@ namespace TankArena.UI
 		// Update is called once per frame
 		void Update () 
 		{
-			if (!Input.anyKeyDown) 
+			if (Input.anyKeyDown) 
 			{
 				//user pressed key and we didnt start money cahsing yet
 				if (cashoutHandle == null)
 				{
 					cashoutHandle = Timing.RunCoroutine(_CashOutTally(), Segment.FixedUpdate);
+				} else 
+				{
+					if (totalSum > 0.0f)
+					{
+						//cashout started but money still flowing - speed it along
+						TransferTotalToPlayerDelta(totalSum);			
+					} else 
+					{
+						//total sum cashed out, lets go back to arenas
+						TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
+					}
 				}
 			}
+		}
+
+		private void TransferTotalToPlayerDelta(float delta)
+		{
+			totalSum -= delta;
+
+			CurrentState.Instance.Player.Cash += delta;
+			
+			headerController.SetCash(CurrentState.Instance.Player.Cash);
+
+			SetTotalTally(totalSum);
+
 		}
 
 		private IEnumerator<float> _CashOutTally()
@@ -69,14 +92,8 @@ namespace TankArena.UI
 			{
 				var delta = Mathf.Clamp(cashOutRate, 0.0f, totalSum);
 
-				totalSum -= delta;
-
-				CurrentState.Instance.Player.Cash += delta;
+				TransferTotalToPlayerDelta(delta);
 				
-				headerController.SetCash(CurrentState.Instance.Player.Cash);
-
-				SetTotalTally(totalSum);
-
 				yield return Timing.WaitForSeconds(Timing.DeltaTime);
 			}
 
