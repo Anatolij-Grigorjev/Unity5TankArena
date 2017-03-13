@@ -10,6 +10,7 @@ namespace TankArena.UI
 		public Image avatarHolder;
 
 		public Text cashHolder;
+		public Text arenaName;
 
 		// Use this for initialization
 		void Start () 
@@ -17,6 +18,7 @@ namespace TankArena.UI
 			var player = CurrentState.Instance.Player;
 
 			avatarHolder.sprite = player.Character.Avatar;
+			arenaName.text = CurrentState.Instance.CurrentArena.Name;
 			SetCash(player.Cash);
 		}
 		

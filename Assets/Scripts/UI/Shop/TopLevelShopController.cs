@@ -65,6 +65,11 @@ namespace TankArena.UI.Shop
 			backToItemsButton.gameObject.SetActive(false);
 		}
 
+		public void _BackToArenaSelect()
+		{
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
+		}
+
 		public void RefreshUI()
 		{
 			UpdateLoadoutText();

@@ -13,6 +13,7 @@ namespace TankArena.UI.Arena
 		public Image arenaThumbnail;
 		public Image arenaSnapshot;
 		public Text arenaNameText;
+		public Image playerAvatarImage;
 		public Text arenaDescriptionText;
 		public Text arenaPropsText;
 		public Button playArenaButton;
@@ -49,6 +50,10 @@ namespace TankArena.UI.Arena
 			}
 		}
 
+		public void _BackToMainMenu()
+		{
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
+		}
 		private void SetArenaModelUI(LevelModel arena)
 		{
 			if (arena != null) 
@@ -84,6 +89,7 @@ namespace TankArena.UI.Arena
 			arenaModels = new List<LevelModel>(EntitiesStore.Instance.Levels.Values);
 			currentArenaIndex = 999;
 			CurrentArenaIndex = 0;
+			playerAvatarImage.sprite = CurrentState.Instance.Player.Character.Avatar;
 		}
 
 
