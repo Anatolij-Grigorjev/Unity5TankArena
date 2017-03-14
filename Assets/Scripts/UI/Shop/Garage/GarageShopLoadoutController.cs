@@ -47,7 +47,7 @@ namespace TankArena.UI.Shop
 
 		public void ToggleLoadout(bool enable)
 		{
-			// DBG.Log("Garage controller activating loadout: {0}", enable);
+			DBG.Log("Garage controller activating loadout: {0}", enable);
 			turretImage.gameObject.SetActive(enable);
 			chassisAndEngineHolder.SetActive(enable);
 			tracksImage.gameObject.SetActive(enable);

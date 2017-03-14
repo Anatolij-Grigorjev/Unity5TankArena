@@ -28,14 +28,13 @@ namespace TankArena.UI.Characters
 		public GameObject loadoutGrid;
 		public GameObject loadoutGridItem;
 		public Text characterMoney;
-
+		public Text playerNameText;
 		public List<PlayableCharacter> characterData;
 		private List<ShopPurchaseableEntityModel> loadoutItems;
 
 		public Button selectAndPlay;
 
 		private int currentCharacterIndex;
-		private string playerName;
 
 		public int CharacterIndex
 		{
@@ -95,6 +94,7 @@ namespace TankArena.UI.Characters
 			var entities = EntitiesStore.Instance;
 			entities.GetStatus();
 			characterData = entities.Characters.Values.ToList();
+			playerNameText.text = CurrentState.Instance.Player.Name;
 			if (characterData != null && characterData.Count > 0) 
 			{
 				//proceed with the loading of avatars into cels grid

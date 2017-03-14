@@ -61,14 +61,24 @@ namespace TankArena.UI
 			TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_CHARACTER_SELECT_ID);
 		}
 
+		private void CallInputNameBox()
+		{
+			inputBoxGO.SetActive(true);
+			var inputBoxController = inputBoxGO.GetComponent<InputBoxController>();
+			inputBoxController.externalAction = ProcessInputtedName;
+			//add focus to input field
+			var inputField = inputBoxController.inputField;
+			inputField.Select();
+			inputField.ActivateInputField();
+		}
+
 		private void ProcessOverwriteOK(string should)
 		{
 			if (!String.IsNullOrEmpty(should)) 
 			{
 				DBG.Log("Overwriting save data!");
 				//call up the input field, other function will take it form there
-				inputBoxGO.SetActive(true);
-				inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
+				CallInputNameBox();
 			}
 		}
 
@@ -93,8 +103,7 @@ namespace TankArena.UI
 					//no model but we saving, so can use this slot
 					button.onClick.AddListener(() => {
 						//call up the input field, other function will take it form there
-						inputBoxGO.SetActive(true);
-						inputBoxGO.GetComponent<InputBoxController>().externalAction = ProcessInputtedName;
+						CallInputNameBox();
 					});
 				}
 			} else 
