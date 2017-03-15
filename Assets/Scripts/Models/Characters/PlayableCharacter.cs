@@ -57,6 +57,13 @@ namespace TankArena.Models.Characters
                 return (float)properties[EK.EK_CHARACTER_STARTER_CASH];
             }
         }
+        public String Backstory
+        {
+            get 
+            {
+                return (string)properties[EK.EK_BACKSTORY];
+            }
+        }
         public String StartingTankCode
         {
             get
@@ -81,6 +88,7 @@ namespace TankArena.Models.Characters
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_CASH] = json[EK.EK_CHARACTER_STARTER_CASH].AsFloat;
             properties[EK.EK_CHARACTER_STARTER_HEALTH] = json[EK.EK_CHARACTER_STARTER_HEALTH].AsFloat;
+            properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
             yield return 0.0f;
         }

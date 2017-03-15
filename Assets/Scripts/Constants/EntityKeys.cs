@@ -26,6 +26,7 @@ namespace TankArena.Constants
         public const string EK_CHARACTER_STARTER_HEALTH = "start_health";
         public const string EK_CHARACTER_STARTER_CASH = "start_cash";
         public const string EK_CHARACTER_STARTER_TANK = "start_tank";
+        public const string EK_BACKSTORY = "backstory";
 
         //TANK PARTS
         public const string EK_ON_TANK_POSITION = "on_tank_position";

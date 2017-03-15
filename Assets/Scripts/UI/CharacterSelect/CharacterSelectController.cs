@@ -25,6 +25,7 @@ namespace TankArena.UI.Characters
 		public Image sceneBackground;
 		public Image characterModel;
 		public Text characterName;
+		public Text characterBackstory;
 		public GameObject loadoutGrid;
 		public GameObject loadoutGridItem;
 		public Text characterMoney;
@@ -70,6 +71,7 @@ namespace TankArena.UI.Characters
 			sceneBackground.sprite = model.Background;
 			characterModel.sprite = model.CharacterModel;
 			characterMoney.text = "$" + model.StartingCash;
+			characterBackstory.text = model.Backstory;
 			//redo loadout
 			loadoutItems.Clear();
 			loadoutGrid.ClearChildren();
