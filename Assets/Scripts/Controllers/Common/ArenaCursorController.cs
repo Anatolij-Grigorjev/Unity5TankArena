@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TankArena.Utils;
 
 namespace TankArena.Controllers 
 {
@@ -13,16 +13,12 @@ namespace TankArena.Controllers
 			//hide cursor
 			Cursor.visible = false;		
 		}
-		
-		// Update is called once per frame
-		void Update () {
-			
-		}
 
-		void FixedUpdate()
+		void Update()
 		{
 			//match cursor position
-			transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			var newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			transform.position = new Vector3(newPos.x, newPos.y, 11.0f);
 		}
 	}
 
