@@ -19,6 +19,7 @@ public class DebugTank : MonoBehaviour {
 		
 	}
 
+
     private IEnumerator<float> _LoadPlayerStuff()
     {
 		DBG.Log("Waiting loading");

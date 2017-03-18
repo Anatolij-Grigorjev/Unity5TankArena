@@ -102,13 +102,13 @@ namespace TankArena.Utils
         {
             loadedWeapons = new Dictionary<string, BaseWeapon>();
             var lightHandle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"Weapons\Heavy",
+                Path.Combine("Weapons", "Heavy"),
                 path => { return new BaseWeapon(path); },
                 loadedWeapons
             ));
             yield return Timing.WaitUntilDone(lightHandle);
             var heavyHandle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"Weapons\Light",
+                Path.Combine("Weapons", "Light"),
                 path => { return new BaseWeapon(path); },
                 loadedWeapons
             ));
@@ -123,22 +123,22 @@ namespace TankArena.Utils
             loadedTankParts = new Dictionary<string, TankPart>();
             var handles = new List<IEnumerator<float>>();
             handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"TankParts\Engines",
+                Path.Combine("TankParts", "Engines"),
                 path => { return new TankEngine(path); },
                 loadedTankParts
             )));
             handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"TankParts\Tracks",
+                Path.Combine("TankParts", "Tracks"),
                 path => { return new TankTracks(path); },
                 loadedTankParts
             )));
             handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"TankParts\Chassis",
+                Path.Combine("TankParts", "Chassis"),
                 path => { return new TankChassis(path); },
                 loadedTankParts
             )));
             handles.Add(Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"TankParts\Turrets",
+                Path.Combine("TankParts", "Turrets"),
                 path => { return new TankTurret(path); },
                 loadedTankParts
             )));
@@ -183,7 +183,7 @@ namespace TankArena.Utils
         {
             loadedSpawnerTemplates = new Dictionary<string, SpawnerTemplate>();
             var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"Enemies\SpawnerTemplates",
+                Path.Combine("Enemies", "SpawnerTemplates"),
                 path => { return new SpawnerTemplate(path); },
                 loadedSpawnerTemplates
             ));
@@ -198,7 +198,7 @@ namespace TankArena.Utils
         {
             loadedEnemyTypes = new Dictionary<String, EnemyType>();
             var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                @"Enemies\Types",
+                Path. Combine("Enemies", "Types"),
                 path => { return new EnemyType(path); },
                 loadedEnemyTypes
             ));
