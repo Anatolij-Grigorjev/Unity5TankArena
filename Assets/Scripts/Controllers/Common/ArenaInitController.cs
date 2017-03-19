@@ -33,7 +33,7 @@ namespace TankArena.Controllers
 				cameraPos.z = -10.0f;
 				Camera.main.gameObject.transform.position = cameraPos;
 				var cameraFollowController = Camera.main.GetComponent<CameraFollowObjectController>();
-				cameraFollowController.SetGO(player);
+				cameraFollowController.Target = player;
 
 				//place the spawner(-s)
 				foreach(KeyValuePair<string, Vector3> spawnerInfo in levelModel.SpawnerLocations)
