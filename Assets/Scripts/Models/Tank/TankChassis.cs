@@ -53,6 +53,13 @@ namespace TankArena.Models.Tank
                 return SK.SK_TANK_CHASSIS;
             }
         }
+        public Vector3 HealthbarOffset
+        {
+            get 
+            {
+                return (Vector3)properties[EK.EK_HEALTHBAR_OFFSET];
+            }
+        }
 
 
         public TankChassis(string filePath) : base(filePath)
@@ -65,6 +72,7 @@ namespace TankArena.Models.Tank
             yield return Timing.WaitUntilDone(handle);
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
             properties[EK.EK_TURRET_PIVOT] = ResolveSpecialContent(json[EK.EK_TURRET_PIVOT]);
+            properties[EK.EK_HEALTHBAR_OFFSET] = ResolveSpecialContent(json[EK.EK_HEALTHBAR_OFFSET]);
 
             yield return 0.0f;
         }

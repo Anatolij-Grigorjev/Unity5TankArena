@@ -37,6 +37,8 @@ namespace TankArena.Controllers
 
         public Transform Rotator;
         public Rigidbody2D tankRigidBody;
+        public GameObject healthbarPrefab;
+        private ProgressingBarController healthbarController;
         public override void Awake()
         {
             base.Awake();
@@ -59,6 +61,12 @@ namespace TankArena.Controllers
             tankRigidBody = parentObject.GetComponent<Rigidbody2D>();
 
             Rotator = rotatorGO.transform;
+            DBG.Log("Setting healthbar stuff");
+            var healthBar = Instantiate(healthbarPrefab, transform.position, Quaternion.identity) as GameObject;
+            healthbarController = healthBar.GetComponent<ProgressingBarController>();
+            healthbarController.SetMax(Integrity);
+            healthbarController.target = parentObject;
+            healthbarController.offset = Model.HealthbarOffset;
             DBG.Log("Chassis controller Ready!");
         }
 
@@ -90,6 +98,7 @@ namespace TankArena.Controllers
                     var controller = damager.GetComponent<ExplosionController>();
                     // DBG.Log("Potato heat level: {0}", controller.damage);
                     Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
+                    healthbarController.CurrentValue = Integrity;
                     if (Integrity <= 0.0f) {
                         //start death
                         StartDeath();

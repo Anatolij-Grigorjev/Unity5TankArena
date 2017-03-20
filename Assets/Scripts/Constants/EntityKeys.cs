@@ -62,6 +62,7 @@ namespace TankArena.Constants
         //TANK CHASSIS
         public const string EK_INTEGRITY = "integrity";
         public const string EK_TURRET_PIVOT = "turret_pivot";
+        public const string EK_HEALTHBAR_OFFSET = "healthbar_offset";
 
         //WEAPONS
         public const string EK_ON_TURRET_POSITION = "on_turret_position";
