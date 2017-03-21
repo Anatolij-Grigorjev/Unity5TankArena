@@ -35,6 +35,8 @@ namespace TankArena.Controllers
         public DeathPostPrefabsController deathController;
 
         public ValueBasedSpriteAssigner damageLevelSprites;
+        public GameObject healthbarPrefab;
+        private ProgressingBarController healthBarController;
         public float Integrity
         {
             get
@@ -69,6 +71,11 @@ namespace TankArena.Controllers
             oldState.CopyToTransform(baseWeaponController.transform);
             aiController = GetComponent<EnemyAIController>();
             aiController.maxShootingDistance = weapon.GetComponent<BaseWeaponController>().Weapon.Range;
+            var healthBarGO = Instantiate(healthbarPrefab, transform.position, Quaternion.identity) as GameObject;
+            healthBarController = healthBarGO.GetComponent<ProgressingBarController>();
+            healthBarController.target = gameObject;
+            healthBarController.SetMax(Integrity);
+            healthBarController.offset = new Vector3(0.0f, -15.0f, 0.0f);
         }
 	
 	    protected override void HandleCommand(TankCommand latestOrder) 
@@ -145,6 +152,7 @@ namespace TankArena.Controllers
         {
             this.aiController.enabled = false;
             this.enabled = false;
+            Destroy(healthBarController.gameObject);
             StopPhysicsMovement();
             var enemyType = EntitiesStore.Instance.EnemyTypes[enemyTypeId];
             var stats = CurrentState.Instance.CurrentArenaStats;
@@ -162,6 +170,7 @@ namespace TankArena.Controllers
                 case Tags.TAG_SIMPLE_BOOM:
                     var boomController = damager.GetComponent<ExplosionController>();
                     Integrity = Mathf.Clamp(integrity - boomController.damage, 0.0f, maxIntegrity) ;
+                    healthBarController.CurrentValue = Integrity;
                     if (Integrity <= 0.0)
                     {
                         animations.enabled = true;
