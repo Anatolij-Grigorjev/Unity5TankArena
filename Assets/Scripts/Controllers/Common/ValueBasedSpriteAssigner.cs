@@ -1,4 +1,5 @@
 using UnityEngine;
+using TankArena.Controllers;
 
 namespace TankArena.Utils
 {
@@ -10,6 +11,7 @@ namespace TankArena.Utils
         public Sprite[] sprites;
         private int currentIndex = 0;
         private float valuesPerSprite;
+        public DamageBitsController damageController;
         public void Awake() 
         {
              UpdateVPS();
@@ -27,6 +29,13 @@ namespace TankArena.Utils
         {
             int bucketNum = Mathf.RoundToInt(currValue / valuesPerSprite);
             int index = Mathf.Clamp(sprites.Length - bucketNum, 0, sprites.Length - 1);
+            if (damageController != null && currentIndex != index) 
+            {
+                DBG.Log("index changed from {0} to {1}, firing off bits!", currentIndex, index);
+                //new damage index! firing the bits!
+                damageController.StartBits();
+            }
+            currentIndex = index;
             renderer.sprite = sprites[index];
         }
 
