@@ -13,7 +13,7 @@ namespace TankArena.Models.Weapons.Behaviors
 
         public override bool PerformShot()
         {
-            DBG.Log("Shot time position: {0}, up: {1}", shotTimePosition, shotTimeUp);
+            // DBG.Log("Shot time position: {0}, up: {1}", shotTimePosition, shotTimeUp);
             bool didHit = false;
             int count = Physics2D.CircleCastNonAlloc(
                 shotTimePosition, 
@@ -32,7 +32,7 @@ namespace TankArena.Models.Weapons.Behaviors
             else 
             {
                 var firstHit = hitsNonAlloc[0];
-                DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject);
+                // DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject);
                 pos = new Vector3(firstHit.point.x, firstHit.point.y);
             }
 

@@ -40,7 +40,7 @@ namespace TankArena.Controllers
             if (other != null)
             {
                 var go = other.gameObject;
-                DBG.Log("BOOM encountered GO {0}, sending message!", go);
+                // DBG.Log("BOOM encountered GO {0}, sending message!", go);
                 if (go != null) {
                     go.SendMessage("ApplyDamage", gameObject, SendMessageOptions.DontRequireReceiver);
                 }

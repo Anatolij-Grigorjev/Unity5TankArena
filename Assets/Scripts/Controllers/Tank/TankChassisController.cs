@@ -81,7 +81,7 @@ namespace TankArena.Controllers
         {
             if (other.gameObject.tag == Tags.TAG_MAP_COLLISION) 
             {
-                DBG.Log("Collision velocity: {0}", other.relativeVelocity);
+                // DBG.Log("Collision velocity: {0}", other.relativeVelocity);
                 if (!rockCrashThud.isPlaying && other.relativeVelocity.magnitude > 75.0f)
                 {
                     rockCrashThud.Play();

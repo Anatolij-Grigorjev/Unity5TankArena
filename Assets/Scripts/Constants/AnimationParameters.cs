@@ -16,5 +16,6 @@ namespace TankArena.Constants
         public const string TRIGGER_GLOW_SLOT = "Pulsate";
         public const string TRIGGER_PART_SLOTTED = "Slotted";
         public const string TIGGER_SAVING_DONE = "SavingDone";
+        public const string TRIGGER_START_BITS = "DoBits";
     }
 }

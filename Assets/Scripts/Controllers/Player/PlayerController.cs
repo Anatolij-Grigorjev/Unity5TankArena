@@ -118,10 +118,10 @@ namespace TankArena.Controllers
                 Vector2 origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 RaycastHit2D hit = Physics2D.CircleCast(origin, 10.0f, Vector2.zero, 0.0f, LayerMasks.LM_ENEMY);
-                DBG.Log("Searching at mouse pos: {0} | World: {1}", Input.mousePosition, origin);
+                // DBG.Log("Searching at mouse pos: {0} | World: {1}", Input.mousePosition, origin);
                 if (hit.collider != null)
                 {
-                    DBG.Log("Hit! collider: {0}", hit.collider);
+                    // DBG.Log("Hit! collider: {0}", hit.collider);
                     if (hit.collider != null && hit.collider.gameObject != null)
                     {
                         var oldLock = GameObject.FindGameObjectWithTag(Tags.TAG_ENEMY_LOCK);
@@ -188,8 +188,8 @@ namespace TankArena.Controllers
                 //find out the angular difference via cos (helps that its periodic)
                 var rotationDiff = (turnCCW ? 1 : -1) *
                     Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
-                DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
-                DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
+                // DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
+                // DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
                 //rotation difference too large not to adjust turret
                 if (Math.Abs(rotationDiff) > 0.1f)
                 {
@@ -214,9 +214,9 @@ namespace TankArena.Controllers
                 } else 
                 {
                     var up = rotator.transform.up * rotator.transform.position.magnitude;
-                    DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
+                    // DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
                     angle = Vector2.Angle(diff, up);
-                    DBG.Log("angle: {0}", angle);
+                    // DBG.Log("angle: {0}", angle);
                     //lockon threshold
                     if (angle < LOCKON_ANGLE_THRESHOLD)
                     {
@@ -296,10 +296,10 @@ namespace TankArena.Controllers
                go.position,
                screenPoint);
             var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;// - go.transform.eulerAngles.z;
-            DBG.Log("raw angle: {0}", angle);
+            // DBG.Log("raw angle: {0}", angle);
             //angle will get calculated based of the difference of main tank rotation and turret rotation
             var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
-            DBG.Log("Offset: {0}", offset);  
+            // DBG.Log("Offset: {0}", offset);  
 
             // turretRotator.localRotation =
             //     Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.7f);

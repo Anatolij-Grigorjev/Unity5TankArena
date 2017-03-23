@@ -85,6 +85,15 @@ namespace TankArena.Controllers
             chassisController.engineController.StartIdle();
         }
 
+        void LateUpdate()
+        {
+            //adjust GO rotation, chassis and company get rotated on their own rotatos
+            //so this GO must remain staticly angled
+            if (transform.rotation != Quaternion.identity) {
+                transform.rotation = Quaternion.identity;
+            }
+        }
+
 
         protected override void HandleCommand(TankCommand latestOrder) 
         {

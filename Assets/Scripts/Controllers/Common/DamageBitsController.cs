@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TankArena.Utils;
+using TankArena.Constants;
 
 namespace TankArena.Controllers
 {
@@ -9,21 +11,26 @@ namespace TankArena.Controllers
     {
 
 		public Animator bitsAnimator;
+		public GameObject bitsPrefab;
         // Use this for initialization
         void Start()
         {
 
         }
 
-        // Update is called once per frame
+    
         void FinishBits()
 		{
-			bitsAnimator.enabled = false;
+			if (bitsPrefab != null) 
+			{
+				Instantiate(bitsPrefab, transform.position, transform.rotation);
+			}
 		}
 
 		public void StartBits() 
 		{
-			bitsAnimator.enabled = true;
+			
+			bitsAnimator.SetTrigger(AnimationParameters.TRIGGER_START_BITS);
 		}
     }
 }
