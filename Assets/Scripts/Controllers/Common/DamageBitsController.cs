@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using TankArena.Utils;
-using TankArena.Constants;
+using MovementEffects;
 
 namespace TankArena.Controllers
 {
@@ -10,27 +8,56 @@ namespace TankArena.Controllers
     public class DamageBitsController : MonoBehaviour
     {
 
-		public Animator bitsAnimator;
-		public GameObject bitsPrefab;
+
+        public SpriteRenderer bitsSpriteRenderer;
+        public Sprite[] bitsAnimationSprites;
+        public float timeBetweenFrames = 0.12f;
+        private IEnumerator<float> bitsHandle;
+        public GameObject bitsPrefab;
+        int currentSprite;
         // Use this for initialization
         void Start()
         {
-
+            ResetBits();
         }
 
-    
-        void FinishBits()
-		{
-			if (bitsPrefab != null) 
-			{
-				Instantiate(bitsPrefab, transform.position, transform.rotation);
-			}
-		}
+        IEnumerator<float> _AnimateBits()
+        {
+            yield return Timing.WaitForSeconds(timeBetweenFrames);
+			currentSprite++;
+            //still got sprites to show
+            if (currentSprite < bitsAnimationSprites.Length)
+            {
+                bitsSpriteRenderer.sprite = bitsAnimationSprites[currentSprite];
+                bitsHandle = Timing.RunCoroutine(_AnimateBits());
+            }
+            else
+            {
+                //bits done
+                FinishBits();
+            }
+        }
 
-		public void StartBits() 
-		{
-			
-			bitsAnimator.SetTrigger(AnimationParameters.TRIGGER_START_BITS);
-		}
+        void FinishBits()
+        {
+            if (bitsPrefab != null)
+            {
+                Instantiate(bitsPrefab, transform.position, transform.rotation);
+            }
+            //reset bits state
+            ResetBits();
+        }
+
+        private void ResetBits()
+        {
+            currentSprite = 0;
+            bitsSpriteRenderer.sprite = null;
+        }
+
+        public void StartBits()
+        {
+            bitsSpriteRenderer.sprite = bitsAnimationSprites[currentSprite];
+            bitsHandle = Timing.RunCoroutine(_AnimateBits(), Segment.Update);
+        }
     }
 }
