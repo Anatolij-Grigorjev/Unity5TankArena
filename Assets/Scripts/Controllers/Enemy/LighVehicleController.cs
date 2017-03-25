@@ -26,7 +26,6 @@ namespace TankArena.Controllers
         private Rigidbody2D vehicleRigidBody;
         private Collider2D vehicleCollider;
         private SpriteRenderer spriteRenderer;
-        public Animator damageAnimation;
         private Animator animations;
         public GameObject weapon;
         public float maxIntegrity;
