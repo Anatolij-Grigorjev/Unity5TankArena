@@ -28,6 +28,8 @@ namespace TankArena.Controllers
         //larges allowed angle after which turret just snaps to target
         private const float LOCKON_ANGLE_THRESHOLD = 4.5f;
 
+        private GameObject cursor;
+
         private static readonly IList<string> WEAPON_GROUP_INPUTS = new List<string>
         {
             ControlsButtonNames.BTN_NAME_WPN_GROUP_1,
@@ -40,6 +42,9 @@ namespace TankArena.Controllers
         {
             player = CurrentState.Instance.Player;
             commands = tankController.Commands;
+
+            CurrentState.Instance.Cursor = GameObject.FindGameObjectWithTag(Tags.TAG_CURSOR);
+            cursor = CurrentState.Instance.Cursor;
         }
 
         // Update is called once per frame
@@ -112,6 +117,10 @@ namespace TankArena.Controllers
 
         private void CollectLockOn()
         {
+            if (!cursor.activeInHierarchy && goLock == null) 
+            {
+                cursor.SetActive(true);
+            }
             var target = Input.GetButton(ControlsButtonNames.BTN_NAME_LOCKON);
             if (target)
             {
@@ -140,6 +149,9 @@ namespace TankArena.Controllers
                         rectGo.GetComponent<SpriteRenderer>().sortingLayerName = SortingLayerConstants.ENEMY_SORTING_LAYER_NAME;
 
                         goLock = enemyGo;
+
+                        CurrentState.Instance.Cursor.SetActive(false);
+
                     }
 
                 } else 
@@ -162,6 +174,8 @@ namespace TankArena.Controllers
             {
                 Destroy(oldLock);
             }
+
+            CurrentState.Instance.Cursor.SetActive(true);
         }
 
         private bool AddTurretRotation()
