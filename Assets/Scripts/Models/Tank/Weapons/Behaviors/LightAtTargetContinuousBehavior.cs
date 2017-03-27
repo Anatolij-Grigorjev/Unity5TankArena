@@ -2,6 +2,7 @@
 using System.Collections;
 using TankArena.Controllers;
 using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.Models.Weapons.Behaviors
 {
@@ -10,6 +11,18 @@ namespace TankArena.Models.Weapons.Behaviors
 
 		public override void CreateAndConfigureProjectile(bool didHit, Vector3 pos)
         {
+            //make trail
+            if (weapon.TrailPrefab != null) 
+            {
+                var euler = controller.transform.rotation.eulerAngles;
+                //account for turret rotation
+                euler.z += 90;
+                var trail = GameObject.Instantiate(weapon.TrailPrefab, shotTimePosition, Quaternion.Euler(euler)) as GameObject;
+                var trailController = trail.GetComponent<VanishingTrailController>();
+                trailController.SetDestination(pos);
+                trailController.direction = shotTimeUp;
+                
+            }
             if (didHit)
             {
                 var theShot = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.LookRotation(Vector3.forward, shotTimeUp)) as GameObject;

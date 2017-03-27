@@ -14,6 +14,7 @@ namespace TankArena.Models.Weapons.Behaviors
         protected AudioSource reloadAudio;
         protected BaseWeapon weapon;
         protected int layerMask;
+        protected GameObject trailPrefab;
         protected RaycastHit2D[] hitsNonAlloc = new RaycastHit2D[1];
         protected float projectileRadius;
 

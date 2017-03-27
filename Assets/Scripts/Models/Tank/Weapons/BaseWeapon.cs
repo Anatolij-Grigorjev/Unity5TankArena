@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SimpleJSON;
 using UnityEngine;
-using UnityEngine.UI;
 using EK = TankArena.Constants.EntityKeys;
 using TankArena.Constants;
 using TankArena.Utils;
@@ -39,7 +36,7 @@ namespace TankArena.Models.Weapons
         }
         public float ProjectileWidth
         {
-            get 
+            get
             {
                 return (float)properties[EK.EK_PROJECTILE_WIDTH];
             }
@@ -47,7 +44,7 @@ namespace TankArena.Models.Weapons
 
         public WeaponBehaviors.Types WeaponBehaviorType
         {
-            get 
+            get
             {
                 return (WeaponBehaviors.Types)properties[EK.EK_WEAPON_BEHAVIOR_TYPE];
             }
@@ -118,7 +115,13 @@ namespace TankArena.Models.Weapons
                 return (GameObject)properties[EK.EK_PROJECTILE_PREFAB];
             }
         }
-
+        public GameObject TrailPrefab
+        {
+            get
+            {
+                return (GameObject)properties[EK.EK_TRAIL_PREFAB];
+            }
+        }
         public AudioClip ShotSound
         {
             get
@@ -128,7 +131,7 @@ namespace TankArena.Models.Weapons
         }
         public AudioClip ReloadSound
         {
-            get 
+            get
             {
                 return (AudioClip)properties[EK.EK_RELOAD_SOUND];
             }
@@ -146,7 +149,7 @@ namespace TankArena.Models.Weapons
         protected float currentReloadTimer;
         public int currentClipSize;
         protected float maxShotDelay;
-        
+
         protected BaseWeaponController weaponController;
 
         private IWeaponUseable weaponBehavior;
@@ -170,7 +173,7 @@ namespace TankArena.Models.Weapons
             // InitValues();
         }
 
-        private void InitValues() 
+        private void InitValues()
         {
             isReloading = false;
             isShooting = false;
@@ -181,7 +184,7 @@ namespace TankArena.Models.Weapons
             this.WeaponBehavior = WeaponBehaviors.ForType(this.WeaponBehaviorType);
         }
 
-        public BaseWeapon(BaseWeapon model): base(model)
+        public BaseWeapon(BaseWeapon model) : base(model)
         {
             InitValues();
         }
@@ -193,10 +196,10 @@ namespace TankArena.Models.Weapons
 
             properties[EK.EK_ON_TURRET_POSITION] = new Dictionary<String, TransformState>();
             JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].AsObject;
-            foreach(KeyValuePair<String, JSONNode> codeStatePair in transforms)
+            foreach (KeyValuePair<String, JSONNode> codeStatePair in transforms)
             {
                 OnTurretPosition.Add(
-                    codeStatePair.Key, 
+                    codeStatePair.Key,
                     (TransformState)ResolveSpecialContent(codeStatePair.Value.Value)
                 );
             }
@@ -208,6 +211,7 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
+            properties[EK.EK_TRAIL_PREFAB] = ResolveSpecialContent(json[EK.EK_TRAIL_PREFAB].Value);
             properties[EK.EK_PROJECTILE_WIDTH] = json[EK.EK_PROJECTILE_WIDTH].AsFloat;
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
@@ -215,8 +219,8 @@ namespace TankArena.Models.Weapons
             if (!String.IsNullOrEmpty(json[EK.EK_RELOAD_SOUND].Value))
             {
                 properties[EK.EK_RELOAD_SOUND] = ResolveSpecialContent(json[EK.EK_RELOAD_SOUND].Value);
-            } 
-            else 
+            }
+            else
             {
                 properties[EK.EK_RELOAD_SOUND] = null;
             }
@@ -251,11 +255,11 @@ namespace TankArena.Models.Weapons
                             ammoController.StartReload(this);
                     }
                 }
-                
+
             }
         }
 
-        
+
 
         public void Reload(AmmoCounterController ammoController)
         {
@@ -288,7 +292,7 @@ namespace TankArena.Models.Weapons
         {
             TankTurretController turret = controller.turretController;
             //weapon might be mounted on light enemies without turrets
-            if (turret != null) 
+            if (turret != null)
             {
                 //deref turret by id from controller
                 OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);

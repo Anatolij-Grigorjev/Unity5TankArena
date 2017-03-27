@@ -74,6 +74,7 @@ namespace TankArena.Constants
         public const string EK_CLIP_SIZE = "clip_size";
         public const string EK_WEAPON_BEHAVIOR_TYPE = "behavior_type";
         public const string EK_PROJECTILE_PREFAB = "projectile_prefab";
+        public const string EK_TRAIL_PREFAB = "trail_prefab";
         public const string EK_PROJECTILE_WIDTH = "projectile_width";
         public const string EK_SHOT_SOUND = "shot_sound";
         public const string EK_RELOAD_SOUND = "reload_sound";
