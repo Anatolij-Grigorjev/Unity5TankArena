@@ -30,6 +30,7 @@ namespace TankArena.Controllers
         public void SetDestination(Vector3 destination)
         {
             var distance = (transform.position - destination).magnitude;
+            distance -= (transform.localScale.x * 1.0f) / 2.0f;
 			DBG.Log("distance: {0}", distance);
             TTL = distance / moveSpeed;
         }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TankArena.Utils;
 using TankArena.Constants;
+using TankArena.Controllers;
 
 namespace TankArena.Models.Weapons.Behaviors
 {
@@ -35,10 +36,27 @@ namespace TankArena.Models.Weapons.Behaviors
                 // DBG.Log("Hit collider of GO: {0}", firstHit.collider.gameObject);
                 pos = new Vector3(firstHit.point.x, firstHit.point.y);
             }
-
+            
+            MakeTrail(pos);
             CreateAndConfigureProjectile(didHit, pos);
 
             return true;
+        }
+
+        public void MakeTrail(Vector3 destination)
+        {
+            //make trail
+            if (weapon.TrailPrefab != null) 
+            {
+                var euler = controller.transform.rotation.eulerAngles;
+                //account for turret rotation
+                euler.z += 90;
+                var trail = GameObject.Instantiate(weapon.TrailPrefab, shotTimePosition, Quaternion.Euler(euler)) as GameObject;
+                var trailController = trail.GetComponent<VanishingTrailController>();
+                trailController.SetDestination(destination);
+                trailController.direction = shotTimeUp;
+                
+            }  
         }
 
         public override void WhileReloading()

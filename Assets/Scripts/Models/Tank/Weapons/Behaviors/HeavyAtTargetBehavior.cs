@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
-using TankArena.Utils;
 using TankArena.Constants;
 using TankArena.Controllers;
 
@@ -14,7 +11,7 @@ namespace TankArena.Models.Weapons.Behaviors
         private int beats = 0; //beats to skip is shot prep (time delay)
 
         public override void CreateAndConfigureProjectile(bool didHit, Vector3 pos)
-        {        
+        {      
             var theBoom = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
             theBoom.layer = LayerMasks.L_EXPLOSIONS_LAYER;
             theBoom.GetComponent<ExplosionController>().damage = weapon.Damage;
