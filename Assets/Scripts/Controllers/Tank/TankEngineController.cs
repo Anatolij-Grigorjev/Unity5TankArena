@@ -2,6 +2,7 @@
 using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Utils;
+using UnityEngine;
 
 namespace TankArena.Controllers
 {
@@ -17,12 +18,15 @@ namespace TankArena.Controllers
         //max acceleration from model, adjusted for mass and torque balance
         public float adjustedMaxAcceleration;
         // Use this for initialization
+        public ParticleSystem engineSmoke;
+        private ParticleSystem.EmissionModule em;
         public override void Awake()
         {
 
             base.Awake();
             isMoving = false;
-
+            em = engineSmoke.emission;
+            em.enabled = false;
             DBG.Log("Engine Controller Ready!");
 
         }
@@ -58,11 +62,14 @@ namespace TankArena.Controllers
 
         public void StartIdle()
         {
+            em.enabled = false;
             StopStartAudio(audioRevving, audioIdle);
         }
 
         public void StartRevving()
         {
+            
+            em.enabled = true;
             StopStartAudio(audioIdle, audioRevving);
         }
 
