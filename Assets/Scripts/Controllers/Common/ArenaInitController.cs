@@ -34,6 +34,9 @@ namespace TankArena.Controllers
 				Camera.main.gameObject.transform.position = cameraPos;
 				var cameraFollowController = Camera.main.GetComponent<CameraFollowObjectController>();
 				cameraFollowController.Target = player;
+				cameraFollowController.offset = new Vector3(0, 0, -10);
+				cameraFollowController.useBounds = false;
+				
 
 				//place the spawner(-s)
 				foreach(KeyValuePair<string, Vector3> spawnerInfo in levelModel.SpawnerLocations)
@@ -76,7 +79,8 @@ namespace TankArena.Controllers
 				if (finishThis)
 				{
 					yield return Timing.WaitForSeconds(POST_START_WAIT);
-
+					//my cursor is back
+					Cursor.visible = true;
 					TransitionUtil.StartTransitionTo(SceneIds.SCENE_POST_ARENA_TALLY);
 
 				}

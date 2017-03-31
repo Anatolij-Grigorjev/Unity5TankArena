@@ -27,7 +27,7 @@ namespace TankArena.Controllers
         //Object to initialize the Target with, for use in the Editor ONLY
         public GameObject starter;
 
-        private Vector3 offset;         //Private variable to store the offset distance between the object and camera
+        public Vector3 offset;         //Private variable to store the offset distance between the object and camera
 
         float vertExtends;
         float horizExtends;
@@ -36,6 +36,7 @@ namespace TankArena.Controllers
         private float cameraMinY;
         private float cameraMaxX;
         private float cameraMaxY;
+        public bool useBounds;
 
         // Use this for initialization
         void Start()
@@ -57,20 +58,24 @@ namespace TankArena.Controllers
         {
             // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
             var newPosition = go.transform.position + offset;
-            newPosition.x = Mathf.Clamp(newPosition.x, cameraMinX, cameraMaxX);
-            newPosition.y = Mathf.Clamp(newPosition.y, cameraMinY, cameraMaxY);
+            if (useBounds)
+            {
+                newPosition.x = Mathf.Clamp(newPosition.x, cameraMinX, cameraMaxX);
+                newPosition.y = Mathf.Clamp(newPosition.y, cameraMinY, cameraMaxY);
+            }
 
             transform.position = newPosition;
         }
 
-        public void SetBounds(Vector2 min, Vector2 max) 
+        public void SetBounds(Vector2 min, Vector2 max)
         {
             cameraBoundsMin = min;
             cameraBoundsMax = max;
             RecalcBounds();
         }
 
-        private void RecalcBounds() {
+        private void RecalcBounds()
+        {
             cameraMinX = cameraBoundsMin.x + horizExtends;
             cameraMinY = cameraBoundsMin.y + vertExtends;
             cameraMaxX = cameraBoundsMax.x - horizExtends;

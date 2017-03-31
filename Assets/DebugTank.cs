@@ -27,7 +27,7 @@ public class DebugTank : MonoBehaviour {
 		DBG.Log("Loading done!");
         var player = new Player("dummy-save-location");
 		player.Cash = 90;
-		player.Character = EntitiesStore.Instance.Characters["lugnut"];
+		player.Character = EntitiesStore.Instance.Characters["cletus"];
 		DBG.Log("Loading info for character {0}", player.Character.Name);
 		player.Name = "Debug";
 		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);
@@ -35,12 +35,19 @@ public class DebugTank : MonoBehaviour {
 		gameObject.GetComponent<TankController>().enabled = true;
 		gameObject.GetComponent<PlayerController>().enabled = true;
 		if (enemyPrefab != null) {
-			for (int i = 0; i < 3; i++) {
-				yield return Timing.WaitForSeconds(10.0f);
-				DBG.Log("Deploying enemy!");
-				var enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
-				enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
-			}
+			yield return Timing.WaitForSeconds(1.0f);
+			DBG.Log("Deploying enemy!");
+			var enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
+			DBG.Log("enemy ai controller: " + enemyGO.GetComponent<EnemyAIController>());
+			enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
+			yield return Timing.WaitForSeconds(1.0f);
+			DBG.Log("Deploying enemy!");
+			enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
+			enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
+			yield return Timing.WaitForSeconds(1.0f);
+			DBG.Log("Deploying enemy!");
+			enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
+			enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
 		}
     }
 
