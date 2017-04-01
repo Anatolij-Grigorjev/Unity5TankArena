@@ -5,7 +5,7 @@
 	"mass": 37.0,
 	"shop_item": "!img;TankParts\\Chassis\\Basic\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Chassis\\Basic\\Images\\garage_img",
-	"integrity": 1500.6,
+	"integrity": 1000.6,
 	"regeneration" : 500.88,
 	"spritesheet": "!sprites;TankParts\\Chassis\\Basic\\Images\\Sprites\\chassis_basic_spritesheet_0",
 	"active_sprites" : 7,
