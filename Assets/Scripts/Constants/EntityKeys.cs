@@ -61,6 +61,7 @@ namespace TankArena.Constants
 
         //TANK CHASSIS
         public const string EK_INTEGRITY = "integrity";
+        public const string EK_REGENERATION = "regeneration";
         public const string EK_TURRET_PIVOT = "turret_pivot";
         public const string EK_HEALTHBAR_OFFSET = "healthbar_offset";
 
@@ -104,7 +105,7 @@ namespace TankArena.Constants
         public const string EK_SPAWN_PROBABILITY = "spawn_probability";
 
         //DISPLAY PROPS
-        public static readonly Dictionary<string, string> ENTITY_KEYS_DISPLAY_MAP = new Dictionary<string, string>() 
+        public static readonly Dictionary<string, string> ENTITY_KEYS_DISPLAY_MAP = new Dictionary<string, string>()
         {
             { EK_NAME, "Name"},
             { EK_PRICE, "Price"},
@@ -120,6 +121,7 @@ namespace TankArena.Constants
             { EK_LIGHT_WEAPON_SLOTS, "Light Weapons"},
             { EK_TURRET_SPIN_SPEED, "Turn Speed"},
             { EK_INTEGRITY, "Integrity"},
+            { EK_REGENERATION, "Auto-fix"},
             { EK_DAMAGE, "Damage"},
             { EK_RELOAD_TIME, "Reload Time"},
             { EK_RATE_OF_FIRE, "Rate of Fire"},
@@ -127,6 +129,6 @@ namespace TankArena.Constants
             { EK_CLIP_SIZE, "Clip Size"}
 
         };
-        
+
     }
 }

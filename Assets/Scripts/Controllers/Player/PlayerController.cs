@@ -44,12 +44,15 @@ namespace TankArena.Controllers
             commands = tankController.Commands;
 
             CurrentState.Instance.Cursor = GameObject.FindGameObjectWithTag(Tags.TAG_CURSOR);
+            CurrentState.Instance.Trifecta = GameObject.FindGameObjectWithTag(Tags.TAG_TRIFECTA).GetComponent<TrifectaController>();
             cursor = CurrentState.Instance.Cursor;
         }
 
         // Update is called once per frame
         void Update()
         {
+
+            var trifectaState = CurrentState.Instance.Trifecta.CurrentState;
 
             // PerformTurretRotation();
             var turretMoveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE_TURRET);
@@ -69,49 +72,55 @@ namespace TankArena.Controllers
                 }));
             }
 
-
-            var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
-            var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
-
-            if (Mathf.Abs(moveAxis) > moveDeadzone || Mathf.Abs(turnAxis) > moveDeadzone
-                || tankController.isMoving())
+            //if in allowed trifecta state for movement control
+            if (trifectaState != TrifectaStates.STATE_TUR) 
             {
-                wasMoving = true;
-                commands.Enqueue(TankCommand.MoveCommand(moveAxis, turnAxis));
-            }
-            else
-            {
-                if (wasMoving)
+                var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
+                var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
+
+                if (Mathf.Abs(moveAxis) > moveDeadzone || Mathf.Abs(turnAxis) > moveDeadzone
+                    || tankController.isMoving())
                 {
-                    wasMoving = false;
+                    wasMoving = true;
+                    commands.Enqueue(TankCommand.MoveCommand(moveAxis, turnAxis));
+                }
+                else
+                {
+                    if (wasMoving)
+                    {
+                        wasMoving = false;
+                        commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
+                        {
+                            { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false }
+                        }));
+                    }
+                }
+
+                var brakeHeld = Input.GetButton(ControlsButtonNames.BTN_NAME_HANDBREAK);
+                var brakeLetGo = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_HANDBREAK);
+                if (brakeHeld || brakeLetGo)
+                {
                     commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
                     {
-                        { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false }
+                        //this will keep sending true on every frame brake is held and will send false on the last one,
+                        //which means brakeletgo was true
+                        { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
                     }));
                 }
             }
 
-            var brakeHeld = Input.GetButton(ControlsButtonNames.BTN_NAME_HANDBREAK);
-            var brakeLetGo = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_HANDBREAK);
-            if (brakeHeld || brakeLetGo)
-            {
-                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
-                {
-                    //this will keep sending true on every frame brake is held and will send false on the last one,
-                    //which means brakeletgo was true
-                    { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
-                }));
-            }
-
             CollectLockOn();
 
-            CollectWeaponsInput();
-
-            //check reload input
-            var reload = Input.GetButton(ControlsButtonNames.BTN_NAME_RELOAD);
-            if (reload)
+            if (trifectaState != TrifectaStates.STATE_REC)
             {
-                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_RELOAD));
+                CollectWeaponsInput();
+
+                //check reload input
+                var reload = Input.GetButton(ControlsButtonNames.BTN_NAME_RELOAD);
+                if (reload)
+                {
+                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_RELOAD));
+                }
             }
         }
 

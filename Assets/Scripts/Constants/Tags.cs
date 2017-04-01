@@ -33,5 +33,6 @@ namespace TankArena.Constants
         public const String TAG_ENEMY_LOCK = "EnemyLock";
         public const String TAG_PLAYER = "Player";
         public const String TAG_CURSOR = "Cursor";
+        public const String TAG_TRIFECTA = "Trifecta";
     }
 }

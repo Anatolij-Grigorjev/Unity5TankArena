@@ -25,6 +25,16 @@ namespace TankArena.Models.Tank
             }
         }
         /// <summary>
+        /// Amount of integrity regenerated per minute
+        /// </summary>
+        public float Regeneration
+        {
+            get 
+            {
+                return (float)properties[EK.EK_REGENERATION];
+            }
+        }
+        /// <summary>
         /// Access to tank engine, mounted on chassis
         /// </summary>
         public TankEngine Engine
@@ -71,6 +81,7 @@ namespace TankArena.Models.Tank
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
             yield return Timing.WaitUntilDone(handle);
             properties[EK.EK_INTEGRITY] = json[EK.EK_INTEGRITY].AsFloat;
+            properties[EK.EK_REGENERATION] = json[EK.EK_REGENERATION].AsFloat;
             properties[EK.EK_TURRET_PIVOT] = ResolveSpecialContent(json[EK.EK_TURRET_PIVOT]);
             properties[EK.EK_HEALTHBAR_OFFSET] = ResolveSpecialContent(json[EK.EK_HEALTHBAR_OFFSET]);
 
@@ -97,6 +108,7 @@ namespace TankArena.Models.Tank
                 damageAssigner.UpdateVPS();
                 
                 chassisController.Integrity = Integrity;
+                chassisController.RegenPerInterval = Regeneration / (60 / chassisController.regenFrequency);
             }
         }
 

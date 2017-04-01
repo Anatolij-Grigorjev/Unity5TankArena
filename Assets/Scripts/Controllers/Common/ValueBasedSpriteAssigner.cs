@@ -29,7 +29,8 @@ namespace TankArena.Utils
         {
             int bucketNum = Mathf.RoundToInt(currValue / valuesPerSprite);
             int index = Mathf.Clamp(sprites.Length - bucketNum, 0, sprites.Length - 1);
-            if (damageController != null && currentIndex != index) 
+            //only fire bits when getting damage, not for regen
+            if (damageController != null && currentIndex < index) 
             {
                 DBG.Log("index changed from {0} to {1}, firing off bits!", currentIndex, index);
                 //new damage index! firing the bits!

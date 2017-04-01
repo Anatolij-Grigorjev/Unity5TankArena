@@ -4,6 +4,7 @@ using TankArena.Models.Tank;
 using TankArena.Models;
 using TankArena.Models.Level;
 using System;
+using TankArena.Controllers;
 
 namespace TankArena.Utils
 {
@@ -22,6 +23,7 @@ namespace TankArena.Utils
         public Dictionary<string, object> CurrentSceneParams { get; set; }
         public Dictionary<EnemyType, int> CurrentArenaStats { get; set; }
         public GameObject Cursor { get; set; }
+        public TrifectaController Trifecta { get; set; }
 
         public void SetPlayer(Player player)
         {

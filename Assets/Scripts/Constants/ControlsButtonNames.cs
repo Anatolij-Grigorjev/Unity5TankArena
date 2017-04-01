@@ -24,5 +24,11 @@ namespace TankArena.Constants
         public const string BTN_NAME_WPN_GROUP_3 = "WeaponGroup3";
         public const string BTN_NAME_RELOAD = "Reload";
 
+        //TRIFECTA controls
+        public const string BTN_NAME_TRIFECTA_TNK = "ModeTNK";
+        public const string BTN_NAME_TRIFECTA_TUR = "ModeTUR";
+        public const string BTN_NAME_TRIFECTA_REC = "ModeREC";
+
+
     }
 }

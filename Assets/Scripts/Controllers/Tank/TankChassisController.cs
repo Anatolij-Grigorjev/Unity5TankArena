@@ -30,6 +30,10 @@ namespace TankArena.Controllers
             {
                 integrity = value;
                 damageAssigner.UpdateSprite(partRenderer, integrity);
+                if (healthbarController != null)
+                {
+                    healthbarController.CurrentValue = integrity;
+                }
             }
         }
 
@@ -39,6 +43,9 @@ namespace TankArena.Controllers
         public Rigidbody2D tankRigidBody;
         public GameObject healthbarPrefab;
         private ProgressingBarController healthbarController;
+        public float regenFrequency = 1.0f;
+        public float RegenPerInterval;
+        private float currentRegenCooldown = 0.0f;
         public override void Awake()
         {
             base.Awake();
@@ -73,7 +80,28 @@ namespace TankArena.Controllers
         // Update is called once per frame
         void Update()
         {
+            var trifectaState = CurrentState.Instance.Trifecta.CurrentState;
+            if (trifectaState != TrifectaStates.STATE_TNK) 
+            {
+                DoRegen();
+            }
+        }
 
+        void DoRegen() 
+        {
+            //health below full
+            if (Integrity < maxIntegrity)
+            {
+                if (currentRegenCooldown <= 0.0f)
+                {
+                    Integrity = Mathf.Clamp(integrity + RegenPerInterval, 0.0f, maxIntegrity);
+
+                    currentRegenCooldown = regenFrequency;
+                } else 
+                {
+                    currentRegenCooldown -= Time.deltaTime;
+                }
+            }
         }
 
         
@@ -98,7 +126,6 @@ namespace TankArena.Controllers
                     var controller = damager.GetComponent<ExplosionController>();
                     // DBG.Log("Potato heat level: {0}", controller.damage);
                     Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
-                    healthbarController.CurrentValue = Integrity;
                     if (Integrity <= 0.0f) {
                         //start death
                         StartDeath();
