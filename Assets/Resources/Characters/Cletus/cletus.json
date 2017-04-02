@@ -5,7 +5,11 @@
     "background": "!img;Characters\\Cletus\\Images\\background",
     "char_model": "!img;Characters\\Cletus\\Images\\model",
     "start_cash": 10.52,
-    "start_health": 100,
+    "start_stats": {
+        "ATK" : 2,
+        "MOV" : 2,
+        "REG" : 2
+    },
     "backstory": "Cletus Kowalski had always loved dusty Out on the Farm with its faint, fresh farm animals. It was a place where he felt angry.\n
     He was a stable, laid back, moonshine drinker with big legs and shiny arms. His friends saw him as a melodic, miniature muck. Once, he had even saved a relieved baby pig that was stuck in a drain. That's the sort of man he was.\n
     Cletus walked over to the window and reflected on his quiet surroundings. The sunny teased like dancing chickens.\n

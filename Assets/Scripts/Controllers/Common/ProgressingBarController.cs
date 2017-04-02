@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TankArena.Constants;
 using UnityEngine;
 
 namespace TankArena.Controllers
@@ -8,6 +9,7 @@ namespace TankArena.Controllers
     {
 
         public SpriteRenderer progressBar;
+		public Animator barAnimations;
         public float maxValue = 100.0f;
         public float rechargeRate;
         public float rechargeDelay;
@@ -21,6 +23,11 @@ namespace TankArena.Controllers
             }
             set
             {
+				if (currentValue < value)
+				{
+					//we doing regen, lets flicker!
+					barAnimations.SetTrigger(AnimationParameters.TRIGGER_HEALTHBAR_FLICKER);
+				}
                 currentValue = value;
                 var coef = currentValue / maxValue;
                 var scale = progressBar.transform.localScale;

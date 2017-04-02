@@ -43,13 +43,6 @@ namespace TankArena.Models.Characters
                 return (Sprite)properties[EK.EK_CHARACTER_MODEL_IMAGE];
             }
         }
-        public float StartingHealth
-        {
-            get
-            {
-                return (float)properties[EK.EK_CHARACTER_STARTER_HEALTH];
-            }
-        }
         public float StartingCash
         {
             get
@@ -87,7 +80,7 @@ namespace TankArena.Models.Characters
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialContent(json[EK.EK_BACKGROUND_IMAGE].Value);
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_CASH] = json[EK.EK_CHARACTER_STARTER_CASH].AsFloat;
-            properties[EK.EK_CHARACTER_STARTER_HEALTH] = json[EK.EK_CHARACTER_STARTER_HEALTH].AsFloat;
+            
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
             yield return 0.0f;

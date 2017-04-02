@@ -141,7 +141,6 @@ namespace TankArena.UI.Characters
 			player.Cash = model.StartingCash;
 			player.Character = model;
 			player.CurrentTank = model.StartingTank;
-			player.Health = model.StartingHealth;
 			
 			CurrentState.Instance.SetPlayer(player);
 			

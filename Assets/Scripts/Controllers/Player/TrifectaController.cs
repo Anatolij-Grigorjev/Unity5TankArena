@@ -14,6 +14,7 @@ namespace TankArena.Controllers
 		public Image currentSprite;
         public List<TrifectaStates> states;
         public List<Sprite> sprites;
+		public AudioSource trifectaSound;
         private Dictionary<TrifectaStates, Sprite> stateToSpriteMapping;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
         public TrifectaStates CurrentState
@@ -25,6 +26,7 @@ namespace TankArena.Controllers
             set
             {
                 //TODO: launch animation from old to new
+				trifectaSound.Play();
                 state = value;
 				currentSprite.sprite = stateToSpriteMapping[value];
             }

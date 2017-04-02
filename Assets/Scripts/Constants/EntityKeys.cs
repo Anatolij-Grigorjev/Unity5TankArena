@@ -23,7 +23,6 @@ namespace TankArena.Constants
         public const string EK_AVATAR_IMAGE = "avatar";
         public const string EK_BACKGROUND_IMAGE = "background";
         public const string EK_CHARACTER_MODEL_IMAGE = "char_model";
-        public const string EK_CHARACTER_STARTER_HEALTH = "start_health";
         public const string EK_CHARACTER_STARTER_CASH = "start_cash";
         public const string EK_CHARACTER_STARTER_TANK = "start_tank";
         public const string EK_BACKSTORY = "backstory";
