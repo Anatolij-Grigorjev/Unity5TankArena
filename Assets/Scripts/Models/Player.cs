@@ -16,10 +16,12 @@ namespace TankArena.Models
 		public float Cash;
 		public Tank.Tank CurrentTank;
 		public PlayableCharacter Character;
+        public CharacterStats CurrentStats;
 
         public Player(string saveFileLocation)
         {
             this.saveLocation = saveFileLocation;
+            
         }
 
         public static Player LoadPlayerFromLocation(string location)
@@ -43,6 +45,7 @@ namespace TankArena.Models
                     player.Cash = json[PP.PP_CASH].AsFloat;
                     player.Character = EntitiesStore.Instance.Characters[(json[PP.PP_CHARACTER].Value)];
                     player.CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
+                    player.CurrentStats = CharacterStats.ParseJSONBody(json[PP.PP_STATS].AsObject);
 
                 } catch (Exception ex) 
                 {
@@ -83,6 +86,10 @@ namespace TankArena.Models
             if (player.CurrentTank != null) 
             {
                 saveJson.Add(PP.PP_TANK, player.CurrentTank.ToCode());
+            }
+            if (player.CurrentStats != null)
+            {
+                saveJson.Add(PP.PP_STATS, player.CurrentStats.ToJSON());
             }
 
             //persist the file

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 using EK = TankArena.Constants.EntityKeys;
 using SimpleJSON;
 using MovementEffects;
+using TankArena.Utils;
 
 namespace TankArena.Models.Characters
 {
@@ -52,7 +50,7 @@ namespace TankArena.Models.Characters
         }
         public String Backstory
         {
-            get 
+            get
             {
                 return (string)properties[EK.EK_BACKSTORY];
             }
@@ -64,6 +62,7 @@ namespace TankArena.Models.Characters
                 return (String)properties[EK.EK_CHARACTER_STARTER_TANK];
             }
         }
+        public CharacterStats StartingStats;
 
         public Tank.Tank StartingTank;
 
@@ -76,11 +75,18 @@ namespace TankArena.Models.Characters
         {
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
             yield return Timing.WaitUntilDone(handle);
-            properties[EK.EK_AVATAR_IMAGE] =  ResolveSpecialContent(json[EK.EK_AVATAR_IMAGE].Value);
+            properties[EK.EK_AVATAR_IMAGE] = ResolveSpecialContent(json[EK.EK_AVATAR_IMAGE].Value);
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialContent(json[EK.EK_BACKGROUND_IMAGE].Value);
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_CASH] = json[EK.EK_CHARACTER_STARTER_CASH].AsFloat;
-            
+            if (!String.IsNullOrEmpty(json[EK.EK_CHARACTER_STARTER_STATS].Value))
+            {
+                var statsObj = json[EK.EK_CHARACTER_STARTER_STATS].AsObject;
+                StartingStats = CharacterStats.ParseJSONBody(statsObj);
+            } else 
+            {
+                StartingStats = new CharacterStats(0, 0, 0);
+            }
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
             yield return 0.0f;

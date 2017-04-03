@@ -17,6 +17,7 @@ namespace TankArena.Utils
         }
 
         public Tank CurrentTank { get; set; }
+        public CharacterStats CurrentStats { get; set; }
         public Player Player { get; set; }
         public LevelModel CurrentArena { get; set; }
         public int NextSceneId { get; set; }
@@ -29,6 +30,7 @@ namespace TankArena.Utils
         {
             Player = player;
             CurrentTank = player.CurrentTank;
+            CurrentStats = player.CurrentStats;
         }
 
         public void ClearPlayer()

@@ -6,6 +6,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models.Characters;
 using TankArena.Models;
+using System;
 
 namespace TankArena.UI.Characters
 {
@@ -21,6 +22,9 @@ namespace TankArena.UI.Characters
 		}
 
 		public Image[][] avatarsGrid;
+		public Image[] atkCells;
+		public Image[] movCells;
+		public Image[] regCells;
 		public Sprite defaultImage;
 		public Image sceneBackground;
 		public Image characterModel;
@@ -58,6 +62,17 @@ namespace TankArena.UI.Characters
 			}
 		}
 
+		private Action<Image, int> clearCellAction = (cell, index) => { cell.color = Color.black; };
+
+		private void fillCellsWithColor(Image[] array, Color fill, int n) 
+		{
+			for (int i = 0; i < n; i++)
+			{
+				array[i].color = fill;
+			}
+		}
+
+
 		private Image GetSelectedAvatar(int index)
 		{
 			return avatarsGrid[index / GRID_ROW_LENGTH][index % GRID_COLS_COUNT];
@@ -87,6 +102,15 @@ namespace TankArena.UI.Characters
 					childTr.gameObject.GetComponent<Image>().sprite = shopItem.ShopItem;
 				}
 			});
+
+			//redo stats
+			atkCells.ForEachWithIndex(clearCellAction);
+			movCells.ForEachWithIndex(clearCellAction);
+			regCells.ForEachWithIndex(clearCellAction);
+			//APPLY STATS
+			fillCellsWithColor(atkCells, Color.red, model.StartingStats.ATK);
+			fillCellsWithColor(movCells, Color.blue, model.StartingStats.MOV);
+			fillCellsWithColor(regCells, Color.green, model.StartingStats.REG);
 		}
 
 		public void Awake()

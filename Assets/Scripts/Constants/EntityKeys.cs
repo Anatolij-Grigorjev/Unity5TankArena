@@ -25,6 +25,10 @@ namespace TankArena.Constants
         public const string EK_CHARACTER_MODEL_IMAGE = "char_model";
         public const string EK_CHARACTER_STARTER_CASH = "start_cash";
         public const string EK_CHARACTER_STARTER_TANK = "start_tank";
+        public const string EK_CHARACTER_STARTER_STATS = "start_stats";
+        public const string EK_STAT_ATTACK = "ATK";
+        public const string EK_STAT_MOVE = "MOV";
+        public const string EK_STAT_REGEN = "REG";
         public const string EK_BACKSTORY = "backstory";
 
         //TANK PARTS

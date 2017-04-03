@@ -28,6 +28,7 @@ public class DebugTank : MonoBehaviour {
         var player = new Player("dummy-save-location");
 		player.Cash = 90;
 		player.Character = EntitiesStore.Instance.Characters["cletus"];
+		player.CurrentStats = player.Character.StartingStats;
 		DBG.Log("Loading info for character {0}", player.Character.Name);
 		player.Name = "Debug";
 		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);

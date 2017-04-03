@@ -13,16 +13,16 @@ REG - 10% to regen frequency
 Each character has 3 blocks to add to their matrices:
 
 CLETUS
-ATK [X][X][][]
-MOV [X][X][][]
-REG [X][X][][]
+ATK [X][X][][][]
+MOV [X][X][][][]
+REG [X][X][][][]
 
 "RICHIE"
-ATK [X][X][X][]
-MOV [X][X][][]
-REG [X][][][]
+ATK [X][X][X][][]
+MOV [X][X][][][]
+REG [X][][][][]
 
 "HIDEY"
-ATK [X][][][]
-MOV [X][X][X][]
-REG [X][X][][]
+ATK [X][][][][]
+MOV [X][X][X][][]
+REG [X][X][][][]
