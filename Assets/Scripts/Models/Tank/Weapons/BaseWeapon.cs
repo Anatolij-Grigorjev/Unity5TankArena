@@ -298,8 +298,9 @@ namespace TankArena.Models.Weapons
                 OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);
             }
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
-
-            controller.damage = Damage;
+            //this is the player, apply stats coefficient
+            var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.ATKModifier : 1.0f;
+            controller.damage = Damage * modifier;
             controller.reloadTime = ReloadTime;
             controller.rateOfFire = RateOfFire;
             controller.range = Range;

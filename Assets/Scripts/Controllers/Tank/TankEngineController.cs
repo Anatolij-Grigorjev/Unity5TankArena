@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using TankArena.Models.Tank;
 using TankArena.Utils;
-using UnityEngine;
 using TankArena.Constants;
 using UnityStandardAssets.Utility;
 
@@ -21,6 +19,8 @@ namespace TankArena.Controllers
         public float adjustedMaxAcceleration;
         // Use this for initialization
         private ParticleSystem.EmissionModule em;
+        public float AccelerationRate;
+        public float DeaccelerationRate;
         public override void Awake()
         {
 
@@ -48,7 +48,7 @@ namespace TankArena.Controllers
                 {
                     Model.currentAcceleration =
                         Mathf.Clamp(
-                        Model.currentAcceleration + Model.AccelerationRate * Time.deltaTime,
+                        Model.currentAcceleration + AccelerationRate * Time.deltaTime,
                         0.0f,
                         adjustedMaxAcceleration);
                 }
@@ -58,7 +58,7 @@ namespace TankArena.Controllers
                 {
                     Model.currentAcceleration = 
                         Mathf.Clamp(
-                            Model.currentAcceleration - Model.DeaccelerationRate * Time.deltaTime,
+                            Model.currentAcceleration - DeaccelerationRate * Time.deltaTime,
                             0.0f,
                             adjustedMaxAcceleration
                         );

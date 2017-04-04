@@ -15,7 +15,7 @@ namespace TankArena.Models.Weapons.Behaviors
                 controller.shotAudio.Play();
                 var theShot = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
                 theShot.layer = LayerMasks.L_EXPLOSIONS_LAYER;
-                theShot.GetComponent<ExplosionController>().damage = weapon.Damage;
+                theShot.GetComponent<ExplosionController>().damage = controller.damage;
             }
         }
 

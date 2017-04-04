@@ -9,6 +9,7 @@ using UnityEngine;
 using TankArena.Controllers;
 using TankArena.Utils;
 using MovementEffects;
+using TankArena.Constants;
 
 namespace TankArena.Models.Tank
 {
@@ -108,7 +109,10 @@ namespace TankArena.Models.Tank
                 damageAssigner.UpdateVPS();
                 
                 chassisController.Integrity = Integrity;
+                var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.REGModifier : 1.0f;
                 chassisController.RegenPerInterval = Regeneration / (60 / chassisController.regenFrequency);
+                //regen more frequently if the player has the modifier
+                chassisController.regenFrequency /= modifier;
             }
         }
 

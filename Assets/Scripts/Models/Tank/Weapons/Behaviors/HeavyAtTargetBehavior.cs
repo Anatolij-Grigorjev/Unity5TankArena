@@ -14,7 +14,7 @@ namespace TankArena.Models.Weapons.Behaviors
         {      
             var theBoom = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.identity) as GameObject;
             theBoom.layer = LayerMasks.L_EXPLOSIONS_LAYER;
-            theBoom.GetComponent<ExplosionController>().damage = weapon.Damage;
+            theBoom.GetComponent<ExplosionController>().damage = controller.damage;
         }
 
         public override bool PrepareShot()

@@ -79,14 +79,8 @@ namespace TankArena.Models.Characters
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialContent(json[EK.EK_BACKGROUND_IMAGE].Value);
             properties[EK.EK_CHARACTER_MODEL_IMAGE] = ResolveSpecialContent(json[EK.EK_CHARACTER_MODEL_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_CASH] = json[EK.EK_CHARACTER_STARTER_CASH].AsFloat;
-            if (!String.IsNullOrEmpty(json[EK.EK_CHARACTER_STARTER_STATS].Value))
-            {
-                var statsObj = json[EK.EK_CHARACTER_STARTER_STATS].AsObject;
-                StartingStats = CharacterStats.ParseJSONBody(statsObj);
-            } else 
-            {
-                StartingStats = new CharacterStats(0, 0, 0);
-            }
+            var statsObj = json[EK.EK_CHARACTER_STARTER_STATS].AsObject;
+            StartingStats = CharacterStats.ParseJSONBody(statsObj);
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
             yield return 0.0f;

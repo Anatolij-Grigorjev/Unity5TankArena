@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SimpleJSON;
-using UnityEngine;
+﻿using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 
 namespace TankArena.Utils
@@ -74,7 +71,6 @@ namespace TankArena.Utils
 
 		public static CharacterStats ParseJSONBody(JSONClass statsObj)
 		{
-			DBG.Log("BODY: {0}", statsObj);
 			var atk = statsObj[EK.EK_STAT_ATTACK].AsInt;
 			var mov = statsObj[EK.EK_STAT_MOVE].AsInt;
 			var reg = statsObj[EK.EK_STAT_REGEN].AsInt;

@@ -15,7 +15,7 @@ namespace TankArena.Models.Weapons.Behaviors
             {
                 var theShot = GameObject.Instantiate(weapon.ProjectilePrefab, pos, Quaternion.LookRotation(Vector3.forward, shotTimeUp)) as GameObject;
                 theShot.layer = LayerMasks.L_EXPLOSIONS_LAYER;
-                theShot.GetComponent<ExplosionController>().damage = weapon.Damage;
+                theShot.GetComponent<ExplosionController>().damage = controller.damage;
             }
         }
 

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
 using SK = TankArena.Constants.ItemSeriazlizationKeys;
 using UnityEngine;
 using TankArena.Controllers;
 using MovementEffects;
+using TankArena.Constants;
+using TankArena.Utils;
 
 namespace TankArena.Models.Tank
 {
@@ -118,6 +118,10 @@ namespace TankArena.Models.Tank
                 TankEngineController engineController = (TankEngineController)(object)controller;
                 engineController.audioIdle.clip = IdleSound;
                 engineController.audioRevving.clip = RevvingSound;
+
+                var modifier = engineController.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.MOVModifier : 1.0f;
+                engineController.AccelerationRate = AccelerationRate * modifier;
+                engineController.DeaccelerationRate = DeaccelerationRate * modifier;
             }
         }
 
