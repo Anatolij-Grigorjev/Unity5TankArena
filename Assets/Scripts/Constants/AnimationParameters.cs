@@ -18,5 +18,11 @@ namespace TankArena.Constants
         public const string TIGGER_SAVING_DONE = "SavingDone";
         public const string TRIGGER_START_BITS = "DoBits";
         public const string TRIGGER_HEALTHBAR_FLICKER = "Flicker";
+        public const string TRIGGER_TRIFECTA_TO_TNK = "ToTNK";
+        public const string TRIGGER_TRIFECTA_TO_TUR = "ToTUR";
+        public const string TRIGGER_TRIFECTA_TO_REC = "ToREC";
+        public const string TRIGGER_TRIFECTA_FROM_TNK = "FromTNK";
+        public const string TRIGGER_TRIFECTA_FROM_TUR = "FromTUR";
+        public const string TRIGGER_TRIFECTA_FROM_REC = "FromREC";
     }
 }

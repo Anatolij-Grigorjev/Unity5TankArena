@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: eac745cb305a041e2910db34d9a89b20
-timeCreated: 1491042114
+timeCreated: 1491412317
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,15 @@ TextureImporter:
     21300002: trifecta_control_1
     21300004: trifecta_control_2
     21300006: trifecta_control_3
+    21300008: trifecta_control_4
+    21300010: trifecta_control_5
+    21300012: trifecta_control_6
+    21300014: trifecta_control_7
+    21300016: trifecta_control_8
+    21300018: trifecta_control_9
+    21300020: trifecta_control_10
+    21300022: trifecta_control_11
+    21300024: trifecta_control_12
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -78,9 +87,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 400
-        height: 400
+        y: 1201
+        width: 399
+        height: 399
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -91,9 +100,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 400
-        y: 0
-        width: 400
-        height: 400
+        y: 1201
+        width: 399
+        height: 399
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -104,9 +113,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 800
-        y: 0
-        width: 400
-        height: 400
+        y: 1201
+        width: 399
+        height: 399
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,9 +126,126 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 0
-        width: 400
-        height: 400
+        y: 1201
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 801
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_5
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 801
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_6
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 801
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_7
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 401
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_8
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 401
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_9
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 401
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_10
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_11
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1
+        width: 399
+        height: 399
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: trifecta_control_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1
+        width: 399
+        height: 399
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

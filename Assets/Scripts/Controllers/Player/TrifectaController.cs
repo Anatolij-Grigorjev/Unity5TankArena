@@ -12,11 +12,11 @@ namespace TankArena.Controllers
         public TrifectaStates defaultState = TrifectaStates.STATE_TNK;
         private TrifectaStates state;
 		public Image currentSprite;
-        public List<TrifectaStates> states;
-        public List<Sprite> sprites;
 		public AudioSource trifectaSound;
-        private Dictionary<TrifectaStates, Sprite> stateToSpriteMapping;
+        public Animator trifectaAnimator;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
+        private Dictionary<TrifectaStates, string> codeToFromTrigger;
+        private Dictionary<TrifectaStates, string> codeToToTrigger;
         public TrifectaStates CurrentState
         {
             get
@@ -25,10 +25,10 @@ namespace TankArena.Controllers
             }
             set
             {
-                //TODO: launch animation from old to new
+                trifectaAnimator.SetTrigger(codeToFromTrigger[state]);
+                trifectaAnimator.SetTrigger(codeToToTrigger[value]);
 				trifectaSound.Play();
                 state = value;
-				currentSprite.sprite = stateToSpriteMapping[value];
             }
         }
 
@@ -42,12 +42,19 @@ namespace TankArena.Controllers
                 { ControlsButtonNames.BTN_NAME_TRIFECTA_TUR, TrifectaStates.STATE_TUR}
             };
 
-            stateToSpriteMapping = new Dictionary<TrifectaStates, Sprite>();
-
-            for (int i = 0; i < sprites.Count; i++)
+            codeToFromTrigger = new Dictionary<TrifectaStates, string>()
             {
-				stateToSpriteMapping.Add(states[i], sprites[i]);
-            }
+                { TrifectaStates.STATE_TNK, AnimationParameters.TRIGGER_TRIFECTA_FROM_TNK },
+                { TrifectaStates.STATE_REC, AnimationParameters.TRIGGER_TRIFECTA_FROM_REC },
+                { TrifectaStates.STATE_TUR, AnimationParameters.TRIGGER_TRIFECTA_FROM_TUR }
+            };
+
+            codeToToTrigger = new Dictionary<TrifectaStates, string>()
+            {
+                { TrifectaStates.STATE_TNK, AnimationParameters.TRIGGER_TRIFECTA_TO_TNK },
+                { TrifectaStates.STATE_REC, AnimationParameters.TRIGGER_TRIFECTA_TO_REC },
+                { TrifectaStates.STATE_TUR, AnimationParameters.TRIGGER_TRIFECTA_TO_TUR }
+            };
 
 			CurrentState = defaultState;
         }
