@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TankArena.Constants;
+using TankArena.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ namespace TankArena.Controllers
             {
                 trifectaAnimator.SetTrigger(codeToFromTrigger[state]);
                 trifectaAnimator.SetTrigger(codeToToTrigger[value]);
+                DBG.Log("Set triggers: {0} | {1}", codeToFromTrigger[state], codeToToTrigger[value]);
 				trifectaSound.Play();
                 state = value;
             }
