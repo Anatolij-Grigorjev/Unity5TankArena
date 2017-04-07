@@ -22,8 +22,8 @@ namespace TankArena.Models.Weapons.Behaviors
         public override bool PrepareShot()
         {
 
-            if (!controller.weaponAnimationController.GetBool(AnimationParameters.WPN_IS_FIRING)) {
-                controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, true);
+            if (!controller.weaponAnimationController.GetBool(AnimationParameters.BOOL_WPN_IS_FIRING)) {
+                controller.weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, true);
             }
             //get the direction and position vectors
             return base.PrepareShot();
@@ -32,7 +32,7 @@ namespace TankArena.Models.Weapons.Behaviors
         public override void OnReloadStarted() 
         {
             base.OnReloadStarted();
-            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
+            controller.weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, false);
         }
     }
 }

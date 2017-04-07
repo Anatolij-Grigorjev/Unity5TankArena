@@ -36,14 +36,14 @@ public class DebugTank : MonoBehaviour {
 		gameObject.GetComponent<TankController>().enabled = true;
 		gameObject.GetComponent<PlayerController>().enabled = true;
 		if (enemyPrefab != null) {
-			for (int i = 0 ; i < 4; i ++)
+			for (int i = 0 ; i < -4; i ++)
 			{
 				yield return Timing.WaitForSeconds(1.0f);
 				DBG.Log("Deploying enemy!");
 				var enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
 				enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
 			}
-			for (int i = 0 ; i < 4; i ++)
+			for (int i = 0 ; i < -4; i ++)
 			{
 				yield return Timing.WaitForSeconds(1.0f);
 				DBG.Log("Deploying enemy!");

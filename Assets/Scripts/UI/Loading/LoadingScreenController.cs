@@ -23,7 +23,7 @@ public class LoadingScreenController : MonoBehaviour {
 		{
 			if (animator != null)
 			{
-				animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, 1);
+				animator.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, 1);
 			}
 		}
 

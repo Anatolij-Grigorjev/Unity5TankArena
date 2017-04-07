@@ -9,20 +9,16 @@ namespace TankArena.Constants
     {
         private AnimationParameters() { }
 
-        public const string WPN_FIRE_TRIGGER = "Fire";
-        public const string WPN_IS_FIRING = "isFiring";
-        public const string TRACKS_DIRECTION_INT = "Direction";
-        public const string TRUCK_DEATH_TRIGGER = "Death";
+        public const string TRIGGER_WPN_FIRE = "Fire";
+        public const string BOOL_WPN_IS_FIRING = "isFiring";
+        public const string INT_TRACKS_DIRECTION = "Direction";
+        public const string TRIGGER_TRUCK_DEATH = "Death";
         public const string TRIGGER_GLOW_SLOT = "Pulsate";
         public const string TRIGGER_PART_SLOTTED = "Slotted";
-        public const string TIGGER_SAVING_DONE = "SavingDone";
+        public const string TRIGGER_SAVING_DONE = "SavingDone";
         public const string TRIGGER_START_BITS = "DoBits";
         public const string TRIGGER_HEALTHBAR_FLICKER = "Flicker";
-        public const string TRIGGER_TRIFECTA_TO_TNK = "ToTNK";
-        public const string TRIGGER_TRIFECTA_TO_TUR = "ToTUR";
-        public const string TRIGGER_TRIFECTA_TO_REC = "ToREC";
-        public const string TRIGGER_TRIFECTA_FROM_TNK = "FromTNK";
-        public const string TRIGGER_TRIFECTA_FROM_TUR = "FromTUR";
-        public const string TRIGGER_TRIFECTA_FROM_REC = "FromREC";
+        public const string TRIGGER_TRIFECTA_RESET = "ResetTrifecta";
+        public const string INT_TRIFECTA_NEXT_STATE = "NextState";
     }
 }

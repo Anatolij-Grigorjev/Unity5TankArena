@@ -42,7 +42,7 @@ namespace TankArena.Models.Weapons.Behaviors
 
         protected void StopShooting()
         {
-            controller.weaponAnimationController.SetBool(AnimationParameters.WPN_IS_FIRING, false);
+            controller.weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, false);
             controller.shotAudio.loop = false;
             controller.shotAudio.Stop();
         }

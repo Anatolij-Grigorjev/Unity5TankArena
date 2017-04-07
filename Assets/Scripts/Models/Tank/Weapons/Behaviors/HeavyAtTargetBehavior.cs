@@ -24,7 +24,7 @@ namespace TankArena.Models.Weapons.Behaviors
             
             if (!isPreparing && beats <= 0)
             {
-                controller.weaponAnimationController.SetTrigger(AnimationParameters.WPN_FIRE_TRIGGER);
+                controller.weaponAnimationController.SetTrigger(AnimationParameters.TRIGGER_WPN_FIRE);
                 controller.shotAudio.Play();
                 isPreparing = true;
                 beats = MAX_UPDATES_SKIP;

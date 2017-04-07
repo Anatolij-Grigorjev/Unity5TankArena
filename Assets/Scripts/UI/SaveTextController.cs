@@ -39,7 +39,7 @@ namespace TankArena.UI
 			//do actual save
 			Player.SaveCurrentPlayer();
 			
-			savingTextAnimation.SetTrigger(AnimationParameters.TIGGER_SAVING_DONE);
+			savingTextAnimation.SetTrigger(AnimationParameters.TRIGGER_SAVING_DONE);
 
 			DBG.Log("waiting to finish save");
 			yield return Timing.WaitForSeconds(saveOverWaitTime);

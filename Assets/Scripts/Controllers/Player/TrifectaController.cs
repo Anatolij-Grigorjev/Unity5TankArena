@@ -16,8 +16,7 @@ namespace TankArena.Controllers
 		public AudioSource trifectaSound;
         public Animator trifectaAnimator;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
-        private Dictionary<TrifectaStates, string> codeToFromTrigger;
-        private Dictionary<TrifectaStates, string> codeToToTrigger;
+        private Dictionary<TrifectaStates, int> codeToStateIndex;
         public TrifectaStates CurrentState
         {
             get
@@ -26,9 +25,8 @@ namespace TankArena.Controllers
             }
             set
             {
-                trifectaAnimator.SetTrigger(codeToFromTrigger[state]);
-                trifectaAnimator.SetTrigger(codeToToTrigger[value]);
-                DBG.Log("Set triggers: {0} | {1}", codeToFromTrigger[state], codeToToTrigger[value]);
+                trifectaAnimator.SetTrigger(AnimationParameters.TRIGGER_TRIFECTA_RESET);
+                trifectaAnimator.SetInteger(AnimationParameters.INT_TRIFECTA_NEXT_STATE, codeToStateIndex[value]);
 				trifectaSound.Play();
                 state = value;
             }
@@ -44,18 +42,11 @@ namespace TankArena.Controllers
                 { ControlsButtonNames.BTN_NAME_TRIFECTA_TUR, TrifectaStates.STATE_TUR}
             };
 
-            codeToFromTrigger = new Dictionary<TrifectaStates, string>()
+            codeToStateIndex = new Dictionary<TrifectaStates, int>()
             {
-                { TrifectaStates.STATE_TNK, AnimationParameters.TRIGGER_TRIFECTA_FROM_TNK },
-                { TrifectaStates.STATE_REC, AnimationParameters.TRIGGER_TRIFECTA_FROM_REC },
-                { TrifectaStates.STATE_TUR, AnimationParameters.TRIGGER_TRIFECTA_FROM_TUR }
-            };
-
-            codeToToTrigger = new Dictionary<TrifectaStates, string>()
-            {
-                { TrifectaStates.STATE_TNK, AnimationParameters.TRIGGER_TRIFECTA_TO_TNK },
-                { TrifectaStates.STATE_REC, AnimationParameters.TRIGGER_TRIFECTA_TO_REC },
-                { TrifectaStates.STATE_TUR, AnimationParameters.TRIGGER_TRIFECTA_TO_TUR }
+                { TrifectaStates.STATE_TNK, 1 },
+                { TrifectaStates.STATE_REC, 3 },
+                { TrifectaStates.STATE_TUR, 2 }
             };
 
 			CurrentState = defaultState;

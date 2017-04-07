@@ -102,7 +102,7 @@ namespace TankArena.Controllers
             //DBG.Log("Got throttle: {0} | Sign: {1}", throttle, sign);
             foreach (var animator in tracksAnimations)
             {
-                animator.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
+                animator.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, sign);
             }
 
             //PrintTracksAnim();
@@ -121,13 +121,13 @@ namespace TankArena.Controllers
             {
                 if (sign > 0)
                 {
-                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
-                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
+                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, sign);
+                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, -sign);
                 }
                 if (sign < 0)
                 {
-                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, sign);
-                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.TRACKS_DIRECTION_INT, -sign);
+                    tracksRightTrackAnimationController.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, sign);
+                    tracksLeftTrackAnimationController.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, -sign);
                 }
                 //if its 0 we dont touch tracks animation
             }
@@ -138,8 +138,8 @@ namespace TankArena.Controllers
         private void PrintTracksAnim()
         {
             DBG.Log("Left Track Direction: {0} | Right Track Direction: {1}"
-                , tracksLeftTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT)
-                , tracksRightTrackAnimationController.GetInteger(AnimationParameters.TRACKS_DIRECTION_INT)
+                , tracksLeftTrackAnimationController.GetInteger(AnimationParameters.INT_TRACKS_DIRECTION)
+                , tracksRightTrackAnimationController.GetInteger(AnimationParameters.INT_TRACKS_DIRECTION)
             );
         }
     }

@@ -176,7 +176,7 @@ namespace TankArena.Controllers
                     {
                         animations.enabled = true;
 
-                        animations.SetTrigger(AnimationParameters.TRUCK_DEATH_TRIGGER);
+                        animations.SetTrigger(AnimationParameters.TRIGGER_TRUCK_DEATH);
                     } else {
                         //enemy will try hunt you down after being shot
                         aiController.maxAlertDistance = float.MaxValue;
