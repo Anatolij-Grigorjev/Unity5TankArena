@@ -20,5 +20,7 @@ namespace TankArena.Constants
         public const string TRIGGER_HEALTHBAR_FLICKER = "Flicker";
         public const string TRIGGER_TRIFECTA_RESET = "ResetTrifecta";
         public const string INT_TRIFECTA_NEXT_STATE = "NextState";
+        public const string TRIGGER_HIDE_TURRET = "HideTurret";
+        public const string TRIGGER_RESET_TURRET = "ResetTurret";
     }
 }

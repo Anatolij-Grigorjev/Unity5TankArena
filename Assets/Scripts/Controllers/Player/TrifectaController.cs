@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
@@ -12,9 +13,12 @@ namespace TankArena.Controllers
 
         public TrifectaStates defaultState = TrifectaStates.STATE_TNK;
         private TrifectaStates state;
-		public Image currentSprite;
-		public AudioSource trifectaSound;
+        public Image currentSprite;
+        public AudioSource trifectaSound;
         public Animator trifectaAnimator;
+        public Animator turretAnimator;
+        private Dictionary<TrifectaStates, Action> codeToAnimactions;
+        private Dictionary<TrifectaStates, Action> codeFromAnimactions;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
         private Dictionary<TrifectaStates, int> codeToStateIndex;
         public TrifectaStates CurrentState
@@ -27,7 +31,8 @@ namespace TankArena.Controllers
             {
                 trifectaAnimator.SetTrigger(AnimationParameters.TRIGGER_TRIFECTA_RESET);
                 trifectaAnimator.SetInteger(AnimationParameters.INT_TRIFECTA_NEXT_STATE, codeToStateIndex[value]);
-				trifectaSound.Play();
+                ResolveTankAnimations(state, value);
+                trifectaSound.Play();
                 state = value;
             }
         }
@@ -49,7 +54,17 @@ namespace TankArena.Controllers
                 { TrifectaStates.STATE_TUR, 2 }
             };
 
-			CurrentState = defaultState;
+            codeToAnimactions = new Dictionary<TrifectaStates, Action>()
+            {
+                { TrifectaStates.STATE_REC, () => turretAnimator.SetTrigger(AnimationParameters.TRIGGER_HIDE_TURRET) }
+            };
+
+            codeFromAnimactions = new Dictionary<TrifectaStates, Action>()
+            {
+                { TrifectaStates.STATE_REC, () => turretAnimator.SetTrigger(AnimationParameters.TRIGGER_RESET_TURRET) }
+            };
+
+            CurrentState = defaultState;
         }
 
         // Update current trifecta mode
@@ -64,6 +79,18 @@ namespace TankArena.Controllers
             if (isPressed && CurrentState != neededState)
             {
                 CurrentState = neededState;
+            }
+        }
+
+        private void ResolveTankAnimations(TrifectaStates oldState, TrifectaStates newState)
+        {
+            if (codeFromAnimactions.ContainsKey(oldState))
+            {
+                codeFromAnimactions[oldState]();
+            }
+            if (codeToAnimactions.ContainsKey(newState)) 
+            {
+                codeToAnimactions[newState]();
             }
         }
     }
