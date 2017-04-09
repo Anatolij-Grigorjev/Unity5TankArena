@@ -41,5 +41,10 @@ namespace TankArena.Utils
             return "" + commandWord + tankCommandParams.ToString(); 
         } 
 
+        public static TankCommand OneParamCommand(TankCommandWords cmdWord, String paramKey, object paramValue)
+        {
+            return new TankCommand(cmdWord, new Dictionary<string, object>() { { paramKey, paramValue } });
+        }
+
     }
 }

@@ -72,9 +72,7 @@ namespace TankArena.Controllers
                 {
                     unitCommands = unitController.Commands;
                 }
-                unitCommands.Enqueue(new TankCommand(TankCommandWords.AI_COMMAND_TARGET_AQUIRED, new Dictionary<string, object>() {
-                    { TankCommandParamKeys.AI_CMD_LAYER_MASK, targetLayerMask }
-                }));
+                unitCommands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.AI_COMMAND_TARGET_AQUIRED, TankCommandParamKeys.AI_CMD_LAYER_MASK, targetLayerMask));
             }
         }
 
@@ -96,7 +94,7 @@ namespace TankArena.Controllers
             if (AiState == AIStates.AI_ATTACKING)
             {
                 //if we attacking we fire
-                unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>()));
+                unitCommands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE));
             }
             //if we close nuff to target we try to apprach
             if (AiState == AIStates.AI_APPROACHING)

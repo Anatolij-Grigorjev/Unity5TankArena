@@ -22,5 +22,7 @@ namespace TankArena.Constants
         public const string INT_TRIFECTA_NEXT_STATE = "NextState";
         public const string TRIGGER_HIDE_TURRET = "HideTurret";
         public const string TRIGGER_RESET_TURRET = "ResetTurret";
+        public const string TRIGGER_SPIN_TRACKS = "SpinTracks";
+        public const string TRIGGER_RESET_TRACKS = "ResetTracks";
     }
 }

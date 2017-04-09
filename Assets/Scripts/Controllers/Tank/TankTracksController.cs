@@ -25,7 +25,7 @@ namespace TankArena.Controllers
 
         private GameObject rightTrack;
         private GameObject leftTrack;
-        
+
 
         public Animator[] tracksAnimations;
 
@@ -45,7 +45,7 @@ namespace TankArena.Controllers
             currentTrackTrailLength = 0;
 
             base.Awake();
-            
+
             DBG.Log("Tracks Controller Ready!");
         }
 
@@ -141,6 +141,22 @@ namespace TankArena.Controllers
                 , tracksLeftTrackAnimationController.GetInteger(AnimationParameters.INT_TRACKS_DIRECTION)
                 , tracksRightTrackAnimationController.GetInteger(AnimationParameters.INT_TRACKS_DIRECTION)
             );
+        }
+
+        void EngageTankBreaks()
+        {
+            int breakSize = 5;
+            //send break commands to tank
+            for (int i = 0; i < breakSize; i++)
+            {
+                tankController.Commands.Enqueue(
+                    TankCommand.OneParamCommand(
+                        TankCommandWords.TANK_COMMAND_BRAKE,
+                        TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY,
+                        (i < breakSize - 1)
+                    )
+                );
+            }
         }
     }
 }

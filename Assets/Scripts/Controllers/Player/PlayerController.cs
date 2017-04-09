@@ -59,17 +59,13 @@ namespace TankArena.Controllers
             if (Math.Abs(turretMoveAxis) > 0.0f)
             {
                 wasRotating = true;
-                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
-                    { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis }
-                }));
+                commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis));
             }
             else if (wasRotating)
             {
                 wasRotating = false;
                 //send the stop rotation command
-                commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<String, object>() {
-                    { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, 0.0f }
-                }));
+                commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, 0.0f));
             }
 
             //if in allowed trifecta state for movement control
@@ -89,10 +85,7 @@ namespace TankArena.Controllers
                     if (wasMoving)
                     {
                         wasMoving = false;
-                        commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
-                        {
-                            { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false }
-                        }));
+                        commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
                     }
                 }
 
@@ -100,12 +93,7 @@ namespace TankArena.Controllers
                 var brakeLetGo = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_HANDBREAK);
                 if (brakeHeld || brakeLetGo)
                 {
-                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_BRAKE, new Dictionary<string, object>
-                    {
-                        //this will keep sending true on every frame brake is held and will send false on the last one,
-                        //which means brakeletgo was true
-                        { TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld }
-                    }));
+                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, brakeHeld));
                 }
             }
 
@@ -218,9 +206,7 @@ namespace TankArena.Controllers
                 {
                     var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
                     // DBG.Log("Turn intensity: {0}", intensity);
-                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
-                        { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
-                    }));
+                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity));
                 }
                 //no need to fire yet if rotation too large
                 return Math.Abs(rotationDiff) < 1.0f;
@@ -253,9 +239,7 @@ namespace TankArena.Controllers
                     //rotation intensity to lockon is normalized
                     var intensity = 1.0f * direction;
                     // DBG.Log("Turn intensity: {0}", intensity);
-                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, new Dictionary<string, object>() {
-                        { TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity }
-                    }));
+                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity));
                 }
 
                 //remmeber old angle and irection values
@@ -300,10 +284,7 @@ namespace TankArena.Controllers
             {
                 if (AddTurretRotation())
                 {
-                    commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_FIRE, new Dictionary<string, object>
-                    {
-                        { TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs) }
-                    }));
+                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_FIRE, TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs)));
                 }
             }
         }
