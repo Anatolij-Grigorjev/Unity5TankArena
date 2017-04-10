@@ -11,6 +11,7 @@ namespace TankArena.Controllers
     {
         public GameObject targetLockObject;
         public TankController tankController;
+        public GameObject trifectaPrefab;
 
         public Queue<TankCommand> commands;
 
@@ -44,7 +45,12 @@ namespace TankArena.Controllers
             commands = tankController.Commands;
 
             CurrentState.Instance.Cursor = GameObject.FindGameObjectWithTag(Tags.TAG_CURSOR);
-            CurrentState.Instance.Trifecta = GameObject.FindGameObjectWithTag(Tags.TAG_TRIFECTA).GetComponent<TrifectaController>();
+            var canvas = GameObject.FindGameObjectWithTag(Tags.TAG_UI_CANVAS);
+            var trifectaGO = Instantiate(trifectaPrefab, canvas.transform, false) as GameObject;
+            var trifectaController = trifectaGO.GetComponent<TrifectaController>();
+            trifectaController.turretAnimator = tankController.turretController.GetComponent<Animator>();
+            trifectaController.tracksAnimator = tankController.tracksController.GetComponent<Animator>();
+            CurrentState.Instance.Trifecta = trifectaController;
             cursor = CurrentState.Instance.Cursor;
         }
 

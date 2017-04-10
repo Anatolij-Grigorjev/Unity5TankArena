@@ -1,7 +1,7 @@
 {
     "id": "spwn_5_2_light_truck",
     "simultaneous": 2,
-    "spawn_pool": 1,
+    "spawn_pool": 5,
     "target_tag": "Player",
     "spawn_objects": [
         {

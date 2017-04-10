@@ -87,6 +87,11 @@ namespace TankArena.Utils
 
 			return statsObj;
 		}
+
+		public override string ToString() 
+		{
+			return string.Format("ATK: {0} | MOV: {1} | REG: {2}", ATK, MOV, REG);
+		}
        
     }
 }

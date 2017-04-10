@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TankArena.Constants;
 using MovementEffects;
-using CielaSpike;
 using System.Collections.Generic;
 using TankArena.Utils;
 using UnityEngine.SceneManagement;
@@ -30,8 +28,6 @@ public class LoadingScreenController : MonoBehaviour {
 		
 		loadingStatusText.text = "Proceeding with load...";
 		Timing.RunCoroutine(_StartLoading());
-
-		DBG.Log("LOADING SCREEN ANIMATEING");
 	}
 
 	private IEnumerator<float> _LabelSetter(EntitiesStore store)
