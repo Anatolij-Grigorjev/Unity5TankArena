@@ -34,5 +34,8 @@ namespace TankArena.Constants
         public const String TAG_PLAYER = "Player";
         public const String TAG_CURSOR = "Cursor";
         public const String TAG_TRIFECTA = "Trifecta";
+        public const String TAG_ACTOR_LEFT = "ActorLeft";
+        public const String TAG_ACTOR_RIGHT = "ActorRight";
+        public const String TAG_DIALOGUE_CONTAINER = "DialogueBoxContainer";
     }
 }

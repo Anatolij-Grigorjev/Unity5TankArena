@@ -1,0 +1,24 @@
+{
+	"id" : "dialogue_cletus_1",
+	"name": "The unfinished conversation",
+	"scene": {
+		"background": "!id;cletus",
+		"left": "!id;cletus",
+		"right" : "!id;lugnut"
+	},
+	"beats": [
+		{
+			"text" : "Cletus: So,... whats all this about?..."
+		},
+		{
+			"text" : "???: ...."
+		},
+		{
+			"text" : "Cletus: Grrrr......",
+			"signal": {
+				"receiver" : "left",
+				"name" : "DoShake"
+			}
+		}
+	]
+}
