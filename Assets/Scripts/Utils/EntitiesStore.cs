@@ -87,6 +87,7 @@ namespace TankArena.Utils
             charsList.ForEach(character => {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
             });
+            //TODO: load character dialogues when characters are ready
 
             //load saving SavingTextPrefab
             SavingTextPrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_SAVING_TEXT) as GameObject;

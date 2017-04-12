@@ -13,7 +13,7 @@ namespace TankArena.Utils
 
         private static readonly char[] COMMON_ARRAY_DELIM = { ';' };
 
-        private static Func<String, TransformState> transformDeserializer = transform => 
+        private static Func<String, TransformState> transformDeserializer = transform =>
         {
             var _9floats = transform.Split(COMMON_ARRAY_DELIM, 9)
                 .Select(strNum => float.Parse(strNum)).ToArray();
@@ -40,14 +40,15 @@ namespace TankArena.Utils
             { "!sprites;", sheetPath => { return Resources.LoadAll<Sprite>(sheetPath); } },
             { "!anim_contr;", animContrPath => { return Resources.Load<RuntimeAnimatorController>(animContrPath) as RuntimeAnimatorController; } },
             { "!go;", gameObjectPath => { return Resources.Load<GameObject>(gameObjectPath); } },
-            { "!box;", rectNums => 
+            { "!id;", gameObjectId => { return EntitiesStore.Instance.Entities[gameObjectId]; }},
+            { "!box;", rectNums =>
                 {
                     var _4floats = rectNums.Split(COMMON_ARRAY_DELIM, 4)
                         .Select(floatStr => float.Parse(floatStr)).ToArray();
                     return new Rect(_4floats[0], _4floats[1], _4floats[2], _4floats[3]);
                 }
             },
-            { "!wpnslt;", slotDescriptor => 
+            { "!wpnslt;", slotDescriptor =>
                 {
                     var typeAndTransform = slotDescriptor.Split(COMMON_ARRAY_DELIM, 2);
                     WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
@@ -57,7 +58,7 @@ namespace TankArena.Utils
                     return new WeaponSlot(weaponType, transform);
                 }
             },
-            { "!v3;", vector3 => 
+            { "!v3;", vector3 =>
                 {
                     var vectorComponents = vector3.Split(COMMON_ARRAY_DELIM, 3)
                         .Select(compStr => float.Parse(compStr)).ToArray();
@@ -69,7 +70,7 @@ namespace TankArena.Utils
         public static object Resolve(string content)
         {
             DBG.Log("Trying to resolves special content: {0}", content);
-            foreach(KeyValuePair<string, Func<string, object>> resolver in resolvers)
+            foreach (KeyValuePair<string, Func<string, object>> resolver in resolvers)
             {
                 if (content.StartsWith(resolver.Key))
                 {
@@ -79,7 +80,7 @@ namespace TankArena.Utils
                     {
                         return content;
                     }
-                    
+
                     return resolver.Value(keyAndContent[1]);
                 }
             }
