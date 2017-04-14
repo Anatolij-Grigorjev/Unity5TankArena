@@ -31,6 +31,12 @@ namespace TankArena.Constants
         public const string EK_STAT_REGEN = "REG";
         public const string EK_BACKSTORY = "backstory";
 
+        // DIALOGUE
+        public const string EK_MODEL_LEFT = "model_left";
+        public const string EK_MODEL_RIGHT = "model_right";
+        public const string EK_NAME_LEFT = "name_left";
+        public const string EK_NAME_RIGHT = "name_right";
+
         //TANK PARTS
         public const string EK_ON_TANK_POSITION = "on_tank_position";
         public const string EK_MASS = "mass";

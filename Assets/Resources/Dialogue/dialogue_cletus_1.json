@@ -1,10 +1,12 @@
 {
 	"id" : "dialogue_cletus_1",
-	"name": "The unfinished conversation",
+	"name": "The unfinished\nconversation",
 	"scene": {
 		"background": "!id;cletus",
-		"left": "!id;cletus",
-		"right" : "!id;lugnut"
+		"model_left": "!id;cletus",
+		"model_right" : "!id;lugnut",
+		"name_left" : "Cletuz",
+		"name_right" : "???"
 	},
 	"beats": [
 		{
