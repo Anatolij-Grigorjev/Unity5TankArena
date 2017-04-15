@@ -2,8 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DialogueActors  {
+namespace TankArena.Constants
+{
+    public enum DialogueActors
+    {
 
-	LEFT,
-	RIGHT
+        LEFT,
+        RIGHT
+    }
+
+    public class DialogueActorsHelper
+    {
+        public static DialogueActors Parse(string actor)
+        {
+            return actor.Contains("left") ? DialogueActors.LEFT : DialogueActors.RIGHT;
+        }
+    }
+
 }

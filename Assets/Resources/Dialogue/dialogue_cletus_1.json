@@ -1,41 +1,51 @@
 {
-	"id" : "dialogue_cletus_1",
-	"name": "The unfinished\nconversation",
-	"scene": {
-		"background": "!id;cletus",
-		"model_left": "!id;cletus",
-		"model_right" : "!id;lugnut",
-		"name_left" : "Cletuz",
-		"name_right" : "???"
-	},
-	"beats": [
-		{
-			"signal": {
-				"receiver" : "left",
-				"name": "Appear"
-			}
-		},
-		{
-			"speech" : {
-				"speaker" : "left",
-				"text" : "So,... whats all this about?..."
-			}
-		},
-		{
-			"speech" : {
-				"speaker" : "right",
-				"text" : "So,... whats all this about?..."
-			}
-		},
-		{
-			"speech" : {
-				"speaker" : "left",
-				"text" : "Grr......"
-			},
-			"signal": {
-				"receiver" : "left",
-				"name" : "DoShake"
-			}
-		}
-	]
+    "id": "dialogue_cletus_1",
+    "name": "The unfinished\nconversation",
+    "scene": {
+        "background": "!id;cletus",
+        "model_left": "!id;cletus",
+        "model_right": "!id;lugnut",
+        "name_left": "Cletuz",
+        "name_right": "???"
+    },
+    "beats": [
+        {
+            "signals": [
+                {
+                    "receiver": "left",
+                    "name": "Appear"
+                }
+            ]
+        },
+        {
+            "speech": 
+                {
+                    "speaker": "left",
+                    "text": "So,... whats all this about?..."
+                }
+            
+        },
+        {
+            "speech": 
+                {
+                    "speaker": "right",
+                    "text": "So,... whats all this about?..."
+                }
+            
+        },
+        {
+            "speech": 
+                {
+                    "speaker": "left",
+                    "text": "Grr......"
+                }
+            ,
+            "signals": [
+                {
+                    "receiver": "left",
+                    "name": "DoShake"
+                }
+            ]
+        }
+    ]
 }

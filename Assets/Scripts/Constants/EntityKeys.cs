@@ -32,10 +32,17 @@ namespace TankArena.Constants
         public const string EK_BACKSTORY = "backstory";
 
         // DIALOGUE
+        public const string EK_SCENE = "scene";
         public const string EK_MODEL_LEFT = "model_left";
         public const string EK_MODEL_RIGHT = "model_right";
         public const string EK_NAME_LEFT = "name_left";
         public const string EK_NAME_RIGHT = "name_right";
+        public const string EK_SPEECH = "speech";
+        public const string EK_SIGNALS = "signals";
+        public const string EK_TEXT = "text";
+        public const string EK_SPEAKER = "speaker";
+        public const string EK_RECEIVER = "receiver";
+        public const string EK_BEATS = "beats";
 
         //TANK PARTS
         public const string EK_ON_TANK_POSITION = "on_tank_position";
