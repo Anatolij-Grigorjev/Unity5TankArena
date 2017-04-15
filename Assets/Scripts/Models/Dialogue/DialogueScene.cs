@@ -90,7 +90,7 @@ namespace TankArena.Models.Dialogue
 			// GET INDIVIDUAL DIALOGUE BEATS
             foreach(JSONNode beatObj in json[EK.EK_BEATS].AsArray)
             {
-                dialogueBeats.Add(DialogueBeat.parseJSON(beatObj));
+                dialogueBeats.Add(DialogueBeat.parseJSON(beatObj.AsObject));
             }
 
             yield return 0.0f;
