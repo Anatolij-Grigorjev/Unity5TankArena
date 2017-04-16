@@ -4,9 +4,7 @@
     "scene": {
         "background": "!id;cletus",
         "model_left": "!id;cletus",
-        "model_right": "!id;lugnut",
-        "name_left": "Cletuz",
-        "name_right": "???"
+        "model_right": "!id;lugnut"
     },
     "beats": [
         {

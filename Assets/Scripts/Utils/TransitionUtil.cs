@@ -65,6 +65,7 @@ namespace TankArena.Utils
             int sceneId,
             Dictionary<string, object> sceneParams = null)
         {
+            DBG.Log("Waiting {0} before scene transition", waitTime);
             yield return Timing.WaitForSeconds(waitTime);
 
             StartTransitionTo(sceneId, sceneParams);

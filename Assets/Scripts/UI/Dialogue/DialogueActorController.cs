@@ -48,5 +48,10 @@ namespace TankArena.UI.Dialogue
 			DBG.Log("{0} Got signal SHAKE!", actorPosition);
             actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_SHAKE);
         }
+		public void ShakeOver()
+		{
+			DBG.Log("{0} Shake over!", actorPosition);
+			actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_ENTER + (int)actorPosition);
+		}
     }
 }

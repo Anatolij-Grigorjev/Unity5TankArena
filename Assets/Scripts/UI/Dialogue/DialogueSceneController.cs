@@ -42,8 +42,11 @@ namespace TankArena.UI.Dialogue
                     currentBeatSignals.AddAll(currentBeat.signals, false);
                     sentBeatSignals = false;
                     //reset text carrets, etc
-                    sceneSpeakerText.text = "";
-                    sceneDialogueText.text = "";
+                    if (!finishedSpeechBit) 
+                    {
+                        sceneSpeakerText.text = "";
+                        sceneDialogueText.text = "";
+                    }
                     currentTextIdx = 0;
                     currentLetterDelay = lettersDelay;
                 }
