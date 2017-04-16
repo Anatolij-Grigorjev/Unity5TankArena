@@ -10,6 +10,6 @@ public class SceneIds {
 	public const int SCENE_CHARACTER_SELECT_ID = 5;
 	public const int SCENE_MENU_ID = 0;
 	public const int SCENE_SAVE_SLOTS_ID = 6;
-	public const int SCENE_POST_ARENA_TALLY = 7;
-	public const int SCENE_DIALOGUE = 8;
+	public const int SCENE_POST_ARENA_TALLY_ID = 7;
+	public const int SCENE_DIALOGUE_ID = 8;
 }

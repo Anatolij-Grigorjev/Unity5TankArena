@@ -81,7 +81,7 @@ namespace TankArena.Controllers
 					yield return Timing.WaitForSeconds(POST_START_WAIT);
 					//my cursor is back
 					Cursor.visible = true;
-					TransitionUtil.StartTransitionTo(SceneIds.SCENE_POST_ARENA_TALLY);
+					TransitionUtil.StartTransitionTo(SceneIds.SCENE_POST_ARENA_TALLY_ID);
 
 				}
 				//check once every 1.5 seconds

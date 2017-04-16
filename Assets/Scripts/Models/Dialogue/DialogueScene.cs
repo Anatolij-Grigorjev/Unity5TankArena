@@ -67,7 +67,7 @@ namespace TankArena.Models.Dialogue
             JSONClass scene = json[EK.EK_SCENE].AsObject;
             var bg = ResolveSpecialContent(scene[EK.EK_BACKGROUND_IMAGE].Value);
 
-            properties[EK.EK_SCENE] = (bg is PlayableCharacter) ?
+            properties[EK.EK_BACKGROUND_IMAGE] = (bg is PlayableCharacter) ?
                 ((PlayableCharacter)bg).Background
                 : bg;
 

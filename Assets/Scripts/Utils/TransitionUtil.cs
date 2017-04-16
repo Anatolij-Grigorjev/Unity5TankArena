@@ -24,6 +24,20 @@ namespace TankArena.Utils
             SceneManager.LoadScene(SceneIds.SCENE_LOADING_ID);
         }
 
+        public static void WaitAndStartTransitionTo(int sceneId,
+                                                    float waitTime,
+                                                    Dictionary<string, object> sceneParams = null)
+        {
+            if (waitTime > 0.0f)
+            {
+                Timing.RunCoroutine(_TransitionPostWait(waitTime, sceneId, sceneParams));
+            }
+            else
+            {
+                StartTransitionTo(sceneId, sceneParams);
+            }
+        }
+
         public static void SaveAndStartTransitionTo(int sceneId, Dictionary<string, object> sceneParams = null)
         {
             var canvas = GameObject.FindGameObjectWithTag(Tags.TAG_UI_CANVAS) as GameObject;
@@ -37,13 +51,23 @@ namespace TankArena.Utils
              , Vector3.zero
              , Quaternion.identity
              , canvas.transform) as GameObject;
-             //assign position again for anchored because Unity
-             saveText.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            //assign position again for anchored because Unity
+            saveText.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
 
             var saveHandle = Timing.RunCoroutine(saveText.GetComponent<SaveTextController>()._PerformSave());
 
             Timing.RunCoroutine(_TransitionPostSave(saveHandle, sceneId, sceneParams));
 
+        }
+
+        private static IEnumerator<float> _TransitionPostWait(
+            float waitTime,
+            int sceneId,
+            Dictionary<string, object> sceneParams = null)
+        {
+            yield return Timing.WaitForSeconds(waitTime);
+
+            StartTransitionTo(sceneId, sceneParams);
         }
 
         private static IEnumerator<float> _TransitionPostSave(

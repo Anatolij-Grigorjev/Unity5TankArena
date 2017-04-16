@@ -29,8 +29,14 @@
             "speech": 
                 {
                     "speaker": "right",
-                    "text": "So,... whats all this about?..."
-                }
+                    "text": "Its about you, my love!"
+                },
+            "signals": [
+            	{
+            		"receiver": "right",
+            		"name": "Appear"
+            	}
+            ]
             
         },
         {

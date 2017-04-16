@@ -15,6 +15,10 @@ namespace TankArena.Utils
         }
         public static void AddAll<K, V>(this Dictionary<K, V> main, Dictionary<K, V> other, bool priorityThis = true)
         {
+            if (other == null) 
+            {
+                return;
+            }
             foreach (var entry in other)
             {
                 if (!main.ContainsKey(entry.Key))

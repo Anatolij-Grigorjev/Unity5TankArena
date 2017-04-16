@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,16 @@ namespace TankArena.Utils
                 return 0;
             }
             return Mathf.Clamp(index, 0, data.Count - 1);
+        }
+
+        public static float ClipLengthByName(Animator animator, string clipName)
+        {
+            return animator
+            .runtimeAnimatorController
+            .animationClips
+                .Where(clip => clip.name == clipName)
+                .Select(clip => clip.length)
+                .FirstOrDefault();
         }
     }
 }

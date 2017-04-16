@@ -97,7 +97,7 @@ namespace TankArena.UI.Arena
 		{
 			if (CurrentState.Instance.CurrentArena != null)
 			{
-				TransitionUtil.StartTransitionTo(SceneIds.SCENE_SHOP_ID);
+				TransitionUtil.StartTransitionTo(SceneIds.SCENE_DIALOGUE_ID);
 			}
 		}
 		
