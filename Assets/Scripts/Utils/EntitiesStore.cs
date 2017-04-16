@@ -12,6 +12,7 @@ using System.IO;
 using MovementEffects;
 using TankArena.Constants;
 using UnityEngine;
+using TankArena.Models.Dialogue;
 
 namespace TankArena.Utils
 {
@@ -19,13 +20,15 @@ namespace TankArena.Utils
     {
         protected EntitiesStore() { }
 
-        public Dictionary<String, FileLoadedEntityModel> Entities { get { return loadedEntities; }  }
+        public Dictionary<String, FileLoadedEntityModel> Entities { get { return loadedEntities; } }
         public Dictionary<String, PlayableCharacter> Characters { get { return loadedCharacters; } }
         public Dictionary<String, TankPart> TankParts { get { return loadedTankParts; } }
         public Dictionary<String, BaseWeapon> Weapons { get { return loadedWeapons; } }
         public Dictionary<String, LevelModel> Levels { get { return loadedLevels; } }
         public Dictionary<String, SpawnerTemplate> SpawnerTemplates { get { return loadedSpawnerTemplates; } }
-        public Dictionary<String, EnemyType> EnemyTypes { get { return loadedEnemyTypes; } } 
+        public Dictionary<String, EnemyType> EnemyTypes { get { return loadedEnemyTypes; } }
+        public Dictionary<String, DialogueScene> DialogueScenes { get { return loadedDialogues; } }
+
 
         private Dictionary<String, FileLoadedEntityModel> loadedEntities;
         private Dictionary<String, PlayableCharacter> loadedCharacters;
@@ -34,6 +37,7 @@ namespace TankArena.Utils
         private Dictionary<String, LevelModel> loadedLevels;
         private Dictionary<String, SpawnerTemplate> loadedSpawnerTemplates;
         private Dictionary<String, EnemyType> loadedEnemyTypes;
+        private Dictionary<String, DialogueScene> loadedDialogues;
 
         //GOs can check this before getting a reference 
         //going because they might be half loaded before these are
@@ -45,7 +49,7 @@ namespace TankArena.Utils
         public void Awake()
         {
             DBG.Log("Working from path: {0}", EntitiesLoaderUtil.BASE_DATA_PATH);
-            
+
             dataLoadCoroutine = Timing.RunCoroutine(_LoadEntites());
         }
 
@@ -70,32 +74,51 @@ namespace TankArena.Utils
             loaderHandles.Add(Timing.RunCoroutine(_LoadEnemyTypes()));
 
             //finish all laodings
-            foreach(var handle in loaderHandles)
+            foreach (var handle in loaderHandles)
             {
                 yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
                 yield return Timing.WaitUntilDone(handle);
             }
-
+            //load dialogues since htey support having other entities in them
+            var dialoguesHandle = Timing.RunCoroutine(_LoadDialogues());
+            yield return Timing.WaitUntilDone(dialoguesHandle);
+            
             //load character tanks
             var charsList = Characters.Values.ToList();
             DBG.Log("Waiting to load char data..");
             while (charsList.Count < 1 ||
-                 charsList.Any(character => String.IsNullOrEmpty(character.StartingTankCode))) 
+                 charsList.Any(character => String.IsNullOrEmpty(character.StartingTankCode)))
             {
                 yield return Timing.WaitForSeconds(LoadingParameters.LOADING_COOLDOWN_SHORT);
             }
-            charsList.ForEach(character => {
+            charsList.ForEach(character =>
+            {
                 character.StartingTank = Tank.FromCode(character.StartingTankCode);
             });
             //TODO: load character dialogues when characters are ready
 
             //load saving SavingTextPrefab
             SavingTextPrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_SAVING_TEXT) as GameObject;
-            
+
             isReady = true;
 
             status = "Loading scene...";
-            
+
+            yield return 0.0f;
+        }
+
+        private IEnumerator<float> _LoadDialogues()
+        {
+            loadedDialogues = new Dictionary<string, DialogueScene>();
+            var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
+                @"Dialogue",
+                path => { return new DialogueScene(path); },
+                loadedDialogues
+            ));
+            yield return Timing.WaitUntilDone(handle);
+            CopyToEntitiesDict(loadedDialogues);
+            status = "Loaded Dialogues...";
+            DBG.Log("Loaded Dialogues!");
             yield return 0.0f;
         }
 
@@ -143,7 +166,7 @@ namespace TankArena.Utils
                 path => { return new TankTurret(path); },
                 loadedTankParts
             )));
-            foreach(var coHandle in handles)
+            foreach (var coHandle in handles)
             {
                 yield return Timing.WaitUntilDone(coHandle);
             }
@@ -152,7 +175,7 @@ namespace TankArena.Utils
             DBG.Log("Loaded All Tank Parts!");
             yield return 0.0f;
         }
-        private IEnumerator<float> _LoadCharacters() 
+        private IEnumerator<float> _LoadCharacters()
         {
             loadedCharacters = new Dictionary<string, PlayableCharacter>();
             var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
@@ -180,7 +203,7 @@ namespace TankArena.Utils
             DBG.Log("Loaded Levels!");
             yield return 0.0f;
         }
-        private IEnumerator<float> _LoadSpawners() 
+        private IEnumerator<float> _LoadSpawners()
         {
             loadedSpawnerTemplates = new Dictionary<string, SpawnerTemplate>();
             var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
@@ -199,7 +222,7 @@ namespace TankArena.Utils
         {
             loadedEnemyTypes = new Dictionary<String, EnemyType>();
             var handle = Timing.RunCoroutine(EntitiesLoaderUtil._LoadAllEntitesAtPath(
-                Path. Combine("Enemies", "Types"),
+                Path.Combine("Enemies", "Types"),
                 path => { return new EnemyType(path); },
                 loadedEnemyTypes
             ));
@@ -216,7 +239,7 @@ namespace TankArena.Utils
             {
                 return;
             }
-            dict.ToList().ForEach(x => 
+            dict.ToList().ForEach(x =>
                 {
                     if (!loadedEntities.ContainsKey(x.Key))
                     {
@@ -231,6 +254,6 @@ namespace TankArena.Utils
             return status;
         }
 
-       
+
     }
 }

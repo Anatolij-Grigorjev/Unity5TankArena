@@ -46,6 +46,18 @@
                     "name": "DoShake"
                 }
             ]
+        },
+        {
+        	"signals": [
+        		{
+        			"receiver": "left",
+        			"name": "Leave"
+        		},
+        		{
+        			"receiver": "right",
+        			"name": "Leave"
+        		}
+        	]
         }
     ]
 }

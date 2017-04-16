@@ -11,4 +11,5 @@ public class SceneIds {
 	public const int SCENE_MENU_ID = 0;
 	public const int SCENE_SAVE_SLOTS_ID = 6;
 	public const int SCENE_POST_ARENA_TALLY = 7;
+	public const int SCENE_DIALOGUE = 8;
 }

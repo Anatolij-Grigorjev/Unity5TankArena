@@ -7,6 +7,7 @@ namespace TankArena.Constants
 	{
 
 		public const string PARAM_SLOTS_FOR_LOAD = "loadingSlots";
+		public const string PARAM_DIALOGUE_SCENE_ID = "dialogueSceneId";
 
 	}
 }

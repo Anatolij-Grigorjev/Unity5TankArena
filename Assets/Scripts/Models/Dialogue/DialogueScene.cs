@@ -1,13 +1,11 @@
-﻿using System.Collections;
-
+﻿
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using EK = TankArena.Constants.EntityKeys;
 using SimpleJSON;
 using TankArena.Models.Characters;
-using System;
-using TankArena.Constants;
+using MovementEffects;
 
 namespace TankArena.Models.Dialogue
 {
@@ -52,12 +50,20 @@ namespace TankArena.Models.Dialogue
         }
         public List<DialogueBeat> dialogueBeats;
 
+        //quick access to specific scene beat
+        public DialogueBeat this[int i]
+        {
+            get { return dialogueBeats[i]; }
+        }
+
 
         public DialogueScene(string jsonPath) : base(jsonPath) { }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
-			//GET DIALOGUE SCENE MODEL META INFO
+            var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
+            yield return Timing.WaitUntilDone(handle);
+            //GET DIALOGUE SCENE MODEL META INFO
             JSONClass scene = json[EK.EK_SCENE].AsObject;
             var bg = ResolveSpecialContent(scene[EK.EK_BACKGROUND_IMAGE].Value);
 
@@ -69,26 +75,29 @@ namespace TankArena.Models.Dialogue
             {
                 var model = ResolveSpecialContent(scene[key].Value);
 
-                if (model is PlayableCharacter) {
-					PlayableCharacter character = ((PlayableCharacter)model);
-					properties[key] = character.CharacterModel;
-					var nameKey = "name_" + key.Split(new char[] {'_'}, 2).Last();
-					properties[nameKey] = character.Name;
-				} else {
+                if (model is PlayableCharacter)
+                {
+                    PlayableCharacter character = ((PlayableCharacter)model);
+                    properties[key] = character.CharacterModel;
+                    var nameKey = "name_" + key.Split(new char[] { '_' }, 2).Last();
+                    properties[nameKey] = character.Name;
+                }
+                else
+                {
                     properties[key] = model;
-				}
+                }
             }
-			foreach (string nameKey in new string[] { EK.EK_NAME_LEFT, EK.EK_NAME_RIGHT })
-			{
-				if (json[nameKey] != null) 
-				{
-					properties[nameKey] = json[nameKey].Value;
-				}
-			}
+            foreach (string nameKey in new string[] { EK.EK_NAME_LEFT, EK.EK_NAME_RIGHT })
+            {
+                if (json[nameKey] != null)
+                {
+                    properties[nameKey] = json[nameKey].Value;
+                }
+            }
 
             dialogueBeats = new List<DialogueBeat>();
-			// GET INDIVIDUAL DIALOGUE BEATS
-            foreach(JSONNode beatObj in json[EK.EK_BEATS].AsArray)
+            // GET INDIVIDUAL DIALOGUE BEATS
+            foreach (JSONNode beatObj in json[EK.EK_BEATS].AsArray)
             {
                 dialogueBeats.Add(DialogueBeat.parseJSON(beatObj.AsObject));
             }

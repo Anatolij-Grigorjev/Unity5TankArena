@@ -7,8 +7,8 @@ namespace TankArena.Constants
     public enum DialogueActors
     {
 
-        LEFT,
-        RIGHT
+        LEFT = 0,
+        RIGHT = 1
     }
 
     public class DialogueActorsHelper
