@@ -40,5 +40,19 @@ namespace TankArena.Utils
                 .Select(clip => clip.length)
                 .FirstOrDefault();
         }
+
+        public static string ShortFormCash(float cash)
+		{	
+			string numFormat = "$#,#";
+			if (cash >= 1000.0f && cash <= 1000000.0f)
+			{
+				numFormat = "$#,##0,K";
+			} else if (cash >= 1000000.0f)
+			{
+				numFormat = "#,##0,,M";
+			}
+			
+			return cash.ToString(numFormat);
+		}
     }
 }

@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models.Characters;
-using TankArena.Models;
 using System;
 
 namespace TankArena.UI.Characters
 {
     public class CharacterSelectController: MonoBehaviour
 	{
-
 		private const int GRID_ROW_LENGTH = 2;
 
 		private const int GRID_COLS_COUNT = 2;
@@ -22,21 +20,16 @@ namespace TankArena.UI.Characters
 		}
 
 		public Image[][] avatarsGrid;
-		public Image[] atkCells;
-		public Image[] movCells;
-		public Image[] regCells;
 		public Sprite defaultImage;
 		public Image sceneBackground;
 		public Image characterModel;
 		public Text characterName;
 		public Text characterBackstory;
-		public GameObject loadoutGrid;
-		public GameObject loadoutGridItem;
 		public Text characterMoney;
 		public Text playerNameText;
+		public LoadoutGridController loadoutGridController;
+		public StatsGridController statsGridController;
 		public List<PlayableCharacter> characterData;
-		private List<ShopPurchaseableEntityModel> loadoutItems;
-
 		public Button selectAndPlay;
 
 		private int currentCharacterIndex;
@@ -62,16 +55,6 @@ namespace TankArena.UI.Characters
 			}
 		}
 
-		private Action<Image, int> clearCellAction = (cell, index) => { cell.color = Color.black; };
-
-		private void fillCellsWithColor(Image[] array, Color fill, int n) 
-		{
-			for (int i = 0; i < n; i++)
-			{
-				array[i].color = fill;
-			}
-		}
-
 
 		private Image GetSelectedAvatar(int index)
 		{
@@ -87,35 +70,15 @@ namespace TankArena.UI.Characters
 			characterModel.sprite = model.CharacterModel;
 			characterMoney.text = "$" + model.StartingCash;
 			characterBackstory.text = model.Backstory;
-			//redo loadout
-			loadoutItems.Clear();
-			loadoutGrid.ClearChildren();
 
-			loadoutItems.AddRange(model.StartingTank.partsArray);
-			loadoutItems.AddRange(model.StartingTank.TankTurret.allWeaponSlots.Select(slot => slot.Weapon).ToArray());
-
-			loadoutItems.ForEach(shopItem => {
-				var itemGO = Instantiate(loadoutGridItem, Vector3.zero, Quaternion.identity, loadoutGrid.transform) as GameObject;
-				var childTr = itemGO.transform.GetChild(0);
-				if (childTr != null) 
-				{
-					childTr.gameObject.GetComponent<Image>().sprite = shopItem.ShopItem;
-				}
-			});
-
-			//redo stats
-			atkCells.ForEachWithIndex(clearCellAction);
-			movCells.ForEachWithIndex(clearCellAction);
-			regCells.ForEachWithIndex(clearCellAction);
-			//APPLY STATS
-			fillCellsWithColor(atkCells, Color.red, model.StartingStats.ATK);
-			fillCellsWithColor(movCells, Color.blue, model.StartingStats.MOV);
-			fillCellsWithColor(regCells, Color.green, model.StartingStats.REG);
+			//refresh loadout
+			loadoutGridController.SetLoadoutData(model.StartingTank);
+			//refresh stats
+			statsGridController.SetStats(model.StartingStats);
 		}
 
 		public void Awake()
 		{
-			loadoutItems = new List<ShopPurchaseableEntityModel>();
 			//ensure entities loaded (characters have decoded tanks)
 			var entities = EntitiesStore.Instance;
 			entities.GetStatus();

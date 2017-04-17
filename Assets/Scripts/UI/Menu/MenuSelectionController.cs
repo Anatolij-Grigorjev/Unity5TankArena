@@ -11,7 +11,7 @@ namespace TankArena.UI
 	public class MenuSelectionController : MonoBehaviour 
 	{
 
-		public Image playerAvatar;
+		public PlayerStuffController playerStuffController;
 		public GameObject initialOptions;
 		public GameObject playerOptions;
 
@@ -23,12 +23,12 @@ namespace TankArena.UI
 			{
 				playerOptions.SetActive(false);
 				initialOptions.SetActive(true);
-				playerAvatar.gameObject.SetActive(false);
+				playerStuffController.gameObject.SetActive(false);
 			} else 
 			{
 				//character picked, character menu
-				playerAvatar.gameObject.SetActive(true);
-				playerAvatar.sprite = CurrentState.Instance.Player.Character.Avatar;
+				playerStuffController.gameObject.SetActive(true);
+				playerStuffController.SetPlayerInfo(CurrentState.Instance.Player);
 				playerOptions.SetActive(true);
 				initialOptions.SetActive(false);
 			}
