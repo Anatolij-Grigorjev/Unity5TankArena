@@ -22,10 +22,11 @@ namespace TankArena.UI.Dialogue
         public Animator sceneAnimator;
         public DialogueActorController leftActorController;
         public DialogueActorController rightActorController;
+        public GameObject advanceNotice;
         private Dictionary<DialogueActors, DialogueActorController> actors;
         private DialogueBeat currentBeat;
         private DialogueSpeechBit currentSpeechBit;
-        private Dictionary<DialogueActors, string> currentBeatSignals;
+        private List<DialogueSignal> currentBeatSignals;
         private int currentBeatIdx = 0;
         private int CurrentBeatIdx
         {
@@ -39,16 +40,27 @@ namespace TankArena.UI.Dialogue
                     currentBeat = dialogueSceneModel[value];
                     currentSpeechBit = currentBeat.speech;
                     finishedSpeechBit = currentSpeechBit == null;
-                    currentBeatSignals.AddAll(currentBeat.signals, false);
+                    if (currentBeat.signals != null) 
+                    {
+                        currentBeatSignals.AddRange(currentBeat.signals);
+                    }
+                    advanceNotice.SetActive(finishedSpeechBit);
                     sentBeatSignals = false;
                     //reset text carrets, etc
-                    if (!finishedSpeechBit) 
+                    if (!finishedSpeechBit)
                     {
-                        sceneSpeakerText.text = "";
+                        sceneSpeakerText.text = actors[currentSpeechBit.speaker].actorName;
+                        foreach (var actorEntry in actors)
+                        {
+                            actorEntry.Value.DimActor(actorEntry.Key != currentSpeechBit.speaker);
+                        }
                         sceneDialogueText.text = "";
                     }
                     currentTextIdx = 0;
+                    currentSignalIdx = 0;
                     currentLetterDelay = lettersDelay;
+
+                    actors.ForEachWithIndex((actor, idx) => actor.Value.ResetActor());
                 }
                 DBG.Log("current beat: {0} | beat signals: {1} | speech bit: {2}",
                     currentBeatIdx, currentBeatSignals.Count, currentSpeechBit);
@@ -57,6 +69,7 @@ namespace TankArena.UI.Dialogue
         private bool sentBeatSignals = false;
         private bool finishedSpeechBit = false;
         private int currentTextIdx = 0;
+        private int currentSignalIdx = 0;
         public float lettersDelay = 0.2f;
         private float currentLetterDelay;
         private float endAnimationWait;
@@ -70,7 +83,7 @@ namespace TankArena.UI.Dialogue
             endAnimationWait = UIUtils.ClipLengthByName(sceneAnimator, "DialogueOver");
             DBG.Log("Found scene start|end animations: {0}|{1}", startAnimationWait, endAnimationWait);
 
-            currentBeatSignals = new Dictionary<DialogueActors, string>();
+            currentBeatSignals = new List<DialogueSignal>();
             actors = new Dictionary<DialogueActors, DialogueActorController>()
             {
                 { DialogueActors.LEFT, leftActorController},
@@ -106,13 +119,9 @@ namespace TankArena.UI.Dialogue
             //wait for complete start of scene
             if (!startedScene) { return; }
 
+            //DO TEXT
             if (!finishedSpeechBit)
             {
-                //set speaker name
-                if (string.IsNullOrEmpty(sceneSpeakerText.text))
-                {
-                    sceneSpeakerText.text = actors[currentSpeechBit.speaker].actorName;
-                }
                 currentLetterDelay -= Time.deltaTime;
                 //wait over, add another letter
                 if (currentLetterDelay <= 0.0f)
@@ -121,16 +130,30 @@ namespace TankArena.UI.Dialogue
                     sceneDialogueText.text += currentSpeechBit.text[currentTextIdx];
                     currentTextIdx++;
                     finishedSpeechBit = currentTextIdx >= currentSpeechBit.text.Length;
+                    if (finishedSpeechBit) 
+                    {
+                        advanceNotice.SetActive(true);
+                    }
                 }
             }
+
+            //DO SIGNALS 
             if (currentBeatSignals.Count > 0 && !sentBeatSignals)
             {
-                currentBeatSignals.ForEachWithIndex((entry, idx) =>
+                var signal = currentBeatSignals[currentSignalIdx];
+                //actor is idle
+                if (actors[signal.receiver].readyForSignal)
                 {
-                    actors[entry.Key].SendMessage(entry.Value, SendMessageOptions.DontRequireReceiver);
-                });
-                sentBeatSignals = true;
+                    actors[signal.receiver].SendMessage(signal.name, SendMessageOptions.DontRequireReceiver);
+                    currentSignalIdx++;
+                    if (currentSignalIdx >= currentBeatSignals.Count)
+                    {
+                        sentBeatSignals = true;
+                    }
+                }
             }
+
+            //DO INPUT
             var pressedFwd = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_WPN_GROUP_1);
             if (pressedFwd && !finishingScene)
             {
@@ -141,18 +164,17 @@ namespace TankArena.UI.Dialogue
                     sceneDialogueText.text = currentSpeechBit.text;
                     finishedSpeechBit = true;
                 }
-                else
+                
+                //finished speech bit, lets advance the beat itself
+                CurrentBeatIdx += 1;
+                //all over, lets play the end of scene and move on
+                if (CurrentBeatIdx >= dialogueSceneModel.dialogueBeats.Count)
                 {
-                    //finished speech bit, lets advance the beat itself
-                    CurrentBeatIdx += 1;
-                    //all over, lets play the end of scene and move on
-                    if (CurrentBeatIdx >= dialogueSceneModel.dialogueBeats.Count)
-                    {
-                        finishingScene = true;
-                        sceneAnimator.SetTrigger(AnimationParameters.TRIGGER_FINISH_DIALOGUE);
-                        TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_SHOP_ID, endAnimationWait);
-                    }
+                    finishingScene = true;
+                    sceneAnimator.SetTrigger(AnimationParameters.TRIGGER_FINISH_DIALOGUE);
+                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_SHOP_ID, endAnimationWait);
                 }
+                
             }
         }
     }

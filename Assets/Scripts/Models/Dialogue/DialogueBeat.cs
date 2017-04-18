@@ -8,7 +8,7 @@ namespace TankArena.Models.Dialogue
     public class DialogueBeat
     {
         public DialogueSpeechBit speech;
-        public Dictionary<DialogueActors, string> signals;
+        public List<DialogueSignal> signals;
 
 
         public static DialogueBeat parseJSON(JSONClass beatObject)
@@ -26,11 +26,11 @@ namespace TankArena.Models.Dialogue
             if (beatObject[EK.EK_SIGNALS] != null)
             {
 				var signalsArr = beatObject[EK.EK_SIGNALS].AsArray;
-				beat.signals = new Dictionary<DialogueActors, string>(signalsArr.Count);
+				beat.signals = new List<DialogueSignal>(signalsArr.Count);
 
 				foreach(JSONNode obj in signalsArr)
 				{
-					beat.signals.Add(DialogueActorsHelper.Parse(obj[EK.EK_RECEIVER]), obj[EK.EK_NAME].Value);
+					beat.signals.Add(new DialogueSignal(DialogueActorsHelper.Parse(obj[EK.EK_RECEIVER]), obj[EK.EK_NAME].Value));
 				}
             }
 
