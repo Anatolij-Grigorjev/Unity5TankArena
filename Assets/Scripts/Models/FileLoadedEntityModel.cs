@@ -49,7 +49,7 @@ namespace TankArena.Models
         ///</summary>
         public string Description
         {
-            get 
+            get
             {
                 return (string)properties[EK.EK_DESCRIPTION];
             }
@@ -76,7 +76,7 @@ namespace TankArena.Models
             Timing.RunCoroutine(_LoadPropertiesFromJSON(json), Segment.Update);
         }
 
-        public FileLoadedEntityModel(FileLoadedEntityModel model) 
+        public FileLoadedEntityModel(FileLoadedEntityModel model)
         {
             this.properties = new Dictionary<string, object>(model.properties);
         }
@@ -103,6 +103,26 @@ namespace TankArena.Models
             var resolved = SpecialContentResolver.Resolve(content);
 
             return resolved;
+        }
+
+        /// <summary>
+        /// Handle a string into a custom type. If that new type is of the <code>FileLoadedEntityModel</code> family,
+        /// retrieve the property value at <code>entityKey</code>
+        /// </summary>
+        /// <param name="content">The string to deserialize</param>
+        /// <param name="entityKey">The entity property key to retrieve content at </param>
+        /// <returns>The content, string itself if deserialization fails</returns>
+        protected object ResolveSpecialOrKey(string content, string entityKey)
+        {
+            var resolvedContent = ResolveSpecialContent(content);
+            if (resolvedContent is FileLoadedEntityModel)
+            {
+                var model = (FileLoadedEntityModel) resolvedContent;
+
+                return model.properties[entityKey];
+            }
+
+            return resolvedContent;
         }
 
     }

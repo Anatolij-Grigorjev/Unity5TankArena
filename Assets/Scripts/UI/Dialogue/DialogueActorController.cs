@@ -49,7 +49,13 @@ namespace TankArena.UI.Dialogue
 
         public void DimActor(bool dim)
         {
-            actorModel.color = dim? DIM_COLOR : NORMAL_COLOR;
+            if (dim)
+            {
+                actorAnimator.SetTrigger(AnimationParameters.TRIGGER_DIM_ACTOR);
+            } else 
+            {
+                ResetActor();
+            }
         }
 
         public void ResetActor()
@@ -94,7 +100,7 @@ namespace TankArena.UI.Dialogue
 		public void ShakeOver()
 		{
 			DBG.Log("{0} Shake over!", actorPosition);
-			actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_ENTER + (int)actorPosition);
+			ResetActor();
 		}
     }
 }

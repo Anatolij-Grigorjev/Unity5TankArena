@@ -1,10 +1,7 @@
-﻿
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using EK = TankArena.Constants.EntityKeys;
 using SimpleJSON;
-using TankArena.Models.Characters;
 using MovementEffects;
 
 namespace TankArena.Models.Dialogue
@@ -65,34 +62,15 @@ namespace TankArena.Models.Dialogue
             yield return Timing.WaitUntilDone(handle);
             //GET DIALOGUE SCENE MODEL META INFO
             JSONClass scene = json[EK.EK_SCENE].AsObject;
-            var bg = ResolveSpecialContent(scene[EK.EK_BACKGROUND_IMAGE].Value);
-
-            properties[EK.EK_BACKGROUND_IMAGE] = (bg is PlayableCharacter) ?
-                ((PlayableCharacter)bg).Background
-                : bg;
+            properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialOrKey(scene[EK.EK_BACKGROUND_IMAGE], EK.EK_BACKGROUND_IMAGE);
 
             foreach (string key in new string[] { EK.EK_MODEL_LEFT, EK.EK_MODEL_RIGHT })
             {
-                var model = ResolveSpecialContent(scene[key].Value);
-
-                if (model is PlayableCharacter)
-                {
-                    PlayableCharacter character = ((PlayableCharacter)model);
-                    properties[key] = character.CharacterModel;
-                    var nameKey = "name_" + key.Split(new char[] { '_' }, 2).Last();
-                    properties[nameKey] = character.Name;
-                }
-                else
-                {
-                    properties[key] = model;
-                }
+                properties[key] = ResolveSpecialOrKey(scene[key], EK.EK_CHARACTER_MODEL_IMAGE);
             }
             foreach (string nameKey in new string[] { EK.EK_NAME_LEFT, EK.EK_NAME_RIGHT })
             {
-                if (json[nameKey] != null)
-                {
-                    properties[nameKey] = json[nameKey].Value;
-                }
+                properties[nameKey] = ResolveSpecialOrKey(scene[nameKey], EK.EK_NAME);
             }
 
             dialogueBeats = new List<DialogueBeat>();

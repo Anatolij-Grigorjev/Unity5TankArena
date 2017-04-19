@@ -4,7 +4,9 @@
     "scene": {
         "background": "!id;cletus",
         "model_left": "!id;cletus",
-        "model_right": "!id;lugnut"
+        "model_right": "!id;lugnut",
+        "name_left": "Cletus",
+        "name_right": "A terrorist"
     },
     "beats": [
         {

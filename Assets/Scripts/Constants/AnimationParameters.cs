@@ -24,5 +24,6 @@
         public const string TRIGGER_ACTOR_SHAKE = "ActorShake";
         public const string TRIGGER_FINISH_DIALOGUE = "FinishDialogue";
         public const string TRIGGER_RESET_ACTOR = "ResetActor";
+        public const string TRIGGER_DIM_ACTOR = "ActorDim";
     }
 }

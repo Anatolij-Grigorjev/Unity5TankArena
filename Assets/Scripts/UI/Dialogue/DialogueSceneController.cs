@@ -22,7 +22,6 @@ namespace TankArena.UI.Dialogue
         public Animator sceneAnimator;
         public DialogueActorController leftActorController;
         public DialogueActorController rightActorController;
-        public GameObject advanceNotice;
         private Dictionary<DialogueActors, DialogueActorController> actors;
         private DialogueBeat currentBeat;
         private DialogueSpeechBit currentSpeechBit;
@@ -44,7 +43,6 @@ namespace TankArena.UI.Dialogue
                     {
                         currentBeatSignals.AddRange(currentBeat.signals);
                     }
-                    advanceNotice.SetActive(finishedSpeechBit);
                     sentBeatSignals = false;
                     //reset text carrets, etc
                     if (!finishedSpeechBit)
@@ -130,10 +128,6 @@ namespace TankArena.UI.Dialogue
                     sceneDialogueText.text += currentSpeechBit.text[currentTextIdx];
                     currentTextIdx++;
                     finishedSpeechBit = currentTextIdx >= currentSpeechBit.text.Length;
-                    if (finishedSpeechBit) 
-                    {
-                        advanceNotice.SetActive(true);
-                    }
                 }
             }
 
