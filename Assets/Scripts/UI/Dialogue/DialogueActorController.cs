@@ -22,9 +22,9 @@ namespace TankArena.UI.Dialogue
         void Start()
         {
             signalLengths = new Dictionary<string, float>() {
-                { "Leave", UIUtils.ClipLengthByName(actorAnimator, "") },
-                { "Appear", UIUtils.ClipLengthByName(actorAnimator, "") },
-                { "DoShake", UIUtils.ClipLengthByName(actorAnimator, "") }
+                { "Leave", UIUtils.ClipLengthByName(actorAnimator, "DialogueActorEnterRight") },
+                { "Appear", UIUtils.ClipLengthByName(actorAnimator, "DialogueActorEnterLeft") },
+                { "DoShake", UIUtils.ClipLengthByName(actorAnimator, "DialogueActorShake") }
             };
         }
 
@@ -49,12 +49,16 @@ namespace TankArena.UI.Dialogue
 
         public void DimActor(bool dim)
         {
-            if (dim)
+            DBG.Log("{0} actor told to dim: {1}", actorPosition, dim);
+            if (actorVisible) 
             {
-                actorAnimator.SetTrigger(AnimationParameters.TRIGGER_DIM_ACTOR);
-            } else 
-            {
-                ResetActor();
+                if (dim)
+                {
+                    actorAnimator.SetTrigger(AnimationParameters.TRIGGER_DIM_ACTOR);
+                } else 
+                {
+                    ResetActor();
+                }
             }
         }
 
@@ -62,7 +66,7 @@ namespace TankArena.UI.Dialogue
         {
             if (actorVisible) 
             {
-                actorAnimator.SetTrigger(AnimationParameters.TRIGGER_RESET_ACTOR + (int)actorPosition);
+                actorAnimator.SetTrigger(AnimationParameters.TRIGGER_RESET_ACTOR);
                 currentAnimationWait = 0.0f;
                 readyForSignal = true;
             }
@@ -77,7 +81,7 @@ namespace TankArena.UI.Dialogue
         public void Leave()
         {
 			DBG.Log("{0} Got signal LEAVE!", actorPosition);
-            actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_LEAVE + (int)actorPosition);
+            actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_LEAVE);
             currentAnimationWait = signalLengths["Leave"];
             readyForSignal = false;
             actorVisible = false;
@@ -85,7 +89,7 @@ namespace TankArena.UI.Dialogue
         public void Appear()
         {
 			DBG.Log("{0} Got signal APPEAR!", actorPosition);
-            actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_ENTER + (int)actorPosition);
+            actorAnimator.SetTrigger(AnimationParameters.TRIGGER_ACTOR_ENTER);
             currentAnimationWait = signalLengths["Appear"];
             readyForSignal = false;
             actorVisible = true;

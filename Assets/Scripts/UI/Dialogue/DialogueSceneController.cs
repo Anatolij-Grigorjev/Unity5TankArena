@@ -53,6 +53,7 @@ namespace TankArena.UI.Dialogue
                             actorEntry.Value.DimActor(actorEntry.Key != currentSpeechBit.speaker);
                         }
                         sceneDialogueText.text = "";
+                        DBG.Log("Bit SPEAKER: {0}", currentSpeechBit.speaker);
                     }
                     currentTextIdx = 0;
                     currentSignalIdx = 0;

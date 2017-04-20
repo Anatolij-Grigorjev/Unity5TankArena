@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using System.Linq;
 using TankArena.Constants;
 using TankArena.Utils;
-using TankArena.Models.Level;
 
 namespace TankArena.UI.Shop
 {
@@ -13,7 +12,6 @@ namespace TankArena.UI.Shop
 		public List<UIShopStates> shopStates;
 		public int currentShopIndex;
 		public Image backgroundImage;
-		public Text levelDisclaimerText;
 		public Sprite[] shopBGImages; 
 		public MonoBehaviour[] loadoutScreensScripts;
 		public MonoBehaviour[] soldItemsScripts;
@@ -79,23 +77,6 @@ namespace TankArena.UI.Shop
 			UpdateUIForState(currentShopIndex);
 		}
 
-		private void LoadLevelText()
-		{
-			var levelModel = CurrentState.Instance.CurrentArena;
-
-			var newText = levelDisclaimerText.text;
-			newText = UIUtils.ApplyPropsToTemplate(LEVEL_INFO_TEMPLATE, MapLevelInfo(levelModel));
-
-			levelDisclaimerText.text = newText;
-		}
-		private Dictionary<string, object> MapLevelInfo(LevelModel level) 
-		{
-			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_NAME] = level.Name;
-			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_ENEMIES_COUNT] = level.TotalEnemies;
-			levelInfoMappings[UITextKeyMappings.MAPPING_ARENA_ENEMY_TYPES] = string.Join(", ", level.EnemyTypes.ToArray());
-
-			return levelInfoMappings;
-		}
 
         // Update is called once per frame
         void Update () {
