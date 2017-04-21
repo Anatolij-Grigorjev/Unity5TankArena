@@ -45,10 +45,9 @@ namespace TankArena.UI
 				TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
 			}
 		}
-		public void PickOptions()
+		public void PickShop()
 		{
-			//TODO: Options?!
-			DBG.Log("Options?!...");
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_SHOP_ID);
 		}
 		public void PickExit()
 		{

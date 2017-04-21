@@ -167,7 +167,7 @@ namespace TankArena.UI.Dialogue
                 {
                     finishingScene = true;
                     sceneAnimator.SetTrigger(AnimationParameters.TRIGGER_FINISH_DIALOGUE);
-                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_SHOP_ID, endAnimationWait);
+                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, endAnimationWait);
                 }
                 
             }

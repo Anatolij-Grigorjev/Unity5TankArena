@@ -34,7 +34,6 @@ namespace TankArena.UI.Shop
 
 			//load player data before updating UI
 			EntitiesStore.Instance.GetStatus();
-			LoadLevelText();
 
 			RefreshUI();
 
@@ -63,9 +62,9 @@ namespace TankArena.UI.Shop
 			backToItemsButton.gameObject.SetActive(false);
 		}
 
-		public void _BackToArenaSelect()
+		public void _BackToMenu()
 		{
-			TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
+			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
 		}
 
 		public void RefreshUI()
