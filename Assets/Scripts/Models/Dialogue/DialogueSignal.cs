@@ -1,17 +1,29 @@
 ﻿using TankArena.Utils;
 using TankArena.Constants;
+using System.Collections.Generic;
+using SimpleJSON;
+using EK = TankArena.Constants.EntityKeys;
 
 namespace TankArena.Models.Dialogue
 {
     public class DialogueSignal
     {
-        public DialogueActors receiver;
-        public string name;
+        public DialogueSignalTypes signalType;
+        public List<object> signalParams;
 
-		public DialogueSignal(DialogueActors receiver, string name)
+		public DialogueSignal(DialogueSignalTypes signalType, List<object> signalParams)
 		{
-			this.receiver = receiver;
-			this.name = name;
+			this.signalType = signalType;
+			this.signalParams = signalParams;
 		}
+
+
+        public static DialogueSignal ParseJSON(JSONClass json)
+        {
+            var signalType = DialogueSignalTypesHelper.Parse(json[EK.EK_SIGNAL_TYPE].Value);
+            var sigParams = DialogueSignalTypesHelper.ParseParams(signalType, json[EK.EK_SIGNAL_PARAMS].AsArray);
+
+            return new DialogueSignal(signalType, sigParams);
+        }
     }
 }

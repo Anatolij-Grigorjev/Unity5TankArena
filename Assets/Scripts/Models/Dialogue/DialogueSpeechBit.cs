@@ -5,7 +5,7 @@ namespace TankArena.Models.Dialogue
 {
     public class DialogueSpeechBit
     {
-        public DialogueActors speaker;
+        public DialogueSignalTypes speaker;
         public string text;
     }
 }

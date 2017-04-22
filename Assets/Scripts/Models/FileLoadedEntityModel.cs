@@ -94,7 +94,7 @@ namespace TankArena.Models
         /// </summary>
         /// <param name="content">The string to deserialize</param>
         /// <returns>The content, string itself if deserialization fails</returns>
-        protected object ResolveSpecialContent(string content)
+        public static object ResolveSpecialContent(string content)
         {
             if (String.IsNullOrEmpty(content))
             {
@@ -112,7 +112,7 @@ namespace TankArena.Models
         /// <param name="content">The string to deserialize</param>
         /// <param name="entityKey">The entity property key to retrieve content at </param>
         /// <returns>The content, string itself if deserialization fails</returns>
-        protected object ResolveSpecialOrKey(string content, string entityKey)
+        public static object ResolveSpecialOrKey(string content, string entityKey)
         {
             var resolvedContent = ResolveSpecialContent(content);
             if (resolvedContent is FileLoadedEntityModel)

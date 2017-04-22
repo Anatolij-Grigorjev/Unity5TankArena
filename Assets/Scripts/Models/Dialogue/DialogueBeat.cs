@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SimpleJSON;
 using TankArena.Constants;
+using TankArena.Utils;
 using EK = TankArena.Constants.EntityKeys;
 
 namespace TankArena.Models.Dialogue
@@ -20,7 +21,7 @@ namespace TankArena.Models.Dialogue
                 //make a speech bit
                 beat.speech = new DialogueSpeechBit();
 
-                beat.speech.speaker = DialogueActorsHelper.Parse(beatObject[EK.EK_SPEECH][EK.EK_SPEAKER].Value);
+                beat.speech.speaker = DialogueSignalTypesHelper.Parse(beatObject[EK.EK_SPEECH][EK.EK_SPEAKER].Value);
                 beat.speech.text = beatObject[EK.EK_SPEECH][EK.EK_TEXT];
             }
             if (beatObject[EK.EK_SIGNALS] != null)
@@ -30,7 +31,7 @@ namespace TankArena.Models.Dialogue
 
 				foreach(JSONNode obj in signalsArr)
 				{
-					beat.signals.Add(new DialogueSignal(DialogueActorsHelper.Parse(obj[EK.EK_RECEIVER]), obj[EK.EK_NAME].Value));
+					beat.signals.Add(DialogueSignal.ParseJSON(obj.AsObject));
 				}
             }
 

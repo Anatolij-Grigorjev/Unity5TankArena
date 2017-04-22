@@ -13,7 +13,7 @@ namespace TankArena.UI.Dialogue
         public Animator actorAnimator;
         public Image actorModel;
         public string actorName;
-        public DialogueActors actorPosition;
+        public DialogueSignalTypes actorPosition;
         private float currentAnimationWait = 0.0f;
         public bool readyForSignal = true;
         private bool actorVisible = false;
@@ -60,6 +60,20 @@ namespace TankArena.UI.Dialogue
                     ResetActor();
                 }
             }
+        }
+
+        public void UseTrigger(List<object> trigParams) 
+        {
+            string triggerName = (string)trigParams[0];
+            bool requireVisible = trigParams.Count > 1 ? (bool)trigParams[1] : true;
+
+            if ((requireVisible && actorVisible) || (!requireVisible))   
+            {
+                actorAnimator.SetTrigger(triggerName);
+                currentAnimationWait = actorAnimator.GetNextAnimatorStateInfo(0).length;
+                readyForSignal = false;
+            }
+
         }
 
         public void ResetActor()
