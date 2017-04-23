@@ -18,6 +18,7 @@ namespace TankArena.UI.Dialogue
         private DialogueScene dialogueSceneModel;
         public Text sceneTitleText;
         public Image sceneBgImage;
+        public float sceneBgInterpolateTime;
         public Text sceneDialogueText;
         public Text sceneSpeakerText;
         public Animator sceneAnimator;
@@ -36,6 +37,8 @@ namespace TankArena.UI.Dialogue
             {
                 currentBeatIdx = value;
                 currentBeatSignals.Clear();
+                currentAnimationWait = 0.0f;
+                readyForSignal = true;
                 if (currentBeatIdx < dialogueSceneModel.dialogueBeats.Count)
                 {
                     currentBeat = dialogueSceneModel[value];
@@ -49,13 +52,13 @@ namespace TankArena.UI.Dialogue
                     //reset text carrets, etc
                     if (!finishedSpeechBit)
                     {
+                        DBG.Log("NEW SPEECH BIT: {0}", currentSpeechBit);
                         sceneSpeakerText.text = actors[currentSpeechBit.speaker].actorName;
                         foreach (var actorEntry in actors)
                         {
                             actorEntry.Value.DimActor(actorEntry.Key != currentSpeechBit.speaker);
                         }
                         sceneDialogueText.text = "";
-                        DBG.Log("Bit SPEAKER: {0}", currentSpeechBit.speaker);
                     }
                     currentTextIdx = 0;
                     currentSignalIdx = 0;
@@ -63,8 +66,7 @@ namespace TankArena.UI.Dialogue
 
                     actors.ForEachWithIndex((actor, idx) => actor.Value.ResetActor());
                 }
-                DBG.Log("current beat: {0} | beat signals: {1} | speech bit: {2}",
-                    currentBeatIdx, currentBeatSignals.Count, currentSpeechBit);
+                DBG.Log("current beat idx: {0} | beat signals: {1} | beat speech: {2}", currentBeatIdx, currentBeatSignals.Count, !finishedSpeechBit);
             }
         }
         private bool sentBeatSignals = false;
@@ -77,13 +79,17 @@ namespace TankArena.UI.Dialogue
         private float startAnimationWait;
         private bool finishingScene = false; //only turn true when dialogue over and ready for outro
         private bool startedScene = false; //only turn true when intro played and ready for dialogue
+        [HideInInspector]
+        public float currentAnimationWait = 0.0f;
+        [HideInInspector]
+        public bool readyForSignal = true;
 
         private void SendTriggerSignal(DialogueSignalTypes ctx, DialogueSignal data)
         {
 
             var controller = actors[ctx];
             controller.SendMessage("UseTrigger", data.signalParams, SendMessageOptions.DontRequireReceiver);
-
+            //animation wait will be handled by the actor
         }
 
         void Start()
@@ -104,7 +110,22 @@ namespace TankArena.UI.Dialogue
             actorActions = new Dictionary<DialogueSignalTypes, Action<DialogueSignal>>()
             {
                 { DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER,  (signal) => {SendTriggerSignal(DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER, signal);}},
-                { DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER, signal);}}
+                { DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER, signal);}},
+                { DialogueSignalTypes.CHANGE_BACKGROUND, (signal) => {
+
+                    //first signal param is sprite
+                    var sprite = (Sprite)signal.signalParams[0];
+                    var time = sceneBgInterpolateTime;
+                    //second might be time or we use default
+                    if (signal.signalParams.Count > 1)
+                    {
+                        time = (float)signal.signalParams[1];
+                    }
+                    DBG.Log("Interpolating sprite {0} for time: {1}", sprite, time);
+                    Timing.RunCoroutine(_InterpolateBG(sprite, time));
+                    currentAnimationWait = time;
+                    readyForSignal = false;
+                }}
             };
             //get dialogue model
             // dialogueSceneId = (string)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_SCENE_ID];
@@ -114,6 +135,36 @@ namespace TankArena.UI.Dialogue
             SetSceneInfo(dialogueSceneModel);
             CurrentBeatIdx = 0;
             Timing.RunCoroutine(_WaitStartScene(startAnimationWait));
+        }
+
+        private IEnumerator<float> _InterpolateBG(Sprite newBg, float time)
+        {
+            //this delta (in seconds) shows how much color to remove per frame
+            //using 2.0 insteado f 1 to account for bringin in second bg image
+            var opacityDelta = 2.0f / time;
+            var currentColor = sceneBgImage.color;
+
+            //fade out image
+            while (currentColor.a > 0.0f)
+            {
+                currentColor.a = Mathf.Clamp(currentColor.a - opacityDelta, 0.0f, 1.0f);
+                sceneBgImage.color = currentColor;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                if (currentColor.a <= 0.0f)
+                {
+                    sceneBgImage.sprite = newBg;
+                }
+                currentColor = sceneBgImage.color;
+            }
+
+            //fade in new one
+            while (currentColor.a < 1.0f)
+            {
+                currentColor.a = Mathf.Clamp(currentColor.a + opacityDelta, 0.0f, 1.0f);
+                sceneBgImage.color = currentColor;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                currentColor = sceneBgImage.color;
+            }
         }
 
         private IEnumerator<float> _WaitStartScene(float wait)
@@ -136,6 +187,19 @@ namespace TankArena.UI.Dialogue
             //wait for complete start of scene
             if (!startedScene) { return; }
 
+            if (!readyForSignal)
+            {
+                if (currentAnimationWait > 0.0f)
+                {
+                    currentAnimationWait -= Time.deltaTime;
+                }
+                else
+                {
+                    currentAnimationWait = 0.0f;
+                    readyForSignal = true;
+                }
+            }
+
             //DO TEXT
             if (!finishedSpeechBit)
             {
@@ -151,18 +215,19 @@ namespace TankArena.UI.Dialogue
             }
 
             //DO SIGNALS 
-            if (currentBeatSignals.Count > 0 && !sentBeatSignals)
+            if (currentBeatSignals.Count > 0 && !sentBeatSignals && readyForSignal)
             {
                 var signal = currentBeatSignals[currentSignalIdx];
-                //actor is idle
-                if (actors[signal.signalType].readyForSignal)
+
+                DBG.Log("NEW SIGNAL: {0}", signal);
+
+                //actor is ready for singal or the actor is actually background, either way atcions
+                //are described for it
+                actorActions[signal.signalType](currentBeatSignals[currentSignalIdx]);
+                currentSignalIdx++;
+                if (currentSignalIdx >= currentBeatSignals.Count)
                 {
-                    actorActions[signal.signalType](currentBeatSignals[currentSignalIdx]);
-                    currentSignalIdx++;
-                    if (currentSignalIdx >= currentBeatSignals.Count)
-                    {
-                        sentBeatSignals = true;
-                    }
+                    sentBeatSignals = true;
                 }
             }
 

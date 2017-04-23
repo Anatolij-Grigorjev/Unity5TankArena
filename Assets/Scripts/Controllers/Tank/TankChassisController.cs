@@ -43,7 +43,7 @@ namespace TankArena.Controllers
         public Rigidbody2D tankRigidBody;
         public GameObject healthbarPrefab;
         private ProgressingBarController healthbarController;
-        public float regenFrequency = 5.0f; //num of seconds between regens
+        public float regenFrequency = 3.0f; //num of seconds between regens
         public float RegenPerInterval;
         private float currentRegenCooldown = 0.0f;
         public override void Awake()

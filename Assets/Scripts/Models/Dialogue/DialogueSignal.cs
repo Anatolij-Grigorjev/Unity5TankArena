@@ -3,6 +3,8 @@ using TankArena.Constants;
 using System.Collections.Generic;
 using SimpleJSON;
 using EK = TankArena.Constants.EntityKeys;
+using System;
+using System.Linq;
 
 namespace TankArena.Models.Dialogue
 {
@@ -24,6 +26,12 @@ namespace TankArena.Models.Dialogue
             var sigParams = DialogueSignalTypesHelper.ParseParams(signalType, json[EK.EK_SIGNAL_PARAMS].AsArray);
 
             return new DialogueSignal(signalType, sigParams);
+        }
+
+
+        public override string ToString()
+        {
+            return string.Format("SIGNAL: {0} | {1}", signalType, ExtensionMethods.Join(signalParams));
         }
     }
 }

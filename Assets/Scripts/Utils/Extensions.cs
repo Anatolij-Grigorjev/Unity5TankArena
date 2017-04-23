@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace TankArena.Utils
@@ -33,6 +34,19 @@ namespace TankArena.Utils
                     }
                 }
             }
+        }
+
+        public static string Join<T>(ICollection<T> collection, string separator = ",") 
+        {
+            StringBuilder builder = new StringBuilder("[");
+            collection.ForEachWithIndex((elem, idx) => {
+                builder.Append(elem);
+                if (idx < collection.Count - 1) {
+                    builder.Append(separator);
+                }
+            });
+            builder.Append("]");
+            return builder.ToString();
         }
 
         public static void ForEachWithIndex<T>(this IEnumerable<T> ie, Action<T, int> action)

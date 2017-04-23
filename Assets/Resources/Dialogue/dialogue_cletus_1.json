@@ -12,8 +12,11 @@
         {
             "signals": [
                 {
-                    "receiver": "left",
-                    "name": "Appear"
+                    "signal_type": "send_trigger_left",
+                    "signal_params": [
+                    	"ActorEnter",
+                    	false
+                    ]
                 }
             ]
         },
@@ -33,9 +36,19 @@
                 },
             "signals": [
             	{
-            		"receiver": "right",
-            		"name": "Appear"
-            	}
+                    "signal_type": "send_trigger_right",
+                    "signal_params": [
+                    	"ActorEnter",
+                    	false
+                    ]
+                },
+                {
+                    "signal_type": "change_bg",
+                    "signal_params": [
+                    	"!id;lugnut",
+                    	5.0
+                    ]
+                }
             ]
             
         },
@@ -48,21 +61,34 @@
             ,
             "signals": [
                 {
-                    "receiver": "left",
-                    "name": "DoShake"
+                    "signal_type": "send_trigger_left",
+                    "signal_params": [
+                    	"ActorShake"
+                    ]
                 }
             ]
         },
         {
         	"signals": [
         		{
-        			"receiver": "left",
-        			"name": "Leave"
-        		},
+                    "signal_type": "change_bg",
+                    "signal_params": [
+                    	"!id;cletus",
+                    	5.0
+                    ]
+                },
         		{
-        			"receiver": "right",
-        			"name": "Leave"
-        		}
+                    "signal_type": "send_trigger_left",
+                    "signal_params": [
+                    	"ActorLeave"
+                    ]
+                },
+        		{
+                    "signal_type": "send_trigger_right",
+                    "signal_params": [
+                    	"ActorLeave"
+                    ]
+                }
         	]
         }
     ]

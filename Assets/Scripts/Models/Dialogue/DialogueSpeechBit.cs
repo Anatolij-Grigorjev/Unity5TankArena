@@ -7,5 +7,10 @@ namespace TankArena.Models.Dialogue
     {
         public DialogueSignalTypes speaker;
         public string text;
+
+        public override string ToString()
+        {
+            return string.Format("SPEECH BIT\n {0}: {1}", speaker, text);
+        }
     }
 }

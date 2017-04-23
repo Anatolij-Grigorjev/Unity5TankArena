@@ -51,8 +51,13 @@ namespace TankArena.Constants
                 var results = new List<object>();
 
                 //only 1 param the background
-                if (arr.Count > 0) {
+                if (arr.Count > 0)
+                {
                     results.Add(FileLoadedEntityModel.ResolveSpecialOrKey(arr[0].Value, EntityKeys.EK_BACKGROUND_IMAGE));
+                }
+                if (arr.Count > 1)
+                {
+                    results.Add(arr[1].AsFloat);
                 }
 
                 return results;
