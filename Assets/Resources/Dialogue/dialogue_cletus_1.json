@@ -12,7 +12,7 @@
         {
             "signals": [
                 {
-                    "signal_type": "send_trigger_left",
+                    "signal_type": "left_action",
                     "signal_params": [
                     	"ActorEnter",
                     	false
@@ -36,7 +36,7 @@
                 },
             "signals": [
             	{
-                    "signal_type": "send_trigger_right",
+                    "signal_type": "right_action",
                     "signal_params": [
                     	"ActorEnter",
                     	false
@@ -61,7 +61,7 @@
             ,
             "signals": [
                 {
-                    "signal_type": "send_trigger_left",
+                    "signal_type": "left_action",
                     "signal_params": [
                     	"ActorShake"
                     ]
@@ -78,13 +78,13 @@
                     ]
                 },
         		{
-                    "signal_type": "send_trigger_left",
+                    "signal_type": "left_action",
                     "signal_params": [
                     	"ActorLeave"
                     ]
                 },
         		{
-                    "signal_type": "send_trigger_right",
+                    "signal_type": "right_action",
                     "signal_params": [
                     	"ActorLeave"
                     ]

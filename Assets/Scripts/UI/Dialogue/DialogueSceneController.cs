@@ -103,14 +103,14 @@ namespace TankArena.UI.Dialogue
             actors = new Dictionary<DialogueSignalTypes, DialogueActorController>()
             {
                 { DialogueSignalTypes.LEFT_ACTOR_SPEECH, leftActorController},
-                { DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER, leftActorController},
+                { DialogueSignalTypes.LEFT_ACTOR_ACTION, leftActorController},
                 { DialogueSignalTypes.RIGHT_ACTOR_SPEECH, rightActorController},
-                { DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER, rightActorController}
+                { DialogueSignalTypes.RIGHT_ACTOR_ACTION, rightActorController}
             };
             actorActions = new Dictionary<DialogueSignalTypes, Action<DialogueSignal>>()
             {
-                { DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER,  (signal) => {SendTriggerSignal(DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER, signal);}},
-                { DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER, signal);}},
+                { DialogueSignalTypes.LEFT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.LEFT_ACTOR_ACTION, signal);}},
+                { DialogueSignalTypes.RIGHT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_ACTION, signal);}},
                 { DialogueSignalTypes.CHANGE_BACKGROUND, (signal) => {
 
                     //first signal param is sprite

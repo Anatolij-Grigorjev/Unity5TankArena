@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 namespace TankArena.Utils
 {
@@ -39,6 +40,19 @@ namespace TankArena.Utils
                 .Where(clip => clip.name == clipName)
                 .Select(clip => clip.length)
                 .FirstOrDefault();
+        }
+
+        public static string PrintElements<T>(ICollection<T> collection, string separator = ",") 
+        {
+            StringBuilder builder = new StringBuilder("[");
+            collection.ForEachWithIndex((elem, idx) => {
+                builder.Append(elem);
+                if (idx < collection.Count - 1) {
+                    builder.Append(separator);
+                }
+            });
+            builder.Append("]");
+            return builder.ToString();
         }
 
         public static string ShortFormCash(float cash)

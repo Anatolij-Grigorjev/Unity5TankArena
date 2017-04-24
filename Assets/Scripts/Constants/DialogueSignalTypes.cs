@@ -11,8 +11,8 @@ namespace TankArena.Constants
     public enum DialogueSignalTypes
     {
 
-        LEFT_ACTOR_SEND_TRIGGER = 2,
-        RIGHT_ACTOR_SEND_TRIGGER = 3,
+        LEFT_ACTOR_ACTION = 2,
+        RIGHT_ACTOR_ACTION = 3,
         LEFT_ACTOR_SPEECH = 0,
         RIGHT_ACTOR_SPEECH = 1,
         CHANGE_BACKGROUND = 9
@@ -21,10 +21,10 @@ namespace TankArena.Constants
     public static class DialogueSignalTypesHelper
     {
         private static readonly Dictionary<string, DialogueSignalTypes> typesByTag = new Dictionary<string, DialogueSignalTypes>() {
-             { "send_trigger_left", DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER },
+             { "left_action", DialogueSignalTypes.LEFT_ACTOR_ACTION },
              { "left", DialogueSignalTypes.LEFT_ACTOR_SPEECH },
              { "right", DialogueSignalTypes.RIGHT_ACTOR_SPEECH },
-             { "send_trigger_right", DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER },
+             { "right_action", DialogueSignalTypes.RIGHT_ACTOR_ACTION },
              { "change_bg", DialogueSignalTypes.CHANGE_BACKGROUND }
         };
 
@@ -45,8 +45,8 @@ namespace TankArena.Constants
         };
 
         private static readonly Dictionary<DialogueSignalTypes, Func<JSONArray, List<object>>> typeParamsParsers = new Dictionary<DialogueSignalTypes, Func<JSONArray, List<object>>>() {
-           { DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER, actorTrigerParams },
-           { DialogueSignalTypes.RIGHT_ACTOR_SEND_TRIGGER, actorTrigerParams },
+           { DialogueSignalTypes.LEFT_ACTOR_ACTION, actorTrigerParams },
+           { DialogueSignalTypes.RIGHT_ACTOR_ACTION, actorTrigerParams },
            { DialogueSignalTypes.CHANGE_BACKGROUND, (arr) => {
                 var results = new List<object>();
 
@@ -72,7 +72,7 @@ namespace TankArena.Constants
             }
             else
             {
-                return DialogueSignalTypes.LEFT_ACTOR_SEND_TRIGGER;
+                return DialogueSignalTypes.LEFT_ACTOR_ACTION;
             }
         }
 

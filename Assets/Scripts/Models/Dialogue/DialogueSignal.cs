@@ -31,7 +31,7 @@ namespace TankArena.Models.Dialogue
 
         public override string ToString()
         {
-            return string.Format("SIGNAL: {0} | {1}", signalType, ExtensionMethods.Join(signalParams));
+            return string.Format("SIGNAL: {0} | {1}", signalType, UIUtils.PrintElements(signalParams));
         }
     }
 }
