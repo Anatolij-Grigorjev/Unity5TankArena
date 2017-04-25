@@ -65,7 +65,7 @@ namespace TankArena.UI.Dialogue
             {
                 if (dim)
                 {
-                    currentAnimationWait = ACTOR_DIM_TIME;
+                    sceneController.currentAnimationWait = ACTOR_DIM_TIME;
                     readyForSignal = false;
                     Timing.RunCoroutine(_DimActor(), dimTag);
                 }

@@ -140,7 +140,7 @@ namespace TankArena.UI.Dialogue
         private IEnumerator<float> _InterpolateBG(Sprite newBg, float time)
         {
             //this delta (in seconds) shows how much color to remove per frame
-            //using 2.0 insteado f 1 to account for bringin in second bg image
+            //using 2.0 instead of 1 to account for bringin in second bg image
             var opacityDelta = 2.0f / time;
             var currentColor = sceneBgImage.color;
 
