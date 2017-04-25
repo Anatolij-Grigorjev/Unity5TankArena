@@ -18,10 +18,12 @@ namespace TankArena.UI.Dialogue
         private DialogueScene dialogueSceneModel;
         public Text sceneTitleText;
         public Image sceneBgImage;
+        public GameObject sceneDialogBox;
         public float sceneBgInterpolateTime;
+        public float sceneStartTime;
+        public float sceneEndTime;
         public Text sceneDialogueText;
         public Text sceneSpeakerText;
-        public Animator sceneAnimator;
         public DialogueActorController leftActorController;
         public DialogueActorController rightActorController;
         private Dictionary<DialogueSignalTypes, DialogueActorController> actors;
@@ -75,8 +77,6 @@ namespace TankArena.UI.Dialogue
         private int currentSignalIdx = 0;
         public float lettersDelay = 0.2f;
         private float currentLetterDelay;
-        private float endAnimationWait;
-        private float startAnimationWait;
         private bool finishingScene = false; //only turn true when dialogue over and ready for outro
         private bool startedScene = false; //only turn true when intro played and ready for dialogue
         [HideInInspector]
@@ -86,26 +86,77 @@ namespace TankArena.UI.Dialogue
 
         private void SendTriggerSignal(DialogueSignalTypes ctx, DialogueSignal data)
         {
-
-            var controller = actors[ctx];
+            //even action numbers are from left actor, odd are from right
+            var controller = (int)ctx % 2 == 0? leftActorController : rightActorController;
             controller.SendMessage("UseTrigger", data.signalParams, SendMessageOptions.DontRequireReceiver);
             //animation wait will be handled by the actor
         }
 
         void Start()
         {
-            //get length of animation clips
-            startAnimationWait = UIUtils.ClipLengthByName(sceneAnimator, "DialogueTitleToScene");
-            endAnimationWait = UIUtils.ClipLengthByName(sceneAnimator, "DialogueOver");
-            DBG.Log("Found scene start|end animations: {0}|{1}", startAnimationWait, endAnimationWait);
+            //get dialogue model
+            // dialogueSceneId = (string)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_SCENE_ID];
+            dialogueSceneModel = EntitiesStore.Instance.DialogueScenes[dialogueSceneId];
+
+            //start building dialogue flow
+            SetSceneInfo(dialogueSceneModel);
+            Timing.RunCoroutine(_StartDeferred());
+        }
+
+        private IEnumerator<float> _PlaySceneStartAnimation()
+        {
+            sceneTitleText.color = Color.clear;
+            sceneBgImage.color = Color.black;
+            sceneDialogBox.SetActive(false);
+            var time = sceneStartTime / 2;
+            while (time > 0.0f)
+            {
+                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.white, Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+            sceneTitleText.color = Color.white;
+            //half a second to read intro text
+            yield return Timing.WaitForSeconds(0.5f);
+            time = sceneStartTime / 2;
+            while(time > 0.0f) 
+            {
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Timing.DeltaTime);
+                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.clear, Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                yield return Timing.DeltaTime;
+            }
+
+            sceneBgImage.color = Color.white;
+            sceneTitleText.gameObject.SetActive(false);
+            sceneDialogBox.SetActive(true);
+        }
+
+        private IEnumerator<float> _PlayEndSceneAnimation()
+        {
+            sceneDialogBox.SetActive(false);
+            var time = sceneEndTime;
+            while (time > 0.0f) 
+            {
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+
+            sceneBgImage.color = Color.black;
+
+        }
+
+        private IEnumerator<float> _StartDeferred()
+        {
+            var handle = Timing.RunCoroutine(_PlaySceneStartAnimation());
+            yield return Timing.WaitUntilDone(handle);
 
             currentBeatSignals = new List<DialogueSignal>();
             actors = new Dictionary<DialogueSignalTypes, DialogueActorController>()
             {
                 { DialogueSignalTypes.LEFT_ACTOR_SPEECH, leftActorController},
-                { DialogueSignalTypes.LEFT_ACTOR_ACTION, leftActorController},
                 { DialogueSignalTypes.RIGHT_ACTOR_SPEECH, rightActorController},
-                { DialogueSignalTypes.RIGHT_ACTOR_ACTION, rightActorController}
             };
             actorActions = new Dictionary<DialogueSignalTypes, Action<DialogueSignal>>()
             {
@@ -127,50 +178,40 @@ namespace TankArena.UI.Dialogue
                     readyForSignal = false;
                 }}
             };
-            //get dialogue model
-            // dialogueSceneId = (string)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_SCENE_ID];
-            dialogueSceneModel = EntitiesStore.Instance.DialogueScenes[dialogueSceneId];
-
-            //start building dialogue flow
-            SetSceneInfo(dialogueSceneModel);
             CurrentBeatIdx = 0;
-            Timing.RunCoroutine(_WaitStartScene(startAnimationWait));
+            startedScene = true;
         }
 
-        private IEnumerator<float> _InterpolateBG(Sprite newBg, float time)
+        private IEnumerator<float> _InterpolateBG(Sprite newBg, float interpolateTime)
         {
-            //this delta (in seconds) shows how much color to remove per frame
-            //using 2.0 instead of 1 to account for bringin in second bg image
-            var opacityDelta = 2.0f / time;
-            var currentColor = sceneBgImage.color;
+            //use half time to reduce to black and second half to go from black up again
+            var time = interpolateTime / 2;
 
             //fade out image
-            while (currentColor.a > 0.0f)
+            while (time > 0.0f)
             {
-                currentColor.a = Mathf.Clamp(currentColor.a - opacityDelta, 0.0f, 1.0f);
-                sceneBgImage.color = currentColor;
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Timing.DeltaTime);
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
-                if (currentColor.a <= 0.0f)
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
                 {
                     sceneBgImage.sprite = newBg;
+                    sceneBgImage.color = Color.black;
                 }
-                currentColor = sceneBgImage.color;
             }
 
             //fade in new one
-            while (currentColor.a < 1.0f)
+            time = interpolateTime / 2;
+            while (time > 0.0f)
             {
-                currentColor.a = Mathf.Clamp(currentColor.a + opacityDelta, 0.0f, 1.0f);
-                sceneBgImage.color = currentColor;
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Timing.DeltaTime);
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
-                currentColor = sceneBgImage.color;
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
+                {
+                    sceneBgImage.color = Color.white;
+                }
             }
-        }
-
-        private IEnumerator<float> _WaitStartScene(float wait)
-        {
-            yield return Timing.WaitForSeconds(wait);
-            startedScene = true;
         }
 
         private void SetSceneInfo(DialogueScene model)
@@ -249,8 +290,8 @@ namespace TankArena.UI.Dialogue
                 if (CurrentBeatIdx >= dialogueSceneModel.dialogueBeats.Count)
                 {
                     finishingScene = true;
-                    sceneAnimator.SetTrigger(AnimationParameters.TRIGGER_FINISH_DIALOGUE);
-                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, endAnimationWait);
+                    Timing.RunCoroutine(_PlayEndSceneAnimation());
+                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, sceneEndTime);
                 }
 
             }

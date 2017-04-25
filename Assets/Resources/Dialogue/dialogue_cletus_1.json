@@ -46,7 +46,7 @@
                     "signal_type": "change_bg",
                     "signal_params": [
                     	"!id;lugnut",
-                    	5.0
+                    	1.5
                     ]
                 }
             ]
@@ -74,7 +74,7 @@
                     "signal_type": "change_bg",
                     "signal_params": [
                     	"!id;cletus",
-                    	5.0
+                    	1.5
                     ]
                 },
         		{

@@ -12,7 +12,7 @@ namespace TankArena.UI.Dialogue
     public class DialogueActorController : MonoBehaviour
     {
 
-        private readonly Color ACTOR_DIM_COLOR = new Color(0.45f, 0.45f, 0.45f, 1.0f);
+        private readonly Color ACTOR_DIM_COLOR = new Color(0.15f, 0.15f, 0.15f, 1.0f);
         private const float ACTOR_DEFAULT_MOVE_TIME = 0.5f;
         private const float ACTOR_DIM_TIME = 0.25f;
         public Image actorModel;
@@ -66,7 +66,7 @@ namespace TankArena.UI.Dialogue
                 if (dim)
                 {
                     sceneController.currentAnimationWait = ACTOR_DIM_TIME;
-                    readyForSignal = false;
+                    sceneController.readyForSignal = false;
                     Timing.RunCoroutine(_DimActor(), dimTag);
                 }
                 else
@@ -93,6 +93,7 @@ namespace TankArena.UI.Dialogue
 
         public void ResetActor()
         {
+            DBG.Log("RESET ACTOR {0} | IGNORED: {1}", actorOrientation, !actorVisible);
             if (actorVisible)
             {
                 //kill active routines
@@ -118,16 +119,22 @@ namespace TankArena.UI.Dialogue
 
         private IEnumerator<float> _DimActor()
         {
+            //kill dimming if active
+            Timing.KillCoroutines(dimTag);
             var color = actorModel.color;
             
             float discolorRate = (color.r - ACTOR_DIM_COLOR.r) / (1.0f / ACTOR_DIM_TIME);
             DBG.Log("Dimming actor {0} at rate {1}", actorOrientation, discolorRate);
-            while (color != ACTOR_DIM_COLOR)
+            int idx = 0;
+            while (color.r > ACTOR_DIM_COLOR.r)
             {
+
                 color.r -= discolorRate;
                 color.b -= discolorRate;
                 color.g -= discolorRate;
                 actorModel.color = color;
+                DBG.Log("#{2} Dimming {1} by {0} down to {3}", discolorRate, actorOrientation, idx, color);
+                idx++;
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
             }
         }

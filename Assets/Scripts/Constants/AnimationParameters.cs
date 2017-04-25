@@ -19,6 +19,5 @@
         public const string TRIGGER_RESET_TURRET = "ResetTurret";
         public const string TRIGGER_SPIN_TRACKS = "SpinTracks";
         public const string TRIGGER_RESET_TRACKS = "ResetTracks";
-        public const string TRIGGER_FINISH_DIALOGUE = "FinishDialogue";
     }
 }
