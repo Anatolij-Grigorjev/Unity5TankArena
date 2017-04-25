@@ -39,6 +39,7 @@ namespace TankArena.UI.Dialogue
                 currentBeatSignals.Clear();
                 currentAnimationWait = 0.0f;
                 readyForSignal = true;
+                actors.ForEachWithIndex((actor, idx) => actor.Value.ResetActor());
                 if (currentBeatIdx < dialogueSceneModel.dialogueBeats.Count)
                 {
                     currentBeat = dialogueSceneModel[value];
@@ -64,7 +65,6 @@ namespace TankArena.UI.Dialogue
                     currentSignalIdx = 0;
                     currentLetterDelay = lettersDelay;
 
-                    actors.ForEachWithIndex((actor, idx) => actor.Value.ResetActor());
                 }
                 DBG.Log("current beat idx: {0} | beat signals: {1} | beat speech: {2}", currentBeatIdx, currentBeatSignals.Count, !finishedSpeechBit);
             }

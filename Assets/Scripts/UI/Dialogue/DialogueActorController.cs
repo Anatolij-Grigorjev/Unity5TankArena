@@ -14,6 +14,7 @@ namespace TankArena.UI.Dialogue
 
         private readonly Color ACTOR_DIM_COLOR = new Color(0.45f, 0.45f, 0.45f, 1.0f);
         private const float ACTOR_DEFAULT_MOVE_TIME = 0.5f;
+        private const float ACTOR_DIM_TIME = 0.25f;
         public Image actorModel;
         public string actorName;
         public DialogueSceneController sceneController;
@@ -64,6 +65,8 @@ namespace TankArena.UI.Dialogue
             {
                 if (dim)
                 {
+                    currentAnimationWait = ACTOR_DIM_TIME;
+                    readyForSignal = false;
                     Timing.RunCoroutine(_DimActor(), dimTag);
                 }
                 else
@@ -116,10 +119,12 @@ namespace TankArena.UI.Dialogue
         private IEnumerator<float> _DimActor()
         {
             var color = actorModel.color;
-            float discolorRate = 0.05f;
+            
+            float discolorRate = (color.r - ACTOR_DIM_COLOR.r) / (1.0f / ACTOR_DIM_TIME);
+            DBG.Log("Dimming actor {0} at rate {1}", actorOrientation, discolorRate);
             while (color != ACTOR_DIM_COLOR)
             {
-                color.a -= discolorRate;
+                color.r -= discolorRate;
                 color.b -= discolorRate;
                 color.g -= discolorRate;
                 actorModel.color = color;
