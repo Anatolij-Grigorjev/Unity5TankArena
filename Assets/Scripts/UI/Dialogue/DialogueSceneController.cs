@@ -87,7 +87,7 @@ namespace TankArena.UI.Dialogue
         private void SendTriggerSignal(DialogueSignalTypes ctx, DialogueSignal data)
         {
             //even action numbers are from left actor, odd are from right
-            var controller = (int)ctx % 2 == 0? leftActorController : rightActorController;
+            var controller = (int)ctx % 2 == 0 ? leftActorController : rightActorController;
             controller.SendMessage("UseTrigger", data.signalParams, SendMessageOptions.DontRequireReceiver);
             //animation wait will be handled by the actor
         }
@@ -103,116 +103,7 @@ namespace TankArena.UI.Dialogue
             Timing.RunCoroutine(_StartDeferred());
         }
 
-        private IEnumerator<float> _PlaySceneStartAnimation()
-        {
-            sceneTitleText.color = Color.clear;
-            sceneBgImage.color = Color.black;
-            sceneDialogBox.SetActive(false);
-            var time = sceneStartTime / 2;
-            while (time > 0.0f)
-            {
-                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.white, Timing.DeltaTime);
-                time -= Timing.DeltaTime;
-                yield return Timing.WaitForSeconds(Timing.DeltaTime);
-            }
-            sceneTitleText.color = Color.white;
-            //half a second to read intro text
-            yield return Timing.WaitForSeconds(0.5f);
-            time = sceneStartTime / 2;
-            while(time > 0.0f) 
-            {
-                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Timing.DeltaTime);
-                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.clear, Timing.DeltaTime);
-                time -= Timing.DeltaTime;
-                yield return Timing.DeltaTime;
-            }
 
-            sceneBgImage.color = Color.white;
-            sceneTitleText.gameObject.SetActive(false);
-            sceneDialogBox.SetActive(true);
-        }
-
-        private IEnumerator<float> _PlayEndSceneAnimation()
-        {
-            sceneDialogBox.SetActive(false);
-            var time = sceneEndTime;
-            while (time > 0.0f) 
-            {
-                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Timing.DeltaTime);
-                time -= Timing.DeltaTime;
-                yield return Timing.WaitForSeconds(Timing.DeltaTime);
-            }
-
-            sceneBgImage.color = Color.black;
-
-        }
-
-        private IEnumerator<float> _StartDeferred()
-        {
-            var handle = Timing.RunCoroutine(_PlaySceneStartAnimation());
-            yield return Timing.WaitUntilDone(handle);
-
-            currentBeatSignals = new List<DialogueSignal>();
-            actors = new Dictionary<DialogueSignalTypes, DialogueActorController>()
-            {
-                { DialogueSignalTypes.LEFT_ACTOR_SPEECH, leftActorController},
-                { DialogueSignalTypes.RIGHT_ACTOR_SPEECH, rightActorController},
-            };
-            actorActions = new Dictionary<DialogueSignalTypes, Action<DialogueSignal>>()
-            {
-                { DialogueSignalTypes.LEFT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.LEFT_ACTOR_ACTION, signal);}},
-                { DialogueSignalTypes.RIGHT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_ACTION, signal);}},
-                { DialogueSignalTypes.CHANGE_BACKGROUND, (signal) => {
-
-                    //first signal param is sprite
-                    var sprite = (Sprite)signal.signalParams[0];
-                    var time = sceneBgInterpolateTime;
-                    //second might be time or we use default
-                    if (signal.signalParams.Count > 1)
-                    {
-                        time = (float)signal.signalParams[1];
-                    }
-                    DBG.Log("Interpolating sprite {0} for time: {1}", sprite, time);
-                    Timing.RunCoroutine(_InterpolateBG(sprite, time));
-                    currentAnimationWait = time;
-                    readyForSignal = false;
-                }}
-            };
-            CurrentBeatIdx = 0;
-            startedScene = true;
-        }
-
-        private IEnumerator<float> _InterpolateBG(Sprite newBg, float interpolateTime)
-        {
-            //use half time to reduce to black and second half to go from black up again
-            var time = interpolateTime / 2;
-
-            //fade out image
-            while (time > 0.0f)
-            {
-                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Timing.DeltaTime);
-                yield return Timing.WaitForSeconds(Timing.DeltaTime);
-                time -= Timing.DeltaTime;
-                if (time <= 0.0f)
-                {
-                    sceneBgImage.sprite = newBg;
-                    sceneBgImage.color = Color.black;
-                }
-            }
-
-            //fade in new one
-            time = interpolateTime / 2;
-            while (time > 0.0f)
-            {
-                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Timing.DeltaTime);
-                yield return Timing.WaitForSeconds(Timing.DeltaTime);
-                time -= Timing.DeltaTime;
-                if (time <= 0.0f)
-                {
-                    sceneBgImage.color = Color.white;
-                }
-            }
-        }
 
         private void SetSceneInfo(DialogueScene model)
         {
@@ -296,6 +187,122 @@ namespace TankArena.UI.Dialogue
 
             }
         }
+
+        //       COROUTINES
+
+        private IEnumerator<float> _PlaySceneStartAnimation()
+        {
+            sceneTitleText.color = Color.clear;
+            sceneBgImage.color = Color.black;
+            sceneDialogBox.SetActive(false);
+            var halfTime = sceneStartTime / 2;
+            var time = halfTime;
+            while (time > 0.0f)
+            {
+                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.white, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                time -= Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+            sceneTitleText.color = Color.white;
+            //half a second to read intro text
+            yield return Timing.WaitForSeconds(0.5f);
+            time = halfTime;
+            while (time > 0.0f)
+            {
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                sceneTitleText.color = Color.Lerp(sceneTitleText.color, Color.clear, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                time -= Timing.DeltaTime;
+                yield return Timing.DeltaTime;
+            }
+
+            sceneBgImage.color = Color.white;
+            sceneTitleText.gameObject.SetActive(false);
+            sceneDialogBox.SetActive(true);
+        }
+
+        private IEnumerator<float> _PlayEndSceneAnimation()
+        {
+            sceneDialogBox.SetActive(false);
+            var time = sceneEndTime;
+            while (time > 0.0f)
+            {
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Mathf.SmoothStep(0.0f, 1.0f, (sceneEndTime - time) / sceneEndTime));
+                time -= Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+
+            sceneBgImage.color = Color.black;
+
+        }
+
+        private IEnumerator<float> _StartDeferred()
+        {
+            var handle = Timing.RunCoroutine(_PlaySceneStartAnimation());
+            yield return Timing.WaitUntilDone(handle);
+
+            currentBeatSignals = new List<DialogueSignal>();
+            actors = new Dictionary<DialogueSignalTypes, DialogueActorController>()
+            {
+                { DialogueSignalTypes.LEFT_ACTOR_SPEECH, leftActorController},
+                { DialogueSignalTypes.RIGHT_ACTOR_SPEECH, rightActorController},
+            };
+            actorActions = new Dictionary<DialogueSignalTypes, Action<DialogueSignal>>()
+            {
+                { DialogueSignalTypes.LEFT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.LEFT_ACTOR_ACTION, signal);}},
+                { DialogueSignalTypes.RIGHT_ACTOR_ACTION,  (signal) => {SendTriggerSignal(DialogueSignalTypes.RIGHT_ACTOR_ACTION, signal);}},
+                { DialogueSignalTypes.CHANGE_BACKGROUND, (signal) => {
+
+                    //first signal param is sprite
+                    var sprite = (Sprite)signal.signalParams[0];
+                    var time = sceneBgInterpolateTime;
+                    //second might be time or we use default
+                    if (signal.signalParams.Count > 1)
+                    {
+                        time = (float)signal.signalParams[1];
+                    }
+                    DBG.Log("Interpolating sprite {0} for time: {1}", sprite, time);
+                    Timing.RunCoroutine(_InterpolateBG(sprite, time));
+                    currentAnimationWait = time;
+                    readyForSignal = false;
+                }}
+            };
+            CurrentBeatIdx = 0;
+            startedScene = true;
+        }
+
+        private IEnumerator<float> _InterpolateBG(Sprite newBg, float interpolateTime)
+        {
+            //use half time to reduce to black and second half to go from black up again
+            var halfTime = interpolateTime / 2;
+            var time = halfTime;
+            //fade out image
+            while (time > 0.0f)
+            {
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.black, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
+                {
+                    sceneBgImage.sprite = newBg;
+                    sceneBgImage.color = Color.black;
+                }
+            }
+
+            //fade in new one
+            time = halfTime;
+            while (time > 0.0f)
+            {
+                //lerp is smothed by math smooth, but we also express the time in percentiles of max in order to keep smooth range 0-1
+                sceneBgImage.color = Color.Lerp(sceneBgImage.color, Color.white, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
+                {
+                    sceneBgImage.color = Color.white;
+                }
+            }
+        }
+
     }
 
 }

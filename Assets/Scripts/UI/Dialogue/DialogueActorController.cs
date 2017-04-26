@@ -12,9 +12,9 @@ namespace TankArena.UI.Dialogue
     public class DialogueActorController : MonoBehaviour
     {
 
-        private readonly Color ACTOR_DIM_COLOR = new Color(0.15f, 0.15f, 0.15f, 1.0f);
-        private const float ACTOR_DEFAULT_MOVE_TIME = 0.5f;
-        private const float ACTOR_DIM_TIME = 0.25f;
+        private readonly Color ACTOR_DIM_COLOR = new Color(0.45f, 0.45f, 0.45f, 1.0f);
+        private const float ACTOR_DEFAULT_MOVE_TIME = 1.5f;
+        private const float ACTOR_DIM_TIME = 0.7f;
         public Image actorModel;
         public string actorName;
         public DialogueSceneController sceneController;
@@ -119,49 +119,41 @@ namespace TankArena.UI.Dialogue
 
         private IEnumerator<float> _DimActor()
         {
-            //kill dimming if active
-            Timing.KillCoroutines(dimTag);
             var color = actorModel.color;
-            
-            float discolorRate = (color.r - ACTOR_DIM_COLOR.r) / (1.0f / ACTOR_DIM_TIME);
-            DBG.Log("Dimming actor {0} at rate {1}", actorOrientation, discolorRate);
-            int idx = 0;
-            while (color.r > ACTOR_DIM_COLOR.r)
-            {
 
-                color.r -= discolorRate;
-                color.b -= discolorRate;
-                color.g -= discolorRate;
-                actorModel.color = color;
-                DBG.Log("#{2} Dimming {1} by {0} down to {3}", discolorRate, actorOrientation, idx, color);
-                idx++;
+            DBG.Log("Dimming actor {0}", actorOrientation);
+            var time = ACTOR_DIM_TIME;
+            while (time > 0.0f)
+            {
+                actorModel.color = Color.Lerp(actorModel.color, ACTOR_DIM_COLOR, Mathf.SmoothStep(0.0f, 1.0f, (ACTOR_DIM_TIME - time) / ACTOR_DIM_TIME));
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
             }
+            actorModel.color = ACTOR_DIM_COLOR;
         }
 
         private IEnumerator<float> _MoveActor(Vector3 targetPos, float animationTime = ACTOR_DEFAULT_MOVE_TIME)
-        {   
+        {
             var rectTransform = transform as RectTransform;
-            Vector3 position = rectTransform.anchoredPosition;
-            int framesCount = Mathf.RoundToInt(animationTime / Timing.DeltaTime);
-            var delta = (targetPos - position) / framesCount;
-
-            for (int i = 0; i < framesCount; i++)
+            
+            var time = animationTime;
+            while (time > 0.0f)
             {
-                position += delta;
-                rectTransform.anchoredPosition = position;
+                rectTransform.anchoredPosition = Vector3.Lerp(rectTransform.anchoredPosition, targetPos, Mathf.SmoothStep(0.0f, 1.0f, (animationTime - time) / animationTime ));
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
             }
+            rectTransform.anchoredPosition = targetPos;
             actorVisible = targetPos == actorOnScreenPosition;
         }
 
-        private IEnumerator<float> _ShakeActor(int numShakes, float shakeDuration) 
+        private IEnumerator<float> _ShakeActor(int numShakes, float shakeDuration)
         {
             DBG.Log("Shaking {0} for {1} times, each shake {2} seconds", actorOrientation, numShakes, shakeDuration);
             var rectTransform = transform as RectTransform;
             var origin = rectTransform.anchoredPosition;
-            
-            for (int i = 0; i < numShakes; i++) 
+
+            for (int i = 0; i < numShakes; i++)
             {
                 rectTransform.anchoredPosition += RandomUtils.RandomVector2D(7.5f, 7.5f, -7.5f, -7.5f);
                 yield return Timing.WaitForSeconds(shakeDuration);
