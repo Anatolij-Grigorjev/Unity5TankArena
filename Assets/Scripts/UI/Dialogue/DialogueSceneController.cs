@@ -20,8 +20,8 @@ namespace TankArena.UI.Dialogue
         public Image sceneBgImage;
         public GameObject sceneDialogBox;
         public float sceneBgInterpolateTime;
-        public float sceneStartTime;
-        public float sceneEndTime;
+        private float sceneStartTime;
+        private float sceneEndTime;
         public Text sceneDialogueText;
         public Text sceneSpeakerText;
         public DialogueActorController leftActorController;
@@ -75,7 +75,7 @@ namespace TankArena.UI.Dialogue
         private bool finishedSpeechBit = false;
         private int currentTextIdx = 0;
         private int currentSignalIdx = 0;
-        public float lettersDelay = 0.2f;
+        public float lettersDelay = 0.1f;
         private float currentLetterDelay;
         private bool finishingScene = false; //only turn true when dialogue over and ready for outro
         private bool startedScene = false; //only turn true when intro played and ready for dialogue
@@ -86,8 +86,8 @@ namespace TankArena.UI.Dialogue
 
         private void SendTriggerSignal(DialogueSignalTypes ctx, DialogueSignal data)
         {
-            //even action numbers are from left actor, odd are from right
-            var controller = (int)ctx % 2 == 0 ? leftActorController : rightActorController;
+            
+            var controller = ctx.ToString().StartsWith("LEFT") ? leftActorController : rightActorController;
             controller.SendMessage("UseTrigger", data.signalParams, SendMessageOptions.DontRequireReceiver);
             //animation wait will be handled by the actor
         }
@@ -109,8 +109,13 @@ namespace TankArena.UI.Dialogue
         {
             sceneTitleText.text = dialogueSceneModel.Name;
             sceneBgImage.sprite = dialogueSceneModel.SceneBackground;
-            leftActorController.SetNameAndModel(dialogueSceneModel.LeftName, dialogueSceneModel.LeftModel);
-            rightActorController.SetNameAndModel(dialogueSceneModel.RightName, dialogueSceneModel.RightModel);
+            sceneStartTime = model.SceneStartTime;
+            sceneEndTime = model.SceneEndTime;
+
+            leftActorController.SetActorInfo(dialogueSceneModel.LeftActor);
+            rightActorController.SetActorInfo(dialogueSceneModel.RightActor);
+
+
         }
 
 
@@ -264,7 +269,9 @@ namespace TankArena.UI.Dialogue
                     Timing.RunCoroutine(_InterpolateBG(sprite, time));
                     currentAnimationWait = time;
                     readyForSignal = false;
-                }}
+                }},
+                { DialogueSignalTypes.LEFT_CHANGE_MODEL, (signal) => { leftActorController.DoModelChange(signal.signalParams); }},
+                { DialogueSignalTypes.RIGHT_CHANGE_MODEL, (signal) => { rightActorController.DoModelChange(signal.signalParams); }}
             };
             CurrentBeatIdx = 0;
             startedScene = true;

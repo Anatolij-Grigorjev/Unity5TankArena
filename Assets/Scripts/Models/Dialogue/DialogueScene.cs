@@ -9,6 +9,8 @@ namespace TankArena.Models.Dialogue
     public class DialogueScene : FileLoadedEntityModel
     {
 
+        private const float SCENE_DEFAULT_START_TIME = 1.5f;
+        private const float SCENE_DEFAULT_END_TIME = 1.5f;
         public Sprite SceneBackground
         {
             get
@@ -16,35 +18,36 @@ namespace TankArena.Models.Dialogue
                 return (Sprite)properties[EK.EK_BACKGROUND_IMAGE];
             }
         }
+        public float SceneStartTime 
+        {
+            get
+            {
+                return (float)properties[EK.EK_START_TIME];
+            }
+        }
+        public float SceneEndTime
+        {
+            get
+            {
+                return (float)properties[EK.EK_END_TIME];
+            }
+        }
 
-        public Sprite LeftModel
+        public DialogueSceneActorInfo LeftActor
         {
-            get
+            get 
             {
-                return (Sprite)properties[EK.EK_MODEL_LEFT];
+                return (DialogueSceneActorInfo)properties[EK.EK_ACTOR_LEFT];
             }
         }
-        public Sprite RightModel
+        public DialogueSceneActorInfo RightActor
         {
-            get
+            get 
             {
-                return (Sprite)properties[EK.EK_MODEL_RIGHT];
+                return (DialogueSceneActorInfo)properties[EK.EK_ACTOR_RIGHT];
             }
         }
-        public string LeftName
-        {
-            get
-            {
-                return (string)properties[EK.EK_NAME_LEFT];
-            }
-        }
-        public string RightName
-        {
-            get
-            {
-                return (string)properties[EK.EK_NAME_RIGHT];
-            }
-        }
+
         public List<DialogueBeat> dialogueBeats;
 
         //quick access to specific scene beat
@@ -63,15 +66,19 @@ namespace TankArena.Models.Dialogue
             //GET DIALOGUE SCENE MODEL META INFO
             JSONClass scene = json[EK.EK_SCENE].AsObject;
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialOrKey(scene[EK.EK_BACKGROUND_IMAGE], EK.EK_BACKGROUND_IMAGE);
+            properties[EK.EK_START_TIME] = scene[EK.EK_START_TIME].AsFloat;
+            if (SceneStartTime == 0.0f) 
+            {
+                properties[EK.EK_START_TIME] = SCENE_DEFAULT_START_TIME;
+            }
+            properties[EK.EK_END_TIME] = scene[EK.EK_END_TIME].AsFloat;
+            if (SceneEndTime == 0.0f) 
+            {
+                properties[EK.EK_END_TIME] = SCENE_DEFAULT_END_TIME;
+            }
 
-            foreach (string key in new string[] { EK.EK_MODEL_LEFT, EK.EK_MODEL_RIGHT })
-            {
-                properties[key] = ResolveSpecialOrKey(scene[key], EK.EK_CHARACTER_MODEL_IMAGE);
-            }
-            foreach (string nameKey in new string[] { EK.EK_NAME_LEFT, EK.EK_NAME_RIGHT })
-            {
-                properties[nameKey] = ResolveSpecialOrKey(scene[nameKey], EK.EK_NAME);
-            }
+            properties[EK.EK_ACTOR_LEFT] = DialogueSceneActorInfo.parseJSON(scene[EK.EK_ACTOR_LEFT].AsObject);
+            properties[EK.EK_ACTOR_RIGHT] = DialogueSceneActorInfo.parseJSON(scene[EK.EK_ACTOR_RIGHT].AsObject);
 
             dialogueBeats = new List<DialogueBeat>();
             // GET INDIVIDUAL DIALOGUE BEATS

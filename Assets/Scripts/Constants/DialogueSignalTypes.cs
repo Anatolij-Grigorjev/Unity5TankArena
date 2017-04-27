@@ -15,17 +15,24 @@ namespace TankArena.Constants
         RIGHT_ACTOR_ACTION = 3,
         LEFT_ACTOR_SPEECH = 0,
         RIGHT_ACTOR_SPEECH = 1,
+        LEFT_CHANGE_MODEL = 4,
+        RIGHT_CHANGE_MODEL = 5,
         CHANGE_BACKGROUND = 9
     }
 
     public static class DialogueSignalTypesHelper
     {
         private static readonly Dictionary<string, DialogueSignalTypes> typesByTag = new Dictionary<string, DialogueSignalTypes>() {
-             { "left_action", DialogueSignalTypes.LEFT_ACTOR_ACTION },
+            //SPEECH KEYS
              { "left", DialogueSignalTypes.LEFT_ACTOR_SPEECH },
              { "right", DialogueSignalTypes.RIGHT_ACTOR_SPEECH },
+
+            //  ACTIONS KEYS
+             { "left_action", DialogueSignalTypes.LEFT_ACTOR_ACTION },
              { "right_action", DialogueSignalTypes.RIGHT_ACTOR_ACTION },
-             { "change_bg", DialogueSignalTypes.CHANGE_BACKGROUND }
+             { "change_bg", DialogueSignalTypes.CHANGE_BACKGROUND },
+             { "left_change_model", DialogueSignalTypes.LEFT_CHANGE_MODEL }
+             { "right_change_model", DialogueSignalTypes.RIGHT_CHANGE_MODEL }
         };
 
         private static readonly Func<JSONArray, List<object>> actorTrigerParams = (arr) =>
@@ -41,6 +48,20 @@ namespace TankArena.Constants
             {
                 results.Add(arr[1].AsBool);
             }
+
+            return results;
+        };
+
+        private static readonly Func<JSONArray, List<object>> actorChangeModelParams = (arr) =>
+        {
+
+            var results = new List<object>();
+            //1st param is new image of model
+            if (arr.Count > 0)
+            {
+                results.Add(FileLoadedEntityModel.ResolveSpecialOrKey(arr[0].Value, EntityKeys.EK_CHARACTER_MODEL_IMAGE))
+                }
+
             return results;
         };
 
@@ -61,7 +82,9 @@ namespace TankArena.Constants
                 }
 
                 return results;
-           } }
+           } },
+           { DialogueSignalTypes.LEFT_CHANGE_MODEL, actorChangeModelParams},
+           { DialogueSignalTypes.RIGHT_CHANGE_MODEL, actorChangeModelParams}
         };
 
         public static DialogueSignalTypes Parse(string type)

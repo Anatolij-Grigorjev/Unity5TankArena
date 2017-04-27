@@ -33,17 +33,18 @@ namespace TankArena.Constants
 
         // DIALOGUE
         public const string EK_SCENE = "scene";
-        public const string EK_MODEL_LEFT = "model_left";
-        public const string EK_MODEL_RIGHT = "model_right";
-        public const string EK_NAME_LEFT = "name_left";
-        public const string EK_NAME_RIGHT = "name_right";
+        public const string EK_ACTOR_LEFT = "actor_left";
+        public const string EK_ACTOR_RIGHT = "actor_right";
+        public const string EK_DIM_TIME = "dim_time";
+        public const string EK_MOVE_TIME = "move_time";
+        public const string EK_START_TIME = "start_time";
+        public const string EK_END_TIME = "end_time";
         public const string EK_SPEECH = "speech";
         public const string EK_SIGNALS = "signals";
         public const string EK_SIGNAL_TYPE = "signal_type";
         public const string EK_SIGNAL_PARAMS = "signal_params";
         public const string EK_TEXT = "text";
         public const string EK_SPEAKER = "speaker";
-        public const string EK_RECEIVER = "receiver";
         public const string EK_BEATS = "beats";
 
         //TANK PARTS

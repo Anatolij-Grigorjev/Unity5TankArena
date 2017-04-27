@@ -3,10 +3,18 @@
     "name": "The unfinished\nconversation",
     "scene": {
         "background": "!id;cletus",
-        "model_left": "!id;cletus",
-        "model_right": "!id;lugnut",
-        "name_left": "Cletus",
-        "name_right": "A terrorist"
+        "start_time": 2.0,
+        "end_time": 1.0,
+        "actor_left": {
+        	"char_model": "!id;cletus",
+        	"name": "Cletus",
+        	"dim_time": 0.6,
+        	"move_time": 1.1
+        },
+        "actor_left": {
+        	"char_model": "!id;lugnut",
+        	"name": "Terrorist"
+        }
     },
     "beats": [
         {

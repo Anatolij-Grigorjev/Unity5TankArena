@@ -6,6 +6,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using TankArena.Models.Dialogue;
 
 namespace TankArena.UI.Dialogue
 {
@@ -13,8 +14,9 @@ namespace TankArena.UI.Dialogue
     {
 
         private readonly Color ACTOR_DIM_COLOR = new Color(0.45f, 0.45f, 0.45f, 1.0f);
-        private const float ACTOR_DEFAULT_MOVE_TIME = 1.5f;
-        private const float ACTOR_DIM_TIME = 0.7f;
+        
+        private float actorDimTime;
+        private float actorMoveTime;
         public Image actorModel;
         public string actorName;
         public DialogueSceneController sceneController;
@@ -32,9 +34,9 @@ namespace TankArena.UI.Dialogue
             actorStartPosition = (transform as RectTransform).anchoredPosition;
             actionsResponses = new Dictionary<string, Action>() {
                 { "ActorEnter", () => {
-                    sceneController.currentAnimationWait = ACTOR_DEFAULT_MOVE_TIME;
+                    sceneController.currentAnimationWait = actorMoveTime;
                     currentAnimationTag = "ActorEnter";
-                    Timing.RunCoroutine(_MoveActor(actorOnScreenPosition), "ActorEnter");
+                    Timing.RunCoroutine(_MoveActor(actorOnScreenPosition, actorMoveTime), "ActorEnter");
                 }},
                 { "ActorShake", () => {
                     int numShakes = 35;
@@ -45,9 +47,9 @@ namespace TankArena.UI.Dialogue
                     Timing.RunCoroutine(_ShakeActor(numShakes, shakeDuration), "ActorShake");
                 }},
                 { "ActorLeave", () => {
-                    sceneController.currentAnimationWait = ACTOR_DEFAULT_MOVE_TIME;
+                    sceneController.currentAnimationWait = actorMoveTime;
                     currentAnimationTag = "ActorLeave";
-                    Timing.RunCoroutine(_MoveActor(actorStartPosition), "ActorLeave");
+                    Timing.RunCoroutine(_MoveActor(actorStartPosition, actorMoveTime), "ActorLeave");
                 }}
             };
         }
@@ -65,7 +67,7 @@ namespace TankArena.UI.Dialogue
             {
                 if (dim)
                 {
-                    sceneController.currentAnimationWait = ACTOR_DIM_TIME;
+                    sceneController.currentAnimationWait = actorDimTime;
                     sceneController.readyForSignal = false;
                     Timing.RunCoroutine(_DimActor(), dimTag);
                 }
@@ -91,6 +93,12 @@ namespace TankArena.UI.Dialogue
 
         }
 
+        public void DoModelChange(List<object> signalParams) 
+        {
+            //TODO: model change
+            //if actor invisible just swap sprite, if actor visible - do controlled crossfade
+        }
+
         public void ResetActor()
         {
             DBG.Log("RESET ACTOR {0} | IGNORED: {1}", actorOrientation, !actorVisible);
@@ -108,10 +116,12 @@ namespace TankArena.UI.Dialogue
             }
         }
 
-        public void SetNameAndModel(string name, Sprite model)
+        public void SetActorInfo(DialogueSceneActorInfo model)
         {
-            actorModel.sprite = model;
-            actorName = name;
+            actorModel.sprite = model.model;
+            actorName = model.name;
+            actorDimTime = model.dimTime;
+            actorMoveTime = model.moveTime;
         }
 
 
@@ -122,17 +132,17 @@ namespace TankArena.UI.Dialogue
             var color = actorModel.color;
 
             DBG.Log("Dimming actor {0}", actorOrientation);
-            var time = ACTOR_DIM_TIME;
+            var time = actorDimTime;
             while (time > 0.0f)
             {
-                actorModel.color = Color.Lerp(actorModel.color, ACTOR_DIM_COLOR, Mathf.SmoothStep(0.0f, 1.0f, (ACTOR_DIM_TIME - time) / ACTOR_DIM_TIME));
+                actorModel.color = Color.Lerp(actorModel.color, ACTOR_DIM_COLOR, Mathf.SmoothStep(0.0f, 1.0f, (actorDimTime - time) / actorDimTime));
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
                 time -= Timing.DeltaTime;
             }
             actorModel.color = ACTOR_DIM_COLOR;
         }
 
-        private IEnumerator<float> _MoveActor(Vector3 targetPos, float animationTime = ACTOR_DEFAULT_MOVE_TIME)
+        private IEnumerator<float> _MoveActor(Vector3 targetPos, float animationTime)
         {
             var rectTransform = transform as RectTransform;
             
