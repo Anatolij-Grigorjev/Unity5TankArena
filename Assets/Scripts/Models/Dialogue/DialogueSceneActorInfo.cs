@@ -10,11 +10,13 @@ namespace TankArena.Models.Dialogue
     {
 		private const float ACTOR_DEFAULT_MOVE_TIME = 1.5f;
         private const float ACTOR_DEFAULT_DIM_TIME = 0.7f;
+		private const float ACTOR_CHANGE_MODEL_TIME = 1.5f;
 
 		public string name;
 		public Sprite model;
 		public float dimTime;
 		public float moveTime;
+		public float changeModelTime;
 
 		public static DialogueSceneActorInfo parseJSON(JSONClass json)
 		{
@@ -26,7 +28,8 @@ namespace TankArena.Models.Dialogue
 			result.dimTime = dimTime == 0.0f? ACTOR_DEFAULT_DIM_TIME : dimTime;
 			var moveTime = json[EK.EK_MOVE_TIME].AsFloat;
 			result.moveTime = moveTime == 0.0f? ACTOR_DEFAULT_MOVE_TIME : moveTime;
-
+			var changeModelTime = json[EK.EK_CHANGE_MODEL_TIME].AsFloat;
+			result.changeModelTime = changeModelTime == 0.0f? ACTOR_CHANGE_MODEL_TIME : changeModelTime;
 			
 			return result;
 		}

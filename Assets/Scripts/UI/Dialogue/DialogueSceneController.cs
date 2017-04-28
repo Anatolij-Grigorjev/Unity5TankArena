@@ -51,12 +51,15 @@ namespace TankArena.UI.Dialogue
                     {
                         currentBeatSignals.AddRange(currentBeat.signals);
                     }
-                    sentBeatSignals = false;
+                    sentBeatSignals = currentBeatSignals.Count == 0;
                     //reset text carrets, etc
                     if (!finishedSpeechBit)
                     {
                         DBG.Log("NEW SPEECH BIT: {0}", currentSpeechBit);
-                        sceneSpeakerText.text = actors[currentSpeechBit.speaker].actorName;
+                        sceneSpeakerText.text = String.IsNullOrEmpty(currentSpeechBit.name)?
+                            actors[currentSpeechBit.speaker].actorName
+                            : currentSpeechBit.name;
+                        
                         foreach (var actorEntry in actors)
                         {
                             actorEntry.Value.DimActor(actorEntry.Key != currentSpeechBit.speaker);
@@ -86,7 +89,7 @@ namespace TankArena.UI.Dialogue
 
         private void SendTriggerSignal(DialogueSignalTypes ctx, DialogueSignal data)
         {
-            
+
             var controller = ctx.ToString().StartsWith("LEFT") ? leftActorController : rightActorController;
             controller.SendMessage("UseTrigger", data.signalParams, SendMessageOptions.DontRequireReceiver);
             //animation wait will be handled by the actor
@@ -111,6 +114,7 @@ namespace TankArena.UI.Dialogue
             sceneBgImage.sprite = dialogueSceneModel.SceneBackground;
             sceneStartTime = model.SceneStartTime;
             sceneEndTime = model.SceneEndTime;
+            sceneBgInterpolateTime = model.SceneBgInterpolateTime;
 
             leftActorController.SetActorInfo(dialogueSceneModel.LeftActor);
             rightActorController.SetActorInfo(dialogueSceneModel.RightActor);
@@ -179,9 +183,12 @@ namespace TankArena.UI.Dialogue
                     sceneDialogueText.text = currentSpeechBit.text;
                     finishedSpeechBit = true;
                 }
+                else
+                {
+                    //finished speech bit, lets advance the beat itself
+                    if (sentBeatSignals) CurrentBeatIdx += 1;
+                }
 
-                //finished speech bit, lets advance the beat itself
-                CurrentBeatIdx += 1;
                 //all over, lets play the end of scene and move on
                 if (CurrentBeatIdx >= dialogueSceneModel.dialogueBeats.Count)
                 {
@@ -228,6 +235,7 @@ namespace TankArena.UI.Dialogue
         private IEnumerator<float> _PlayEndSceneAnimation()
         {
             sceneDialogBox.SetActive(false);
+            actors.ForEachWithIndex((actorEntry, idx) => {actorEntry.Value.gameObject.SetActive(false); });
             var time = sceneEndTime;
             while (time > 0.0f)
             {

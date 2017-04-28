@@ -37,6 +37,8 @@ namespace TankArena.Constants
         public const string EK_ACTOR_RIGHT = "actor_right";
         public const string EK_DIM_TIME = "dim_time";
         public const string EK_MOVE_TIME = "move_time";
+        public const string EK_CHANGE_MODEL_TIME = "change_model_time";
+        public const string EK_CHANGE_BG_TIME = "change_bg_time";
         public const string EK_START_TIME = "start_time";
         public const string EK_END_TIME = "end_time";
         public const string EK_SPEECH = "speech";

@@ -5,20 +5,27 @@
         "background": "!id;cletus",
         "start_time": 2.0,
         "end_time": 1.0,
+        "change_bg_time" : 0.8,
         "actor_left": {
         	"char_model": "!id;cletus",
-        	"name": "Cletus",
+        	"name": "Wade",
         	"dim_time": 0.6,
         	"move_time": 1.1
         },
-        "actor_left": {
-        	"char_model": "!id;lugnut",
-        	"name": "Terrorist"
+        "actor_right": {
+        	"char_model": "!id;cletus",
+        	"name": "Conciousness",
+        	"change_model_time" : 1.0
         }
     },
     "beats": [
         {
-            "signals": [
+            "speech": 
+                {
+                    "speaker": "left",
+                    "text": "Argh! Honestly, dad! These odd jobs aren't helping and its not my fault we are losing the farm..."
+                },
+                "signals": [
                 {
                     "signal_type": "left_action",
                     "signal_params": [
@@ -27,20 +34,13 @@
                     ]
                 }
             ]
-        },
-        {
-            "speech": 
-                {
-                    "speaker": "left",
-                    "text": "So,... whats all this about?..."
-                }
             
         },
         {
             "speech": 
                 {
                     "speaker": "right",
-                    "text": "Its about you, my love!"
+                    "text": "C'mon Wade, you dont blame your dad for this and you know it."
                 },
             "signals": [
             	{
@@ -64,35 +64,45 @@
             "speech": 
                 {
                     "speaker": "left",
-                    "text": "Grr......"
+                    "text": "*sigh* Look, conciousness, I get what you are sayin', but I just made one of the better dramatic exits of my entire temper tantrum career!"
                 }
-            ,
-            "signals": [
-                {
-                    "signal_type": "left_action",
-                    "signal_params": [
-                    	"ActorShake"
-                    ]
-                }
-            ]
         },
         {
-        	"signals": [
-        		{
+            "speech": 
+                {
+                    "speaker": "left",
+                    "text": "Maybe tomorrow we will find a way to finally make some real money..."
+                }
+        },
+        {
+            "speech": 
+                {
+                    "speaker": "right",
+                    "name": "Sleazy feller",
+                    "text": "Did somebody say they need some quick money?..."
+                },
+            "signals": [
+            	{
+                    "signal_type": "right_change_model",
+                    "signal_params": [
+                    	"!id;lugnut"
+                    ]
+                },
+                {
                     "signal_type": "change_bg",
                     "signal_params": [
                     	"!id;cletus",
                     	1.5
                     ]
-                },
+                }
+            ]
+            
+        },
+
+        {
+        	"signals": [
         		{
                     "signal_type": "left_action",
-                    "signal_params": [
-                    	"ActorLeave"
-                    ]
-                },
-        		{
-                    "signal_type": "right_action",
                     "signal_params": [
                     	"ActorLeave"
                     ]

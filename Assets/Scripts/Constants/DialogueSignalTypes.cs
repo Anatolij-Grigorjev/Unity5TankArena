@@ -31,7 +31,7 @@ namespace TankArena.Constants
              { "left_action", DialogueSignalTypes.LEFT_ACTOR_ACTION },
              { "right_action", DialogueSignalTypes.RIGHT_ACTOR_ACTION },
              { "change_bg", DialogueSignalTypes.CHANGE_BACKGROUND },
-             { "left_change_model", DialogueSignalTypes.LEFT_CHANGE_MODEL }
+             { "left_change_model", DialogueSignalTypes.LEFT_CHANGE_MODEL },
              { "right_change_model", DialogueSignalTypes.RIGHT_CHANGE_MODEL }
         };
 
@@ -59,8 +59,8 @@ namespace TankArena.Constants
             //1st param is new image of model
             if (arr.Count > 0)
             {
-                results.Add(FileLoadedEntityModel.ResolveSpecialOrKey(arr[0].Value, EntityKeys.EK_CHARACTER_MODEL_IMAGE))
-                }
+                results.Add(FileLoadedEntityModel.ResolveSpecialOrKey(arr[0].Value, EntityKeys.EK_CHARACTER_MODEL_IMAGE));
+            }
 
             return results;
         };

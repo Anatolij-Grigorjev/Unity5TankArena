@@ -23,6 +23,7 @@ namespace TankArena.Models.Dialogue
 
                 beat.speech.speaker = DialogueSignalTypesHelper.Parse(beatObject[EK.EK_SPEECH][EK.EK_SPEAKER].Value);
                 beat.speech.text = beatObject[EK.EK_SPEECH][EK.EK_TEXT];
+                beat.speech.name = beatObject[EK.EK_SPEECH][EK.EK_NAME];
             }
             if (beatObject[EK.EK_SIGNALS] != null)
             {

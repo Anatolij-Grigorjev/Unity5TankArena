@@ -11,11 +11,19 @@ namespace TankArena.Models.Dialogue
 
         private const float SCENE_DEFAULT_START_TIME = 1.5f;
         private const float SCENE_DEFAULT_END_TIME = 1.5f;
+        private const float SCENE_DEFAULT_CHANGE_BG_TIME = 1.0f;
         public Sprite SceneBackground
         {
             get
             {
                 return (Sprite)properties[EK.EK_BACKGROUND_IMAGE];
+            }
+        }
+        public float SceneBgInterpolateTime
+        {
+            get 
+            {
+                return (float)properties[EK.EK_CHANGE_BG_TIME];
             }
         }
         public float SceneStartTime 
@@ -76,7 +84,12 @@ namespace TankArena.Models.Dialogue
             {
                 properties[EK.EK_END_TIME] = SCENE_DEFAULT_END_TIME;
             }
-
+            properties[EK.EK_CHANGE_BG_TIME] = scene[EK.EK_CHANGE_BG_TIME].AsFloat;
+            if (SceneBgInterpolateTime == 0.0f) 
+            {
+                properties[EK.EK_CHANGE_BG_TIME] = SCENE_DEFAULT_CHANGE_BG_TIME;
+            }
+            
             properties[EK.EK_ACTOR_LEFT] = DialogueSceneActorInfo.parseJSON(scene[EK.EK_ACTOR_LEFT].AsObject);
             properties[EK.EK_ACTOR_RIGHT] = DialogueSceneActorInfo.parseJSON(scene[EK.EK_ACTOR_RIGHT].AsObject);
 

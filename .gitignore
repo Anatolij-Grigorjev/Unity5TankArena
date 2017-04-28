@@ -31,3 +31,6 @@ sysinfo.txt
 
 # Save slots
 slot[123]
+
+#movie files
+*.mov

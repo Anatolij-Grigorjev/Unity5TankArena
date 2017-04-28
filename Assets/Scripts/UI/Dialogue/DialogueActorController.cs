@@ -14,9 +14,10 @@ namespace TankArena.UI.Dialogue
     {
 
         private readonly Color ACTOR_DIM_COLOR = new Color(0.45f, 0.45f, 0.45f, 1.0f);
-        
+
         private float actorDimTime;
         private float actorMoveTime;
+        private float actorChangeModelTime;
         public Image actorModel;
         public string actorName;
         public DialogueSceneController sceneController;
@@ -93,10 +94,23 @@ namespace TankArena.UI.Dialogue
 
         }
 
-        public void DoModelChange(List<object> signalParams) 
+        public void DoModelChange(List<object> trigParams)
         {
-            //TODO: model change
             //if actor invisible just swap sprite, if actor visible - do controlled crossfade
+            var newSprite = (Sprite)trigParams[0];
+            DBG.Log("{0} actor told to get new model {1}", actorOrientation, newSprite);
+            if (actorVisible)
+            {
+                //actor visible, do crossfade coroutine
+                sceneController.currentAnimationWait = actorChangeModelTime;
+                sceneController.readyForSignal = false;
+                Timing.RunCoroutine(_CrossFadeActorSprite(newSprite));
+            }
+            else
+            {
+                //actor invisible, just set the new model
+                actorModel.sprite = newSprite;
+            }
         }
 
         public void ResetActor()
@@ -122,10 +136,44 @@ namespace TankArena.UI.Dialogue
             actorName = model.name;
             actorDimTime = model.dimTime;
             actorMoveTime = model.moveTime;
+            actorChangeModelTime = model.changeModelTime;
         }
 
 
         //COROUTINES
+
+        private IEnumerator<float> _CrossFadeActorSprite(Sprite newSprite) 
+        {
+            //use half time to reduce to black and second half to go from black up again
+            var halfTime = actorChangeModelTime / 2;
+            var time = halfTime;
+            //fade out image
+            while (time > 0.0f)
+            {
+                actorModel.color = Color.Lerp(actorModel.color, Color.clear, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
+                {
+                    actorModel.sprite = newSprite;
+                    actorModel.color = Color.clear;
+                }
+            }
+
+            //fade in new one
+            time = halfTime;
+            while (time > 0.0f)
+            {
+                //lerp is smothed by math smooth, but we also express the time in percentiles of max in order to keep smooth range 0-1
+                actorModel.color = Color.Lerp(actorModel.color, Color.white, Mathf.SmoothStep(0.0f, 1.0f, (halfTime - time) / halfTime));
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+                time -= Timing.DeltaTime;
+                if (time <= 0.0f)
+                {
+                    actorModel.color = Color.white;
+                }
+            }
+        }
 
         private IEnumerator<float> _DimActor()
         {
@@ -145,11 +193,11 @@ namespace TankArena.UI.Dialogue
         private IEnumerator<float> _MoveActor(Vector3 targetPos, float animationTime)
         {
             var rectTransform = transform as RectTransform;
-            
+
             var time = animationTime;
             while (time > 0.0f)
             {
-                rectTransform.anchoredPosition = Vector3.Lerp(rectTransform.anchoredPosition, targetPos, Mathf.SmoothStep(0.0f, 1.0f, (animationTime - time) / animationTime ));
+                rectTransform.anchoredPosition = Vector3.Lerp(rectTransform.anchoredPosition, targetPos, Mathf.SmoothStep(0.0f, 1.0f, (animationTime - time) / animationTime));
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
                 time -= Timing.DeltaTime;
             }
