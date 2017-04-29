@@ -60,20 +60,6 @@ namespace TankArena.Controllers
 
             var trifectaState = CurrentState.Instance.Trifecta.CurrentState;
 
-            // PerformTurretRotation();
-            var turretMoveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE_TURRET);
-            if (Math.Abs(turretMoveAxis) > 0.0f)
-            {
-                wasRotating = true;
-                commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, turretMoveAxis));
-            }
-            else if (wasRotating)
-            {
-                wasRotating = false;
-                //send the stop rotation command
-                commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, 0.0f));
-            }
-
             //if in allowed trifecta state for movement control
             if (trifectaState != TrifectaStates.STATE_TUR) 
             {
@@ -181,9 +167,14 @@ namespace TankArena.Controllers
             CurrentState.Instance.Cursor.SetActive(true);
         }
 
+        private readonly Vector3 TANK_FORWARD_VECTOR = Vector3.forward * (-1.0f);
+        private Vector3 latestTurretTurnDirection;
+        private Quaternion latestTurretRotation;
+
         private bool AddTurretRotation()
         {
             var rotator = tankController.turretController.Rotator;
+            Vector3 targetPosition = Vector3.zero;
             if (goLock == null)
             {
                 //make sure old lockon not happening after enemy death
@@ -191,90 +182,27 @@ namespace TankArena.Controllers
                 {
                     ClearLockOn();
                 }
-                var angle = GetAngleDiffToMouseFrom(rotator);
-                if (!(angle > 0.0f && angle < 90.0f))
-                {
-                    angle += 360.0f;
-                }
-                int rotatorDegrees = (int)rotator.eulerAngles.z;
-                var initialRotationDiff = Mathf.Abs(rotatorDegrees - angle);
-                //set regions where the CCW natural cosine rotation is the quickest
-                //use other direction rotation otherwise
-                var turnCCW = ShouldTurnCCW(rotatorDegrees, angle);
-                // (angle >= 0.0f && angle <= 90.0f) || (angle <= -180.0f && angle >= -270.0f);
-                //find out the angular difference via cos (helps that its periodic)
-                var rotationDiff = (turnCCW ? 1 : -1) *
-                    Mathf.Acos(Mathf.Cos(initialRotationDiff * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
-                // DBG.Log("rotator angle: {2} | Raw rotation diff: {0} | adjusted rotation diff: {1}", initialRotationDiff, rotationDiff, rotatorDegrees);
-                // DBG.Log("mouse angle: {0} | angle diff: {1}", angle, rotationDiff);
-                //rotation difference too large not to adjust turret
-                if (Math.Abs(rotationDiff) > 0.1f)
-                {
-                    var intensity = Mathf.Clamp(rotationDiff, -1.0f, 1.0f);
-                    // DBG.Log("Turn intensity: {0}", intensity);
-                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity));
-                }
-                //no need to fire yet if rotation too large
-                return Math.Abs(rotationDiff) < 1.0f;
+                
+                targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
             else
             {
-                float angle = 0.0f;
-                float direction = 1.0f;
-                //position difference from the rotator to the lock object
-                var diff = (goLock.transform.position - rotator.transform.position);
-                if (isLockedOn) 
-                {
-                    rotator.transform.up = diff;
-                } else 
-                {
-                    var up = rotator.transform.up * rotator.transform.position.magnitude;
-                    // DBG.Log("diff vector: {0} | up vector: {1}", diff, up);
-                    angle = Vector2.Angle(diff, up);
-                    // DBG.Log("angle: {0}", angle);
-                    //lockon threshold
-                    if (angle < LOCKON_ANGLE_THRESHOLD)
-                    {
-                        //do lockon
-                        isLockedOn = true;
-                        rotator.transform.up = diff;
-                        angle = 0.0f;
-                    }
-                    //switch turn direction if the angle didnt get smaller from rotation
-                    direction = angle < prevAngle? prevDirection : -prevDirection;
-                    //rotation intensity to lockon is normalized
-                    var intensity = 1.0f * direction;
-                    // DBG.Log("Turn intensity: {0}", intensity);
-                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, intensity));
-                }
-
-                //remmeber old angle and irection values
-                prevAngle = angle;
-                prevDirection = direction;
-
-                //fire if angle is small enough
-                return angle < 1.0f;
+                targetPosition = goLock.transform.position;
             }
-        }
 
-        private bool ShouldTurnCCW(float fromAngle, float toAngle)
-        {
-            // check the rotation coverage of the fromAngle up to 180 degrees
-            // looping the circle if need be
-            // if the toAngle is wihtin that coverage, we spin CCW
-            // if the toAngle is on the other side of the circle, its a CW turn
 
-            var coverageFrom = (fromAngle + 180) % 360;
-            if (coverageFrom < fromAngle)
-            {
-                return (toAngle > fromAngle && toAngle < 360)
-                 || (toAngle > 0 && toAngle < coverageFrom);
+            //prepare new roation to mouse looking direction
+            latestTurretTurnDirection = targetPosition - rotator.position;
+            latestTurretRotation = Quaternion.LookRotation(latestTurretTurnDirection, TANK_FORWARD_VECTOR);
+            var angleDiff = Math.Abs(Quaternion.Angle(latestTurretRotation, rotator.localRotation));
+            latestTurretRotation.x = 0;
+            latestTurretRotation.y = 0;
 
-            }
-            else
-            {
-                return (toAngle > fromAngle && toAngle < coverageFrom);
-            }
+            commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, latestTurretRotation));
+            //no need to fire yet if rotation too large
+            // DBG.Log("Difference between quaternions: {0}", angleDiff);
+            //angle diff will remain around 100 units for a correct angle, safest being between 90 and 100
+            return 95.0f <= angleDiff && angleDiff <= 105.0f;
         }
         private void CollectWeaponsInput()
         {
@@ -293,31 +221,6 @@ namespace TankArena.Controllers
                     commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_FIRE, TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs)));
                 }
             }
-        }
-
-        private float GetAngleDiffToMouseFrom(Transform go)
-        {
-
-            Vector2 mousePos = Input.mousePosition;
-            var screenPoint = Camera.main.WorldToScreenPoint(go.position);
-            var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
-            DBG.Log("Current positions: \nmousePos: {0} | goPos: {1}, goScreen: {2}", 
-               mousePos, 
-               go.position,
-               screenPoint);
-            var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;// - go.transform.eulerAngles.z;
-            // DBG.Log("raw angle: {0}", angle);
-            //angle will get calculated based of the difference of main tank rotation and turret rotation
-            var wantedRotation = Quaternion.Euler(0, 0, angle - 90);
-            // DBG.Log("Offset: {0}", offset);  
-
-            // turretRotator.localRotation =
-            //     Quaternion.Lerp(turretRotator.localRotation, wantedRotation, Time.fixedDeltaTime * 1.7f);
-            return angle - 90;
-            //DBG.Log("Rotator and tank rotation diff {0} - {1} = {2}",
-            //    turretRotator.rotation.eulerAngles,
-            //    transform.rotation.eulerAngles,
-            //    turretRotator.rotation.eulerAngles - transform.rotation.eulerAngles);
         }
     }
 }

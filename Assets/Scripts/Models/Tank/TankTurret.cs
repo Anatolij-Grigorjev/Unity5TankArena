@@ -47,11 +47,11 @@ namespace TankArena.Models.Tank
                 return (Sprite)properties[EK.EK_WEAPONS_SHOP_IMAGE];
             }
         }
-        public float SpinSpeed
+        public float FullTurnTime
         {
             get 
             {
-                return (float)properties[EK.EK_TURRET_SPIN_SPEED];
+                return (float)properties[EK.EK_TURRET_TURN_TIME];
             }
         }
         public AudioClip SpinSound
@@ -82,7 +82,7 @@ namespace TankArena.Models.Tank
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
             yield return Timing.WaitUntilDone(handle);
 
-            properties[EK.EK_TURRET_SPIN_SPEED] = json[EK.EK_TURRET_SPIN_SPEED].AsFloat;
+            properties[EK.EK_TURRET_TURN_TIME] = json[EK.EK_TURRET_TURN_TIME].AsFloat;
             properties[EK.EK_TURRET_SPIN_SOUND] = ResolveSpecialContent(json[EK.EK_TURRET_SPIN_SOUND].Value);
             properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
             allWeaponSlots = new List<WeaponSlot>();
@@ -115,7 +115,8 @@ namespace TankArena.Models.Tank
             if (controller is TankTurretController)
             {
                 TankTurretController turretController = (TankTurretController)(object)controller;
-                turretController.TurnCoef = SpinSpeed;
+                turretController.FullTurnTime = FullTurnTime;
+                DBG.Log("Set turn time {0}", turretController.FullTurnTime);
 
                 int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>

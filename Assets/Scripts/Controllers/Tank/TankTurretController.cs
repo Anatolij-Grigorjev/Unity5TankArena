@@ -14,17 +14,18 @@ namespace TankArena.Controllers
 
         public Transform Rotator;
         public AudioSource rotationSound;
-        private float turnCoef = 0.0f;
-        private const float TURN_BASE_COEF = 0.69314718055994530941723212145818f;
+        private float newRotationTime;
+        private float currentRotationTime;
+        private Quaternion newTurretRotation;
 
         // Use this for initialization
         public void Start()
         {
-            
+            currentRotationTime = 0.0f;
             Timing.RunCoroutine(_Start());
         }
 
-        private IEnumerator<float> _Start() 
+        private IEnumerator<float> _Start()
         {
             yield return Timing.WaitUntilDone(tankController.tankControllerAwake);
             TankChassis chassis = parentObject.GetComponent<TankController>().chassisController.Model;
@@ -35,30 +36,38 @@ namespace TankArena.Controllers
             transform.parent = rotatorGO.transform;
 
             Rotator = rotatorGO.transform;
+            newTurretRotation = Rotator.localRotation;
 
             DBG.Log("Turret Controller Ready!");
         }
 
         ///<summary> 
-        ///Turn coefficient to which spin speed should be applied
-        ///Indicates turret spinniness
+        ///Indicates how long it takes for the turret to do a complete 180 degree turn
         ///</summary>
-        public float TurnCoef
-        {
-            get 
-            {
-                return turnCoef;
-            }
-            set 
-            {
-                turnCoef = value * TURN_BASE_COEF; 
-            }
-        }
+        public float FullTurnTime;
 
         // Update is called once per frame
         void Update()
         {
-            
+            //do the turret slerp if we keep changing the angles
+            if (Rotator.localRotation != newTurretRotation)
+            {
+                var rotationDiff = Math.Abs(newTurretRotation.eulerAngles.z - Rotator.localRotation.eulerAngles.z);
+                if (rotationDiff > 2.0f)
+                {
+                    Rotator.localRotation = Quaternion.Slerp(
+                        Rotator.localRotation, 
+                        newTurretRotation, 
+                        currentRotationTime / newRotationTime
+                    );
+                    currentRotationTime += Time.deltaTime;
+                    if (currentRotationTime >= newRotationTime) 
+                    {
+                        currentRotationTime = 0.0f;
+                        Rotator.localRotation = newTurretRotation;
+                    }
+                }
+            }
         }
 
 
@@ -76,22 +85,26 @@ namespace TankArena.Controllers
             Model.Reload();
         }
 
-        public void TurnTurret(float intensity)
+        public void TurnTurret(Quaternion newRotation)
         {
             //actual rotation
-            if (intensity != 0.0f)
+            if (newRotation != null)
             {
-                if (!rotationSound.isPlaying) 
+                if (!rotationSound.isPlaying)
                 {
                     rotationSound.Play();
                 }
-                var wantedEuler = Rotator.localRotation.eulerAngles;
-                wantedEuler.z += (intensity * TurnCoef);
-                // DBG.Log("Wanted Rotation: {0}", wantedEuler);
-                var wantedRotation = Quaternion.Euler(wantedEuler);
-                Rotator.localRotation =
-                    Quaternion.Lerp(Rotator.localRotation, wantedRotation, Time.fixedDeltaTime);
-            } else 
+                //only change rotation order for substantially different roations
+                var rotationDiff = Math.Abs(newRotation.eulerAngles.z - newTurretRotation.eulerAngles.z);
+                if (rotationDiff > 5.0f)
+                {
+                    newRotationTime = (FullTurnTime * rotationDiff / 180.0f);
+                    DBG.Log("Setting new roation time {0} for rotation diff {1}", newRotationTime, rotationDiff);
+                    currentRotationTime = 0.0f;
+                    newTurretRotation = newRotation;
+                }
+            }
+            else
             {
                 //stop rotation
                 if (rotationSound.isPlaying)

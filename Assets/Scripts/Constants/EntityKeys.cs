@@ -77,7 +77,7 @@ namespace TankArena.Constants
         public const string EK_HEAVY_WEAPON_SLOTS = "heavy_weapon_slots";
         public const string EK_LIGHT_WEAPON_SLOTS = "light_weapon_slots";
         public const string EK_WEAPONS_SHOP_IMAGE = "weapons_shop";
-        public const string EK_TURRET_SPIN_SPEED = "spin_speed";
+        public const string EK_TURRET_TURN_TIME = "turn_time";
         public const string EK_TURRET_SPIN_SOUND = "spin_sound";
 
         //TANK CHASSIS
@@ -140,7 +140,7 @@ namespace TankArena.Constants
             { EK_DEACCELERATION_RATE, "Deacceleration Rate"},
             { EK_HEAVY_WEAPON_SLOTS, "Heavy Weapons"},
             { EK_LIGHT_WEAPON_SLOTS, "Light Weapons"},
-            { EK_TURRET_SPIN_SPEED, "Turn Speed"},
+            { EK_TURRET_TURN_TIME, "180° Turn Time"},
             { EK_INTEGRITY, "Integrity"},
             { EK_REGENERATION, "Auto-fix"},
             { EK_DAMAGE, "Damage"},
