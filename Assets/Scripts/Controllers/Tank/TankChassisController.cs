@@ -6,6 +6,7 @@ using TankArena.Utils;
 using TankArena.Constants;
 using MovementEffects;
 using System.Collections.Generic;
+using TankArena.Controllers.Weapons;
 
 namespace TankArena.Controllers
 {
@@ -22,11 +23,11 @@ namespace TankArena.Controllers
         private float integrity;
         public float Integrity
         {
-            get 
+            get
             {
                 return integrity;
             }
-            set 
+            set
             {
                 integrity = value;
                 damageAssigner.UpdateSprite(partRenderer, integrity);
@@ -51,14 +52,14 @@ namespace TankArena.Controllers
             base.Awake();
         }
 
-        public void Start() 
+        public void Start()
         {
             Timing.RunCoroutine(_Awake());
         }
 
         private IEnumerator<float> _Awake()
         {
-            yield return Timing.WaitUntilDone(tankController.tankControllerAwake);   
+            yield return Timing.WaitUntilDone(tankController.tankControllerAwake);
 
             var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);
             rotatorGO.tag = Tags.TAG_CHASSIS_ROTATOR;
@@ -81,13 +82,13 @@ namespace TankArena.Controllers
         void Update()
         {
             var trifectaState = CurrentState.Instance.Trifecta.CurrentState;
-            if (trifectaState != TrifectaStates.STATE_TNK) 
+            if (trifectaState != TrifectaStates.STATE_TNK)
             {
                 DoRegen();
             }
         }
 
-        void DoRegen() 
+        void DoRegen()
         {
             //health below full
             if (Integrity < maxIntegrity)
@@ -97,17 +98,18 @@ namespace TankArena.Controllers
                     Integrity = Mathf.Clamp(integrity + RegenPerInterval, 0.0f, maxIntegrity);
 
                     currentRegenCooldown = regenFrequency;
-                } else 
+                }
+                else
                 {
                     currentRegenCooldown -= Time.deltaTime;
                 }
             }
         }
 
-        
+
         void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.tag == Tags.TAG_MAP_COLLISION) 
+            if (other.gameObject.tag == Tags.TAG_MAP_COLLISION)
             {
                 // DBG.Log("Collision velocity: {0}", other.relativeVelocity);
                 if (!rockCrashThud.isPlaying && other.relativeVelocity.magnitude > 75.0f)
@@ -120,22 +122,31 @@ namespace TankArena.Controllers
         public void ApplyDamage(GameObject damager)
         {
             // DBG.Log("Hot Potato!");
+            float damage = 0.0f;
             switch (damager.tag)
             {
                 case Tags.TAG_SIMPLE_BOOM:
-                    var controller = damager.GetComponent<ExplosionController>();
-                    // DBG.Log("Potato heat level: {0}", controller.damage);
-                    Integrity = Mathf.Clamp(integrity - controller.damage, 0.0f, maxIntegrity);
-                    if (Integrity <= 0.0f) {
-                        //start death
-                        StartDeath();
-
-                    }
+                    var boomController = damager.GetComponent<ExplosionController>();
+                    damage = boomController.damage;
                     break;
+                case Tags.TAG_CANNON_PROJECTILE:
+                    var projectileController = damager.GetComponent<ProjectileController>();
+                    damage = projectileController.damage;
+                    break;
+            }
+            if (damage > 0.0f)
+            {
+                Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);
+                if (Integrity <= 0.0f)
+                {
+                    //start death
+                    StartDeath();
+
+                }
             }
         }
 
-        private void StartDeath() 
+        private void StartDeath()
         {
             //extents are half the size, good for centering booms of death
             var extents = partRenderer.sprite.bounds.extents;
@@ -145,7 +156,7 @@ namespace TankArena.Controllers
             deathController.spawnMinXY.x += extents.x / 2;
             deathController.spawnMaxXY = extents * transform.localScale.magnitude;
             deathController.spawnMaxXY.x -= extents.x / 2;
-            
+
             deathController.Enable();
         }
     }
