@@ -4,10 +4,12 @@ using TankArena.Utils;
 using TankArena.Constants;
 using System;
 using TankArena.Models.Weapons;
+using TankArena.Models;
 
 namespace TankArena.Controllers
 {
-    public class LighVehicleController : CommandsBasedController {
+    public class LighVehicleController : CommandsBasedController, IDamageReceiver
+    {
 
         public BaseWeaponController baseWeaponController;
 
@@ -52,18 +54,19 @@ namespace TankArena.Controllers
         private EnemyAIController aiController;
 
         // Use this for initialization
-        public override void Awake () {
+        public override void Awake()
+        {
             base.Awake();
 
             vehicleCollider = GetComponent<Collider2D>();
             vehicleRigidBody = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animations = GetComponent<Animator>();
-            
-            Integrity = maxIntegrity;    
-	    }
 
-        public void Start() 
+            Integrity = maxIntegrity;
+        }
+
+        public void Start()
         {
             var weapons = EntitiesStore.Instance.Weapons;
             var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
@@ -78,40 +81,40 @@ namespace TankArena.Controllers
             healthBarController.SetMax(Integrity);
             healthBarController.offset = new Vector3(0.0f, -15.0f, 0.0f);
         }
-	
-	    protected override void HandleCommand(TankCommand latestOrder) 
+
+        protected override void HandleCommand(TankCommand latestOrder)
         {
-             switch (latestOrder.commandWord)
-                {
-                    case TankCommandWords.TANK_COMMAND_MOVE:
-                        var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
-                        var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
+            switch (latestOrder.commandWord)
+            {
+                case TankCommandWords.TANK_COMMAND_MOVE:
+                    var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
+                    var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
 
-                        Move(throttle, turn);
+                    Move(throttle, turn);
 
-                        break;
-                    case TankCommandWords.TANK_COMMAND_BRAKE:
-                        ApplyBreak();
+                    break;
+                case TankCommandWords.TANK_COMMAND_BRAKE:
+                    ApplyBreak();
 
-                        break;
-                    case TankCommandWords.TANK_COMMAND_FIRE:
-                        baseWeaponController.Shoot();
-                        
-                        break;
-                    case TankCommandWords.AI_COMMAND_TARGET_AQUIRED:
-                        int layerMask = (int)latestOrder.tankCommandParams[TankCommandParamKeys.AI_CMD_LAYER_MASK];
-                        DBG.Log("Setting target layer to {0}", layerMask);
+                    break;
+                case TankCommandWords.TANK_COMMAND_FIRE:
+                    baseWeaponController.Shoot();
 
-                        baseWeaponController.Weapon.WeaponBehavior.SetHitLayersMask(layerMask);
+                    break;
+                case TankCommandWords.AI_COMMAND_TARGET_AQUIRED:
+                    int layerMask = (int)latestOrder.tankCommandParams[TankCommandParamKeys.AI_CMD_LAYER_MASK];
+                    DBG.Log("Setting target layer to {0}", layerMask);
 
-                        break;
-                    default:
-                        DBG.Log("Not handling command order: {0}", latestOrder);
-                        break;
-                }
+                    baseWeaponController.Weapon.WeaponBehavior.SetHitLayersMask(layerMask);
+
+                    break;
+                default:
+                    DBG.Log("Not handling command order: {0}", latestOrder);
+                    break;
+            }
         }
 
-        protected override void HandleNOOP() 
+        protected override void HandleNOOP()
         {
 
         }
@@ -149,7 +152,7 @@ namespace TankArena.Controllers
             vehicleRigidBody.angularVelocity = 0.0f;
         }
 
-        public void EngageDeath() 
+        public void EngageDeath()
         {
             this.aiController.enabled = false;
             this.enabled = false;
@@ -157,7 +160,8 @@ namespace TankArena.Controllers
             StopPhysicsMovement();
             var enemyType = EntitiesStore.Instance.EnemyTypes[enemyTypeId];
             var stats = CurrentState.Instance.CurrentArenaStats;
-            if (!stats.ContainsKey(enemyType)) {
+            if (!stats.ContainsKey(enemyType))
+            {
                 stats.Add(enemyType, 0);
             }
             stats[enemyType]++;
@@ -166,23 +170,34 @@ namespace TankArena.Controllers
 
         public void ApplyDamage(GameObject damager)
         {
+            float damage = 0.0f;
             switch (damager.tag)
             {
                 case Tags.TAG_SIMPLE_BOOM:
                     var boomController = damager.GetComponent<ExplosionController>();
-                    Integrity = Mathf.Clamp(integrity - boomController.damage, 0.0f, maxIntegrity) ;
-                    healthBarController.CurrentValue = Integrity;
-                    if (Integrity <= 0.0)
-                    {
-                        animations.enabled = true;
-
-                        animations.SetTrigger(AnimationParameters.TRIGGER_TRUCK_DEATH);
-                    } else {
-                        //enemy will try hunt you down after being shot
-                        aiController.maxAlertDistance = float.MaxValue;
-                        aiController.maxLookDistance = float.MaxValue;
-                    }
+                    damage = boomController.damage;
                     break;
+                case Tags.TAG_CANNON_PROJECTILE:
+                    var projectileController = damager.GetComponent<ProjectileController>();
+                    damage = projectileController.damage;
+                    break;
+            }
+            if (damage > 0.0f)
+            {
+                Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);
+                healthBarController.CurrentValue = Integrity;
+                if (Integrity <= 0.0)
+                {
+                    animations.enabled = true;
+
+                    animations.SetTrigger(AnimationParameters.TRIGGER_TRUCK_DEATH);
+                }
+                else
+                {
+                    //enemy will try hunt you down after being shot
+                    aiController.maxAlertDistance = float.MaxValue;
+                    aiController.maxLookDistance = float.MaxValue;
+                }
             }
         }
     }

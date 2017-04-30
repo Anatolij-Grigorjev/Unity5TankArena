@@ -7,10 +7,11 @@ using TankArena.Constants;
 using MovementEffects;
 using System.Collections.Generic;
 using TankArena.Controllers.Weapons;
+using TankArena.Models;
 
 namespace TankArena.Controllers
 {
-    public class TankChassisController : BaseTankPartController<TankChassis>
+    public class TankChassisController : BaseTankPartController<TankChassis>, IDamageReceiver
     {
 
         public TankEngineController engineController;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TankArena.Utils;
+using TankArena.Models;
 
 namespace TankArena.Controllers
 {
@@ -37,14 +38,15 @@ namespace TankArena.Controllers
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other != null)
+            var go = other.gameObject;
+            // DBG.Log("BOOM encountered GO {0}, sending message!", go);
+
+            var damageReceiver = go.GetComponent<IDamageReceiver>();
+            if (damageReceiver != null)
             {
-                var go = other.gameObject;
-                // DBG.Log("BOOM encountered GO {0}, sending message!", go);
-                if (go != null) {
-                    go.SendMessage("ApplyDamage", gameObject, SendMessageOptions.DontRequireReceiver);
-                }
+                damageReceiver.ApplyDamage(this.gameObject);
             }
+
         }
     }
 }

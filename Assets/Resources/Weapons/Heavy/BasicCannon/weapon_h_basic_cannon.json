@@ -6,17 +6,25 @@
 		"TUR_basic01" : "!transf;1.35;0.4;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
 	},
 	"wpn_type": 1,
-	"damage": 35.7
-,	"reload": 2.5,
+	"damage": 35.7,
+	"reload": 2.5,
 	"rate_of_fire": 60,
 	"range": 100,
 	"clip_size": 4,
 	"shop_item": "!img;Weapons\\Heavy\\BasicCannon\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
-	"behavior_type" : "heavy_projectile_at_target",
-	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
-	"trail_prefab" : "!go;Weapons\\Trails\\CannonTrail",
-	"projectile_width" : 0.25,
 	"shot_sound" : "!snd;Weapons\\Heavy\\BasicCannon\\Sounds\\shot",
-	"weapon_animations" : "!anim_contr;Weapons\\Heavy\\BasicCannon\\Animation\\Controllers\\BasicHeavyAnimationController"
+	"weapon_animations" : "!anim_contr;Weapons\\Heavy\\BasicCannon\\Animation\\Controllers\\BasicHeavyAnimationController",
+	"projectile": {
+		"tag": "CannonShell",
+		"velocity": 101.25,
+		// damage and range taken from weapon
+		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
+		"collider": "!box;0.0;-2.0;2.0;2.0",
+		"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
+		"sprite_times": [
+			0.3,
+			0.7
+		]
+	}
 }
