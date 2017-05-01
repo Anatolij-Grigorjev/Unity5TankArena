@@ -105,7 +105,7 @@ namespace TankArena.Controllers
                     int layerMask = (int)latestOrder.tankCommandParams[TankCommandParamKeys.AI_CMD_LAYER_MASK];
                     DBG.Log("Setting target layer to {0}", layerMask);
 
-                    baseWeaponController.Weapon.WeaponBehavior.SetHitLayersMask(layerMask);
+                    baseWeaponController.layerMask = layerMask;
 
                     break;
                 default:
@@ -182,6 +182,11 @@ namespace TankArena.Controllers
                     damage = projectileController.damage;
                     break;
             }
+            ApplyDamage(damage);
+        }
+
+        public void ApplyDamage(float damage)
+        {
             if (damage > 0.0f)
             {
                 Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);
@@ -200,6 +205,7 @@ namespace TankArena.Controllers
                 }
             }
         }
+
     }
 }
 

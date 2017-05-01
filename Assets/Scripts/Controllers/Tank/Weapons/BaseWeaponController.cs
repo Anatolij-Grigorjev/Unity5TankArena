@@ -4,6 +4,7 @@ using TankArena.Models.Weapons;
 using System;
 using TankArena.Constants;
 using TankArena.Utils;
+using TankArena.Models;
 
 namespace TankArena.Controllers.Weapons
 {
@@ -86,9 +87,13 @@ namespace TankArena.Controllers.Weapons
         public float rateOfFire;
         public float range;
         public int clipSize;
+        public int layerMask;
+        public float projectileWidth;
+        public WeaponHitTypes weaponHitType;
         public AmmoCounterController ammoController;
         public GameObject ammoCounterPrefab;
         public AudioSource shotAudio;
+        public AudioSource reloadAudio;
         public SpriteRenderer weaponSpriteRenderer;
         public TankTurretController turretController;
         public Animator weaponAnimationController;
@@ -100,6 +105,7 @@ namespace TankArena.Controllers.Weapons
         private bool isReloading;
         private bool isRapidFire;
         private bool isShooting;
+
         private float currentReloadTimer;
         [HideInInspector]
         public int currentClipSize;
@@ -163,34 +169,60 @@ namespace TankArena.Controllers.Weapons
             }
         }
 
+        private RaycastHit2D[] hitsNonAlloc = new RaycastHit2D[1];
+
         public void Shoot()
         {
             if (!isReloading)
             {
-
-                bool shotReady = weaponBehavior.PrepareShot();
-                if (shotReady)
+                //no point in hotsapping colors when shot delay is super short
+                if (ammoController != null && !isRapidFire)
                 {
-                    //no point in hotsapping colors when shot delay is super short
-                    if (ammoController != null && !isRapidFire)
+                    ammoController.SetInactive(true);
+                }
+                currentShotDelay = maxShotDelay;
+
+                if (!shotAudio.isPlaying)
+                {
+                    shotAudio.Play();
+                }
+                if (weaponHitType == WeaponHitTypes.TARGET)
+                {
+                    //do raycase hit
+                    int count = Physics2D.CircleCastNonAlloc(
+                        transform.position,
+                        projectileWidth,
+                        transform.up,
+                        hitsNonAlloc,
+                        range,
+                        layerMask
+                    );
+                    if (count > 0)
                     {
-                        ammoController.SetInactive(true);
-                    }
-                    currentShotDelay = maxShotDelay;
-                    isShooting = !weaponBehavior.PerformShot();
-                    currentClipSize--;
-                    if (ammoController != null)
-                        ammoController.SetProgress(currentClipSize);
-                    if (!isReloading && currentClipSize <= 0)
-                    {
-                        isReloading = true;
-                        isShooting = false;
-                        currentReloadTimer = reloadTime;
-                        weaponBehavior.OnReloadStarted();
-                        if (ammoController != null)
-                            ammoController.StartReload();
+                        var firstHit = hitsNonAlloc[0];
+                        var dmgReceiver = firstHit.collider.gameObject.GetComponent<IDamageReceiver>();
+                        if (dmgReceiver != null)
+                        {
+                            dmgReceiver.ApplyDamage(damage);
+                        }
                     }
                 }
+                //create actual projectile 
+                var projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)) as GameObject;
+                
+                currentClipSize--;
+                if (ammoController != null)
+                    ammoController.SetProgress(currentClipSize);
+                if (!isReloading && currentClipSize <= 0)
+                {
+                    isReloading = true;
+                    isShooting = false;
+                    currentReloadTimer = reloadTime;
+                    reloadAudio.Play();
+                    if (ammoController != null)
+                        ammoController.StartReload();
+                }
+
 
             }
         }
@@ -202,7 +234,7 @@ namespace TankArena.Controllers.Weapons
                 isReloading = true;
                 isShooting = false;
                 currentReloadTimer = reloadTime;
-
+                reloadAudio.Play();
                 if (ammoController != null) ammoController.StartReload();
             }
             else

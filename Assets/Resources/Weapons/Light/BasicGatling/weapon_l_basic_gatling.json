@@ -14,10 +14,20 @@
 	"clip_size": 300,
 	"shop_item": "!img;Weapons\\Light\\BasicGatling\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Light\\BasicGatling\\Images\\Sprites\\weapon_basic_gatling_spritesheet_0",
-	"behavior_type" : "light_projectile_at_target_continuous",
-	"projectile_prefab" : "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
-	"trail_prefab" : "!go;Weapons\\Trails\\BulletTrail",
-	"projectile_width" : 0.12,
 	"shot_sound" : "!snd;Weapons\\Light\\BasicGatling\\Sounds\\shot",
-	"weapon_animations" : "!anim_contr;Weapons\\Light\\BasicGatling\\Animation\\Controllers\\BasicGatlingLightAnimationController"
+	"weapon_animations" : "!anim_contr;Weapons\\Light\\BasicGatling\\Animation\\Controllers\\BasicGatlingLightAnimationController",
+	"hit_type": "target",
+	"projectile": {
+		"tag": "GatlingBullet",
+		"velocity": 151.25,
+		// damage and range taken from weapon
+		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
+		"box_collider": "!box;0.0;0.0;1.0;1.0",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",
+		"sprite_times": [
+			0.1,
+			0.4,
+			0.8
+		]
+	}
 }

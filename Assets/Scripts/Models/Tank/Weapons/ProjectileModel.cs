@@ -29,7 +29,12 @@ namespace TankArena.Models.Weapons
 			result.ImpactPrefab = FileLoadedEntityModel.ResolveSpecialContent(json[EK.EK_IMPACT_PREFAB].Value) as GameObject;
 			result.BoxCollider = (Rect)FileLoadedEntityModel.ResolveSpecialContent(json[EK.EK_COLLISION_BOX].Value);
 			result.Spritesheet = FileLoadedEntityModel.ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value)as Sprite[];
-			result.SpriteTimes = FileLoadedEntityModel.ResolveSpecialContent(json[EK.EK_SPRITE_TIMES].Value) as float[];
+			var jsonTimesArray = json[EK.EK_SPRITE_TIMES].AsArray;
+			result.SpriteTimes = new float[jsonTimesArray.Count];
+			for(int i = 0; i < jsonTimesArray.Count; i++)
+			{
+				result.SpriteTimes[i] = jsonTimesArray[i].AsFloat;
+			}
 
 			return result;
 		}

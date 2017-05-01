@@ -14,6 +14,7 @@ namespace TankArena.Constants
         public const String TAG_RIGHT_TRACK = "right_track";
         public const String TAG_SIMPLE_BOOM = "SimpleBoom";
         public const String TAG_CANNON_PROJECTILE = "CannonShell";
+        public const String TAG_GATLING_BULLET = "GatlingBullet";
         public const String TAG_UI_CANVAS = "UICanvas";
         public const String TAG_UI_SHOP_ITEM_TEXT_PARENT = "sold_item_text_parent";
         public const String TAG_UI_SHOP_ITEM_IMAGE = "sold_item_image";

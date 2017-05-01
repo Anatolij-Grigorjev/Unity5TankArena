@@ -162,7 +162,7 @@ namespace TankArena.Models.Tank
             var originalPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
             originalPrefab.GetComponent<AmmoCounterController>().weaponIndex = existingWeaponsCount;
             baseWeaponController.ammoCounterPrefab = originalPrefab;
-            weaponSlot.Weapon.WeaponBehavior.SetHitLayersMask(LayerMasks.LM_DEFAULT_AND_ENEMY);
+            baseWeaponController.layerMask = LayerMasks.LM_DEFAULT_AND_ENEMY;
 
             //create reload sound child (with deafult sound loaded)
             var reloadSoundPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_WEAPON_RELOAD) as GameObject;
@@ -173,7 +173,7 @@ namespace TankArena.Models.Tank
             {
                 reloadSound.GetComponent<AudioSource>().clip = weaponSlot.Weapon.ReloadSound;
             }
-            weaponSlot.Weapon.WeaponBehavior.SetWeaponReloadSound(reloadSound.GetComponent<AudioSource>());
+            baseWeaponController.reloadAudio = reloadSound.GetComponent<AudioSource>();
 
             var spriteRenderer = weaponGO.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = SortingLayerConstants.PLAYER_SORTING_LAYER_NAME;

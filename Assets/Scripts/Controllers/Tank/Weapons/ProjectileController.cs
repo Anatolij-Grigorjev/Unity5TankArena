@@ -56,7 +56,7 @@ namespace TankArena.Controllers.Weapons
 			currentDistance += movementVector.sqrMagnitude;
 			if (currentDistance > distanceSqr)
 			{
-				Destroy(this);
+				Destroy(this.gameObject);
 			}
         }
 
@@ -75,7 +75,7 @@ namespace TankArena.Controllers.Weapons
 					damageReceiver.ApplyDamage(gameObject);
 				}
 			}
-			Destroy(this);
+			Destroy(this.gameObject);
 		}
     }
 }

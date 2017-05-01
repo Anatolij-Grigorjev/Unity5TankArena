@@ -18,11 +18,11 @@
 	"hit_type": "projectile",
 	"projectile": {
 		"tag": "CannonShell",
-		"velocity": 101.25,
+		"velocity": 70.25,
 		// damage and range taken from weapon
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
 		"box_collider": "!box;0.0;0.0;1.0;1.0",
-		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBuller\\cannon_bullet_spritesheet",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",
 		"sprite_times": [
 			0.1,
 			0.4,

@@ -135,6 +135,11 @@ namespace TankArena.Controllers
                     damage = projectileController.damage;
                     break;
             }
+            ApplyDamage(damage);
+        }
+
+        public void ApplyDamage(float damage)
+        {
             if (damage > 0.0f)
             {
                 Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);

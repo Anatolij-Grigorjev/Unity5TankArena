@@ -6,7 +6,6 @@ using EK = TankArena.Constants.EntityKeys;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Controllers.Weapons;
-using TankArena.Models.Weapons.Behaviors;
 using TankArena.Controllers;
 using MovementEffects;
 
@@ -131,7 +130,10 @@ namespace TankArena.Models.Weapons
         protected BaseWeaponController weaponController;
 
         
-
+        public BaseWeapon(BaseWeapon model): base(model)
+        {
+            
+        }
         public BaseWeapon(string filePath) : base(filePath)
         {
             
@@ -201,8 +203,14 @@ namespace TankArena.Models.Weapons
             controller.range = Range;
             controller.clipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
-            Projectile.SetDataToController(controller.ProjectilePrefab.GetComponent<ProjectileController>());
+            controller.ProjectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
+            var projectileController = controller.ProjectilePrefab.GetComponent<ProjectileController>();
+            projectileController.sprites = new Sprite[Projectile.SpriteTimes.Length];
+            projectileController.spriteDurationTimes = new float[Projectile.SpriteTimes.Length];
             
+            Projectile.SetDataToController(projectileController);
+            controller.projectileWidth = Projectile.BoxCollider.width;
+            controller.weaponHitType = HitType;
 
             weaponController = controller;
         }
