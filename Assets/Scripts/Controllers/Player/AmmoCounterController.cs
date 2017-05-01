@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using TankArena.Models.Weapons;
+using TankArena.Controllers.Weapons;
 
 namespace TankArena.Controllers
 { 
@@ -10,12 +11,14 @@ namespace TankArena.Controllers
 
         private readonly Color ACTIVE_WPN_COLOR = Color.green;
         private readonly Color RELOAD_WPN_COLOR = Color.cyan;
+        private readonly Color INACTIVE_WPN_COLOR = Color.yellow;
         public const  float IMAGE_HEIGHT = 50.0f;
 
         public Image sliderForeground;
         public Slider sliderCore;
         public Image weaponAvatar;
         public int weaponIndex = 0;
+        public BaseWeaponController weaponController;
 
         // Use this for initialization
         void Awake () {
@@ -32,31 +35,26 @@ namespace TankArena.Controllers
             sliderCore.value = newVal;
         }
 
-        public void SetWeapon(BaseWeapon weapon)
-        {
-            weaponAvatar.sprite = weapon.ShopItem;
-            StartUsage(weapon);
-        }
-
-        public void StartUsage(BaseWeapon weapon)
+        public void StartUsage()
         {
             sliderCore.wholeNumbers = true;
-            sliderCore.maxValue = weapon.ClipSize;
-            sliderCore.value = weapon.currentClipSize;
-            sliderForeground.color =  weapon.currentClipSize > 0? ACTIVE_WPN_COLOR : RELOAD_WPN_COLOR;
+            sliderCore.maxValue = weaponController.clipSize;
+            sliderCore.value = weaponController.currentClipSize;
+            sliderForeground.color =  
+                weaponController.currentClipSize > 0? ACTIVE_WPN_COLOR : RELOAD_WPN_COLOR;
         }
 
-        public void StartReload(BaseWeapon weapon)
+        public void StartReload()
         {
             sliderCore.wholeNumbers = false;
-            sliderCore.maxValue = weapon.ReloadTime;
+            sliderCore.maxValue = weaponController.reloadTime;
             sliderCore.value = 0.0f;
             sliderForeground.color = RELOAD_WPN_COLOR;
         }
 
         public void SetInactive(bool inactive)
         {
-            sliderForeground.color = inactive? RELOAD_WPN_COLOR : ACTIVE_WPN_COLOR;
+            sliderForeground.color = inactive? INACTIVE_WPN_COLOR : ACTIVE_WPN_COLOR;
         }
 
     }

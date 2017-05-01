@@ -94,10 +94,12 @@ namespace TankArena.Constants
         public const string EK_RATE_OF_FIRE = "rate_of_fire";
         public const string EK_RANGE = "range";
         public const string EK_CLIP_SIZE = "clip_size";
-        public const string EK_WEAPON_BEHAVIOR_TYPE = "behavior_type";
-        public const string EK_PROJECTILE_PREFAB = "projectile_prefab";
-        public const string EK_TRAIL_PREFAB = "trail_prefab";
-        public const string EK_PROJECTILE_WIDTH = "projectile_width";
+        public const string EK_HIT_TYPE = "hit_type";
+        public const string EK_PROJECTILE = "projectile";
+        public const string EK_TAG = "tag";
+        public const string EK_VELOCITY = "velocity";
+        public const string EK_IMPACT_PREFAB = "impact_prefab";
+        public const string EK_SPRITE_TIMES = "sprite_times";
         public const string EK_SHOT_SOUND = "shot_sound";
         public const string EK_RELOAD_SOUND = "reload_sound";
         public const string EK_WEAPON_ANIMATION = "weapon_animations";

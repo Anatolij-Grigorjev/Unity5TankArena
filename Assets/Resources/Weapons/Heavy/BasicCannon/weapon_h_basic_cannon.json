@@ -15,16 +15,18 @@
 	"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
 	"shot_sound" : "!snd;Weapons\\Heavy\\BasicCannon\\Sounds\\shot",
 	"weapon_animations" : "!anim_contr;Weapons\\Heavy\\BasicCannon\\Animation\\Controllers\\BasicHeavyAnimationController",
+	"hit_type": "projectile",
 	"projectile": {
 		"tag": "CannonShell",
 		"velocity": 101.25,
 		// damage and range taken from weapon
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
-		"collider": "!box;0.0;-2.0;2.0;2.0",
-		"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
+		"box_collider": "!box;0.0;0.0;1.0;1.0",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBuller\\cannon_bullet_spritesheet",
 		"sprite_times": [
-			0.3,
-			0.7
+			0.1,
+			0.4,
+			0.8
 		]
 	}
 }

@@ -34,21 +34,6 @@ namespace TankArena.Models.Weapons
                 return (WeaponTypes)properties[EK.EK_WEAPON_TYPE];
             }
         }
-        public float ProjectileWidth
-        {
-            get
-            {
-                return (float)properties[EK.EK_PROJECTILE_WIDTH];
-            }
-        }
-
-        public WeaponBehaviors.Types WeaponBehaviorType
-        {
-            get
-            {
-                return (WeaponBehaviors.Types)properties[EK.EK_WEAPON_BEHAVIOR_TYPE];
-            }
-        }
 
         /// <summary>
         /// The damage the weapon deals
@@ -107,21 +92,6 @@ namespace TankArena.Models.Weapons
                 return (int)properties[EK.EK_CLIP_SIZE];
             }
         }
-
-        public GameObject ProjectilePrefab
-        {
-            get
-            {
-                return (GameObject)properties[EK.EK_PROJECTILE_PREFAB];
-            }
-        }
-        public GameObject TrailPrefab
-        {
-            get
-            {
-                return (GameObject)properties[EK.EK_TRAIL_PREFAB];
-            }
-        }
         public AudioClip ShotSound
         {
             get
@@ -143,50 +113,28 @@ namespace TankArena.Models.Weapons
                 return (RuntimeAnimatorController)properties[EK.EK_WEAPON_ANIMATION];
             }
         }
-
-        public bool isReloading;
-        public bool isShooting;
-        protected float currentReloadTimer;
-        public int currentClipSize;
-        protected float maxShotDelay;
+        public WeaponHitTypes HitType
+        {
+            get 
+            {
+                return (WeaponHitTypes)properties[EK.EK_HIT_TYPE];
+            }
+        }
+        public ProjectileModel Projectile
+        {
+            get 
+            {
+                return (ProjectileModel)properties[EK.EK_PROJECTILE];
+            }
+        }
 
         protected BaseWeaponController weaponController;
 
-        private IWeaponUseable weaponBehavior;
-        public IWeaponUseable WeaponBehavior
-        {
-            get
-            {
-                return weaponBehavior;
-            }
-            set
-            {
-                weaponBehavior = value;
-                weaponBehavior.SetWeaponModel(this);
-            }
-        }
-
-        private const float MINUTE_IN_SECONDS = 60.0f;
+        
 
         public BaseWeapon(string filePath) : base(filePath)
         {
-            // InitValues();
-        }
-
-        private void InitValues()
-        {
-            isReloading = false;
-            isShooting = false;
-            currentReloadTimer = ReloadTime;
-            currentClipSize = ClipSize;
-            //divide 60 seconds by the rate of fire per min to get delay between shots
-            maxShotDelay = MINUTE_IN_SECONDS / RateOfFire;
-            this.WeaponBehavior = WeaponBehaviors.ForType(this.WeaponBehaviorType);
-        }
-
-        public BaseWeapon(BaseWeapon model) : base(model)
-        {
-            InitValues();
+            
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
@@ -210,12 +158,8 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_RANGE] = json[EK.EK_RANGE].AsFloat;
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
-            properties[EK.EK_PROJECTILE_PREFAB] = ResolveSpecialContent(json[EK.EK_PROJECTILE_PREFAB].Value);
-            properties[EK.EK_TRAIL_PREFAB] = ResolveSpecialContent(json[EK.EK_TRAIL_PREFAB].Value);
-            properties[EK.EK_PROJECTILE_WIDTH] = json[EK.EK_PROJECTILE_WIDTH].AsFloat;
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
             properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
-            properties[EK.EK_WEAPON_BEHAVIOR_TYPE] = Enum.Parse(typeof(WeaponBehaviors.Types), json[EK.EK_WEAPON_BEHAVIOR_TYPE].Value, true);
             if (!String.IsNullOrEmpty(json[EK.EK_RELOAD_SOUND].Value))
             {
                 properties[EK.EK_RELOAD_SOUND] = ResolveSpecialContent(json[EK.EK_RELOAD_SOUND].Value);
@@ -224,67 +168,18 @@ namespace TankArena.Models.Weapons
             {
                 properties[EK.EK_RELOAD_SOUND] = null;
             }
-
-            InitValues();
+            properties[EK.EK_HIT_TYPE] = Enum.Parse(typeof(WeaponHitTypes), json[EK.EK_HIT_TYPE].Value, true);
+            properties[EK.EK_PROJECTILE] = ProjectileModel.ParseFromJSON(json[EK.EK_PROJECTILE].AsObject);
+            if (WeaponHitTypes.PROJECTILE == HitType)
+            {
+                Projectile.Damage = Damage;
+            } else 
+            {
+                Projectile.Damage = 0.0f;
+            }
+            Projectile.Distance = Range;
 
             yield return 0.0f;
-        }
-
-        public void Shoot(AmmoCounterController ammoController)
-        {
-            if (!isReloading)
-            {
-
-                bool shotReady = weaponBehavior.PrepareShot();
-                if (shotReady)
-                {
-                    if (ammoController != null)
-                        ammoController.SetInactive(true);
-                    weaponController.currentShotDelay = maxShotDelay;
-                    isShooting = !weaponBehavior.PerformShot();
-                    currentClipSize--;
-                    if (ammoController != null)
-                        ammoController.SetProgress(currentClipSize);
-                    if (!isReloading && currentClipSize <= 0)
-                    {
-                        isReloading = true;
-                        isShooting = false;
-                        currentReloadTimer = ReloadTime;
-                        weaponBehavior.OnReloadStarted();
-                        if (ammoController != null)
-                            ammoController.StartReload(this);
-                    }
-                }
-
-            }
-        }
-
-
-
-        public void Reload(AmmoCounterController ammoController)
-        {
-            if (!isReloading)
-            {
-                isReloading = true;
-                isShooting = false;
-                currentReloadTimer = ReloadTime;
-                weaponBehavior.OnReloadStarted();
-                if (ammoController != null) ammoController.StartReload(this);
-            }
-            else
-            {
-                weaponBehavior.WhileReloading();
-                currentReloadTimer -= Time.deltaTime;
-                if (ammoController != null) ammoController.SetProgress(ReloadTime - currentReloadTimer);
-                if (currentReloadTimer <= 0.0f)
-                {
-                    weaponBehavior.OnReloadFinished();
-                    isReloading = false;
-                    currentReloadTimer = ReloadTime;
-                    currentClipSize = ClipSize;
-                    if (ammoController != null) ammoController.StartUsage(this);
-                }
-            }
         }
 
 
@@ -306,6 +201,8 @@ namespace TankArena.Models.Weapons
             controller.range = Range;
             controller.clipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
+            Projectile.SetDataToController(controller.ProjectilePrefab.GetComponent<ProjectileController>());
+            
 
             weaponController = controller;
         }

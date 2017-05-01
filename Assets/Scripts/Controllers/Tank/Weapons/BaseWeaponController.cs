@@ -7,7 +7,7 @@ using TankArena.Utils;
 
 namespace TankArena.Controllers.Weapons
 {
-    public class BaseWeaponController: MonoBehaviour 
+    public class BaseWeaponController : MonoBehaviour
     {
 
         private WeaponSlot weaponSlot;
@@ -51,7 +51,6 @@ namespace TankArena.Controllers.Weapons
                 }
                 weaponSlot.Weapon = value;
                 weapon.SetDataToController(this);
-                weapon.WeaponBehavior.SetWeaponController(this);
 
                 if (ammoCounterPrefab != null)
                 {
@@ -59,7 +58,7 @@ namespace TankArena.Controllers.Weapons
                     var canvasGO = GameObject.FindGameObjectWithTag(Tags.TAG_UI_CANVAS);
                     var ammoCounter = Instantiate(ammoCounterPrefab, canvasGO.transform) as GameObject;
                     ammoController = ammoCounter.GetComponent<AmmoCounterController>();
-                    ammoController.SetWeapon(weapon);
+                    ammoController.weaponController = this;
                     var t = ammoCounter.GetComponent<RectTransform>();
                     var t2 = Instantiate(ammoCounterPrefab).GetComponent<RectTransform>();
                     //WORKAROUND: correct t via values of a non-child prefab example t2
@@ -71,7 +70,8 @@ namespace TankArena.Controllers.Weapons
 
                     Destroy(t2.gameObject);
 
-                    if (ammoController.weaponIndex > 0) {
+                    if (ammoController.weaponIndex > 0)
+                    {
                         //acount for which weapon this is if index is set
                         var newPos = t.position;
                         newPos.y += (AmmoCounterController.IMAGE_HEIGHT * ammoController.weaponIndex);
@@ -90,17 +90,26 @@ namespace TankArena.Controllers.Weapons
         public GameObject ammoCounterPrefab;
         public AudioSource shotAudio;
         public SpriteRenderer weaponSpriteRenderer;
-
         public TankTurretController turretController;
         public Animator weaponAnimationController;
-        
-        public float currentShotDelay = 0.0f;
+        public GameObject ProjectilePrefab;
+
+
+        private float currentShotDelay = 0.0f;
+        private const float MINUTE_IN_SECONDS = 60.0f;
+        private bool isReloading;
+        private bool isRapidFire;
+        private bool isShooting;
+        private float currentReloadTimer;
+        [HideInInspector]
+        public int currentClipSize;
+        private float maxShotDelay;
 
         // Use this for initialization
         void Awake()
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-            
+
             shotAudio = GetComponent<AudioSource>();
             weaponAnimationController = GetComponent<Animator>();
 
@@ -108,6 +117,18 @@ namespace TankArena.Controllers.Weapons
             {
                 Weapon.SetDataToController(this);
             }
+        }
+
+        void Start()
+        {
+            isReloading = false;
+            isShooting = false;
+            currentReloadTimer = reloadTime;
+            currentClipSize = clipSize;
+            //divide 60 seconds by the rate of fire per min to get delay between shots
+            maxShotDelay = MINUTE_IN_SECONDS / rateOfFire;
+            //if weapon is rapid fire we do fewer ammo checks and stuff to optimize
+            isRapidFire = maxShotDelay <= Time.fixedDeltaTime;
         }
 
         // Update is called once per frame
@@ -119,39 +140,90 @@ namespace TankArena.Controllers.Weapons
                 if (currentShotDelay <= 0.0)
                 {
                     currentShotDelay = 0.0f;
-                    if (!Weapon.isReloading)
+                    if (!isReloading && !isRapidFire)
                     {
                         if (ammoController != null)
+                        {
                             ammoController.SetInactive(false);
+                        }
                     }
-                } else
+                }
+                else
                 {
-                    Weapon.isShooting = false;
+                    isShooting = false;
                 }
             }
-            if (Weapon.isShooting && currentShotDelay <= 0.0)
+            if (isShooting && currentShotDelay <= 0.0)
             {
-                Weapon.Shoot(ammoController);
+                Shoot();
             }
-            if (Weapon.isReloading)
+            if (isReloading)
             {
-                Weapon.Reload(ammoController);
+                Reload();
+            }
+        }
+
+        public void Shoot()
+        {
+            if (!isReloading)
+            {
+
+                bool shotReady = weaponBehavior.PrepareShot();
+                if (shotReady)
+                {
+                    //no point in hotsapping colors when shot delay is super short
+                    if (ammoController != null && !isRapidFire)
+                    {
+                        ammoController.SetInactive(true);
+                    }
+                    currentShotDelay = maxShotDelay;
+                    isShooting = !weaponBehavior.PerformShot();
+                    currentClipSize--;
+                    if (ammoController != null)
+                        ammoController.SetProgress(currentClipSize);
+                    if (!isReloading && currentClipSize <= 0)
+                    {
+                        isReloading = true;
+                        isShooting = false;
+                        currentReloadTimer = reloadTime;
+                        weaponBehavior.OnReloadStarted();
+                        if (ammoController != null)
+                            ammoController.StartReload();
+                    }
+                }
+
             }
         }
 
         public void Reload()
         {
-            weapon.Reload(ammoController);
+            if (!isReloading)
+            {
+                isReloading = true;
+                isShooting = false;
+                currentReloadTimer = reloadTime;
+
+                if (ammoController != null) ammoController.StartReload();
+            }
+            else
+            {
+
+                currentReloadTimer -= Time.deltaTime;
+                if (ammoController != null) ammoController.SetProgress(reloadTime - currentReloadTimer);
+                if (currentReloadTimer <= 0.0f)
+                {
+
+                    isReloading = false;
+                    currentReloadTimer = reloadTime;
+                    currentClipSize = clipSize;
+                    if (ammoController != null) ammoController.StartUsage();
+                }
+            }
         }
 
-        public bool isFullClip() 
+        public bool isFullClip()
         {
-            return weapon.currentClipSize == weapon.ClipSize;
-        }
-        public void Shoot()
-        {
-            //start the shooting on next update
-            Weapon.isShooting = currentShotDelay <= 0.0f && !Weapon.isReloading;
+            return currentClipSize == clipSize;
         }
     }
 }
