@@ -106,6 +106,7 @@ namespace TankArena.Controllers
                     DBG.Log("Setting target layer to {0}", layerMask);
 
                     baseWeaponController.layerMask = layerMask;
+                    baseWeaponController.projectileLayer = LayerMasks.L_ENEMY_PROJECTILE;
 
                     break;
                 default:

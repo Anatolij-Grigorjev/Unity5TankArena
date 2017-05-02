@@ -47,7 +47,7 @@ namespace TankArena.Models.Weapons
 			}
 
 			controller.damage = Damage;
-			controller.distanceSqr = Distance * Distance;
+			controller.distance = Distance;
 			controller.velocity = Velocity;
 			controller.tag = Tag;
 			controller.impactPrefab = ImpactPrefab;

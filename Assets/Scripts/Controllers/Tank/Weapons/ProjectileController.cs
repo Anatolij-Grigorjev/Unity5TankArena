@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TankArena.Models;
+using TankArena.Utils;
 
 namespace TankArena.Controllers.Weapons
 {
@@ -13,7 +14,7 @@ namespace TankArena.Controllers.Weapons
 		public SpriteRenderer spriteRenderer;
         public Sprite[] sprites;
         public float[] spriteDurationTimes;
-		public float distanceSqr;
+		public float distance;
         public float damage;
         public float velocity;
         public GameObject impactPrefab;
@@ -53,8 +54,8 @@ namespace TankArena.Controllers.Weapons
 			var movementVector = transform.up * velocity * Time.deltaTime;
 			transform.Translate(movementVector);
 			//make sure the projectile doesnt go farther than intended
-			currentDistance += movementVector.sqrMagnitude;
-			if (currentDistance > distanceSqr)
+			currentDistance += movementVector.magnitude;
+			if (currentDistance > distance)
 			{
 				Destroy(this.gameObject);
 			}
@@ -63,6 +64,7 @@ namespace TankArena.Controllers.Weapons
 
 		void OnCollisionEnter2D(Collision2D other)
 		{
+			DBG.Log("Collided! WITH SOMETHING");
 			if (impactPrefab != null)
 			{
 				Instantiate(impactPrefab);

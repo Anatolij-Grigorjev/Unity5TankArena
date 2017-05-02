@@ -60,6 +60,7 @@ namespace TankArena.Controllers.Weapons
                     var ammoCounter = Instantiate(ammoCounterPrefab, canvasGO.transform) as GameObject;
                     ammoController = ammoCounter.GetComponent<AmmoCounterController>();
                     ammoController.weaponController = this;
+                    ammoController.weaponAvatar.sprite = value.ShopItem;
                     var t = ammoCounter.GetComponent<RectTransform>();
                     var t2 = Instantiate(ammoCounterPrefab).GetComponent<RectTransform>();
                     //WORKAROUND: correct t via values of a non-child prefab example t2
@@ -88,6 +89,7 @@ namespace TankArena.Controllers.Weapons
         public float range;
         public int clipSize;
         public int layerMask;
+        public int projectileLayer;
         public float projectileWidth;
         public WeaponHitTypes weaponHitType;
         public AmmoCounterController ammoController;
@@ -208,8 +210,10 @@ namespace TankArena.Controllers.Weapons
                     }
                 }
                 //create actual projectile 
-                var projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)) as GameObject;
-                
+                var euler = transform.eulerAngles;
+                var projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.Euler(euler)) as GameObject;
+                projectile.layer = projectileLayer;
+
                 currentClipSize--;
                 if (ammoController != null)
                     ammoController.SetProgress(currentClipSize);

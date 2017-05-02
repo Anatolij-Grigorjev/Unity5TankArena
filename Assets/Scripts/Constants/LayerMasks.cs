@@ -15,6 +15,8 @@ namespace TankArena.Constants
         public static int LM_DEFAULT_AND_PLAYER_AND_ENEMY = LayerMask.GetMask(new string[] {"Default", "Player", "Enemy"});
         public static int L_EXPLOSIONS_LAYER = LayerMask.NameToLayer("Explosions");
         public static int L_DEFAULT_LAYER = LayerMask.NameToLayer("Default");
+        public static int L_PLAYER_PROJECTILE = LayerMask.NameToLayer("PlayerProjectile");
+        public static int L_ENEMY_PROJECTILE = LayerMask.NameToLayer("EnemyProjectile");
 
     }
 }

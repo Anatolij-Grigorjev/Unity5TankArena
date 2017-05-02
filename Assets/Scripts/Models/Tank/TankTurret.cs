@@ -163,7 +163,8 @@ namespace TankArena.Models.Tank
             originalPrefab.GetComponent<AmmoCounterController>().weaponIndex = existingWeaponsCount;
             baseWeaponController.ammoCounterPrefab = originalPrefab;
             baseWeaponController.layerMask = LayerMasks.LM_DEFAULT_AND_ENEMY;
-
+            baseWeaponController.projectileLayer = LayerMasks.L_PLAYER_PROJECTILE;
+            
             //create reload sound child (with deafult sound loaded)
             var reloadSoundPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_WEAPON_RELOAD) as GameObject;
             var reloadSound = GameObject.Instantiate(reloadSoundPrefab);
