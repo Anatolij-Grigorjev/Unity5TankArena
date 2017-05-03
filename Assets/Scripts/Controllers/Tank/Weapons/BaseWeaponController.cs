@@ -99,7 +99,7 @@ namespace TankArena.Controllers.Weapons
         public SpriteRenderer weaponSpriteRenderer;
         public TankTurretController turretController;
         public Animator weaponAnimationController;
-        public GameObject ProjectilePrefab;
+        public GameObject bulletPool;
 
 
         private float currentShotDelay = 0.0f;
@@ -211,7 +211,8 @@ namespace TankArena.Controllers.Weapons
                 }
                 //create actual projectile 
                 var euler = transform.eulerAngles;
-                var projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.Euler(euler)) as GameObject;
+                var projectile = bulletPool.GetFirsReadyInstance(false);
+                TranformState.CopyFromTransform(transform).CopyToTransform(projectile.transform);
                 projectile.layer = projectileLayer;
 
                 currentClipSize--;

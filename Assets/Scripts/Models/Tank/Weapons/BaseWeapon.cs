@@ -203,14 +203,18 @@ namespace TankArena.Models.Weapons
             controller.range = Range;
             controller.clipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
-            controller.ProjectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
-            var projectileController = controller.ProjectilePrefab.GetComponent<ProjectileController>();
+            var projectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
+            var projectileController = projectilePrefab.GetComponent<ProjectileController>();
             projectileController.sprites = new Sprite[Projectile.SpriteTimes.Length];
             projectileController.spriteDurationTimes = new float[Projectile.SpriteTimes.Length];
             
             Projectile.SetDataToController(projectileController);
             controller.projectileWidth = Projectile.BoxCollider.width;
             controller.weaponHitType = HitType;
+
+            //create projectile objects pool. pool size depends on weapon clip size
+            
+
 
             weaponController = controller;
         }

@@ -35,7 +35,7 @@ namespace TankArena.Controllers.Weapons
         }
 
         // Use this for initialization
-        void Start()
+        void onEnable()
         {	
 			currentDistance = 0.0f;
 			currentLifetime = 0.0f;
@@ -57,7 +57,7 @@ namespace TankArena.Controllers.Weapons
 			currentDistance += movementVector.magnitude;
 			if (currentDistance > distance)
 			{
-				Destroy(this.gameObject);
+				this.gameObject.SetActive(false);
 			}
         }
 
@@ -77,7 +77,7 @@ namespace TankArena.Controllers.Weapons
 					damageReceiver.ApplyDamage(gameObject);
 				}
 			}
-			Destroy(this.gameObject);
+			this.gameObject.SetActive(false);
 		}
     }
 }
