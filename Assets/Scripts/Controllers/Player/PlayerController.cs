@@ -202,7 +202,7 @@ namespace TankArena.Controllers
             //no need to fire yet if rotation too large
             // DBG.Log("Difference between quaternions: {0}", angleDiff);
             //angle diff will remain around 100 units for a correct angle, safest being between 90 and 100
-            return 95.0f <= angleDiff && angleDiff <= 105.0f;
+            return 90.0f <= angleDiff && angleDiff <= 110.0f;
         }
         private void CollectWeaponsInput()
         {

@@ -204,7 +204,7 @@ namespace TankArena.Models.Tank
                     var weaponController = wpnSlot.weaponController;
                     if (weaponController != null)
                     {
-                        weaponController.Shoot();
+                        weaponController.TryShoot();
                     }
                 }
             });

@@ -99,7 +99,7 @@ namespace TankArena.Controllers.Weapons
         public SpriteRenderer weaponSpriteRenderer;
         public TankTurretController turretController;
         public Animator weaponAnimationController;
-        public GameObject bulletPool;
+        public ObjectsPool bulletPool;
 
 
         private float currentShotDelay = 0.0f;
@@ -142,6 +142,7 @@ namespace TankArena.Controllers.Weapons
         // Update is called once per frame
         void Update()
         {
+            
             if (currentShotDelay > 0.0)
             {
                 currentShotDelay -= Time.fixedDeltaTime;
@@ -210,10 +211,14 @@ namespace TankArena.Controllers.Weapons
                     }
                 }
                 //create actual projectile 
-                var euler = transform.eulerAngles;
-                var projectile = bulletPool.GetFirsReadyInstance(false);
-                TranformState.CopyFromTransform(transform).CopyToTransform(projectile.transform);
-                projectile.layer = projectileLayer;
+                var projectile = bulletPool.GetFirsReadyInstance();
+                if (projectile != null)
+                {
+                    projectile.SetActive(true);
+                    projectile.transform.position = transform.position;
+                    projectile.transform.rotation = transform.rotation;
+                    projectile.layer = projectileLayer;
+                }
 
                 currentClipSize--;
                 if (ammoController != null)
@@ -230,6 +235,12 @@ namespace TankArena.Controllers.Weapons
 
 
             }
+        }
+
+        public void TryShoot()
+        {
+            //tank decided to try to shoot
+            isShooting = true;
         }
 
         public void Reload()

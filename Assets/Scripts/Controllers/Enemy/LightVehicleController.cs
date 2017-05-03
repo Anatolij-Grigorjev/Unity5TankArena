@@ -8,7 +8,7 @@ using TankArena.Models;
 
 namespace TankArena.Controllers
 {
-    public class LighVehicleController : CommandsBasedController, IDamageReceiver
+    public class LightVehicleController : CommandsBasedController, IDamageReceiver
     {
 
         public BaseWeaponController baseWeaponController;
@@ -69,7 +69,7 @@ namespace TankArena.Controllers
         public void Start()
         {
             var weapons = EntitiesStore.Instance.Weapons;
-            var oldState = TransformState.fromTransform(baseWeaponController.gameObject.transform);
+            var oldState = TransformState.FromTransform(baseWeaponController.gameObject.transform);
             //make copy of the weapon entity (main one used by player)
             baseWeaponController.Weapon = new BaseWeapon(weapons[cannonId]);
             oldState.CopyToTransform(baseWeaponController.transform);
@@ -98,7 +98,7 @@ namespace TankArena.Controllers
 
                     break;
                 case TankCommandWords.TANK_COMMAND_FIRE:
-                    baseWeaponController.Shoot();
+                    baseWeaponController.TryShoot();
 
                     break;
                 case TankCommandWords.AI_COMMAND_TARGET_AQUIRED:

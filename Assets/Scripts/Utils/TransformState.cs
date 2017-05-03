@@ -40,7 +40,7 @@ namespace TankArena.Utils
             scale = t.localScale;
         }
 
-        public static TransformState fromTransform(Transform t)
+        public static TransformState FromTransform(Transform t)
         {
             var state = new TransformState();
             state.CopyFromTransform(t);

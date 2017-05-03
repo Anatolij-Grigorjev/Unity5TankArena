@@ -35,8 +35,9 @@ namespace TankArena.Controllers.Weapons
         }
 
         // Use this for initialization
-        void onEnable()
+        void OnEnable()
         {	
+			// DBG.Log("Enabled projectile!");
 			currentDistance = 0.0f;
 			currentLifetime = 0.0f;
             CurrentSpriteIdx = 0;
@@ -54,7 +55,7 @@ namespace TankArena.Controllers.Weapons
 			var movementVector = transform.up * velocity * Time.deltaTime;
 			transform.Translate(movementVector);
 			//make sure the projectile doesnt go farther than intended
-			currentDistance += movementVector.magnitude;
+			currentDistance += (velocity * Time.deltaTime);
 			if (currentDistance > distance)
 			{
 				this.gameObject.SetActive(false);

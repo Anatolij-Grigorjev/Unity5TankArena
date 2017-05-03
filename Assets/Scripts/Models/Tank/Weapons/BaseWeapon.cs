@@ -213,8 +213,18 @@ namespace TankArena.Models.Weapons
             controller.weaponHitType = HitType;
 
             //create projectile objects pool. pool size depends on weapon clip size
-            
-
+            //get single projectile TTL and multiply by the amount of shots created per second - this is the max number onscreen at once
+            //with some added buffer this is the ammo pool
+            float projectileTTL = projectileController.distance / projectileController.velocity;
+            float shotsPerSecond = RateOfFire / 60.0f;
+            int poolSize = 1 + Mathf.Min(Mathf.CeilToInt(shotsPerSecond * projectileTTL), ClipSize);
+            DBG.Log("Weapon: {0} | projectileTTL: {1} | shotsPerSecond: {2} | poolSize: {3}", Id, projectileTTL, shotsPerSecond, poolSize);
+            //make a pool object and add the stuff in the pool
+            var poolObj = new GameObject(Id + "-AmmoPool", new Type[] {typeof(ObjectsPool)});
+            var pool = poolObj.GetComponent<ObjectsPool>();
+            pool.pooledPrefab = projectilePrefab;
+            pool.instancesCount = poolSize;
+            controller.bulletPool = pool;
 
             weaponController = controller;
         }

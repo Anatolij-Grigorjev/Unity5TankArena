@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TankArena.Utils
 {
-    class ObjectsPool: MonoBehavior
+    public class ObjectsPool: MonoBehaviour
     {
         public GameObject pooledPrefab;
         [HideInInspector]
@@ -12,8 +13,9 @@ namespace TankArena.Utils
 
         public void Start() 
         {
+            DBG.Log("Initialising pool with {0} instnaces!", instancesCount);
             Instances = new List<GameObject>(instancesCount);
-            for ( int i = 0 ; i < prefabInstances; i++ )
+            for ( int i = 0 ; i < instancesCount; i++ )
             {
                 var instance = Instantiate(pooledPrefab) as GameObject;
                 instance.SetActive(false);
@@ -21,7 +23,7 @@ namespace TankArena.Utils
             }
         }
 
-        public GameObject GetFirsReadyInstance(boolean expand = false)
+        public GameObject GetFirsReadyInstance(bool expand = false)
         {
             for (int i = 0; i < instancesCount; i++)
             {
