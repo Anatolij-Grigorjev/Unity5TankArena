@@ -202,6 +202,8 @@ namespace TankArena.Models.Weapons
             controller.rateOfFire = RateOfFire;
             controller.range = Range;
             controller.clipSize = ClipSize;
+            //for starting ammo controller correctly
+            controller.currentClipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
             var projectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
             var projectileController = projectilePrefab.GetComponent<ProjectileController>();

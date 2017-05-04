@@ -21,6 +21,7 @@ namespace TankArena.Controllers.Weapons
         private int currentSpriteIdx;
 		private float currentLifetime;
 		private float currentDistance;
+		public Vector3 direction;
         private int CurrentSpriteIdx
         {
             get
@@ -52,10 +53,11 @@ namespace TankArena.Controllers.Weapons
 				currentLifetime = 0.0f;
 				CurrentSpriteIdx = currentSpriteIdx++;
 			}		
-			var movementVector = transform.up * velocity * Time.deltaTime;
+			var distanceCovered = velocity * Time.deltaTime;
+			var movementVector = direction * distanceCovered;
 			transform.Translate(movementVector);
 			//make sure the projectile doesnt go farther than intended
-			currentDistance += (velocity * Time.deltaTime);
+			currentDistance += distanceCovered;
 			if (currentDistance > distance)
 			{
 				this.gameObject.SetActive(false);

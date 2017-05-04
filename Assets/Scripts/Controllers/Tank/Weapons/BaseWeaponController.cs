@@ -61,6 +61,7 @@ namespace TankArena.Controllers.Weapons
                     ammoController = ammoCounter.GetComponent<AmmoCounterController>();
                     ammoController.weaponController = this;
                     ammoController.weaponAvatar.sprite = value.ShopItem;
+                    ammoController.StartUsage();
                     var t = ammoCounter.GetComponent<RectTransform>();
                     var t2 = Instantiate(ammoCounterPrefab).GetComponent<RectTransform>();
                     //WORKAROUND: correct t via values of a non-child prefab example t2
@@ -216,7 +217,8 @@ namespace TankArena.Controllers.Weapons
                 {
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
-                    projectile.transform.rotation = transform.rotation;
+                    projectile.transform.rotation = Quaternion.identity;
+                    projectile.GetComponent<ProjectileController>().direction = turretController.Rotator.transform.up;
                     projectile.layer = projectileLayer;
                 }
 

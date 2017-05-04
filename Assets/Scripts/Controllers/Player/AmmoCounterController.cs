@@ -21,8 +21,8 @@ namespace TankArena.Controllers
         public BaseWeaponController weaponController;
 
         // Use this for initialization
-        void Awake () {
-
+        void Start () {
+            
         }
         
         // Update is called once per frame

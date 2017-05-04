@@ -19,7 +19,6 @@
 	"projectile": {
 		"tag": "CannonShell",
 		"velocity": 70.25,
-		// damage and range taken from weapon
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
 		"box_collider": "!box;0.0;0.0;0.5;0.5",
 		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",
