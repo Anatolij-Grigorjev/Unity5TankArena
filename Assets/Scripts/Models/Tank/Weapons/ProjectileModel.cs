@@ -55,6 +55,8 @@ namespace TankArena.Models.Weapons
 			collider.offset = BoxCollider.position;
 			collider.size = BoxCollider.size;
 
+			controller.sprites = new Sprite[SpriteTimes.Length];
+            controller.spriteDurationTimes = new float[SpriteTimes.Length];
 			Array.Copy(Spritesheet, controller.sprites, SpriteTimes.Length);
 			Array.Copy(SpriteTimes, controller.spriteDurationTimes, SpriteTimes.Length);
 

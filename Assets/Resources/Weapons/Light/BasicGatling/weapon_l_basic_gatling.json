@@ -22,10 +22,10 @@
 		"velocity": 151.25,
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
 		"box_collider": "!box;0.0;0.0;0.5;0.5",
-		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\GatlingBullet\\gatling_bullet_spritesheet",
 		"sprite_times": [
-			0.1,
-			0.1,
+			0.2,
+			0.2,
 			0.1
 		]
 	}

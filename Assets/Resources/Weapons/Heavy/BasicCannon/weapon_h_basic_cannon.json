@@ -23,7 +23,7 @@
 		"box_collider": "!box;0.0;0.0;0.5;0.5",
 		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",
 		"sprite_times": [
-			0.1,
+			0.4,
 			0.1,
 			0.1
 		]

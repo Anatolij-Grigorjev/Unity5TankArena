@@ -51,7 +51,7 @@ namespace TankArena.Controllers.Weapons
 			if (currentLifetime > spriteDurationTimes[currentSpriteIdx] && (currentSpriteIdx < spriteDurationTimes.Length - 1))
 			{
 				currentLifetime = 0.0f;
-				CurrentSpriteIdx = currentSpriteIdx++;
+				CurrentSpriteIdx = (currentSpriteIdx + 1);
 			}		
 			var distanceCovered = velocity * Time.deltaTime;
 			var movementVector = direction * distanceCovered;

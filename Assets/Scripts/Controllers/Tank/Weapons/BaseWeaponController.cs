@@ -217,8 +217,14 @@ namespace TankArena.Controllers.Weapons
                 {
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
+                    //rotation of bullet itself is neutral
                     projectile.transform.rotation = Quaternion.identity;
-                    projectile.GetComponent<ProjectileController>().direction = turretController.Rotator.transform.up;
+                    var projectileController = projectile.GetComponent<ProjectileController>();
+                    //but rotation of its sprite is different
+                    var rotBase = turretController.Rotator.transform.localEulerAngles;
+                    rotBase.z += 90.0f;
+                    projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase) ;
+                    projectileController.direction = turretController.Rotator.transform.up;
                     projectile.layer = projectileLayer;
                 }
 
