@@ -10,18 +10,21 @@ namespace TankArena.Controllers
 
         private Animator anim;
         public float damage;
+        public float lifespan;
         public GameObject postBoomDecal;
 
         // Use this for initialization
         void Awake()
         {
             anim = GetComponent<Animator>();
-            float animLength = 0.0f;
-            foreach (var clip in anim.runtimeAnimatorController.animationClips)
+            if (lifespan == 0.0f)
             {
-                animLength += clip.length;
+                foreach (var clip in anim.runtimeAnimatorController.animationClips)
+                {
+                    lifespan += clip.length;
+                }
             }
-            Destroy(gameObject, animLength);
+            Destroy(gameObject, lifespan);
         }
 
         void SpawnDecal()

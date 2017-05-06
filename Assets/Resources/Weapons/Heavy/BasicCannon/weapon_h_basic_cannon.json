@@ -9,7 +9,7 @@
 	"damage": 35.7,
 	"reload": 2.5,
 	"rate_of_fire": 60,
-	"range": 100,
+	"range": 125,
 	"clip_size": 4,
 	"shop_item": "!img;Weapons\\Heavy\\BasicCannon\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Heavy\\BasicCannon\\Images\\Sprites\\weapon_basic_cannon_spritesheet_0",
@@ -18,7 +18,7 @@
 	"hit_type": "projectile",
 	"projectile": {
 		"tag": "CannonShell",
-		"velocity": 70.25,
+		"velocity": 100.25,
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleHeavyBoom\\SimpleBoom",
 		"box_collider": "!box;0.0;0.0;0.5;0.5",
 		"spritesheet": "!sprites;Weapons\\Projectiles\\CannonBullet\\cannon_bullet_spritesheet",

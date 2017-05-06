@@ -10,7 +10,7 @@
 	"damage": 2.7
 ,	"reload": 4.5,
 	"rate_of_fire": 900,
-	"range": 101,
+	"range": 95,
 	"clip_size": 300,
 	"shop_item": "!img;Weapons\\Light\\BasicGatling\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Light\\BasicGatling\\Images\\Sprites\\weapon_basic_gatling_spritesheet_0",

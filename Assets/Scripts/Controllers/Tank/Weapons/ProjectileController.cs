@@ -65,12 +65,11 @@ namespace TankArena.Controllers.Weapons
         }
 
 
-		void OnCollisionEnter2D(Collision2D other)
+		void OnTriggerEnter2D(Collider2D other)
 		{
-			DBG.Log("Collided! WITH SOMETHING");
 			if (impactPrefab != null)
 			{
-				Instantiate(impactPrefab);
+				Instantiate(impactPrefab, transform.position, spriteRenderer.gameObject.transform.rotation);
 			}
 			if (!isDecorative)
 			{
