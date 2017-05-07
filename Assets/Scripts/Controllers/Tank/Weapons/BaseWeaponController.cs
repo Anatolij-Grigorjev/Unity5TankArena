@@ -5,6 +5,8 @@ using System;
 using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models;
+using MovementEffects;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers.Weapons
 {
@@ -143,7 +145,7 @@ namespace TankArena.Controllers.Weapons
         // Update is called once per frame
         void Update()
         {
-            
+
             if (currentShotDelay > 0.0)
             {
                 currentShotDelay -= Time.fixedDeltaTime;
@@ -185,7 +187,7 @@ namespace TankArena.Controllers.Weapons
                     ammoController.SetInactive(true);
                 }
                 currentShotDelay = maxShotDelay;
-
+                weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, true);
                 if (!shotAudio.isPlaying)
                 {
                     shotAudio.Play();
@@ -215,16 +217,19 @@ namespace TankArena.Controllers.Weapons
                 var projectile = bulletPool.GetFirsReadyInstance();
                 if (projectile != null)
                 {
+                    var rotatorTransform = turretController != null? turretController.Rotator.transform : transform.root;
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
                     //rotation of bullet itself is neutral
                     projectile.transform.rotation = Quaternion.identity;
                     var projectileController = projectile.GetComponent<ProjectileController>();
                     //but rotation of its sprite is different
-                    var rotBase = turretController.Rotator.transform.localEulerAngles;
+                    var rotBase = rotatorTransform.localEulerAngles;
                     rotBase.z += 90.0f;
-                    projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase) ;
-                    projectileController.direction = turretController.Rotator.transform.up;
+                    projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
+                    projectileController.direction = rotatorTransform.up;
+                    //move a bit away from the barrel
+                    projectile.transform.Translate(projectileController.direction * 5.0f);
                     projectile.layer = projectileLayer;
                 }
 
@@ -235,6 +240,7 @@ namespace TankArena.Controllers.Weapons
                 {
                     isReloading = true;
                     isShooting = false;
+                    // UnsetShootingAnimation();
                     currentReloadTimer = reloadTime;
                     reloadAudio.Play();
                     if (ammoController != null)
@@ -251,12 +257,36 @@ namespace TankArena.Controllers.Weapons
             isShooting = true;
         }
 
+        public void UnsetShootingAnimation()
+        {
+            weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, false);
+        }
+        private bool animationStopperRunning = false;
+        public void CheckWithDelay()
+        {
+            if (!animationStopperRunning)
+            {
+                Timing.RunCoroutine(_WaitAndCheck());
+            }
+        }
+        private IEnumerator<float> _WaitAndCheck()
+        {
+            animationStopperRunning = true;
+            yield return Timing.WaitForSeconds(0.2f);
+            if (!isShooting)
+            {
+                UnsetShootingAnimation();
+            }
+            animationStopperRunning = false;
+        }
+
         public void Reload()
         {
             if (!isReloading)
             {
                 isReloading = true;
                 isShooting = false;
+                UnsetShootingAnimation();
                 currentReloadTimer = reloadTime;
                 reloadAudio.Play();
                 if (ammoController != null) ammoController.StartReload();
