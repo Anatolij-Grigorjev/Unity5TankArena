@@ -47,6 +47,29 @@ namespace TankArena.UI.Shop
 		{
 
 		}
+
+
+		void OnDisable()
+		{
+			//put all weapon lsots into common array before processing
+			var slotObjects = GameObject.FindGameObjectsWithTag(Tags.TAG_SHOP_HEAVY_SLOT);
+			var lightSlotObjects = GameObject.FindGameObjectsWithTag(Tags.TAG_SHOP_LIGHT_SLOT);
+			int origL = slotObjects.Length;
+			Array.Resize<GameObject>(ref slotObjects, origL + lightSlotObjects.Length);
+			Array.Copy(lightSlotObjects, 0, slotObjects, origL, lightSlotObjects.Length);
+
+			foreach(GameObject slotGO in slotObjects) {
+
+				var slotAnimator = slotGO.GetComponent<Animator>();
+
+				if (slotAnimator.GetCurrentAnimatorStateInfo(0).IsName("Pulsating")) {
+					slotAnimator.SetTrigger(AnimationParameters.TRIGGER_GLOW_SLOT);
+				}
+			}
+			buyItemButton.enabled = true;
+		}
+
+
 		private UnityAction createBaseWeaponPurchaseAction()
 		{
 			return () => 
