@@ -45,6 +45,8 @@ namespace TankArena.Utils
             CurrentArena = null;
             CurrentSceneParams = new Dictionary<string, object>();
             ResetArenaStats();
+            //default scene id, good for loading before main menu
+            NextSceneId = SceneIds.SCENE_MENU_ID;
         }
 
         public void ResetArenaStats()

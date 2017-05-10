@@ -92,6 +92,11 @@ namespace TankArena.Models.Tank
         {
             currentAcceleration = 0.0f;
         }
+        
+        public TankEngine(TankEngine model): base(model) 
+        {
+            currentAcceleration = 0.0f;
+        }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {

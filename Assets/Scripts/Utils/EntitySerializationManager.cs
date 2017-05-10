@@ -31,12 +31,21 @@ namespace TankArena.Utils
             deserializers.Add(typeof(FileLoadedEntityModel), convertFromNameVal);
             deserializers.Add(typeof(PlayableCharacter), convertFromJustId);
             deserializers.Add(typeof(TankPart), convertFromNameVal);
-            deserializers.Add(typeof(TankEngine), convertFromNameVal);
-            deserializers.Add(typeof(TankTracks), convertFromNameVal);
+            deserializers.Add(typeof(TankEngine), code => {
+                TankEngine engineModel = convertFromNameVal(code) as TankEngine;
+
+                return new TankEngine(engineModel);
+            });
+            deserializers.Add(typeof(TankTracks), code => {
+                TankTracks tracksModel = convertFromNameVal(code) as TankTracks;
+
+                return new TankTracks(tracksModel);
+            });
             deserializers.Add(typeof(TankChassis), code =>
             {
                 var chassisCodeParts = code.Split(',');
-                TankChassis chassis = (TankChassis) convertFromNameVal(chassisCodeParts[0]);
+                TankChassis chassisModel = (TankChassis) convertFromNameVal(chassisCodeParts[0]);
+                TankChassis chassis = new TankChassis(chassisModel);
                 TankEngine engine = DeserializeEntity<TankEngine>(chassisCodeParts[1]);
                 TankTracks tracks = DeserializeEntity<TankTracks>(chassisCodeParts[2]);
 
@@ -54,7 +63,8 @@ namespace TankArena.Utils
             {
                 //turret code is made up of turret id and weapon slot=weapon|group triplets
                 var turretCodeParts = code.Split(',');
-                TankTurret turret = (TankTurret) convertFromNameVal(turretCodeParts[0]);
+                TankTurret turretModel = (TankTurret) convertFromNameVal(turretCodeParts[0]);
+                TankTurret turret = new TankTurret(turretModel);
                 for (int i = 1; i < turretCodeParts.Length; i++)
                 {
                     var slotCodePart = turretCodeParts[i];

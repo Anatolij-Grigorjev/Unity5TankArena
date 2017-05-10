@@ -19,6 +19,15 @@ namespace TankArena.Models.Weapons
             WeaponGroup = 0;
         }
 
+        /// <summary>
+        /// Create an empty copy of this slot for deserialization
+        /// </summary>
+        /// <returns></returns>
+        public WeaponSlot EmptyCopy() 
+        {
+            return new WeaponSlot(WeaponType, ShopTransform);
+        }
+
         public WeaponTypes WeaponType { get; private set; }
         public TankTurret Turret { get; set; }
         public TransformState ShopTransform { get; private set; }

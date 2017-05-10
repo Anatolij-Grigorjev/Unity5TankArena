@@ -49,14 +49,14 @@ namespace TankArena.Models.Tank
         }
         public float FullTurnTime
         {
-            get 
+            get
             {
                 return (float)properties[EK.EK_TURRET_TURN_TIME];
             }
         }
         public AudioClip SpinSound
         {
-            get 
+            get
             {
                 return (AudioClip)properties[EK.EK_TURRET_SPIN_SOUND];
             }
@@ -76,6 +76,28 @@ namespace TankArena.Models.Tank
         {
             weaponSlotSerializerDictionary = new Dictionary<string, List<WeaponSlot>>();
         }
+        public TankTurret(TankTurret model) : base(model)
+        {
+            properties[EK.EK_LIGHT_WEAPON_SLOTS] = new List<WeaponSlot>();
+            properties[EK.EK_HEAVY_WEAPON_SLOTS] = new List<WeaponSlot>();
+            foreach(var slot in model.LightWeaponSlots) {
+                LightWeaponSlots.Add(slot.EmptyCopy());
+            }
+            foreach(var slot in model.HeavyWeaponSlots) {
+                HeavyWeaponSlots.Add(slot.EmptyCopy());
+            }
+            allWeaponSlots = new List<WeaponSlot>();
+            allWeaponSlots.AddRange(LightWeaponSlots);
+            allWeaponSlots.AddRange(HeavyWeaponSlots);
+            SetupSlotSerializerDictionary();
+        }
+
+        private void SetupSlotSerializerDictionary()
+        {
+            weaponSlotSerializerDictionary = new Dictionary<string, List<WeaponSlot>>();
+            weaponSlotSerializerDictionary.Add("L", LightWeaponSlots);
+            weaponSlotSerializerDictionary.Add("H", HeavyWeaponSlots);
+        }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
@@ -86,13 +108,14 @@ namespace TankArena.Models.Tank
             properties[EK.EK_TURRET_SPIN_SOUND] = ResolveSpecialContent(json[EK.EK_TURRET_SPIN_SOUND].Value);
             properties[EK.EK_WEAPONS_SHOP_IMAGE] = ResolveSpecialContent(json[EK.EK_WEAPONS_SHOP_IMAGE].Value);
             allWeaponSlots = new List<WeaponSlot>();
-            foreach (string key in new string[]{EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS}) {
+            foreach (string key in new string[] { EK.EK_HEAVY_WEAPON_SLOTS, EK.EK_LIGHT_WEAPON_SLOTS })
+            {
                 var slotsJsonArray = json[key].AsArray;
                 properties[key] = new List<WeaponSlot>();
                 if (slotsJsonArray != null && slotsJsonArray.Count > 0)
                 {
                     var slotsList = (List<WeaponSlot>)properties[key];
-                    for(int i = 0; i < slotsJsonArray.Count; i++) 
+                    for (int i = 0; i < slotsJsonArray.Count; i++)
                     {
                         String slotString = slotsJsonArray[i].Value;
                         var wpnSlot = (WeaponSlot)ResolveSpecialContent(slotString);
@@ -102,8 +125,7 @@ namespace TankArena.Models.Tank
                     allWeaponSlots.AddRange(slotsList);
                 }
             }
-            weaponSlotSerializerDictionary.Add("L", LightWeaponSlots);
-            weaponSlotSerializerDictionary.Add("H", HeavyWeaponSlots);
+            SetupSlotSerializerDictionary();
 
             yield return 0.0f;
         }
@@ -121,19 +143,21 @@ namespace TankArena.Models.Tank
                 int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>
                 {
-                    
+
                     var weaponGO = TryMakeWeaponGO(slot, slottedWeaponsCount);
-                    if (slot.Weapon != null) {
+                    if (slot.Weapon != null)
+                    {
                         slottedWeaponsCount++;
                     }
-                    if (weaponGO != null) {
+                    if (weaponGO != null)
+                    {
                         weaponGO.transform.parent = turretController.transform;
-                        
+
                         var wpnController = weaponGO.GetComponent<BaseWeaponController>();
                         wpnController.turretController = turretController;
                         wpnController.WeaponSlot = slot;
                         slot.weaponController = wpnController;
-                    } 
+                    }
                     else
                     {
                         DBG.Log("Danger! Got NULL weapon GO trying to make one out of slot {0}", slot);
@@ -157,14 +181,14 @@ namespace TankArena.Models.Tank
                    typeof(Animator),
                    typeof(BaseWeaponController)
                 });
-            
+
             var baseWeaponController = weaponGO.GetComponent<BaseWeaponController>();
             var originalPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_AMMO_COUNTER) as GameObject;
             originalPrefab.GetComponent<AmmoCounterController>().weaponIndex = existingWeaponsCount;
             baseWeaponController.ammoCounterPrefab = originalPrefab;
             baseWeaponController.layerMask = LayerMasks.LM_DEFAULT_AND_ENEMY;
             baseWeaponController.projectileLayer = LayerMasks.L_PLAYER_PROJECTILE;
-            
+
             //create reload sound child (with deafult sound loaded)
             var reloadSoundPrefab = (GameObject)Resources.Load<GameObject>(PrefabPaths.PREFAB_WEAPON_RELOAD) as GameObject;
             var reloadSound = GameObject.Instantiate(reloadSoundPrefab);
@@ -218,7 +242,7 @@ namespace TankArena.Models.Tank
                 if (controller != null && !controller.isFullClip())
                 {
                     controller.Reload();
-                }    
+                }
             });
         }
     }

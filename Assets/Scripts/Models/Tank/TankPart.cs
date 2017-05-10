@@ -80,6 +80,10 @@ namespace TankArena.Models.Tank
         {
         }
 
+        public TankPart(TankPart model): base(model) {
+            
+        }
+
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));

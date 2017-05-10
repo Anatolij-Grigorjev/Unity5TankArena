@@ -74,6 +74,10 @@ namespace TankArena.Models.Tank
         public TankTracks(string filePath) : base(filePath)
         {
         }
+        public TankTracks(TankTracks model) : base(model)
+        {
+
+        }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
@@ -109,7 +113,7 @@ namespace TankArena.Models.Tank
             base.SetRigidBodyProps(rigidBody);
             //road stickyness?
             rigidBody.drag = Coupling;
-            
+
         }
     }
 }

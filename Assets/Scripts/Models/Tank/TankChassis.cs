@@ -30,7 +30,7 @@ namespace TankArena.Models.Tank
         /// </summary>
         public float Regeneration
         {
-            get 
+            get
             {
                 return (float)properties[EK.EK_REGENERATION];
             }
@@ -66,7 +66,7 @@ namespace TankArena.Models.Tank
         }
         public Vector3 HealthbarOffset
         {
-            get 
+            get
             {
                 return (Vector3)properties[EK.EK_HEALTHBAR_OFFSET];
             }
@@ -75,6 +75,10 @@ namespace TankArena.Models.Tank
 
         public TankChassis(string filePath) : base(filePath)
         {
+        }
+        public TankChassis(TankChassis model) : base(model)
+        {
+
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
@@ -107,9 +111,9 @@ namespace TankArena.Models.Tank
                 damageAssigner.sprites = new Sprite[ActiveSprites];
                 Array.Copy(Sprites, damageAssigner.sprites, ActiveSprites);
                 damageAssigner.UpdateVPS();
-                
+
                 chassisController.Integrity = Integrity;
-                var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.REGModifier : 1.0f;
+                var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER) ? CurrentState.Instance.CurrentStats.REGModifier : 1.0f;
                 chassisController.RegenPerInterval = Regeneration / (60 / chassisController.regenFrequency);
                 //regen more frequently if the player has the modifier
                 chassisController.regenFrequency /= modifier;
