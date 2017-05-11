@@ -81,6 +81,11 @@ namespace TankArena.Models
             this.properties = new Dictionary<string, object>(model.properties);
         }
 
+        protected FileLoadedEntityModel() {
+            this.properties = new Dictionary<string, object>();
+            properties[EK.EK_NAME] = "DUMMY OBJ";
+        }
+
         protected virtual IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
         {
             properties[EK.EK_NAME] = json[EK.EK_NAME].Value;

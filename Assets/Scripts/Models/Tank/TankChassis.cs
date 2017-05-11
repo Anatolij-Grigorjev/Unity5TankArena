@@ -78,7 +78,8 @@ namespace TankArena.Models.Tank
         }
         public TankChassis(TankChassis model) : base(model)
         {
-
+            Engine = model.Engine;
+            Tracks = model.Tracks;
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)

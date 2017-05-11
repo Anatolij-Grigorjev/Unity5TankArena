@@ -195,22 +195,22 @@ namespace TankArena.UI.Shop
             if (typeof(TankChassis).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankChassis;
-                Current.TankChassis = (TankChassis)newPart;
+                Current.TankChassis = new TankChassis(newPart as TankChassis);
             }
             else if (typeof(TankTurret).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankTurret;
-                Current.TankTurret = (TankTurret)newPart;
+                Current.TankTurret = new TankTurret(newPart as TankTurret);
             }
             else if (typeof(TankEngine).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankEngine;
-                Current.TankEngine = (TankEngine)newPart;
+                Current.TankEngine = new TankEngine(newPart as TankEngine);
             }
             else if (typeof(TankTracks).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankTracks;
-                Current.TankTracks = (TankTracks)newPart;
+                Current.TankTracks = new TankTracks(newPart as TankTracks);
             }
             else
             {
