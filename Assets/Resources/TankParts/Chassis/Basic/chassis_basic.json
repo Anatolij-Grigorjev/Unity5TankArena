@@ -7,6 +7,7 @@
 	"garage_item": "!img;TankParts\\Chassis\\Basic\\Images\\garage_img",
 	"integrity": 1000.6,
 	"regeneration" : 500.88,
+	"regen_delay" : 3.0,
 	"spritesheet": "!sprites;TankParts\\Chassis\\Basic\\Images\\Sprites\\chassis_basic_spritesheet_0",
 	"active_sprites" : 7,
 	"price": 55.28,

@@ -9,6 +9,7 @@ using TankArena.Controllers;
 public class DebugTank : MonoBehaviour {
 
 	public GameObject enemyPrefab;
+	public bool doEnemies = true;
 	public IEnumerator<float> debugStuffLoader;
 
 	// Use this for initialization
@@ -35,7 +36,7 @@ public class DebugTank : MonoBehaviour {
 		CurrentState.Instance.SetPlayer(player);
 		gameObject.GetComponent<TankController>().enabled = true;
 		gameObject.GetComponent<PlayerController>().enabled = true;
-		if (enemyPrefab != null) {
+		if (enemyPrefab != null && doEnemies) {
 			for (int i = 0 ; i < 4; i ++)
 			{
 				yield return Timing.WaitForSeconds(1.0f);

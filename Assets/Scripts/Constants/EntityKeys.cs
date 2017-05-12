@@ -83,6 +83,7 @@ namespace TankArena.Constants
         //TANK CHASSIS
         public const string EK_INTEGRITY = "integrity";
         public const string EK_REGENERATION = "regeneration";
+        public const string EK_REGENERATION_DELAY = "regen_delay";
         public const string EK_TURRET_PIVOT = "turret_pivot";
         public const string EK_HEALTHBAR_OFFSET = "healthbar_offset";
 

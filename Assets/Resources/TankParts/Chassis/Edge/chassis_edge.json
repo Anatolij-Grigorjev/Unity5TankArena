@@ -1,0 +1,17 @@
+{
+	"id": "CH_edge01",
+	"name": "Edge Chassis",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;15.0;15.0;1.0",
+	"mass": 25.0,
+	"shop_item": "!img;TankParts\\Chassis\\Edge\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Chassis\\Edge\\Images\\garage_img",
+	"integrity": 750.6,
+	"regeneration" : 750.88,
+	"regen_delay" : 2.0,
+	"spritesheet": "!sprites;TankParts\\Chassis\\Edge\\Images\\Sprites\\chassis_edge_spritesheet_0",
+	"active_sprites" : 7,
+	"price": 100.28,
+	"box_collider": "!box;0.0;-2.0;2.0;2.0",
+	"turret_pivot": "!transf;15.0;-15.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"healthbar_offset": "!v3;10.0;-40.0;0.0"
+}
