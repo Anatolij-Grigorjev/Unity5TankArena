@@ -96,7 +96,6 @@ namespace TankArena.Models.Tank
         public TankEngine(TankEngine model): base(model) 
         {
             currentAcceleration = 0.0f;
-            Chassis = model.Chassis;
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)

@@ -195,7 +195,10 @@ namespace TankArena.UI.Shop
             if (typeof(TankChassis).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankChassis;
+				var oldChassis = oldPart as TankChassis;
                 Current.TankChassis = new TankChassis(newPart as TankChassis);
+				Current.TankChassis.Engine = oldChassis.Engine;
+				Current.TankChassis.Tracks = oldChassis.Tracks;
             }
             else if (typeof(TankTurret).IsAssignableFrom(dataType))
             {
@@ -206,11 +209,13 @@ namespace TankArena.UI.Shop
             {
                 oldPart = Current.TankEngine;
                 Current.TankEngine = new TankEngine(newPart as TankEngine);
+				Current.TankEngine.Chassis = (oldPart as TankEngine).Chassis;
             }
             else if (typeof(TankTracks).IsAssignableFrom(dataType))
             {
                 oldPart = Current.TankTracks;
                 Current.TankTracks = new TankTracks(newPart as TankTracks);
+				Current.TankTracks.Chassis = (oldPart as TankTracks).Chassis;
             }
             else
             {
