@@ -48,8 +48,6 @@ namespace TankArena.Controllers
             var canvas = GameObject.FindGameObjectWithTag(Tags.TAG_UI_CANVAS);
             var trifectaGO = Instantiate(trifectaPrefab, canvas.transform, false) as GameObject;
             var trifectaController = trifectaGO.GetComponent<TrifectaController>();
-            trifectaController.turretAnimator = tankController.turretController.GetComponent<Animator>();
-            trifectaController.tracksAnimator = tankController.tracksController.GetComponent<Animator>();
             CurrentState.Instance.Trifecta = trifectaController;
             cursor = CurrentState.Instance.Cursor;
         }

@@ -1,13 +1,13 @@
 {
 	"id": "TUR_basic01",
 	"name": "Basic Turret",
-	"on_tank_position": "!transf;5.5;-5.5;0.0;0.0;0.0;0.0;9.0;9.0;1.0",
-	"mass": 10.0,
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;9.0;9.0;1.0",
+	"mass": 20.0,
 	"shop_item": "!img;TankParts\\Turrets\\Basic\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Turrets\\Basic\\Images\\garage_img",
 	"weapons_shop": "!img;TankParts\\Turrets\\Basic\\Images\\weapon_shop_img",
 	"spritesheet": "!sprites;TankParts\\Turrets\\Basic\\Images\\Sprites\\turret_basic_spritesheet_0",
-	"turn_time": 10.0,
+	"turn_time": 15.0,
 	"price": 59.88,
 	"spin_sound": "!snd;TankParts\\Turrets\\Basic\\Sounds\\rotation",
 	"light_weapon_slots": [

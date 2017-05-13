@@ -65,7 +65,7 @@ namespace TankArena.Controllers
             var rotatorGO = new GameObject(Tags.TAG_CHASSIS_ROTATOR);
             rotatorGO.tag = Tags.TAG_CHASSIS_ROTATOR;
             rotatorGO.transform.parent = parentObject.transform;
-            Model.TurretPivot.CopyToTransform(rotatorGO.transform);
+            TransformState.Identity.CopyToTransform(rotatorGO.transform);
             transform.parent = rotatorGO.transform;
             tankRigidBody = parentObject.GetComponent<Rigidbody2D>();
 
@@ -77,7 +77,28 @@ namespace TankArena.Controllers
             healthbarController.target = parentObject;
             healthbarController.offset = Model.HealthbarOffset;
             DBG.Log("Chassis controller Ready!");
+
+            //run coroutine that eventually adjusts turret pivot (cant do it at creation time of the pivot
+            //since that ruins the rotation arc)
+            // Timing.RunCoroutine(_AdjustTurretPivot());
         }
+
+        // private IEnumerator<float> _AdjustTurretPivot()
+        // {
+        //     var adjusted = false;
+        //     while (!adjusted)
+        //     {
+        //         yield return Timing.WaitForSeconds(0.2f);
+        //         var chassisRot = GameObject.FindGameObjectWithTag(Tags.TAG_CHASSIS_ROTATOR);
+        //         var turretRot = GameObject.FindGameObjectWithTag(Tags.TAG_TURRET_ROTATOR);
+        //         if (chassisRot != null && turretRot != null) 
+        //         {
+        //             Model.TurretPivot.CopyToTransform(turretRot.transform);
+        //             adjusted = true;
+        //         }
+        //     }
+
+        // }
 
         // Update is called once per frame
         void Update()

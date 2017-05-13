@@ -16,8 +16,6 @@ namespace TankArena.Controllers
         public Image currentSprite;
         public AudioSource trifectaSound;
         public Animator trifectaAnimator;
-        public Animator turretAnimator;
-        public Animator tracksAnimator;
         private Dictionary<TrifectaStates, Action> codeToAnimactions;
         private Dictionary<TrifectaStates, Action> codeFromAnimactions;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
@@ -57,14 +55,14 @@ namespace TankArena.Controllers
 
             codeToAnimactions = new Dictionary<TrifectaStates, Action>()
             {
-                { TrifectaStates.STATE_REC, () => turretAnimator.SetTrigger(AnimationParameters.TRIGGER_HIDE_TURRET) },
-                { TrifectaStates.STATE_TUR, () => tracksAnimator.SetTrigger(AnimationParameters.TRIGGER_SPIN_TRACKS) }
+                // { TrifectaStates.STATE_REC, () =>  },
+                // { TrifectaStates.STATE_TUR, () =>  }
             };
 
             codeFromAnimactions = new Dictionary<TrifectaStates, Action>()
             {
-                { TrifectaStates.STATE_REC, () => turretAnimator.SetTrigger(AnimationParameters.TRIGGER_RESET_TURRET) },
-                { TrifectaStates.STATE_TUR, () => tracksAnimator.SetTrigger(AnimationParameters.TRIGGER_RESET_TRACKS) }
+                // { TrifectaStates.STATE_REC, () =>  },
+                // { TrifectaStates.STATE_TUR, () =>  }
             };
 
             CurrentState = defaultState;

@@ -32,10 +32,15 @@ namespace TankArena.Controllers
             var rotatorGO = new GameObject(Tags.TAG_TURRET_ROTATOR);
             rotatorGO.tag = Tags.TAG_TURRET_ROTATOR;
             rotatorGO.transform.parent = parentObject.transform;
-            chassis.TurretPivot.CopyToTransform(rotatorGO.transform);
             transform.parent = rotatorGO.transform;
+            chassis.TurretPivot.CopyToTransform(rotatorGO.transform);
 
             Rotator = rotatorGO.transform;
+
+            //reset turret position again
+            //because unity
+            Model.OnTankPosition.CopyToTransform(transform);
+
             newTurretRotation = Rotator.localRotation;
 
             DBG.Log("Turret Controller Ready!");
