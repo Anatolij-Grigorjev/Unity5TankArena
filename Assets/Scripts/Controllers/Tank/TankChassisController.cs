@@ -70,6 +70,15 @@ namespace TankArena.Controllers
             tankRigidBody = parentObject.GetComponent<Rigidbody2D>();
 
             Rotator = rotatorGO.transform;
+
+            //in case the turret pivot is not at origin
+            //move chassis rotator to same position as turret rotator 
+            //and move chassis GO itself to negative of that position
+            //allows proper looking rotation
+            Model.TurretPivot.CopyToTransform(Rotator.transform);
+            var inverse = -1 * Model.TurretPivot.position;
+            transform.localPosition = inverse;
+
             DBG.Log("Setting healthbar stuff");
             var healthBar = Instantiate(healthbarPrefab, transform.position, Quaternion.identity) as GameObject;
             healthbarController = healthBar.GetComponent<ProgressingBarController>();

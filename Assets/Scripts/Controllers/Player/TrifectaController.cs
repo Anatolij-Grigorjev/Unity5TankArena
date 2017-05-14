@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MovementEffects;
 using TankArena.Constants;
+using TankArena.Controllers.Weapons;
 using TankArena.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +22,7 @@ namespace TankArena.Controllers
         private Dictionary<TrifectaStates, Action> codeFromAnimactions;
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
         private Dictionary<TrifectaStates, int> codeToStateIndex;
+        public GameObject playerTank;
         public TrifectaStates CurrentState
         {
             get
@@ -55,17 +58,60 @@ namespace TankArena.Controllers
 
             codeToAnimactions = new Dictionary<TrifectaStates, Action>()
             {
-                // { TrifectaStates.STATE_REC, () =>  },
+                { TrifectaStates.STATE_REC, () =>  {
+                    ToggleWeaponVisibility(false);
+                }},
                 // { TrifectaStates.STATE_TUR, () =>  }
             };
 
             codeFromAnimactions = new Dictionary<TrifectaStates, Action>()
             {
-                // { TrifectaStates.STATE_REC, () =>  },
+                { TrifectaStates.STATE_REC, () => {
+                    ToggleWeaponVisibility(true);
+                } },
                 // { TrifectaStates.STATE_TUR, () =>  }
             };
 
             CurrentState = defaultState;
+        }
+
+        private void ToggleWeaponVisibility(bool visible)
+        {
+            var turret = playerTank.GetComponentInChildren<TankTurretController>();
+            var weapons = turret.GetComponentsInChildren<BaseWeaponController>();
+
+            //do invisibility animation, slowly push weapon into turret and render behind
+            //also make it invisible slowly
+            foreach (var weapon in weapons)
+            {
+                weapon.weaponSpriteRenderer.sortingOrder = visible ?
+                    SortingLayerConstants.WEAPON_DEFAULT_LAYER_ORDER
+                    : turret.gameObject.GetComponent<SpriteRenderer>().sortingOrder - 1;
+                Timing.RunCoroutine(_PerformWeaponHideMovement(
+                    weapon,
+                    visible ? weapon.Weapon.OnTurretPosition[turret.Model.Id].position : Vector3.zero,
+                    !visible)
+                );
+            }
+
+        }
+
+        private IEnumerator<float> _PerformWeaponHideMovement(BaseWeaponController weapon, Vector3 to, bool hide)
+        {
+
+            var colorTo = hide ? Color.clear : Color.white;
+            var completion = 0.0f;
+            while (completion < 1.0f)
+            {
+                weapon.weaponSpriteRenderer.color = Color.Lerp(weapon.weaponSpriteRenderer.color, colorTo, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                weapon.transform.localPosition = Vector3.Lerp(weapon.transform.localPosition, to, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                completion += Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+
+            weapon.transform.localPosition = to;
+            weapon.weaponSpriteRenderer.color = colorTo;
+            // weapon.weaponSpriteRenderer.enabled = !hide;
         }
 
         // Update current trifecta mode
@@ -89,7 +135,7 @@ namespace TankArena.Controllers
             {
                 codeFromAnimactions[oldState]();
             }
-            if (codeToAnimactions.ContainsKey(newState)) 
+            if (codeToAnimactions.ContainsKey(newState))
             {
                 codeToAnimactions[newState]();
             }
