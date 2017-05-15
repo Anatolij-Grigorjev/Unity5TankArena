@@ -61,7 +61,9 @@ namespace TankArena.Controllers
                 { TrifectaStates.STATE_REC, () =>  {
                     ToggleWeaponVisibility(false);
                 }},
-                // { TrifectaStates.STATE_TUR, () =>  }
+                { TrifectaStates.STATE_TUR, () =>  {
+                    ToggleTracksRotated(true);
+                }}
             };
 
             codeFromAnimactions = new Dictionary<TrifectaStates, Action>()
@@ -69,10 +71,27 @@ namespace TankArena.Controllers
                 { TrifectaStates.STATE_REC, () => {
                     ToggleWeaponVisibility(true);
                 } },
-                // { TrifectaStates.STATE_TUR, () =>  }
+                { TrifectaStates.STATE_TUR, () =>  {
+                    ToggleTracksRotated(false);
+                }}
             };
 
             CurrentState = defaultState;
+        }
+
+        private void ToggleTracksRotated(bool turret)
+        {
+            var tracks = playerTank.GetComponentInChildren<TankTracksController>();
+            var initialPos = tracks.Model.OnTankPosition.position;
+            var newPosition = turret? 
+            new Vector3(initialPos.x, initialPos.y * -1.0f, initialPos.z)
+            : initialPos;
+
+            var newRotation = turret?
+            Quaternion.Euler(0.0f, 0.0f, 90.0f)
+            : Quaternion.Euler(Vector3.zero);
+
+            Timing.RunCoroutine(_PerformTracksRotation(tracks, newPosition, newRotation));
         }
 
         private void ToggleWeaponVisibility(bool visible)
@@ -94,6 +113,21 @@ namespace TankArena.Controllers
                 );
             }
 
+        }
+
+        private IEnumerator<float> _PerformTracksRotation(TankTracksController tracks, Vector3 toPos, Quaternion toRot)
+        {
+            var completion = 0.0f;
+            while (completion < 1.0f)
+            {
+                tracks.transform.localRotation = Quaternion.Lerp(tracks.transform.localRotation, toRot, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                tracks.transform.localPosition = Vector3.Lerp(tracks.transform.localPosition, toPos, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                completion += Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+
+            tracks.transform.localRotation = toRot;
+            tracks.transform.localPosition = toPos;
         }
 
         private IEnumerator<float> _PerformWeaponHideMovement(BaseWeaponController weapon, Vector3 to, bool hide)
