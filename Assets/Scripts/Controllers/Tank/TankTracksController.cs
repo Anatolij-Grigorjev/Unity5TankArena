@@ -25,7 +25,7 @@ namespace TankArena.Controllers
 
         private GameObject rightTrack;
         private GameObject leftTrack;
-
+        private Transform chassisRotator;
 
         public Animator[] tracksAnimations;
 
@@ -46,6 +46,8 @@ namespace TankArena.Controllers
 
             base.Awake();
 
+            chassisRotator = tankController.chassisController.Rotator;
+
             DBG.Log("Tracks Controller Ready!");
         }
 
@@ -62,27 +64,30 @@ namespace TankArena.Controllers
                     if (currentTrackTrailLength < maxTrackTrailLength)
                     {
                         currentTrackTrailCooldown = maxTracksTrailCoolDown;
+                        var rotation = chassisRotator.rotation;
 
                         //left trail
                         var extents = tracksLeftTrackRenderer.bounds.extents;
                         var position = tracksLeftTrackRenderer.bounds.center;
-                        position.x -= (extents.x * Mathf.Sin(transform.eulerAngles.z * Mathf.Rad2Deg));
-                        position.y -= (extents.y * Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad));
+                        //offset by half the extent height in the opposite of rotation up
+                        position -= (chassisRotator.up.normalized * extents.y);
                         var leftTrailGO = Instantiate(
                         trackTrailPrefab
                         , position
-                        , leftTrack.transform.rotation) as GameObject;
+                        , rotation) as GameObject;
+                        leftTrailGO.transform.localRotation = rotation;
                         leftTrailGO.GetComponent<TracksTrailController>().tankTracksController = this;
 
                         //right trail
                         extents = tracksRightTrackRenderer.bounds.extents;
                         position = tracksRightTrackRenderer.bounds.center;
-                        position.x -= (extents.x * Mathf.Sin(transform.eulerAngles.z * Mathf.Rad2Deg));
-                        position.y -= (extents.y * Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad));
+                        //offset by half the extent height in the opposite of rotation up
+                        position -= (chassisRotator.up.normalized * extents.y);
                         var rightTrailGO = Instantiate(
                         trackTrailPrefab
                         , position
-                        , rightTrack.transform.rotation) as GameObject;
+                        , rotation) as GameObject;
+                        rightTrailGO.transform.localRotation = rotation;
                         rightTrailGO.GetComponent<TracksTrailController>().tankTracksController = this;
                     }
                 }
