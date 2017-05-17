@@ -25,7 +25,7 @@ namespace TankArena.Controllers
 
         private GameObject rightTrack;
         private GameObject leftTrack;
-        private Transform chassisRotator;
+        public Transform chassisRotator;
 
         public Animator[] tracksAnimations;
 
@@ -45,8 +45,6 @@ namespace TankArena.Controllers
             currentTrackTrailLength = 0;
 
             base.Awake();
-
-            chassisRotator = tankController.chassisController.Rotator;
 
             DBG.Log("Tracks Controller Ready!");
         }

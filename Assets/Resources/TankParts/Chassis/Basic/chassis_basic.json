@@ -11,7 +11,7 @@
 	"spritesheet": "!sprites;TankParts\\Chassis\\Basic\\Images\\Sprites\\chassis_basic_spritesheet_0",
 	"active_sprites" : 7,
 	"price": 55.28,
-	"box_collider": "!box;-0.75;-1.0;0.75;1.0",
+	"box_collider": "!box;-0.75;-1.0;1.5;2.0",
 	"turret_pivot": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"healthbar_offset": "!v3;0.0;-30.0;0.0"
 }

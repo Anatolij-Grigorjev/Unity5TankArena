@@ -62,6 +62,13 @@ namespace TankArena.Controllers
                     ToggleWeaponVisibility(false);
                 }},
                 { TrifectaStates.STATE_TUR, () =>  {
+                    //set high turret body mass on transform
+                    var body = playerTank.GetComponent<Rigidbody2D>();
+                    body.mass = 9999.99f;
+                    body.drag = 99.99f;
+                    playerTank.GetComponent<PlayerController>().commands.Enqueue(
+                        TankCommand.OneParamCommand(
+                            TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
                     ToggleTracksRotated(true);
                 }}
             };
@@ -72,6 +79,10 @@ namespace TankArena.Controllers
                     ToggleWeaponVisibility(true);
                 } },
                 { TrifectaStates.STATE_TUR, () =>  {
+                    //unset high turret mass post transform
+                    var body = playerTank.GetComponent<Rigidbody2D>();
+                    body.mass = Utils.CurrentState.Instance.CurrentTank.Mass;
+                    body.drag = Utils.CurrentState.Instance.CurrentTank.TankTracks.Coupling;
                     ToggleTracksRotated(false);
                 }}
             };
@@ -83,11 +94,11 @@ namespace TankArena.Controllers
         {
             var tracks = playerTank.GetComponentInChildren<TankTracksController>();
             var initialPos = tracks.Model.OnTankPosition.position;
-            var newPosition = turret? 
+            var newPosition = turret ?
             new Vector3(initialPos.x, initialPos.y * -1.0f, initialPos.z)
             : initialPos;
 
-            var newRotation = turret?
+            var newRotation = turret ?
             Quaternion.Euler(0.0f, 0.0f, 90.0f)
             : Quaternion.Euler(Vector3.zero);
 

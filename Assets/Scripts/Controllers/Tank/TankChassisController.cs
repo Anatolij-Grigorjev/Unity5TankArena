@@ -87,6 +87,9 @@ namespace TankArena.Controllers
             healthbarController.offset = Model.HealthbarOffset;
             DBG.Log("Chassis controller Ready!");
 
+            //chassis ready, lets put rotator into tracks
+            tracksController.chassisRotator = Rotator;
+
             //run coroutine that eventually adjusts turret pivot (cant do it at creation time of the pivot
             //since that ruins the rotation arc)
             // Timing.RunCoroutine(_AdjustTurretPivot());
