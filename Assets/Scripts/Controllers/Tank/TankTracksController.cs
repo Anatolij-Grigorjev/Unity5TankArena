@@ -4,6 +4,7 @@ using TankArena.Constants;
 using System;
 using System.Linq;
 using TankArena.Utils;
+using UnityStandardAssets.Utility;
 
 namespace TankArena.Controllers
 {
@@ -25,6 +26,7 @@ namespace TankArena.Controllers
 
         private GameObject rightTrack;
         private GameObject leftTrack;
+        private ParticleSystem.EmissionModule emLeft, emRight;
         public Transform chassisRotator;
 
         public Animator[] tracksAnimations;
@@ -45,6 +47,20 @@ namespace TankArena.Controllers
             currentTrackTrailLength = 0;
 
             base.Awake();
+
+            var tracksTrailPrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_ENGINE_SMOKE) as GameObject;
+
+            var leftTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
+            var rightTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
+
+            leftTrackTrailGo.GetComponent<FollowTarget>().target = leftTrack.transform;
+            rightTrackTrailGo.GetComponent<FollowTarget>().target = rightTrack.transform;
+
+            emLeft = leftTrackTrailGo.GetComponent<ParticleSystem>().emission;
+            emRight = rightTrackTrailGo.GetComponent<ParticleSystem>().emission;
+
+            emLeft.enabled = false;
+            emRight.enabled =false;
 
             DBG.Log("Tracks Controller Ready!");
         }
@@ -107,7 +123,8 @@ namespace TankArena.Controllers
             {
                 animator.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, sign);
             }
-
+            emLeft.enabled = sign != 0;
+            emRight.enabled = sign != 0;
             //PrintTracksAnim();
         }
 
@@ -122,6 +139,9 @@ namespace TankArena.Controllers
             }
             else
             {
+                emLeft.enabled = sign != 0;
+                emRight.enabled = sign != 0;
+
                 if (sign > 0)
                 {
                     tracksLeftTrackAnimationController.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, sign);

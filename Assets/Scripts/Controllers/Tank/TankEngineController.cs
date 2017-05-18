@@ -18,7 +18,7 @@ namespace TankArena.Controllers
         //max acceleration from model, adjusted for mass and torque balance
         public float adjustedMaxAcceleration;
         // Use this for initialization
-        private ParticleSystem.EmissionModule em;
+        // private ParticleSystem.EmissionModule em;
         public float AccelerationRate;
         public float DeaccelerationRate;
         public override void Awake()
@@ -27,11 +27,11 @@ namespace TankArena.Controllers
             base.Awake();
             isMoving = false;
 
-            var engineSmokeGo = Instantiate(Resources.Load<GameObject>(PrefabPaths.PREFAB_ENGINE_SMOKE) as GameObject);
-            engineSmokeGo.GetComponent<FollowTarget>().target = tankController.transform;
-            var engineSmoke = engineSmokeGo.GetComponent<ParticleSystem>();
-            em = engineSmoke.emission;
-            em.enabled = false;
+            // var engineSmokeGo = Instantiate(Resources.Load<GameObject>(PrefabPaths.PREFAB_ENGINE_SMOKE) as GameObject);
+            // engineSmokeGo.GetComponent<FollowTarget>().target = tankController.transform;
+            // var engineSmoke = engineSmokeGo.GetComponent<ParticleSystem>();
+            // em = engineSmoke.emission;
+            // em.enabled = false;
 
             DBG.Log("Engine Controller Ready!");
 
@@ -68,14 +68,14 @@ namespace TankArena.Controllers
 
         public void StartIdle()
         {
-            em.enabled = false;
+            // em.enabled = false;
             StopStartAudio(audioRevving, audioIdle);
         }
 
         public void StartRevving()
         {
             
-            em.enabled = true;
+            // em.enabled = true;
             StopStartAudio(audioIdle, audioRevving);
         }
 
