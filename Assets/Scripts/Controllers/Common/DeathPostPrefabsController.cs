@@ -2,6 +2,7 @@
 using System.Collections;
 using TankArena.Utils;
 using TankArena.Constants;
+using System.Linq;
 
 namespace TankArena.Controllers
 {
@@ -98,6 +99,40 @@ namespace TankArena.Controllers
 
         private void Die()
         {
+            //tally some arean related stats based on who is doing the dying
+            EnemyType enemyType = null;
+            var playerController = deathTarget.GetComponent<PlayerController>();
+            if (playerController != null) 
+            {
+                //the dying is a player, lets incur tank costs
+                //create new temp enemy type for player 
+                float partsSum = playerController.tankController.Tank.partsArray.Sum(part => part.Price);
+                float weaponsSum = playerController.tankController.Tank.TankTurret.allWeaponSlots.Sum(slot => {
+                    return slot.Weapon != null? slot.Weapon.Price : 0.0f;
+                });
+                enemyType = EnemyType.ForPlayerDeath((partsSum + weaponsSum) * (-1.0f));
+
+            } else
+            {   
+                var lightTruckController = deathTarget.GetComponent<LightVehicleController>();
+                if (lightTruckController != null)
+                {
+                    enemyType = EntitiesStore.Instance.EnemyTypes[lightTruckController.enemyTypeId];
+                } else 
+                {
+                    DBG.Log("SOMETHING TERRIBLE HAPPENING! Target: " + deathTarget);
+                }
+            }
+            if (enemyType != null)
+            {
+                var stats = CurrentState.Instance.CurrentArenaStats;
+                if (!stats.ContainsKey(enemyType))
+                {
+                    stats.Add(enemyType, 0);
+                }
+                stats[enemyType]++;
+            }
+
             Destroy(deathTarget);
         }
     }

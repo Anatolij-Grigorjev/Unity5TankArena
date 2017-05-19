@@ -159,13 +159,6 @@ namespace TankArena.Controllers
             this.enabled = false;
             Destroy(healthBarController.gameObject);
             StopPhysicsMovement();
-            var enemyType = EntitiesStore.Instance.EnemyTypes[enemyTypeId];
-            var stats = CurrentState.Instance.CurrentArenaStats;
-            if (!stats.ContainsKey(enemyType))
-            {
-                stats.Add(enemyType, 0);
-            }
-            stats[enemyType]++;
             deathController.Enable();
         }
 

@@ -26,6 +26,18 @@ namespace TankArena.Utils
 
 		}
 
+		private EnemyType() {}
+
+		public static EnemyType ForPlayerDeath(float playerTankCost)
+		{
+			var tempType = new EnemyType();
+			tempType.properties[EK.EK_ID] = "own_death";
+			tempType.properties[EK.EK_NAME] = "Tank Destroyed";
+			tempType.properties[EK.EK_VALUE] = playerTankCost;
+
+			return tempType;
+		}
+
 		protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
 		{
 			var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
