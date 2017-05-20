@@ -28,6 +28,7 @@ namespace TankArena.Controllers
         private GameObject leftTrack;
         private ParticleSystem.EmissionModule emLeft, emRight;
         public Transform chassisRotator;
+        private FollowTarget leftTrackFollow, rightTrackFollow;
 
         public Animator[] tracksAnimations;
 
@@ -53,8 +54,10 @@ namespace TankArena.Controllers
             var leftTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
             var rightTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
 
-            leftTrackTrailGo.GetComponent<FollowTarget>().target = leftTrack.transform;
-            rightTrackTrailGo.GetComponent<FollowTarget>().target = rightTrack.transform;
+            leftTrackFollow = leftTrackTrailGo.GetComponent<FollowTarget>();
+            rightTrackFollow = rightTrackTrailGo.GetComponent<FollowTarget>();
+            leftTrackFollow.target = leftTrack.transform;
+            rightTrackFollow.target = rightTrack.transform;
 
             emLeft = leftTrackTrailGo.GetComponent<ParticleSystem>().emission;
             emRight = rightTrackTrailGo.GetComponent<ParticleSystem>().emission;
@@ -109,6 +112,9 @@ namespace TankArena.Controllers
                 {
                     //continue cooldown
                     currentTrackTrailCooldown -= Time.deltaTime;
+
+                    //adjust follow position based on turn trig (both X and Y)
+                    
                 }
             }
 

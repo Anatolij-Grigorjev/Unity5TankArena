@@ -14,7 +14,10 @@ namespace UnityStandardAssets.Utility
         private void LateUpdate()
         {
             transform.position = target.position + offset;
-            transform.rotation = target.rotation;
+            if (useTargetRotation)
+            {
+                transform.rotation = target.rotation;      
+            }
         }
     }
 }

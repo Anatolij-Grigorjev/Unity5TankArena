@@ -41,7 +41,7 @@ namespace TankArena.UI
 
             totalSum = stats.Sum(stat => stat.Key.Value * stat.Value);
             SetTotalTally(totalSum);
-            //always takes 100 ticks to cash out
+            //always takes cashout ticks to cash out
             cashOutRate = totalSum / cashOutRateCoef;
         }
 
@@ -62,7 +62,7 @@ namespace TankArena.UI
                 }
                 else
                 {
-                    if (totalSum > 0.0f)
+                    if (totalSum != 0.0f)
                     {
                         //cashout started but money still flowing - speed it along
                         TransferTotalToPlayerDelta(totalSum);
@@ -91,9 +91,11 @@ namespace TankArena.UI
 
         private IEnumerator<float> _CashOutTally()
         {
-            while (totalSum > 0.0f)
+            while (totalSum != 0.0f)
             {
-                var delta = Mathf.Clamp(cashOutRate, 0.0f, totalSum);
+                var delta = totalSum > 0.0f ?
+					 Mathf.Clamp(cashOutRate, 0.0f, totalSum)
+					 : Mathf.Clamp(cashOutRate, totalSum, 0.0f);
 
                 TransferTotalToPlayerDelta(delta);
 

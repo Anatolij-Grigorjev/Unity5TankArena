@@ -19,6 +19,7 @@ namespace TankArena.UI.Dialogue
         public Text sceneTitleText;
         public Image sceneBgImage;
         public GameObject sceneDialogBox;
+        public GameObject sceneAdvanceDialogBox;
         public float sceneBgInterpolateTime;
         private float sceneStartTime;
         private float sceneEndTime;
@@ -125,6 +126,9 @@ namespace TankArena.UI.Dialogue
 
         void Update()
         {
+            //detect skip scene input
+            var skipPressed = Input.GetButtonUp(ControlsButtonNames.BTN_NAME_WPN_GROUP_2);
+            if (skipPressed && !finishingScene) { EndScene(); }
             //wait for complete start of scene
             if (!startedScene) { return; }
 
@@ -192,12 +196,17 @@ namespace TankArena.UI.Dialogue
                 //all over, lets play the end of scene and move on
                 if (CurrentBeatIdx >= dialogueSceneModel.dialogueBeats.Count)
                 {
-                    finishingScene = true;
-                    Timing.RunCoroutine(_PlayEndSceneAnimation());
-                    TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, sceneEndTime);
+                    EndScene();
                 }
 
             }
+        }
+
+        private void EndScene()
+        {
+            finishingScene = true;
+            Timing.RunCoroutine(_PlayEndSceneAnimation());
+            TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, sceneEndTime);
         }
 
         //       COROUTINES
@@ -207,6 +216,7 @@ namespace TankArena.UI.Dialogue
             sceneTitleText.color = Color.clear;
             sceneBgImage.color = Color.black;
             sceneDialogBox.SetActive(false);
+            sceneAdvanceDialogBox.SetActive(false);
             var halfTime = sceneStartTime / 2;
             var time = halfTime;
             while (time > 0.0f)
@@ -230,11 +240,13 @@ namespace TankArena.UI.Dialogue
             sceneBgImage.color = Color.white;
             sceneTitleText.gameObject.SetActive(false);
             sceneDialogBox.SetActive(true);
+            sceneAdvanceDialogBox.SetActive(true);
         }
 
         private IEnumerator<float> _PlayEndSceneAnimation()
         {
             sceneDialogBox.SetActive(false);
+            sceneAdvanceDialogBox.SetActive(false);
             actors.ForEachWithIndex((actorEntry, idx) => {actorEntry.Value.gameObject.SetActive(false); });
             var time = sceneEndTime;
             while (time > 0.0f)
@@ -251,7 +263,6 @@ namespace TankArena.UI.Dialogue
         private IEnumerator<float> _StartDeferred()
         {
             var handle = Timing.RunCoroutine(_PlaySceneStartAnimation());
-            yield return Timing.WaitUntilDone(handle);
 
             currentBeatSignals = new List<DialogueSignal>();
             actors = new Dictionary<DialogueSignalTypes, DialogueActorController>()
@@ -281,6 +292,7 @@ namespace TankArena.UI.Dialogue
                 { DialogueSignalTypes.LEFT_CHANGE_MODEL, (signal) => { leftActorController.DoModelChange(signal.signalParams); }},
                 { DialogueSignalTypes.RIGHT_CHANGE_MODEL, (signal) => { rightActorController.DoModelChange(signal.signalParams); }}
             };
+            yield return Timing.WaitUntilDone(handle);
             CurrentBeatIdx = 0;
             startedScene = true;
         }
