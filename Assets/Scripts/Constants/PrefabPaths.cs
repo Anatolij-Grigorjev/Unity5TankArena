@@ -14,6 +14,5 @@ namespace TankArena.Constants
         public const String PREFAB_WEAPON_RELOAD = @"Weapons\ReloadSound";
         public const String PREFAB_PROJECTILE = @"Weapons\Projectiles\Projectile";
         public const String PREFAB_SAVING_TEXT = @"Common\SavingText";
-        public const String PREFAB_ENGINE_SMOKE = @"Common\SmokeTrail\TrackTrail";
     }
 }

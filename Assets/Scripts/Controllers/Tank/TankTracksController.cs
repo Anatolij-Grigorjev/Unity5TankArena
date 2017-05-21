@@ -15,14 +15,16 @@ namespace TankArena.Controllers
         public SpriteRenderer tracksRightTrackRenderer;
         public Animator tracksLeftTrackAnimationController;
         public Animator tracksRightTrackAnimationController;
-        public GameObject trackTrailPrefab;
-        public float maxTracksTrailCoolDown;
-        public int maxTrackTrailLength;
+        public GameObject breakTrailPrefab;
+        public GameObject ridingTrailPrefab;
+        public float maxBreakTrailCoolDown;
+        public int maxBreakTrailLength;
         [HideInInspector]
         public int currentTrackTrailLength;
         private float currentTrackTrailCooldown;
         [HideInInspector]
         public bool isBreaking;
+        public Animator[] tracksAnimations;
 
         private GameObject rightTrack;
         private GameObject leftTrack;
@@ -30,7 +32,6 @@ namespace TankArena.Controllers
         public Transform chassisRotator;
         private FollowTarget leftTrackFollow, rightTrackFollow;
 
-        public Animator[] tracksAnimations;
 
         // Use this for initialization
         public override void Awake()
@@ -49,15 +50,14 @@ namespace TankArena.Controllers
 
             base.Awake();
 
-            var tracksTrailPrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_ENGINE_SMOKE) as GameObject;
-
-            var leftTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
-            var rightTrackTrailGo = Instantiate(tracksTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
+            var leftTrackTrailGo = Instantiate(ridingTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
+            var rightTrackTrailGo = Instantiate(ridingTrailPrefab, leftTrack.transform.position, leftTrack.transform.localRotation);
 
             leftTrackFollow = leftTrackTrailGo.GetComponent<FollowTarget>();
             rightTrackFollow = rightTrackTrailGo.GetComponent<FollowTarget>();
             leftTrackFollow.target = leftTrack.transform;
             rightTrackFollow.target = rightTrack.transform;
+            
 
             emLeft = leftTrackTrailGo.GetComponent<ParticleSystem>().emission;
             emRight = rightTrackTrailGo.GetComponent<ParticleSystem>().emission;
@@ -78,9 +78,9 @@ namespace TankArena.Controllers
                 if (currentTrackTrailCooldown <= 0.0f)
                 {
                     //track is moving, lets see if we need to trail it
-                    if (currentTrackTrailLength < maxTrackTrailLength)
+                    if (currentTrackTrailLength < maxBreakTrailLength)
                     {
-                        currentTrackTrailCooldown = maxTracksTrailCoolDown;
+                        currentTrackTrailCooldown = maxBreakTrailCoolDown;
                         var rotation = chassisRotator.rotation;
 
                         //left trail
@@ -89,7 +89,7 @@ namespace TankArena.Controllers
                         //offset by half the extent height in the opposite of rotation up
                         position -= (chassisRotator.up.normalized * extents.y);
                         var leftTrailGO = Instantiate(
-                        trackTrailPrefab
+                        breakTrailPrefab
                         , position
                         , rotation) as GameObject;
                         leftTrailGO.transform.localRotation = rotation;
@@ -101,7 +101,7 @@ namespace TankArena.Controllers
                         //offset by half the extent height in the opposite of rotation up
                         position -= (chassisRotator.up.normalized * extents.y);
                         var rightTrailGO = Instantiate(
-                        trackTrailPrefab
+                        breakTrailPrefab
                         , position
                         , rotation) as GameObject;
                         rightTrailGO.transform.localRotation = rotation;
@@ -112,9 +112,6 @@ namespace TankArena.Controllers
                 {
                     //continue cooldown
                     currentTrackTrailCooldown -= Time.deltaTime;
-
-                    //adjust follow position based on turn trig (both X and Y)
-                    
                 }
             }
 
