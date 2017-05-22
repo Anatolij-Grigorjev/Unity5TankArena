@@ -242,7 +242,9 @@ namespace TankArena.Controllers.Weapons
                     isShooting = false;
                     // UnsetShootingAnimation();
                     currentReloadTimer = reloadTime;
-                    reloadAudio.Play();
+                    //enemy units dont have reload audio
+                    if (reloadAudio != null)
+                        reloadAudio.Play();
                     if (ammoController != null)
                         ammoController.StartReload();
                 }
@@ -288,7 +290,9 @@ namespace TankArena.Controllers.Weapons
                 isShooting = false;
                 UnsetShootingAnimation();
                 currentReloadTimer = reloadTime;
-                reloadAudio.Play();
+                //enemy units dont have reload audio
+                if (reloadAudio != null) 
+                    reloadAudio.Play();
                 if (ammoController != null) ammoController.StartReload();
             }
             else

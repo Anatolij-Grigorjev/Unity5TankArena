@@ -24,7 +24,6 @@ namespace UnityStandardAssets.Utility
             {
                 transform.rotation = target.rotation;
                 //adjust follow position based on turn trig (both X and Y)
-                Debug.Log(target.rotation.eulerAngles.z);
                 currentOffset = offset + (Mathf.Sign(target.rotation.eulerAngles.z) * new Vector3(
                     Mathf.Cos(target.rotation.eulerAngles.z * Mathf.Deg2Rad) * transform.localScale.x,
                     Math.Abs(Mathf.Sin(target.rotation.eulerAngles.z * Mathf.Deg2Rad)) * transform.localScale.y,
