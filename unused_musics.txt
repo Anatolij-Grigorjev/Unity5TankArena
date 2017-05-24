@@ -7,3 +7,13 @@ UNUSED MUSICS
 18 - looping, short neutral piano + drums
 19 - heavy looming dubstep short
 20 - looping, neutral explanatory with heavy
+24 - active-neutral, focusing, piano -> chorus
+25 - short, grandiose, contemplative
+26 - slow, ambient to melodic resigned
+28 - active mounting pressure, violin
+29 - semi active neutral, very background
+30 - dramatic introductory uplifting piano -> synth
+32 - short dramatic, epic with choir
+35 - slow and rainy to quick decisive
+39 - mid active piano to dramatic violin
+41 - dramatic mid-active neutral -> chorus
