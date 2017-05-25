@@ -15,9 +15,12 @@ namespace TankArena.UI
 		public GameObject initialOptions;
 		public GameObject playerOptions;
 
-		// Use this for initialization
+		
+
 		void Start ()
 		{
+			//ask for musics	
+			MenuMusicsController.Instance.SwitchToMenuMusic();
 			//no character picked yet, main menu
 			if (CurrentState.Instance.Player == null)
 			{
