@@ -20,7 +20,7 @@ namespace TankArena.UI
 		void Start ()
 		{
 			//ask for musics	
-			MenuMusicsController.Instance.SwitchToMenuMusic();
+			MainMusicsController.Instance.SwitchToMenuMusic();
 			//no character picked yet, main menu
 			if (CurrentState.Instance.Player == null)
 			{

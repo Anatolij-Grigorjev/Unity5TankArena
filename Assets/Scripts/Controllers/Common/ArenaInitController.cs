@@ -5,6 +5,7 @@ using TankArena.Models.Level;
 using System.Collections.Generic;
 using MovementEffects;
 using TankArena.Constants;
+using TankArena.UI;
 
 namespace TankArena.Controllers
 {
@@ -19,6 +20,7 @@ namespace TankArena.Controllers
 		{
 			//ensure entities loaded
 			EntitiesStore.Instance.GetStatus();
+			MainMusicsController.Instance.SwitchToRandomArenaMusic();
 			LevelModel levelModel = CurrentState.Instance.CurrentArena;	
 
 			if (levelModel != null)

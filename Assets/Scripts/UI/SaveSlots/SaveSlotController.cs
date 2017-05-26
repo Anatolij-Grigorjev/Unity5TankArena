@@ -23,6 +23,9 @@ namespace TankArena.UI
 		private Dictionary<string, object> mappedInfo;
 		// Use this for initialization
 		void Start () {
+
+			MainMusicsController.Instance.SwitchToSaveMusic();
+
 			if (inputBoxGO.activeInHierarchy) 
 			{
 				inputBoxGO.SetActive(false);

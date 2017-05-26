@@ -21,7 +21,8 @@ namespace TankArena.UI
 
         // Use this for initialization
         void Start()
-        {
+        {   
+            MainMusicsController.Instance.SwitchToMenuMusic();
             var stats = CurrentState.Instance.CurrentArenaStats;
 
             foreach (KeyValuePair<EnemyType, int> stat in stats)

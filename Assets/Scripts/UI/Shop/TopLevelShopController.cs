@@ -31,7 +31,7 @@ namespace TankArena.UI.Shop
 
 		// Use this for initialization
 		void Start () {
-
+			MainMusicsController.Instance.SwitchToShopMusic();
 			//load player data before updating UI
 			EntitiesStore.Instance.GetStatus();
 
