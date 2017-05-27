@@ -25,6 +25,7 @@ namespace TankArena.Utils
         public Dictionary<EnemyType, int> CurrentArenaStats { get; set; }
         public GameObject Cursor { get; set; }
         public TrifectaController Trifecta { get; set; }
+        public bool firstLoad = true;
 
         public void SetPlayer(Player player)
         {

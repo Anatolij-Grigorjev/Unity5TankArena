@@ -20,7 +20,6 @@ namespace TankArena.Controllers
 		{
 			//ensure entities loaded
 			EntitiesStore.Instance.GetStatus();
-			MainMusicsController.Instance.SwitchToRandomArenaMusic();
 			LevelModel levelModel = CurrentState.Instance.CurrentArena;	
 
 			if (levelModel != null)

@@ -85,7 +85,7 @@ namespace TankArena.UI
 			Timing.RunCoroutine(_CrossfadeToTrack(music));
         }
 
-        private IEnumerator<float> _CrossfadeToTrack(AudioClip track, float crossfadeDuration = 3.0f)
+        private IEnumerator<float> _CrossfadeToTrack(AudioClip track, float crossfadeDuration = 0.3f)
         {
             var clip = source.clip;
             //half duration for fade-out and half for fade-in

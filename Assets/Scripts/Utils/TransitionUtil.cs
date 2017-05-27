@@ -22,6 +22,26 @@ namespace TankArena.Utils
                 }
             }
             SceneManager.LoadScene(SceneIds.SCENE_LOADING_ID);
+            LoadNextSceneMusic(sceneId);
+        }
+
+        private static void LoadNextSceneMusic(int sceneId)
+        {
+            switch(sceneId)
+            {
+                case SceneIds.SCENE_ARENA_ID: 
+                    MainMusicsController.Instance.SwitchToRandomArenaMusic();
+                    break;
+                case SceneIds.SCENE_SAVE_SLOTS_ID:
+                    MainMusicsController.Instance.SwitchToSaveMusic();
+                    break;
+                case SceneIds.SCENE_SHOP_ID:
+                    MainMusicsController.Instance.SwitchToShopMusic();
+                    break;
+                default:
+                    MainMusicsController.Instance.SwitchToMenuMusic();
+                    break;
+            }
         }
 
         public static void WaitAndStartTransitionTo(int sceneId,

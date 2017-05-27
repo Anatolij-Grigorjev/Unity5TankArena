@@ -5,6 +5,7 @@ using MovementEffects;
 using System.Collections.Generic;
 using TankArena.Utils;
 using UnityEngine.SceneManagement;
+using TankArena.UI;
 
 public class LoadingScreenController : MonoBehaviour {
 
@@ -24,7 +25,10 @@ public class LoadingScreenController : MonoBehaviour {
 				animator.SetInteger(AnimationParameters.INT_TRACKS_DIRECTION, 1);
 			}
 		}
-
+		if (CurrentState.Instance.firstLoad) {
+			MainMusicsController.Instance.SwitchToMenuMusic();
+			CurrentState.Instance.firstLoad = false;
+		}
 		
 		loadingStatusText.text = "Proceeding with load...";
 		Timing.RunCoroutine(_StartLoading());

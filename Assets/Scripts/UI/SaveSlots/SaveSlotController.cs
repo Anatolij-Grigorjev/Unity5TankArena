@@ -24,8 +24,6 @@ namespace TankArena.UI
 		// Use this for initialization
 		void Start () {
 
-			MainMusicsController.Instance.SwitchToSaveMusic();
-
 			if (inputBoxGO.activeInHierarchy) 
 			{
 				inputBoxGO.SetActive(false);
