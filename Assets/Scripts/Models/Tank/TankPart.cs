@@ -138,7 +138,8 @@ namespace TankArena.Models.Tank
         }
 
         public virtual void SetDataToController<T>(BaseTankPartController<T> controller) where T: TankPart
-        {
+        {  
+            DBG.Log("Setting data of object {0} to controller {1}", Id, controller.GetType().Name);
             //using ref to ensure parameter is never null would be nice, but it gets passed as "this", so its ok
             SetRendererSprite(controller.partRenderer, 0);
             SetColliderBounds(controller.partCollider);

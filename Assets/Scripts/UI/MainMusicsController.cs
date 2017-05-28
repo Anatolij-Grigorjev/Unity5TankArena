@@ -22,7 +22,6 @@ namespace TankArena.UI
         private IEnumerator<float> _LoadMusics()
         {
             mainMenuMusic = Resources.Load<AudioClip>(PrefabPaths.AUDIO_CLIP_MENU_MUSIC);
-            saveSlotMusic = Resources.Load<AudioClip>(PrefabPaths.AUDIO_CLIP_SAVE_SLOT_MUSIC);
             shopMusic = Resources.Load<AudioClip>(PrefabPaths.AUDIO_CLIP_SHOP_MUSIC);
             arenaMusics = new List<AudioClip>();
             for (int i = 0; i < arenaMusicsCount; i++) {
@@ -35,7 +34,6 @@ namespace TankArena.UI
         private IEnumerator<float> loadMusicsHandle;
         public AudioClip mainMenuMusic;
         public int arenaMusicsCount = 5;
-        public AudioClip saveSlotMusic;
         public AudioClip shopMusic;
         public List<AudioClip> arenaMusics;
         private System.Random rnd;
@@ -44,10 +42,6 @@ namespace TankArena.UI
 		public void SwitchToMenuMusic()
 		{
 			Timing.RunCoroutine(_SwitchToMusicAsync(mainMenuMusic));
-		}
-		public void SwitchToSaveMusic()
-		{
-			Timing.RunCoroutine(_SwitchToMusicAsync(saveSlotMusic));
 		}
         public void SwitchToShopMusic()
         {

@@ -160,9 +160,8 @@ namespace TankArena.Models.Tank
             //attempt culling acceleration? need to ensure velocity and top speed are congruent
             if (tankEngine.currentAcceleration != 0.0f) 
             {
-                var vorceVector = chassisRotator.transform.up * (TankEngine.currentAcceleration * Mass) * throttle;
-                // DBG.Log("Providing tank with force: {0}", vorceVector);
-                rigidBody.AddForce(vorceVector);
+                var forceVector = chassisRotator.transform.up * (TankEngine.currentAcceleration * Mass) * throttle;
+                rigidBody.AddForce(forceVector);
             }
              
             //do spin (both chasis and turretn becuae this is a single tank)

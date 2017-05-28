@@ -32,9 +32,6 @@ namespace TankArena.Utils
                 case SceneIds.SCENE_ARENA_ID: 
                     MainMusicsController.Instance.SwitchToRandomArenaMusic();
                     break;
-                case SceneIds.SCENE_SAVE_SLOTS_ID:
-                    MainMusicsController.Instance.SwitchToSaveMusic();
-                    break;
                 case SceneIds.SCENE_SHOP_ID:
                     MainMusicsController.Instance.SwitchToShopMusic();
                     break;

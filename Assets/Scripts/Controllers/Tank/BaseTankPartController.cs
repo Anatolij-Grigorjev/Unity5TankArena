@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using TankArena.Models.Tank;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -29,6 +30,7 @@ namespace TankArena.Controllers
             }
             set
             {
+                DBG.Log("Setting {0} on {1}", typeof(T).Name, GetType().Name);
                 data = value;
                 if (isAwake)
                 {

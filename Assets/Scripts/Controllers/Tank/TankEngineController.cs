@@ -32,9 +32,15 @@ namespace TankArena.Controllers
             // var engineSmoke = engineSmokeGo.GetComponent<ParticleSystem>();
             // em = engineSmoke.emission;
             // em.enabled = false;
-
             DBG.Log("Engine Controller Ready!");
+        }
 
+        void Start()
+        {
+            adjustedMaxAcceleration = Model.MaxAcceleration *  
+                (Model.Torque / 
+                    (parentObject.GetComponent<TankController>()).Tank.Mass);
+            DBG.Log("Adjusted Max Acceleration: {0}", adjustedMaxAcceleration);
         }
 
         
