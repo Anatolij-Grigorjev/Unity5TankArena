@@ -1,0 +1,17 @@
+{
+	"id": "CH_slick01",
+	"name": "Slick Chassis",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;15.0;15.0;1.0",
+	"mass": 19.0,
+	"shop_item": "!img;TankParts\\Chassis\\Slick\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Chassis\\Slick\\Images\\garage_img",
+	"integrity": 450.6,
+	"regeneration" : 1200.88,
+	"regen_delay" : 1.0,
+	"spritesheet": "!sprites;TankParts\\Chassis\\Slick\\Images\\Sprites\\chassis_slick_spritesheet_0",
+	"active_sprites" : 4,
+	"price": 250.28,
+	"box_collider": "!box;-0.65;-0.85;1.3;1.7",
+	"turret_pivot": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"healthbar_offset": "!v3;0.0;-30.0;0.0"
+}

@@ -5,7 +5,7 @@
 	"mass": 25.0,
 	"shop_item": "!img;TankParts\\Chassis\\Edge\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Chassis\\Edge\\Images\\garage_img",
-	"integrity": 700.6,
+	"integrity": 750.6,
 	"regeneration" : 750.88,
 	"regen_delay" : 2.0,
 	"spritesheet": "!sprites;TankParts\\Chassis\\Edge\\Images\\Sprites\\chassis_edge_spritesheet_0",
