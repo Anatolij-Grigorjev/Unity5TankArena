@@ -1,0 +1,17 @@
+{
+	"id": "CH_rock01",
+	"name": "Rock Chassis",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;15.0;15.0;1.0",
+	"mass": 50.0,
+	"shop_item": "!img;TankParts\\Chassis\\Rock\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Chassis\\Rock\\Images\\garage_img",
+	"integrity": 2688.77,
+	"regeneration" : 650.88,
+	"regen_delay" : 4.5,
+	"spritesheet": "!sprites;TankParts\\Chassis\\Rock\\Images\\Sprites\\chassis_rock_spritesheet_0",
+	"active_sprites" : 8,
+	"price": 355.28,
+	"box_collider": "!box;-0.75;-1.0;1.5;2.0",
+	"turret_pivot": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"healthbar_offset": "!v3;0.0;-30.0;0.0"
+}
