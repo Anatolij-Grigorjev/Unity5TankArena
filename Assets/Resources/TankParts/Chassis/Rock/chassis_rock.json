@@ -11,7 +11,7 @@
 	"spritesheet": "!sprites;TankParts\\Chassis\\Rock\\Images\\Sprites\\chassis_rock_spritesheet_0",
 	"active_sprites" : 8,
 	"price": 355.28,
-	"box_collider": "!box;-0.75;-1.0;1.5;2.0",
-	"turret_pivot": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+	"box_collider": "!box;-0.875;-0.965;1.75;1.93",
+	"turret_pivot": "!transf;0.0;-9.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
 	"healthbar_offset": "!v3;0.0;-30.0;0.0"
 }
