@@ -30,6 +30,7 @@ namespace TankArena.Controllers.Weapons
                 if (weaponSlot.Weapon != null)
                 {
                     Weapon = weaponSlot.Weapon;
+                    weaponSlot.ArenaTransform.CopyToTransform(transform);
                 }
             }
         }
@@ -50,7 +51,11 @@ namespace TankArena.Controllers.Weapons
                 if (WeaponSlot == null)
                 {
                     //create artificial weapon slot
-                    weaponSlot = new WeaponSlot(weapon.Type, TransformState.Identity);
+                    weaponSlot = new WeaponSlot(weapon.Type, TransformState.Identity, turretController != null?
+                     turretController.FirstFreeSlot(value.Type): TransformState.Identity);
+                    if (turretController != null) {
+                        weaponSlot.ArenaTransform.CopyToTransform(this.transform);
+                    }
                 }
                 weaponSlot.Weapon = value;
                 weapon.SetDataToController(this);

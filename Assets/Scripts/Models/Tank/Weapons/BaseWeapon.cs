@@ -14,16 +14,6 @@ namespace TankArena.Models.Weapons
     public class BaseWeapon : ShopPurchaseableEntityModel
     {
         /// <summary>
-        /// Weapon in-game position, relative to turret GO transform (keys are turret ids)
-        /// </summary>
-        public Dictionary<string, TransformState> OnTurretPosition
-        {
-            get
-            {
-                return (Dictionary<string, TransformState>)properties[EK.EK_ON_TURRET_POSITION];
-            }
-        }
-        /// <summary>
         /// Type of weapon, heavy or light
         /// </summary>
         public WeaponTypes Type
@@ -144,15 +134,6 @@ namespace TankArena.Models.Weapons
             var handle = Timing.RunCoroutine(base._LoadPropertiesFromJSON(json));
             yield return Timing.WaitUntilDone(handle);
 
-            properties[EK.EK_ON_TURRET_POSITION] = new Dictionary<String, TransformState>();
-            JSONClass transforms = json[EK.EK_ON_TURRET_POSITION].AsObject;
-            foreach (KeyValuePair<String, JSONNode> codeStatePair in transforms)
-            {
-                OnTurretPosition.Add(
-                    codeStatePair.Key,
-                    (TransformState)ResolveSpecialContent(codeStatePair.Value.Value)
-                );
-            }
             properties[EK.EK_WEAPON_TYPE] = (WeaponTypes)json[EK.EK_WEAPON_TYPE].AsInt;
             properties[EK.EK_DAMAGE] = json[EK.EK_DAMAGE].AsFloat;
             properties[EK.EK_RELOAD_TIME] = json[EK.EK_RELOAD_TIME].AsFloat;
@@ -189,11 +170,6 @@ namespace TankArena.Models.Weapons
         {
             TankTurretController turret = controller.turretController;
             //weapon might be mounted on light enemies without turrets
-            if (turret != null)
-            {
-                //deref turret by id from controller
-                OnTurretPosition[turret.Model.Id].CopyToTransform(controller.transform);
-            }
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
             //this is the player, apply stats coefficient
             var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.ATKModifier : 1.0f;

@@ -140,9 +140,18 @@ namespace TankArena.Models.Tank
                 turretController.FullTurnTime = FullTurnTime;
                 DBG.Log("Set turn time {0}", turretController.FullTurnTime);
 
+                //prepare weapon slot positions
+                turretController.weaponSlots = new Dictionary<WeaponTypes, Dictionary<TransformState, bool>>();
+                var slotsMap = turretController.weaponSlots;
+
                 int slottedWeaponsCount = 0;
                 allWeaponSlots.ForEach(slot =>
                 {
+                    if (!slotsMap.ContainsKey(slot.WeaponType)) {
+                        slotsMap.Add(slot.WeaponType, new Dictionary<TransformState, bool>());
+                    }
+                    //slot in slot with some availability
+                    slotsMap[slot.WeaponType].Add(slot.ArenaTransform, slot.Weapon == null);
 
                     var weaponGO = TryMakeWeaponGO(slot, slottedWeaponsCount);
                     if (slot.Weapon != null)

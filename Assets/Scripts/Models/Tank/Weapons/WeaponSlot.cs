@@ -12,9 +12,10 @@ namespace TankArena.Models.Weapons
 {
     public class WeaponSlot
     {
-        public WeaponSlot(WeaponTypes type, TransformState shopTransform)
+        public WeaponSlot(WeaponTypes type, TransformState shopTransform, TransformState arenaTransform)
         {
             this.WeaponType = type;
+            this.ArenaTransform = arenaTransform;
             this.ShopTransform = shopTransform;
             WeaponGroup = 0;
         }
@@ -25,12 +26,13 @@ namespace TankArena.Models.Weapons
         /// <returns></returns>
         public WeaponSlot EmptyCopy() 
         {
-            return new WeaponSlot(WeaponType, ShopTransform);
+            return new WeaponSlot(WeaponType, ShopTransform, ArenaTransform);
         }
 
         public WeaponTypes WeaponType { get; private set; }
         public TankTurret Turret { get; set; }
         public TransformState ShopTransform { get; private set; }
+        public TransformState ArenaTransform {get; private set; }
         public BaseWeapon Weapon { get; set; }
         public int WeaponGroup { get; set; }
         public BaseWeaponController weaponController {  get; set; }

@@ -119,7 +119,7 @@ namespace TankArena.Controllers
                     : turret.gameObject.GetComponent<SpriteRenderer>().sortingOrder - 1;
                 Timing.RunCoroutine(_PerformWeaponHideMovement(
                     weapon,
-                    visible ? weapon.Weapon.OnTurretPosition[turret.Model.Id].position : Vector3.zero,
+                    visible ? weapon.WeaponSlot.ArenaTransform.position : Vector3.zero,
                     !visible)
                 );
             }

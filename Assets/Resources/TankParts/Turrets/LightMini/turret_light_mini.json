@@ -11,7 +11,7 @@
 	"price": 12.18,
 	"spin_sound": "!snd;TankParts\\Turrets\\LightMini\\Sounds\\rotation",
 	"light_weapon_slots": [
-		"!wpnslt;0;!transf;-1.0;20.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0"
+		"!wpnslt;0|!transf;-1.0;20.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0|!transf;0.08;0.91;0.0;0.0;0.0;0.0;1.0;1.5;1.0"
 	],
 	"description": "A turret in definition alone, this is a chunk of metal half the size of a tank turret removed from a dismantled AV with a single light gun slot on it. While not very versatile in tactical situations or for group conflict, its a cheap solution for something a little more fast-paced."
 }

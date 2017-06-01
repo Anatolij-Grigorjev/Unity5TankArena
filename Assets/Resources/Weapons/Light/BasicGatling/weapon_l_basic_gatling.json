@@ -2,10 +2,6 @@
 	"id": "WPN_L_basic_gatling01",
 	"name": "Basic Gatling Gun",
 	"price": 51.29,
-	"on_turret_position": {
-		"TUR_basic01" : "!transf;-0.1;1.4;0.0;0.0;0.0;0.0;1.0;1.5;1.0",
-		"TUR_light_mini01" : "!transf;0.08;0.91;0.0;0.0;0.0;0.0;1.0;1.5;1.0"
-	},
 	"wpn_type": 0,
 	"damage": 2.7
 ,	"reload": 4.5,

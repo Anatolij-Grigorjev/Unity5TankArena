@@ -2,6 +2,7 @@
 using System.Collections;
 using TankArena.Models.Tank;
 using System;
+using System.Linq;
 using TankArena.Utils;
 using TankArena.Constants;
 using MovementEffects;
@@ -17,6 +18,7 @@ namespace TankArena.Controllers
         private float newRotationTime;
         private float currentRotationTime;
         private Quaternion newTurretRotation;
+        public Dictionary<WeaponTypes, Dictionary<TransformState, Boolean>> weaponSlots;
 
         // Use this for initialization
         public void Start()
@@ -44,6 +46,11 @@ namespace TankArena.Controllers
             newTurretRotation = Rotator.localRotation;
 
             DBG.Log("Turret Controller Ready!");
+        }
+
+        internal TransformState FirstFreeSlot(WeaponTypes type)
+        {
+            return weaponSlots[type].First(entry => entry.Value).Key;
         }
 
         ///<summary> 

@@ -12,6 +12,8 @@ namespace TankArena.Utils
     {
 
         private static readonly char[] COMMON_ARRAY_DELIM = { ';' };
+        //weapon slot contains 2 transforms + type so common delim wont do
+        private static readonly char[] WPN_SLT_DELIM = { '|' };
 
         private static Func<String, TransformState> transformDeserializer = transform =>
         {
@@ -50,12 +52,15 @@ namespace TankArena.Utils
             },
             { "!wpnslt;", slotDescriptor =>
                 {
-                    var typeAndTransform = slotDescriptor.Split(COMMON_ARRAY_DELIM, 2);
-                    WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransform[0]);
-                    TransformState transform = typeAndTransform.Length > 1?
-                        (TransformState)Resolve(typeAndTransform[1]) : null;
+                    var typeAndTransforms = slotDescriptor.Split(WPN_SLT_DELIM, 3);
+                    WeaponTypes weaponType = (WeaponTypes)int.Parse(typeAndTransforms[0]);
+                    TransformState shopTransform = typeAndTransforms.Length > 1?
+                        (TransformState)Resolve(typeAndTransforms[1]) : null;
+                    TransformState arenaTransform = typeAndTransforms.Length > 2?
+                        (TransformState)Resolve(typeAndTransforms[2]) : null;
 
-                    return new WeaponSlot(weaponType, transform);
+
+                    return new WeaponSlot(weaponType, shopTransform, arenaTransform);
                 }
             },
             { "!v3;", vector3 =>
