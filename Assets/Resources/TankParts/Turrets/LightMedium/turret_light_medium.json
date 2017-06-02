@@ -1,0 +1,18 @@
+{
+	"id": "TUR_light_medium01",
+	"name": "Medium Light Turret",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;9.0;9.0;1.0",
+	"mass": 7.0,
+	"shop_item": "!img;TankParts\\Turrets\\LightMedium\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Turrets\\LightMedium\\Images\\garage_img",
+	"weapons_shop": "!img;TankParts\\Turrets\\LightMedium\\Images\\weapon_shop_img",
+	"spritesheet": "!sprites;TankParts\\Turrets\\LightMedium\\Images\\Sprites\\turret_light_medium_spritesheet_0",
+	"turn_time": 5.1,
+	"price": 67.18,
+	"spin_sound": "!snd;TankParts\\Turrets\\LightMedium\\Sounds\\rotation",
+	"light_weapon_slots": [
+		"!wpnslt;0|!transf;-90.0;20.0;0.0;0.0;0.0;0.0;0.5;0.5;1.0|!transf;-0.36;0.6;0.0;0.0;0.0;0.0;0.9;1.2;1.0",
+		"!wpnslt;0|!transf;110.0;20.0;0.0;0.0;0.0;0.0;0.5;0.5;1.0|!transf;0.45;0.6;0.0;0.0;0.0;0.0;0.9;1.2;1.0"
+	],
+	"description": "The natural evolution of the Mini prototype, the light medium has set out to prove that 2 miniguns ar always better than one. Painfully."
+}
