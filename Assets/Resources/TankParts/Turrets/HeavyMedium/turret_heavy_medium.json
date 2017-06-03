@@ -1,0 +1,18 @@
+{
+	"id": "TUR_heavy_medium01",
+	"name": "Medium Heavy Turret",
+	"on_tank_position": "!transf;0.0;0.0;0.0;0.0;0.0;0.0;9.0;9.0;1.0",
+	"mass": 10.0,
+	"shop_item": "!img;TankParts\\Turrets\\HeavyMedium\\Images\\shop_img",
+	"garage_item": "!img;TankParts\\Turrets\\HeavyMedium\\Images\\garage_img",
+	"weapons_shop": "!img;TankParts\\Turrets\\HeavyMedium\\Images\\weapon_shop_img",
+	"spritesheet": "!sprites;TankParts\\Turrets\\HeavyMedium\\Images\\Sprites\\turret_heavy_medium_spritesheet_0",
+	"turn_time": 6.1,
+	"price": 150.18,
+	"spin_sound": "!snd;TankParts\\Turrets\\HeavyMedium\\Sounds\\rotation",
+	"heavy_weapon_slots": [
+		"!wpnslt;1|!transf;-170.0;100.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0|!transf;-0.54;0.89;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+		"!wpnslt;1|!transf;205.0;100.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0|!transf;0.69;0.89;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
+	],
+	"description": "Few things in this world are better than a heavy cannon to the face of your enemies, but perhaps having 2 ain't a bad contender."
+}
