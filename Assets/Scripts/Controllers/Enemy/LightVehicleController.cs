@@ -172,8 +172,12 @@ namespace TankArena.Controllers
                     damage = boomController.damage;
                     break;
                 case Tags.TAG_CANNON_PROJECTILE:
+                case Tags.TAG_GATLING_BULLET:
                     var projectileController = damager.GetComponent<ProjectileController>();
-                    damage = projectileController.damage;
+                    if (!projectileController.isDecorative)
+                    {
+                        damage = projectileController.damage;
+                    }
                     break;
             }
             ApplyDamage(damage);
