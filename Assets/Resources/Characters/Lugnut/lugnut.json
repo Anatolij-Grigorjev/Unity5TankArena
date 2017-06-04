@@ -10,5 +10,5 @@
         "MOV" : 4,
         "REG" : 4
     },
-	"start_tank": "chassis=CH_edge01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_basic01,L_0=WPN_L_basic_gatling01|0,H_0=WPN_H_cannon01|1"
+	"start_tank": "chassis=CH_edge01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_basic01,L_0=WPN_L_triple_gatling01|0,H_0=WPN_H_cannon01|1"
 }

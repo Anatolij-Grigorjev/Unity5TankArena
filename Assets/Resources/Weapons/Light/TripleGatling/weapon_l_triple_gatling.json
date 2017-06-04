@@ -1,0 +1,28 @@
+{
+	"id": "WPN_L_triple_gatling01",
+	"name": "Triple Gatling Gun",
+	"price": 151.29,
+	"wpn_type": 0,
+	"damage": 8.1
+,	"reload": 5.5,
+	"rate_of_fire": 150,
+	"range": 85,
+	"clip_size": 100,
+	"shop_item": "!img;Weapons\\Light\\TripleGatling\\Images\\shop_img",
+	"spritesheet": "!sprites;Weapons\\Light\\TripleGatling\\Images\\Sprites\\weapon_triple_gatling_spritesheet_0",
+	"shot_sound" : "!snd;Weapons\\Light\\TripleGatling\\Sounds\\shot",
+	"weapon_animations" : "!anim_contr;Weapons\\Light\\TripleGatling\\Animation\\Controllers\\TripleGatlingLightAnimationController",
+	"hit_type": "projectile",
+	"projectile": {
+		"tag": "GatlingBullet",
+		"velocity": 151.25,
+		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
+		"box_collider": "!box;0.0;0.0;0.5;0.5",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\GatlingBullet\\triple_gatling_bullet_spritesheet",
+		"sprite_times": [
+			0.2,
+			0.2,
+			0.1
+		]
+	}
+}
