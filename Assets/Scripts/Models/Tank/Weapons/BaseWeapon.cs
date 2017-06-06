@@ -95,38 +95,33 @@ namespace TankArena.Models.Weapons
                 return (AudioClip)properties[EK.EK_RELOAD_SOUND];
             }
         }
-        public RuntimeAnimatorController WeaponAnimationController
-        {
-            get
-            {
-                return (RuntimeAnimatorController)properties[EK.EK_WEAPON_ANIMATION];
-            }
-        }
         public WeaponHitTypes HitType
         {
-            get 
+            get
             {
                 return (WeaponHitTypes)properties[EK.EK_HIT_TYPE];
             }
         }
         public ProjectileModel Projectile
         {
-            get 
+            get
             {
                 return (ProjectileModel)properties[EK.EK_PROJECTILE];
             }
         }
 
+        public Dictionary<string, SpriteAnimation> weaponAnimations;
+
         protected BaseWeaponController weaponController;
 
-        
-        public BaseWeapon(BaseWeapon model): base(model)
+
+        public BaseWeapon(BaseWeapon model) : base(model)
         {
-            
+
         }
         public BaseWeapon(string filePath) : base(filePath)
         {
-            
+
         }
 
         protected override IEnumerator<float> _LoadPropertiesFromJSON(JSONNode json)
@@ -142,7 +137,18 @@ namespace TankArena.Models.Weapons
             properties[EK.EK_CLIP_SIZE] = json[EK.EK_CLIP_SIZE].AsInt;
             properties[EK.EK_ENTITY_SPRITESHEET] = ResolveSpecialContent(json[EK.EK_ENTITY_SPRITESHEET].Value);
             properties[EK.EK_SHOT_SOUND] = ResolveSpecialContent(json[EK.EK_SHOT_SOUND].Value);
-            properties[EK.EK_WEAPON_ANIMATION] = ResolveSpecialContent(json[EK.EK_WEAPON_ANIMATION].Value);
+            var animations = json[EK.EK_WEAPON_ANIMATION].AsArray;
+            weaponAnimations = new Dictionary<string, SpriteAnimation>();
+            foreach (var animationObj in animations)
+            {
+                var animation = animationObj as JSONClass;
+                weaponAnimations.Add(animation[EK.EK_STATE], SpriteAnimation.FromJSON(
+                    animation[EK.EK_LOOPS].AsBool,
+                    animation[EK.EK_FRAMES].AsArray,
+                    animation[EK.EK_NEXT_STATE])
+                );
+            }
+
             if (!String.IsNullOrEmpty(json[EK.EK_RELOAD_SOUND].Value))
             {
                 properties[EK.EK_RELOAD_SOUND] = ResolveSpecialContent(json[EK.EK_RELOAD_SOUND].Value);
@@ -156,7 +162,8 @@ namespace TankArena.Models.Weapons
             if (WeaponHitTypes.PROJECTILE == HitType)
             {
                 Projectile.Damage = Damage;
-            } else 
+            }
+            else
             {
                 Projectile.Damage = 0.0f;
             }
@@ -172,7 +179,7 @@ namespace TankArena.Models.Weapons
             //weapon might be mounted on light enemies without turrets
             SetRendererSprite(controller.weaponSpriteRenderer, 0);
             //this is the player, apply stats coefficient
-            var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER)? CurrentState.Instance.CurrentStats.ATKModifier : 1.0f;
+            var modifier = controller.transform.root.CompareTag(Tags.TAG_PLAYER) ? CurrentState.Instance.CurrentStats.ATKModifier : 1.0f;
             controller.damage = Damage * modifier;
             controller.reloadTime = ReloadTime;
             controller.rateOfFire = RateOfFire;
@@ -181,7 +188,7 @@ namespace TankArena.Models.Weapons
             //for starting ammo controller correctly
             controller.currentClipSize = ClipSize;
             controller.shotAudio.clip = ShotSound;
-            
+
             controller.projectileWidth = Projectile.BoxCollider.width;
             controller.weaponHitType = HitType;
 
@@ -194,12 +201,17 @@ namespace TankArena.Models.Weapons
             DBG.Log("Weapon: {0} | projectileTTL: {1} | shotsPerSecond: {2} | poolSize: {3}", Id, projectileTTL, shotsPerSecond, poolSize);
             //make a pool object and add the stuff in the pool
             var projectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
-            var poolObj = new GameObject(Id + "-AmmoPool", new Type[] {typeof(ObjectsPool)});
+            var poolObj = new GameObject(Id + "-AmmoPool", new Type[] { typeof(ObjectsPool) });
             var pool = poolObj.GetComponent<ObjectsPool>();
             pool.pooledPrefab = projectilePrefab;
             pool.propsMap = Projectile;
             pool.instancesCount = poolSize;
             controller.bulletPool = pool;
+            
+            //set up the weapon naimation controller
+            var weaponAnimator = controller.weaponAnimator;
+            weaponAnimator.targetSprites = Sprites;
+            weaponAnimator.statesToAnimations = new Dictionary<string, SpriteAnimation>(weaponAnimations);
 
             weaponController = controller;
         }

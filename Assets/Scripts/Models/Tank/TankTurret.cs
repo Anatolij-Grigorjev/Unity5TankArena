@@ -187,7 +187,7 @@ namespace TankArena.Models.Tank
                 , new Type[] {
                     typeof(SpriteRenderer),
                    typeof(AudioSource),
-                   typeof(Animator),
+                   typeof(SpriteAnimationController),
                    typeof(BaseWeaponController)
                 });
 
@@ -217,8 +217,10 @@ namespace TankArena.Models.Tank
             shotAudio.playOnAwake = false;
             shotAudio.loop = false;
 
-            var animator = weaponGO.GetComponent<Animator>();
-            animator.runtimeAnimatorController = weaponSlot.Weapon.WeaponAnimationController;
+            var animator = weaponGO.GetComponent<SpriteAnimationController>();
+            animator.targetRenderer = spriteRenderer;
+            animator.targetSprites = weaponSlot.Weapon.Sprites;
+            animator.statesToAnimations = new Dictionary<string, SpriteAnimation>(weaponSlot.Weapon.weaponAnimations);
 
             return weaponGO;
         }

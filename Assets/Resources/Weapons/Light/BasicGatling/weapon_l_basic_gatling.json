@@ -11,7 +11,36 @@
 	"shop_item": "!img;Weapons\\Light\\BasicGatling\\Images\\shop_img",
 	"spritesheet": "!sprites;Weapons\\Light\\BasicGatling\\Images\\Sprites\\weapon_basic_gatling_spritesheet_0",
 	"shot_sound" : "!snd;Weapons\\Light\\BasicGatling\\Sounds\\shot",
-	"weapon_animations" : "!anim_contr;Weapons\\Light\\BasicGatling\\Animation\\Controllers\\BasicGatlingLightAnimationController",
+	"weapon_animations" : [
+		{
+			"state": "Idle",
+			"loops": true,
+			"frames": [
+				{
+					"index": 0,
+					"duration": 45.0
+				}
+			]
+		},
+		{
+			"state": "Firing",
+			"loops": true,
+			"frames": [
+				{
+					"index": 1,
+					"duration": 0.016
+				},
+				{
+					"index": 2,
+					"duration": 0.016
+				},
+				{
+					"index": 3,
+					"duration": 0.016
+				}
+			]
+		}
+	],
 	"hit_type": "target",
 	"projectile": {
 		"tag": "GatlingBullet",

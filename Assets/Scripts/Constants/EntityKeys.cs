@@ -98,6 +98,12 @@ namespace TankArena.Constants
         public const string EK_HIT_TYPE = "hit_type";
         public const string EK_PROJECTILE = "projectile";
         public const string EK_TAG = "tag";
+        public const string EK_STATE = "state";
+        public const string EK_NEXT_STATE = "next_state";
+        public const string EK_FRAMES = "frames";
+        public const string EK_LOOPS = "loops";
+        public const string EK_DURATION = "duration";
+        public const string EK_INDEX = "index";
         public const string EK_VELOCITY = "velocity";
         public const string EK_IMPACT_PREFAB = "impact_prefab";
         public const string EK_SPRITE_TIMES = "sprite_times";

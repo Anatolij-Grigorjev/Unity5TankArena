@@ -17,10 +17,14 @@ namespace TankArena.Utils
             }
             set
             {
-                currentState = value;
-                currentAnimation = statesToAnimations[currentState];
-                SetFrameIdx(0);
-                currentAnimationOver = false;
+				DBG.Log("Got order state: {0} from {1}", value, currentState);
+                if (currentState != value)
+                {
+                    currentState = value;
+                    currentAnimation = statesToAnimations.ContainsKey(currentState) ? statesToAnimations[currentState] : null;
+                    SetFrameIdx(0);
+                    currentAnimationOver = currentAnimation == null;
+                }
             }
         }
 
@@ -47,36 +51,46 @@ namespace TankArena.Utils
         // Update is called once per frame
         void Update()
         {
-
-            if (!currentAnimationOver)
+            if (currentAnimationOver)
             {
-                currentFrameTime -= Time.deltaTime;
-                if (currentFrameTime <= 0.0f)
+                return;
+            }
+
+            currentFrameTime -= Time.deltaTime;
+            if (currentFrameTime <= 0.0f)
+            {
+                var result = SetFrameIdx(currentFrameIdx + 1);
+                if (!result)
                 {
-                    var result = SetFrameIdx(currentFrameIdx + 1);
-                    if (!result)
+                    //animation out of bounds, move on
+                    currentAnimationOver = !currentAnimation.loops;
+                    if (currentAnimation.loops)
                     {
-                        //animation out of bounds, move on
-                        currentAnimationOver = !currentAnimation.loops;
-                        if (currentAnimation.loops)
+                        SetFrameIdx(0);
+                    }
+                    else
+                    {
+                        //if the animation has a following one, play that
+                        if (!string.IsNullOrEmpty(currentAnimation.nextState))
                         {
-                            SetFrameIdx(0);
+							State = currentAnimation.nextState;
                         }
                     }
                 }
             }
+
         }
 
         /// <summary>
-        /// set the current animation fram index
-        /// return true if setting it also altered the animation, false if out of bounds
+        /// set the current animation frame index <br/>
+        /// return true if setting it also altered the current animation index, false if animation over
         /// </summary>
         /// <param name="frameIdx"></param>
         /// <returns></returns>
         bool SetFrameIdx(int frameIdx)
         {
             currentFrameIdx = frameIdx;
-            int size = currentAnimation != null? currentAnimation.spriteIdx.Length : 0;
+            int size = currentAnimation != null ? currentAnimation.spriteIdx.Length : 0;
             if (currentFrameIdx < size)
             {
                 currentFrameTime = currentAnimation.spriteDuration[currentFrameIdx];

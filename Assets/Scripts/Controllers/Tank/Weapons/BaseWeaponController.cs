@@ -106,7 +106,7 @@ namespace TankArena.Controllers.Weapons
         public AudioSource reloadAudio;
         public SpriteRenderer weaponSpriteRenderer;
         public TankTurretController turretController;
-        public Animator weaponAnimationController;
+        public SpriteAnimationController weaponAnimator;
         public ObjectsPool bulletPool;
 
 
@@ -125,9 +125,9 @@ namespace TankArena.Controllers.Weapons
         void Awake()
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-
             shotAudio = GetComponent<AudioSource>();
-            weaponAnimationController = GetComponent<Animator>();
+            weaponAnimator = GetComponent<SpriteAnimationController>();
+            weaponAnimator.targetRenderer = weaponSpriteRenderer;
 
             if (Weapon != null)
             {
@@ -145,6 +145,9 @@ namespace TankArena.Controllers.Weapons
             maxShotDelay = MINUTE_IN_SECONDS / rateOfFire;
             //if weapon is rapid fire we do fewer ammo checks and stuff to optimize
             isRapidFire = maxShotDelay <= Time.fixedDeltaTime;
+
+            //set initial animation
+            weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
         }
 
         // Update is called once per frame
@@ -192,7 +195,7 @@ namespace TankArena.Controllers.Weapons
                     ammoController.SetInactive(true);
                 }
                 currentShotDelay = maxShotDelay;
-                weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, true);
+                weaponAnimator.State = CommonWeaponStates.STATE_FIRING;
                 if (!shotAudio.isPlaying)
                 {
                     shotAudio.Play();
@@ -266,7 +269,7 @@ namespace TankArena.Controllers.Weapons
 
         public void UnsetShootingAnimation()
         {
-            weaponAnimationController.SetBool(AnimationParameters.BOOL_WPN_IS_FIRING, false);
+            weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
         }
         private bool animationStopperRunning = false;
         public void CheckWithDelay()
