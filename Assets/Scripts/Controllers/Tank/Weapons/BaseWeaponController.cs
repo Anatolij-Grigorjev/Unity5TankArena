@@ -196,6 +196,8 @@ namespace TankArena.Controllers.Weapons
                 }
                 currentShotDelay = maxShotDelay;
                 weaponAnimator.State = CommonWeaponStates.STATE_FIRING;
+                //setup a check later
+                CheckIsShootingLater();
                 if (!shotAudio.isPlaying)
                 {
                     shotAudio.Play();
@@ -237,7 +239,7 @@ namespace TankArena.Controllers.Weapons
                     projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
                     projectileController.direction = rotatorTransform.up;
                     //move a bit away from the barrel
-                    projectile.transform.Translate(projectileController.direction * 5.0f);
+                    projectile.transform.Translate(projectileController.direction * 10.0f);
                     projectile.layer = projectileLayer;
                 }
 
@@ -272,7 +274,7 @@ namespace TankArena.Controllers.Weapons
             weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
         }
         private bool animationStopperRunning = false;
-        public void CheckWithDelay()
+        public void CheckIsShootingLater()
         {
             if (!animationStopperRunning)
             {

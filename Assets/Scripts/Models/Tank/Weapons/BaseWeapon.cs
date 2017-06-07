@@ -117,7 +117,7 @@ namespace TankArena.Models.Weapons
 
         public BaseWeapon(BaseWeapon model) : base(model)
         {
-
+            weaponAnimations = new Dictionary<string, SpriteAnimation>(model.weaponAnimations);
         }
         public BaseWeapon(string filePath) : base(filePath)
         {
@@ -148,7 +148,7 @@ namespace TankArena.Models.Weapons
                     animation[EK.EK_NEXT_STATE])
                 );
             }
-
+            DBG.Log("Loaded {0} animations for {1}", weaponAnimations.Count, Id);
             if (!String.IsNullOrEmpty(json[EK.EK_RELOAD_SOUND].Value))
             {
                 properties[EK.EK_RELOAD_SOUND] = ResolveSpecialContent(json[EK.EK_RELOAD_SOUND].Value);
@@ -210,6 +210,7 @@ namespace TankArena.Models.Weapons
             
             //set up the weapon naimation controller
             var weaponAnimator = controller.weaponAnimator;
+            DBG.Log("Got animations {0} for GO tree {1}", weaponAnimations, DBG.TreeName(controller.gameObject));
             weaponAnimator.targetSprites = Sprites;
             weaponAnimator.statesToAnimations = new Dictionary<string, SpriteAnimation>(weaponAnimations);
 
