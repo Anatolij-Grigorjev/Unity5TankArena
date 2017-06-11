@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,9 +10,15 @@ public class SpriteImporter : MonoBehaviour
 
     public static void ImportSprite()
     {
-        var commandLineArgsMap = makeArgsMap();
+        try
+        {
+            var commandLineArgsMap = makeArgsMap();
 
-        importSpriteSheet(commandLineArgsMap);
+            importSpriteSheet(commandLineArgsMap);
+        } catch (Exception ex) {
+			Debug.Log(ex);
+			EditorApplication.Exit(1);
+		}
     }
 
     private static void importSpriteSheet(Dictionary<string, string> commandLineArgsMap)
@@ -26,28 +34,26 @@ public class SpriteImporter : MonoBehaviour
             int.Parse(commandLineArgsMap["paddingY"]) : 0;
         int spritesCount = rows * cols;
 
+		Debug.Log("initial import at " + spritePath);
+		AssetDatabase.ImportAsset(spritePath); // init importer
         var textureImporter = AssetImporter.GetAtPath(spritePath) as TextureImporter;
+		Debug.Log("Got improter: " + textureImporter);
+		textureImporter.spriteImportMode = SpriteImportMode.Multiple;
         List<SpriteMetaData> metaDataList = new List<SpriteMetaData>();
 
-
         for (int i = 0; i < rows; i++)
-		{
+        {
             for (int j = 0; j < cols; j++)
             {
                 var metaData = new SpriteMetaData();
-                metaData.rect = new Rect(
-					j * spriteWidth + j * paddingX,
-					i * spriteHeight + i * paddingY,
-					spriteWidth,
-					spriteHeight
-                );
+                metaData.rect = new Rect(j * spriteWidth + j * paddingX, i * spriteHeight + i * paddingY, spriteWidth, spriteHeight);
                 metaData.pivot = metaData.rect.center;
                 metaDataList.Add(metaData);
+				Debug.Log("created metadata #" + (1 + (i * cols + j)));
             }
-		}
-
+        }
         textureImporter.spritesheet = metaDataList.ToArray();
-        AssetDatabase.ImportAsset(spritePath, ImportAssetOptions.ForceUpdate);
+		textureImporter.SaveAndReimport();
     }
 
     private static Dictionary<string, string> makeArgsMap()
@@ -75,7 +81,12 @@ public class SpriteImporter : MonoBehaviour
             }
 
         }
-
+		var cmdPrint = new StringBuilder("Commands:\n");
+		foreach(var entry in mapping)
+		{
+			cmdPrint.Append(entry.Key + "=" + entry.Value + "\n");
+		}
+		Debug.Log(cmdPrint);
         return mapping;
     }
 }
