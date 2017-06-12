@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -28,17 +29,25 @@ public class SpriteImporter : MonoBehaviour
         var spriteHeight = int.Parse(commandLineArgsMap["-height"]);
         var rows = int.Parse(commandLineArgsMap["-rows"]);
         var cols = int.Parse(commandLineArgsMap["-cols"]);
-        var paddingX = commandLineArgsMap.ContainsKey("paddingX") ?
+        var paddingX = commandLineArgsMap.ContainsKey("-paddingX") ?
             int.Parse(commandLineArgsMap["-paddingX"]) : 0;
-        var paddingY = commandLineArgsMap.ContainsKey("paddingY") ?
-            int.Parse(commandLineArgsMap["paddingY"]) : 0;
+        var paddingY = commandLineArgsMap.ContainsKey("-paddingY") ?
+            int.Parse(commandLineArgsMap["-paddingY"]) : 0;
         int spritesCount = rows * cols;
 
-		Debug.Log("initial import at " + spritePath);
-		AssetDatabase.ImportAsset(spritePath); // init importer
+		Debug.Log(String.Format("Importing spritesheet at {0}", spritePath));
+		var pathObj = Path.GetFileNameWithoutExtension(spritePath);
+		Debug.Log("Deleting existing meta info");
+		File.Delete(spritePath + ".meta");
+		Debug.Log("Init importer...");
+		AssetDatabase.ImportAsset(spritePath, ImportAssetOptions.ForceUpdate); // init importer
         var textureImporter = AssetImporter.GetAtPath(spritePath) as TextureImporter;
+	
 		Debug.Log("Got improter: " + textureImporter);
 		textureImporter.spriteImportMode = SpriteImportMode.Multiple;
+		textureImporter.name = pathObj;
+		textureImporter.spriteBorder = new Vector4(paddingX, paddingY, paddingX, paddingY);
+
         List<SpriteMetaData> metaDataList = new List<SpriteMetaData>();
 
         for (int i = 0; i < rows; i++)
@@ -47,9 +56,11 @@ public class SpriteImporter : MonoBehaviour
             {
                 var metaData = new SpriteMetaData();
                 metaData.rect = new Rect(j * spriteWidth + j * paddingX, i * spriteHeight + i * paddingY, spriteWidth, spriteHeight);
+				metaData.border = new Vector4(paddingX, paddingY, paddingX, paddingY);
                 metaData.pivot = metaData.rect.center;
+				metaData.name = String.Format("{0}_{1}_{2}", pathObj, (rows - i), (cols - j));
                 metaDataList.Add(metaData);
-				Debug.Log("created metadata #" + (1 + (i * cols + j)));
+				Debug.Log(String.Format("Created metadata #{0} ({1})", (1 + (i * cols + j)), metaData.name));
             }
         }
         textureImporter.spritesheet = metaDataList.ToArray();

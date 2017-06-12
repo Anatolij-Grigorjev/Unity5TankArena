@@ -8,5 +8,7 @@
 -spritesheet Assets/Resources/TankParts/Tracks/tracks_basic_spritesheet_0.png \
 -width 199 \
 -height 199 \
+-paddingX 1 \
+-paddingY 1 \
 -rows 3 \
 -cols 4 

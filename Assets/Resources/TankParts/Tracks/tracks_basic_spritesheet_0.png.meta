@@ -1,9 +1,27 @@
 fileFormatVersion: 2
 guid: 2297e828d2eba4924b7ec94eef8ca9b5
-timeCreated: 1497193786
+timeCreated: 1497288497
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: tracks_basic_spritesheet_0_0_0
+    21300002: tracks_basic_spritesheet_0_0_1
+    21300004: tracks_basic_spritesheet_0_0_2
+    21300006: tracks_basic_spritesheet_0_0_3
+    21300008: tracks_basic_spritesheet_0_1_0
+    21300010: tracks_basic_spritesheet_0_1_1
+    21300012: tracks_basic_spritesheet_0_1_2
+    21300014: tracks_basic_spritesheet_0_1_3
+    21300016: tracks_basic_spritesheet_0_2_0
+    21300018: tracks_basic_spritesheet_0_2_1
+    21300020: tracks_basic_spritesheet_0_2_2
+    21300022: tracks_basic_spritesheet_0_2_3
+    21300024: tracks_basic_spritesheet_0_3_4
+    21300026: tracks_basic_spritesheet_0_3_3
+    21300028: tracks_basic_spritesheet_0_3_2
+    21300030: tracks_basic_spritesheet_0_3_1
+    21300032: tracks_basic_spritesheet_0_2_4
+    21300034: tracks_basic_spritesheet_0_1_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -39,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 1, y: 1, z: 1, w: 1}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -62,7 +80,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_3_4
       rect:
         serializedVersion: 2
         x: 0
@@ -71,150 +89,150 @@ TextureImporter:
         height: 199
       alignment: 0
       pivot: {x: 99.5, y: 99.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_3_3
       rect:
         serializedVersion: 2
-        x: 199
+        x: 200
         y: 0
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 298.5, y: 99.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 299.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_3_2
       rect:
         serializedVersion: 2
-        x: 398
+        x: 400
         y: 0
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 497.5, y: 99.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 499.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_3_1
       rect:
         serializedVersion: 2
-        x: 597
+        x: 600
         y: 0
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 696.5, y: 99.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 699.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_2_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 199
+        y: 200
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 99.5, y: 298.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 99.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_2_3
       rect:
         serializedVersion: 2
-        x: 199
-        y: 199
+        x: 200
+        y: 200
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 298.5, y: 298.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 299.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_2_2
       rect:
         serializedVersion: 2
-        x: 398
-        y: 199
+        x: 400
+        y: 200
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 497.5, y: 298.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 499.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_2_1
       rect:
         serializedVersion: 2
-        x: 597
-        y: 199
+        x: 600
+        y: 200
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 696.5, y: 298.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 699.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_1_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 398
+        y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 99.5, y: 497.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 99.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_1_3
       rect:
         serializedVersion: 2
-        x: 199
-        y: 398
+        x: 200
+        y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 298.5, y: 497.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 299.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_1_2
       rect:
         serializedVersion: 2
-        x: 398
-        y: 398
+        x: 400
+        y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 497.5, y: 497.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 499.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     - serializedVersion: 2
-      name: 
+      name: tracks_basic_spritesheet_0_1_1
       rect:
         serializedVersion: 2
-        x: 597
-        y: 398
+        x: 600
+        y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 696.5, y: 497.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 699.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       tessellationDetail: -1
     outline: []
