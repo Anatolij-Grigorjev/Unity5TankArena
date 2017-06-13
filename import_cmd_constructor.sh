@@ -4,7 +4,7 @@
 -batchmode \
 -quit \
 -projectPath /Users/Tiem625/Documents/UnityProjects/Unity5TankArena \
--executeMethod SpriteImporter.ImportSprite \
+-executeMethod DefaultImporter.ImportPart \
 -spritesheet Assets/Resources/TankParts/Tracks/tracks_basic_spritesheet_0.png \
 -width 199 \
 -height 199 \

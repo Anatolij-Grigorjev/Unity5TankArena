@@ -6,20 +6,36 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class SpriteImporter : MonoBehaviour
+public class DefaultImporter : MonoBehaviour
 {
 
-    public static void ImportSprite()
+	private static readonly char[] CSV_SEPARATOR = new char[] {','};
+
+    public static void ImportPart()
     {
         try
         {
             var commandLineArgsMap = makeArgsMap();
 
             importSpriteSheet(commandLineArgsMap);
+
+			var extraKeysCsv = commandLineArgsMap["-simpleassets"];
+			foreach(var key in extraKeysCsv.Split(CSV_SEPARATOR)) {
+				importSimpleAsset(commandLineArgsMap, ("-" + key));
+			}
         } catch (Exception ex) {
 			Debug.Log(ex);
 			EditorApplication.Exit(1);
 		}
+    }
+
+    private static void importSimpleAsset(Dictionary<string, string> commandLineArgsMap, String assetKey)
+    {
+        var assetPath = commandLineArgsMap[assetKey];
+		Debug.Log(String.Format("importing asset at path {0} and deleteing existing meta...", assetPath));
+		//delete previous entry
+		File.Delete(assetPath + ".meta");
+		AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
     }
 
     private static void importSpriteSheet(Dictionary<string, string> commandLineArgsMap)
