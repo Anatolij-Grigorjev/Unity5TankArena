@@ -76,7 +76,10 @@ public class DefaultImporter : MonoBehaviour
                 metaData.pivot = metaData.rect.center;
 				metaData.name = String.Format("{0}_{1}_{2}", pathObj, (rows - i), (cols - j));
                 metaDataList.Add(metaData);
-				Debug.Log(String.Format("Created metadata #{0} ({1})", (1 + (i * cols + j)), metaData.name));
+				Debug.Log(String.Format(
+                    "Created metadata #{0} ({1}) with rect: {2}", (1 + (i * cols + j)),
+                    metaData.name,
+                    metaData.rect));
             }
         }
         textureImporter.spritesheet = metaDataList.ToArray();
