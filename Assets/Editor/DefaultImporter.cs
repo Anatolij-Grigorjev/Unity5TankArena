@@ -62,16 +62,20 @@ public class DefaultImporter : MonoBehaviour
 		Debug.Log("Got improter: " + textureImporter);
 		textureImporter.spriteImportMode = SpriteImportMode.Multiple;
 		textureImporter.name = pathObj;
-		textureImporter.spriteBorder = new Vector4(paddingX, paddingY, paddingX, paddingY);
+		// textureImporter.spriteBorder = new Vector4(paddingX, paddingY, paddingX, paddingY);
 
         List<SpriteMetaData> metaDataList = new List<SpriteMetaData>();
-
+        var sheetHeight = (rows - 1) * (spriteHeight + paddingY); 
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
             {
                 var metaData = new SpriteMetaData();
-                metaData.rect = new Rect(j * spriteWidth + j * paddingX, i * spriteHeight + i * paddingY, spriteWidth, spriteHeight);
+                metaData.rect = new Rect(
+                    j * spriteWidth + j * paddingX,
+                    sheetHeight - (i * spriteHeight + i * paddingY),
+                    spriteWidth, 
+                    spriteHeight);
 				metaData.border = new Vector4(paddingX, paddingY, paddingX, paddingY);
                 metaData.pivot = metaData.rect.center;
 				metaData.name = String.Format("{0}_{1}_{2}", pathObj, (rows - i), (cols - j));
