@@ -78,7 +78,7 @@ public class DefaultImporter : MonoBehaviour
                     spriteHeight);
 				metaData.border = new Vector4(paddingX, paddingY, paddingX, paddingY);
                 metaData.pivot = metaData.rect.center;
-				metaData.name = String.Format("{0}_{1}_{2}", pathObj, (rows - i), (cols - j));
+				metaData.name = String.Format("{0}_{1}_{2}", pathObj, (i), (j));
                 metaDataList.Add(metaData);
 				Debug.Log(String.Format(
                     "Created metadata #{0} ({1}) with rect: {2}", (1 + (i * cols + j)),
