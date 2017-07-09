@@ -16,8 +16,9 @@ public class DefaultImporter : MonoBehaviour
         try
         {
             var commandLineArgsMap = makeArgsMap();
-
-            importSpriteSheet(commandLineArgsMap);
+            if (!String.IsNullOrEmpty(commandLineArgsMap["-spritesheet"])) {
+                importSpriteSheet(commandLineArgsMap);
+            }
 
 			var extraKeysCsv = commandLineArgsMap["-simpleassets"];
 			foreach(var key in extraKeysCsv.Split(CSV_SEPARATOR)) {
