@@ -1,0 +1,18 @@
+{
+  "garage_item" : "!img;TankParts\\Chassis\\Carapace\\Images\\garage_img",
+  "regeneration" : 522.5,
+  "mass" : 65.5,
+  "turret_pivot" : "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+  "shop_item" : "!img;TankParts\\Chassis\\Carapace\\Images\\shop_img",
+  "regen_delay" : 5.3,
+  "on_tank_position" : "!transf;0.0;0.0;0.0;0.0;0.0;0.0;15.0;15.0;1.0",
+  "integrity" : 3211.7,
+  "price" : 451.88,
+  "name" : "Carapace",
+  "healthbar_offset" : "!v3;0.0;-30.0;0.0",
+  "json" : "!json;TankParts\\Chassis\\Carapace\\carapace",
+  "id" : "CH_Carapace01",
+  "active_sprites" : 8,
+  "box_collider" : "!box;0.25;0.1;1.5;1.9",
+  "spritesheet" : "!sprites;TankParts\\Chassis\\Carapace\\Images\\Sprites\\chassis_carapace_spritesheet_0"
+}
