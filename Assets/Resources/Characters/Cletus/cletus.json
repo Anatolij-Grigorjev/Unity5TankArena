@@ -24,5 +24,5 @@
     Chloe looked apathetic, her wallet raw like a bumpy, boiled baby pig.\n
     Cletus could actually hear Chloe's wallet shatter into 3830 pieces. Then the appreciative book hurried away into the distance.\n
     Not even a drink of moonshine would calm Cletus's nerves tonight.",
-    "start_tank": "chassis=CH_basic01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_light_mini01,L_0=WPN_L_basic_gatling01|0"
+    "start_tank": "chassis=CH_slick01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_light_mini01,L_0=WPN_L_triple_gatling01|0"
 }

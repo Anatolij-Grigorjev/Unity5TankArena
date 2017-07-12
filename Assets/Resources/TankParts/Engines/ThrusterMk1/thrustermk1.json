@@ -1,0 +1,16 @@
+{
+  "acceleration_rate" : 35.5,
+  "garage_item" : "!img;TankParts\\Engines\\ThrusterMk1\\Images\\garage_img",
+  "deacceleration_rate" : 10.1,
+  "mass" : 7.5,
+  "torque" : 88.2,
+  "shop_item" : "!img;TankParts\\Engines\\ThrusterMk1\\Images\\shop_img",
+  "on_tank_position" : "!transf;0.0;0.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+  "idle_sound" : "!snd;TankParts\\Engines\\ThrusterMk1\\Sounds\\engine_idle",
+  "revving_sound" : "!snd;TankParts\\Engines\\ThrusterMk1\\Sounds\\engine_revving",
+  "price" : 211.52,
+  "name" : "ThrusterMk1",
+  "json" : "!json;TankParts\\Engines\\ThrusterMk1\\thrustermk1",
+  "id" : "ENG_thruster_mk_1_01",
+  "max_acceleration" : 70.1
+}

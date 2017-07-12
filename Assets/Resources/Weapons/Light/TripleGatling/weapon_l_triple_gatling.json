@@ -3,7 +3,7 @@
 	"name": "Triple Gatling Gun",
 	"price": 151.29,
 	"wpn_type": 0,
-	"damage": 8.1
+	"damage": 11.1
 ,	"reload": 5.5,
 	"rate_of_fire": 150,
 	"range": 85,

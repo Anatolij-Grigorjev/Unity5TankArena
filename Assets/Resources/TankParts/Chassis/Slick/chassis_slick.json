@@ -5,7 +5,7 @@
 	"mass": 19.0,
 	"shop_item": "!img;TankParts\\Chassis\\Slick\\Images\\shop_img",
 	"garage_item": "!img;TankParts\\Chassis\\Slick\\Images\\garage_img",
-	"integrity": 450.6,
+	"integrity": 521.6,
 	"regeneration" : 1200.88,
 	"regen_delay" : 1.0,
 	"spritesheet": "!sprites;TankParts\\Chassis\\Slick\\Images\\Sprites\\chassis_slick_spritesheet_0",
