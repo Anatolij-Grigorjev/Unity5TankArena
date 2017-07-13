@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 2017-02-05 11:37:36-->
+<!--Last exported: 2017-07-13 19:51:46-->
 <Tiled2Unity version="1.0.7.8">
   <AssignMaterial mesh="mesh_0001" material="Sandy_18_Tileset" />
   <Prefab name="sandy_rocky_small" orientation="Orthogonal" staggerAxis="Y" staggerIndex="Odd" hexSideLength="0" numLayers="1" numTilesWide="20" numTilesHigh="15" tileWidth="50" tileHeight="50" exportScale="1" mapWidthInPixels="1000" mapHeightInPixels="750">

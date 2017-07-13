@@ -4,7 +4,7 @@
 	"thumbnail": "!img;Levels\\SandyGraveyard\\thumbnail", 
 	"snapshot": "!img;Levels\\SandyGraveyard\\snapshot",
 	"map_prefab": "!go;Levels\\SandyGraveyard\\sandy_graveyard",
-	"total_enemies": 5,
+	"total_enemies": 10,
 	"enemy_types": [
 		"Light Truck"
 	],
@@ -13,6 +13,10 @@
 	"spawners": [
 		{
 			"spawner_location": "!v3;-350.0;105.0;0.0",
+			"spawner_id": "spwn_5_2_light_truck"
+		},
+		{
+			"spawner_location": "!v3;350.0;105.0;0.0",
 			"spawner_id": "spwn_5_2_light_truck"
 		}
 	],
