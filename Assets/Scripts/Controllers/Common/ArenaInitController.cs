@@ -40,12 +40,14 @@ namespace TankArena.Controllers
 				
 
 				//place the spawner(-s)
-				foreach(KeyValuePair<string, Vector3> spawnerInfo in levelModel.SpawnerLocations)
+				foreach(KeyValuePair<string, List<Vector3>> spawnerInfo in levelModel.SpawnerLocations)
 				{
 					//spawner of template code
 					var spawnerTemplate = EntitiesStore.Instance.SpawnerTemplates[(spawnerInfo.Key)];
-					//create GO at position
-					spawnerTemplate.FromTemplate(spawnerInfo.Value);
+					//create GO at position(-s)
+					foreach(Vector3 position in spawnerInfo.Value) {
+						spawnerTemplate.FromTemplate(position);
+					}
 				}
 			}
 			//loading done, start awaiting end of fight

@@ -59,11 +59,11 @@ namespace TankArena.Models.Level
                 return (GameObject)properties[EK.EK_MAP_PREFAB];
             }
         }
-        public Dictionary<string, Vector3> SpawnerLocations
+        public Dictionary<string, List<Vector3>> SpawnerLocations
         {
             get 
             {
-                return (Dictionary<string, Vector3>)properties[EK.EK_SPAWNERS_LIST];
+                return (Dictionary<string, List<Vector3>>)properties[EK.EK_SPAWNERS_LIST];
             }
         }
         
@@ -91,13 +91,18 @@ namespace TankArena.Models.Level
             properties[EK.EK_PLAYER_SPAWN_POINT] = ResolveSpecialContent(json[EK.EK_PLAYER_SPAWN_POINT].Value);
             properties[EK.EK_MAP_PREFAB] = ResolveSpecialContent(json[EK.EK_MAP_PREFAB].Value);
 
-            var spwnDict = new Dictionary<string, Vector3>();
+            var spwnDict = new Dictionary<string, List<Vector3>>();
             foreach(JSONClass node in json[EK.EK_SPAWNERS_LIST].AsArray)
             {
                 string spawnerCode = node[EK.EK_SPAWNERS_LIST_SPAWNER_ID].Value;
                 Vector3 spawnerLocation = (Vector3)ResolveSpecialContent(node[EK.EK_SPAWNERS_LIST_SPAWNER_LOCATION].Value);
-
-                spwnDict.Add(spawnerCode, spawnerLocation);
+                if (spwnDict.ContainsKey(spawnerCode)) {
+                    spwnDict[spawnerCode].Add(spawnerLocation);
+                } else {
+                    var locList = new List<Vector3>();
+                    locList.Add(spawnerLocation);
+                    spwnDict.Add(spawnerCode, locList);
+                }
             }
             properties[EK.EK_SPAWNERS_LIST] = spwnDict;
 
