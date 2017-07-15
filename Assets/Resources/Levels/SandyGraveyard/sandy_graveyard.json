@@ -20,5 +20,7 @@
 			"spawner_id": "spwn_5_2_light_truck"
 		}
 	],
+	"unlock_requirement": [	
+	],
 	"description": "A desolte location long abandoned by both man and beast. Only the most desperate of combatants venture this far out of regulation territory, usually intending fights to the death." 
 }

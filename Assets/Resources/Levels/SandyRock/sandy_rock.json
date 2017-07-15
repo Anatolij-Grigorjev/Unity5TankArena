@@ -17,5 +17,8 @@
 			"spawner_id": "spwn_10_3_light_av_truck"
 		}
 	],
+	"unlock_requirement": [
+		"map_sandy_graveyard"
+	],
 	"description": "A warm abandoned area near an old excavation site, perfect for everyday violence courtesy of the TankArena™ team." 
 }

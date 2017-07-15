@@ -119,6 +119,7 @@ namespace TankArena.Constants
         public const string EK_PLACEMENT_POINT = "placement_point";
         public const string EK_PLAYER_SPAWN_POINT = "player_location";
         public const string EK_MAP_PREFAB = "map_prefab";
+        public const string EK_UNLOCK_REQUIREMENT = "unlock_requirement";
         public const string EK_SPAWNERS_LIST = "spawners";
         public const string EK_SPAWNERS_LIST_SPAWNER_ID = "spawner_id";
         public const string EK_SPAWNERS_LIST_SPAWNER_LOCATION = "spawner_location";

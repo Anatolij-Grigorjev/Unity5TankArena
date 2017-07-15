@@ -59,6 +59,13 @@ namespace TankArena.Models.Level
                 return (GameObject)properties[EK.EK_MAP_PREFAB];
             }
         }
+        public List<String> UnlockRequirementIds
+        {
+            get
+            {
+                return (List<string>)properties[EK.EK_UNLOCK_REQUIREMENT];
+            }
+        }
         public Dictionary<string, List<Vector3>> SpawnerLocations
         {
             get 
@@ -105,6 +112,12 @@ namespace TankArena.Models.Level
                 }
             }
             properties[EK.EK_SPAWNERS_LIST] = spwnDict;
+            var unlockIds = new List<string>();
+            foreach(JSONNode mapId in json[EK.EK_UNLOCK_REQUIREMENT].AsArray) 
+            {
+                unlockIds.Add(mapId.Value);
+            }
+            properties[EK.EK_UNLOCK_REQUIREMENT] = unlockIds;
 
             yield return 0.0f;
         }

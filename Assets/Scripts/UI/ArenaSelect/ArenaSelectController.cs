@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TankArena.Models.Level;
 using TankArena.Constants;
 using TankArena.Utils;
+using System;
+using System.Linq;
 
 namespace TankArena.UI.Arena
 {
@@ -19,6 +21,8 @@ namespace TankArena.UI.Arena
 		public Button playArenaButton;
 		public Button prevArenaButton;
 		public Button nextArenaButton;
+		public GameObject lockedOverlay;
+		public Text lockedText;
 
 		public List<LevelModel> arenaModels;
 		private Dictionary<string, object> levelInfoMappings = new Dictionary<string, object>() {
@@ -45,12 +49,34 @@ namespace TankArena.UI.Arena
 					var selectedModel = arenaModels[UIUtils.SafeIndex(currentArenaIndex, arenaModels)];
 					SetArenaModelUI(selectedModel);
 					CurrentState.Instance.CurrentArena = selectedModel;
+					playArenaButton.enabled = CheckArenaPlayable(selectedModel);
+					lockedOverlay.SetActive(!playArenaButton.enabled);
+					if (lockedOverlay.activeInHierarchy) 
+					{
+						lockedText.text = String.Format("Complete \"{0}\" to unlock", 
+							String.Join(", ", selectedModel.UnlockRequirementIds.Select(
+								mapId => EntitiesStore.Instance.Levels[mapId].Name
+							).ToArray()));
+					} 
 					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentArena.Id);
 				}
 			}
 		}
 
-		public void _BackToMainMenu()
+        private bool CheckArenaPlayable(LevelModel selectedModel)
+        {
+            var playerFinished = CurrentState.Instance.Player.FinishedArenas;
+			foreach(String mapId in selectedModel.UnlockRequirementIds) 
+			{
+				if (!playerFinished.Contains(mapId)) {
+					return false;
+				}
+			}
+
+			return true;
+        }
+
+        public void _BackToMainMenu()
 		{
 			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
 		}

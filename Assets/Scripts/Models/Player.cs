@@ -5,6 +5,7 @@ using System.IO;
 using SimpleJSON;
 using TankArena.Models.Characters;
 using System;
+using System.Collections.Generic;
 
 namespace TankArena.Models
 {
@@ -17,11 +18,12 @@ namespace TankArena.Models
 		public Tank.Tank CurrentTank;
 		public PlayableCharacter Character;
         public CharacterStats CurrentStats;
+        public List<string> FinishedArenas;
 
         public Player(string saveFileLocation)
         {
             this.saveLocation = saveFileLocation;
-            
+            this.FinishedArenas = new List<string>();
         }
 
         public static Player LoadPlayerFromLocation(string location)
@@ -46,6 +48,12 @@ namespace TankArena.Models
                     player.Character = EntitiesStore.Instance.Characters[(json[PP.PP_CHARACTER].Value)];
                     player.CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
                     player.CurrentStats = CharacterStats.ParseJSONBody(json[PP.PP_STATS].AsObject);
+                    if (json[PP.PP_FINISHED_ARENAS] != null) {
+                        foreach(JSONNode mapId in json[PP.PP_FINISHED_ARENAS].AsArray) 
+                        {
+                            player.FinishedArenas.Add(mapId.Value);
+                        }
+                    }
 
                 } catch (Exception ex) 
                 {
@@ -90,8 +98,10 @@ namespace TankArena.Models
             if (player.CurrentStats != null)
             {
                 saveJson.Add(PP.PP_STATS, player.CurrentStats.ToJSON());
-            }
-
+            }   
+            JSONArray mapsList = new JSONArray();
+            player.FinishedArenas.ForEach(mapId => mapsList.Add(mapId));
+            saveJson.Add(PP.PP_FINISHED_ARENAS, mapsList);
             //persist the file
             File.WriteAllText(player.saveLocation, saveJson.ToString());
         }
