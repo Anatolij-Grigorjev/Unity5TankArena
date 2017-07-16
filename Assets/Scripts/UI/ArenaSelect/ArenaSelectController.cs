@@ -53,9 +53,9 @@ namespace TankArena.UI.Arena
 					lockedOverlay.SetActive(!playArenaButton.enabled);
 					if (lockedOverlay.activeInHierarchy) 
 					{
-						lockedText.text = String.Format("Complete \"{0}\" to unlock", 
+						lockedText.text = String.Format("Complete {0} to unlock", 
 							String.Join(", ", selectedModel.UnlockRequirementIds.Select(
-								mapId => EntitiesStore.Instance.Levels[mapId].Name
+								mapId => "\"" + EntitiesStore.Instance.Levels[mapId].Name + "\""
 							).ToArray()));
 					} 
 					DBG.Log("Selected Arena: {0}", CurrentState.Instance.CurrentArena.Id);

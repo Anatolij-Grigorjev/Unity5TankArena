@@ -4,7 +4,7 @@
 	"thumbnail": "!img;Levels\\SandyRock\\thumbnail", 
 	"snapshot": "!img;Levels\\SandyRock\\snapshot",
 	"map_prefab": "!go;Levels\\SandyRock\\sandy_rocky_small",
-	"total_enemies": 10,
+	"total_enemies": 15,
 	"enemy_types": [
 		"Light AV",
 		"Light Truck"
@@ -15,6 +15,10 @@
 		{
 			"spawner_location": "!v3;-400.0;100.0;0.0",
 			"spawner_id": "spwn_10_3_light_av_truck"
+		},
+		{
+			"spawner_location": "!v3;170.0;50.0;0.0",
+			"spawner_id": "spwn_5_2_light_truck"
 		}
 	],
 	"unlock_requirement": [
