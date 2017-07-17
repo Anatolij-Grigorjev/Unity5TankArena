@@ -1,0 +1,27 @@
+{
+	"id": "map_grassy_knoll",
+	"name": "Grassy Knoll",
+	"thumbnail": "!img;Levels\\GrassyKnoll\\thumbnail", 
+	"snapshot": "!img;Levels\\GrassyKnoll\\snapshot",
+	"map_prefab": "!go;Levels\\GrassyKnoll\\grassy_watery",
+	"total_enemies": 15,
+	"enemy_types": [
+		"Light Truck",
+		"Light AV"
+	],
+	"placement_point": "!v3;-25.0;550.0;0.0",
+	"player_location": "!v3;160.0;-335.0;0.0",
+	"spawners": [
+		{
+			"spawner_location": "!v3;95.0;105.0;0.0",
+			"spawner_id": "spwn_5_2_light_truck"
+		},
+		{
+			"spawner_location": "!v3;190.0;430.0;0.0",
+			"spawner_id": "spwn_10_3_light_av_truck"
+		}
+	],
+	"unlock_requirement": [	
+	],
+	"description": "A grassy place" 
+}

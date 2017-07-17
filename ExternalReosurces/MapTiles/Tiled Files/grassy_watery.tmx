@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="20" tilewidth="50" tileheight="50" nextobjectid="1">
+ <tileset firstgid="1" name="Grassy" tilewidth="50" tileheight="50" tilecount="18" columns="6">
+  <image source="//tsclient/Unity5TankArena/ExternalReosurces/MapTiles/Assets/Grassy/TileSets/Grassy_18_tileset.png" width="300" height="150"/>
+  <tile id="0">
+   <objectgroup draworder="index">
+    <object id="3" x="0" y="0" width="4" height="50"/>
+    <object id="4" x="0" y="0" width="50" height="4"/>
+   </objectgroup>
+  </tile>
+  <tile id="1">
+   <objectgroup draworder="index">
+    <object id="1" x="0" y="0" width="50" height="4"/>
+   </objectgroup>
+  </tile>
+  <tile id="2">
+   <objectgroup draworder="index">
+    <object id="1" x="0" y="0" width="50" height="4"/>
+    <object id="2" x="46" y="0" width="4" height="50"/>
+   </objectgroup>
+  </tile>
+  <tile id="3">
+   <objectgroup draworder="index">
+    <object id="3" x="27" y="3" width="25.5" height="43.5"/>
+   </objectgroup>
+  </tile>
+  <tile id="4">
+   <objectgroup draworder="index">
+    <object id="2" x="0" y="3" width="25" height="44"/>
+   </objectgroup>
+  </tile>
+  <tile id="5">
+   <objectgroup draworder="index">
+    <object id="4" x="3" y="2" width="44" height="40.5"/>
+   </objectgroup>
+  </tile>
+  <tile id="6">
+   <objectgroup draworder="index">
+    <object id="1" x="0" y="0" width="4" height="50"/>
+   </objectgroup>
+  </tile>
+  <tile id="8">
+   <objectgroup draworder="index">
+    <object id="1" x="46" y="0" width="4" height="50"/>
+   </objectgroup>
+  </tile>
+  <tile id="9">
+   <objectgroup draworder="index">
+    <object id="2" x="0" y="7" width="48.5" height="50"/>
+   </objectgroup>
+  </tile>
+  <tile id="10">
+   <objectgroup draworder="index">
+    <object id="2" x="28.5" y="37.5" width="21.5" height="12.5"/>
+   </objectgroup>
+  </tile>
+  <tile id="11">
+   <objectgroup draworder="index">
+    <object id="2" x="0" y="35.5" width="39" height="14.5"/>
+   </objectgroup>
+  </tile>
+  <tile id="12">
+   <objectgroup draworder="index">
+    <object id="1" x="0" y="0" width="4" height="50"/>
+    <object id="2" x="0" y="46" width="50" height="4"/>
+   </objectgroup>
+  </tile>
+  <tile id="13">
+   <objectgroup draworder="index">
+    <object id="1" x="0" y="46" width="50" height="4"/>
+   </objectgroup>
+  </tile>
+  <tile id="14">
+   <objectgroup draworder="index">
+    <object id="1" x="46" y="0" width="4" height="50"/>
+    <object id="2" x="0" y="46" width="50" height="4"/>
+   </objectgroup>
+  </tile>
+  <tile id="15">
+   <objectgroup draworder="index">
+    <object id="6" x="0" y="0" width="48" height="50"/>
+   </objectgroup>
+  </tile>
+  <tile id="16">
+   <objectgroup draworder="index">
+    <object id="2" x="21" y="0" width="29" height="41.5"/>
+   </objectgroup>
+  </tile>
+  <tile id="17">
+   <objectgroup draworder="index">
+    <object id="2" x="0" y="0" width="44" height="41.5"/>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="20">
+  <data encoding="csv">
+17,18,4,5,2,2,2,2,2,3,
+7,6,8,8,8,4,5,11,12,9,
+7,8,8,8,8,8,8,17,18,9,
+7,8,6,8,8,8,11,12,8,9,
+7,8,8,8,8,8,17,18,6,9,
+7,8,8,8,8,8,8,4,5,9,
+10,8,6,8,8,8,8,11,12,9,
+16,8,8,8,8,8,8,17,18,9,
+18,8,8,8,11,12,8,8,8,9,
+7,8,8,8,17,18,8,8,8,9,
+7,11,12,8,8,8,8,4,5,9,
+7,17,18,8,8,8,8,8,8,9,
+7,8,8,4,5,8,8,8,8,6,
+7,8,11,12,8,8,8,8,8,4,
+7,8,17,18,8,8,11,12,8,9,
+7,8,8,8,8,8,17,18,8,9,
+7,8,8,8,8,8,4,5,8,9,
+7,8,8,8,8,8,8,8,8,9,
+10,4,5,8,8,11,12,11,12,9,
+16,8,4,5,8,17,18,17,18,15
+</data>
+ </layer>
+</map>

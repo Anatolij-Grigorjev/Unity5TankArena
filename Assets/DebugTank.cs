@@ -11,6 +11,7 @@ public class DebugTank : MonoBehaviour {
 	public GameObject enemyPrefab;
 	public bool doEnemies = true;
 	public int enemiesCount = 4;
+	public Vector3 enemySpawnLocation;
 	public IEnumerator<float> debugStuffLoader;
 
 	// Use this for initialization
@@ -42,7 +43,7 @@ public class DebugTank : MonoBehaviour {
 			{
 				yield return Timing.WaitForSeconds(1.0f);
 				DBG.Log("Deploying enemy!");
-				var enemyGO = Instantiate(enemyPrefab, new Vector3(-278.0f, 155.0f, 0.0f), Quaternion.identity) as GameObject;
+				var enemyGO = Instantiate(enemyPrefab, enemySpawnLocation, Quaternion.identity) as GameObject;
 				enemyGO.GetComponent<EnemyAIController>().SetTargetGO(gameObject);
 			}
 		}
