@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using MovementEffects;
 using TankArena.Constants;
 using TankArena.UI;
+using Tiled2Unity;
 
 namespace TankArena.Controllers
 {
@@ -26,7 +27,8 @@ namespace TankArena.Controllers
 			{
 				//place the map itself
 				Instantiate(levelModel.MapPrefab, levelModel.PlacementPoint, Quaternion.identity);
-
+				var tiledMap = levelModel.MapPrefab.GetComponent<TiledMap>();
+				var mapSize = new Vector2(tiledMap.MapWidthInPixels, tiledMap.MapHeightInPixels);
 				//create the player (with tag required by spawner), assign to camera (make sure player in camera center)
 				var player = Instantiate(playerPrefab, levelModel.PlayerSpawnPoint, Quaternion.identity) as GameObject;
 				//camera needs to remain behind map tho
@@ -36,7 +38,19 @@ namespace TankArena.Controllers
 				var cameraFollowController = Camera.main.GetComponent<CameraFollowObjectController>();
 				cameraFollowController.Target = player;
 				cameraFollowController.offset = new Vector3(0, 0, -10);
-				cameraFollowController.useBounds = false;
+				var cameraSize = Camera.main.orthographicSize;
+				var minCameraPos = new Vector2(
+					//left-est camera position is half of camera size since its rectangular
+					levelModel.PlacementPoint.x + cameraSize / 2, 
+					//lowest camera can go is map lowest point compared to where highest point is minus camera size
+					levelModel.PlacementPoint.y - mapSize.y + cameraSize
+					);
+				var maxCameraPos = new Vector2(
+					levelModel.PlacementPoint.x - mapSize.x + cameraSize,
+					levelModel.PlacementPoint.y - cameraSize
+				);
+				cameraFollowController.SetBounds(minCameraPos, maxCameraPos);
+				cameraFollowController.useBounds = true;
 				
 
 				//place the spawner(-s)
