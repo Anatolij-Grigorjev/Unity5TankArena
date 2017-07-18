@@ -8,6 +8,7 @@
 	"enemy_types": [
 		"Light Truck"
 	],
+	"stage_number": 1,
 	"placement_point": "!v3;-500.0;250.0;0.0",
 	"player_location": "!v3;50.0;-60.0;0.0",
 	"spawners": [

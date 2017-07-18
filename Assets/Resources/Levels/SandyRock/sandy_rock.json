@@ -9,6 +9,7 @@
 		"Light AV",
 		"Light Truck"
 	],
+	"stage_number": 3,
 	"placement_point": "!v3;-500.0;375.0;0.0",
 	"player_location": "!v3;0.0;-200.0;0.0",
 	"spawners": [
@@ -22,7 +23,8 @@
 		}
 	],
 	"unlock_requirement": [
-		"map_sandy_graveyard"
+		"map_sandy_graveyard",
+		"map_grassy_knoll"
 	],
 	"description": "A warm abandoned area near an old excavation site, perfect for everyday violence courtesy of the TankArena™ team." 
 }

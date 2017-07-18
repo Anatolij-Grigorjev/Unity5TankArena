@@ -115,6 +115,7 @@ namespace TankArena.Constants
         public const string EK_THUMBNAIL = "thumbnail";
         public const string EK_SNAPSHOT = "snapshot";
         public const string EK_TOTAL_ENEMIES = "total_enemies";
+        public const string EK_STAGE_NUMBER = "stage_number";
         public const string EK_ENEMY_TYPES = "enemy_types";
         public const string EK_PLACEMENT_POINT = "placement_point";
         public const string EK_PLAYER_SPAWN_POINT = "player_location";

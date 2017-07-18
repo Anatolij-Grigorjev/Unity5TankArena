@@ -1,0 +1,15 @@
+{
+    "id": "spwn_10_3_light_truck",
+    "simultaneous": 3,
+    "spawn_pool": 10,
+    "target_tag": "Player",
+    "spawn_objects": [
+        {
+            "spawn_prefab": "!go;Enemies\\Light Truck\\LightVehicle",
+            "spawn_probability": 1.0
+        }
+    ],
+    "spread_min_xy": "!v3;-25.0;-25.0;0.0",
+    "spread_max_xy": "!v3;25.0;25.0;0.0",
+    "grace_period": 4.9
+}

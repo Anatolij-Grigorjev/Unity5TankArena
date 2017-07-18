@@ -31,6 +31,13 @@ namespace TankArena.Models.Level
                 return (int)properties[EK.EK_TOTAL_ENEMIES];
             }
         }
+        public int StageNumber 
+        {
+            get 
+            {
+                return (int)properties[EK.EK_STAGE_NUMBER];
+            }
+        }
         public List<string> EnemyTypes
         {
             get 
@@ -87,6 +94,7 @@ namespace TankArena.Models.Level
 
             properties[EK.EK_THUMBNAIL] = ResolveSpecialContent(json[EK.EK_THUMBNAIL].Value);
             properties[EK.EK_SNAPSHOT] = ResolveSpecialContent(json[EK.EK_SNAPSHOT].Value);
+            properties[EK.EK_STAGE_NUMBER] = json[EK.EK_STAGE_NUMBER].AsInt;
             properties[EK.EK_TOTAL_ENEMIES] = json[EK.EK_TOTAL_ENEMIES].AsInt;
             var list = new List<string>();
             foreach(JSONNode node in json[EK.EK_ENEMY_TYPES].AsArray)

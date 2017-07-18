@@ -6,11 +6,11 @@
 	"map_prefab": "!go;Levels\\GrassyKnoll\\grassy_watery",
 	"total_enemies": 15,
 	"enemy_types": [
-		"Light Truck",
-		"Light AV"
+		"Light Truck"
 	],
 	"placement_point": "!v3;-25.0;550.0;0.0",
 	"player_location": "!v3;160.0;-335.0;0.0",
+	"stage_number": 2,
 	"spawners": [
 		{
 			"spawner_location": "!v3;95.0;105.0;0.0",
@@ -18,10 +18,10 @@
 		},
 		{
 			"spawner_location": "!v3;190.0;430.0;0.0",
-			"spawner_id": "spwn_10_3_light_av_truck"
+			"spawner_id": "spwn_10_3_light_truck"
 		}
 	],
 	"unlock_requirement": [	
 	],
-	"description": "A grassy place" 
+	"description": "A picturesque grassy knoll in search of vertiable mechanical decapitation. Once a wildlife preserve, this throughly war-spoiled land has become a hallmark of TAT activities." 
 }
