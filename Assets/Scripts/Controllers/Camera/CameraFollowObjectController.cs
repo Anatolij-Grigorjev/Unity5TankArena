@@ -29,9 +29,6 @@ namespace TankArena.Controllers
 
         public Vector3 offset;         //Private variable to store the offset distance between the object and camera
 
-        float vertExtends;
-        float horizExtends;
-
         private float cameraMinX;
         private float cameraMinY;
         private float cameraMaxX;
@@ -47,9 +44,6 @@ namespace TankArena.Controllers
                 Target = starter;
             }
 
-            vertExtends = Camera.main.orthographicSize;
-            horizExtends = vertExtends * Screen.width / Screen.height;
-
             RecalcBounds();
         }
 
@@ -57,7 +51,7 @@ namespace TankArena.Controllers
         void LateUpdate()
         {
             // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
-            var newPosition = go.transform.position + offset;
+            var newPosition = Target.transform.position + offset;
             if (useBounds)
             {
                 newPosition.x = Mathf.Clamp(newPosition.x, cameraMinX, cameraMaxX);
@@ -76,10 +70,10 @@ namespace TankArena.Controllers
 
         private void RecalcBounds()
         {
-            cameraMinX = cameraBoundsMin.x + horizExtends;
-            cameraMinY = cameraBoundsMin.y + vertExtends;
-            cameraMaxX = cameraBoundsMax.x - horizExtends;
-            cameraMaxY = cameraBoundsMax.y - vertExtends;
+            cameraMinX = cameraBoundsMin.x;
+            cameraMinY = cameraBoundsMin.y;
+            cameraMaxX = cameraBoundsMax.x;
+            cameraMaxY = cameraBoundsMax.y;
         }
 
         private void RecalcOffset()

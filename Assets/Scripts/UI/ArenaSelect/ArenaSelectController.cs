@@ -55,7 +55,9 @@ namespace TankArena.UI.Arena
                     if (lockedOverlay.activeInHierarchy)
                     {
                         lockedText.text = String.Format("Complete {0} to unlock",
-                            String.Join(", ", selectedModel.UnlockRequirementIds.Select(
+                            String.Join(", ", selectedModel.UnlockRequirementIds
+							.FindAll(id => !CurrentState.Instance.Player.FinishedArenas.Contains(id))
+							.Select(
                                 mapId => "\"" + EntitiesStore.Instance.Levels[mapId].Name + "\""
                             ).ToArray()));
                     }
