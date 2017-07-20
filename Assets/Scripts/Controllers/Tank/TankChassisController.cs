@@ -53,6 +53,8 @@ namespace TankArena.Controllers
             base.Awake();
         }
 
+        const float MIN_COLLISION_VELOCITY = 75.0f;
+
         public void Start()
         {
             Timing.RunCoroutine(_Awake());
@@ -141,15 +143,37 @@ namespace TankArena.Controllers
         }
 
 
-        void OnCollisionEnter2D(Collision2D other)
+        void OnCollisionEnter2D(Collision2D collision)
         {
-            if (other.gameObject.tag == Tags.TAG_MAP_COLLISION)
+            if (collision.gameObject.tag == Tags.TAG_MAP_COLLISION)
             {
                 // DBG.Log("Collision velocity: {0}", other.relativeVelocity);
-                if (!rockCrashThud.isPlaying && other.relativeVelocity.magnitude > 75.0f)
+                if (collision.relativeVelocity.magnitude > MIN_COLLISION_VELOCITY)
                 {
-                    rockCrashThud.Play();
+                    rockCrashThud.PlayIfNot(true);
                 }
+            }
+            if (collision.gameObject.tag == Tags.TAG_ENEMY)
+            {
+                //play low volume sound if collision is minor
+                rockCrashThud.volume = Mathf.Min(collision.relativeVelocity.magnitude / MIN_COLLISION_VELOCITY, 1.0f);
+                rockCrashThud.PlayIfNot(true);
+                var myForce = this.tankController.Tank.Mass * this.tankController.GetComponent<Rigidbody2D>().velocity.magnitude;  
+                var enemyBody = collision.gameObject.GetComponent<Rigidbody2D>();
+                var enemyForce = enemyBody.mass * enemyBody.velocity.magnitude;
+
+                var result = myForce - enemyForce;
+                //more tank than enemy force, apply result to enemy
+                if (result > 0) 
+                {
+                    enemyBody.transform.GetComponent<LightVehicleController>().ApplyDamage(result);
+                } else 
+                {
+                    ApplyDamage(Mathf.Abs(result));
+                }
+
+                //restore volume after all said and done
+                rockCrashThud.volume = 1.0f;
             }
         }
 

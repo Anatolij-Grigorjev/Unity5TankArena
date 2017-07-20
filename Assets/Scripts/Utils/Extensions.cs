@@ -51,5 +51,13 @@ namespace TankArena.Utils
             return parent;
         }
 
+        public static void PlayIfNot(this AudioSource source, bool checkIfPlaying = false) 
+        {
+            if (!checkIfPlaying || !source.isPlaying) 
+            {
+                source.Play();
+            } 
+        }
+
     }
 }
