@@ -54,6 +54,7 @@ namespace TankArena.Controllers
         }
 
         const float MIN_COLLISION_VELOCITY = 75.0f;
+        const float COLLISION_DAMPENER = 0.15f;
 
         public void Start()
         {
@@ -145,35 +146,39 @@ namespace TankArena.Controllers
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.tag == Tags.TAG_MAP_COLLISION)
+            // DBG.Log("Collision velocity: {0}", other.relativeVelocity);
+            if (collision.relativeVelocity.magnitude > MIN_COLLISION_VELOCITY)
             {
-                // DBG.Log("Collision velocity: {0}", other.relativeVelocity);
-                if (collision.relativeVelocity.magnitude > MIN_COLLISION_VELOCITY)
+                if (collision.gameObject.tag == Tags.TAG_MAP_COLLISION)
                 {
+
                     rockCrashThud.PlayIfNot(true);
-                }
-            }
-            if (collision.gameObject.tag == Tags.TAG_ENEMY)
-            {
-                //play low volume sound if collision is minor
-                rockCrashThud.volume = Mathf.Min(collision.relativeVelocity.magnitude / MIN_COLLISION_VELOCITY, 1.0f);
-                rockCrashThud.PlayIfNot(true);
-                var myForce = this.tankController.Tank.Mass * this.tankController.GetComponent<Rigidbody2D>().velocity.magnitude;  
-                var enemyBody = collision.gameObject.GetComponent<Rigidbody2D>();
-                var enemyForce = enemyBody.mass * enemyBody.velocity.magnitude;
 
-                var result = myForce - enemyForce;
-                //more tank than enemy force, apply result to enemy
-                if (result > 0) 
-                {
-                    enemyBody.transform.GetComponent<LightVehicleController>().ApplyDamage(result);
-                } else 
-                {
-                    ApplyDamage(Mathf.Abs(result));
                 }
+                if (collision.gameObject.tag == Tags.TAG_ENEMY)
+                {
+                    //play low volume sound if collision is minor
+                    rockCrashThud.volume = Mathf.Min(collision.relativeVelocity.magnitude / MIN_COLLISION_VELOCITY, 1.0f);
+                    rockCrashThud.PlayIfNot(true);
 
-                //restore volume after all said and done
-                rockCrashThud.volume = 1.0f;
+                    var myForce = this.Model.Mass * this.tankController.GetComponent<Rigidbody2D>().velocity.magnitude * COLLISION_DAMPENER;
+                    var enemyBody = collision.gameObject.GetComponent<Rigidbody2D>();
+                    var enemyForce = enemyBody.mass * enemyBody.velocity.magnitude * COLLISION_DAMPENER;
+
+                    var result = myForce - enemyForce;
+                    //more tank than enemy force, apply result to enemy
+                    if (result > 0)
+                    {
+                        enemyBody.transform.GetComponent<LightVehicleController>().ApplyDamage(result);
+                    }
+                    else
+                    {
+                        ApplyDamage(Mathf.Abs(result));
+                    }
+
+                    //restore volume after all said and done
+                    rockCrashThud.volume = 1.0f;
+                }
             }
         }
 
