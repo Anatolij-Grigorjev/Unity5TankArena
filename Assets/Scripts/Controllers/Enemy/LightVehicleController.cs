@@ -158,7 +158,7 @@ namespace TankArena.Controllers
             this.aiController.enabled = false;
             this.enabled = false;
             Destroy(healthBarController.gameObject);
-            StopPhysicsMovement();
+            // StopPhysicsMovement();
             deathController.Enable();
         }
 

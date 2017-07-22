@@ -11,6 +11,7 @@ public class DebugTank : MonoBehaviour {
 	public GameObject enemyPrefab;
 	public bool doEnemies = true;
 	public int enemiesCount = 4;
+	public string testTankCode;
 	public Vector3 enemySpawnLocation;
 	public IEnumerator<float> debugStuffLoader;
 
@@ -34,7 +35,7 @@ public class DebugTank : MonoBehaviour {
 		player.CurrentStats = player.Character.StartingStats;
 		DBG.Log("Loading info for character {0}", player.Character.Name);
 		player.Name = "Debug";
-		player.CurrentTank = Tank.FromCode(player.Character.StartingTankCode);
+		player.CurrentTank = string.IsNullOrEmpty(testTankCode)? Tank.FromCode(player.Character.StartingTankCode): Tank.FromCode(testTankCode);
 		CurrentState.Instance.SetPlayer(player);
 		gameObject.GetComponent<TankController>().enabled = true;
 		gameObject.GetComponent<PlayerController>().enabled = true;

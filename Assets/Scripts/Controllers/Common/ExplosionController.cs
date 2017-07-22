@@ -11,6 +11,7 @@ namespace TankArena.Controllers
         private Animator anim;
         public float damage;
         public float lifespan;
+        public float forceIntensifier;
         public GameObject postBoomDecal;
 
         // Use this for initialization
@@ -49,7 +50,11 @@ namespace TankArena.Controllers
             {
                 damageReceiver.ApplyDamage(this.gameObject);
             }
-
+            var body = go.GetComponentInChildren<Rigidbody2D>();
+            if (body != null) 
+            {
+                body.AddForce(body.transform.up * -forceIntensifier);
+            }
         }
     }
 }

@@ -161,7 +161,8 @@ namespace TankArena.Controllers
                     rockCrashThud.volume = Mathf.Min(collision.relativeVelocity.magnitude / MIN_COLLISION_VELOCITY, 1.0f);
                     rockCrashThud.PlayIfNot(true);
 
-                    var myForce = this.Model.Mass * this.tankController.GetComponent<Rigidbody2D>().velocity.magnitude * COLLISION_DAMPENER;
+                    var myBody = this.tankController.GetComponent<Rigidbody2D>();
+                    var myForce = this.Model.Mass * myBody.velocity.magnitude * COLLISION_DAMPENER;
                     var enemyBody = collision.gameObject.GetComponent<Rigidbody2D>();
                     var enemyForce = enemyBody.mass * enemyBody.velocity.magnitude * COLLISION_DAMPENER;
 
@@ -175,6 +176,8 @@ namespace TankArena.Controllers
                     {
                         ApplyDamage(Mathf.Abs(result));
                     }
+                    enemyBody.AddForce(myBody.velocity);
+                    myBody.AddForce(enemyBody.velocity);
 
                     //restore volume after all said and done
                     rockCrashThud.volume = 1.0f;
