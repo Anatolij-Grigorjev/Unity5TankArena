@@ -15,6 +15,9 @@ namespace TankArena.Utils
         {
             return RandomVector2D(maxXY.x, maxXY.y, minXY.x, minXY.y);
         }
+        public static Vector2 RandomVector2D(Vector2 maxXY) {
+            return RandomVector2D(maxXY, Vector2.zero);
+        }
 
         public static Quaternion RandomQuaternion2D()
         {

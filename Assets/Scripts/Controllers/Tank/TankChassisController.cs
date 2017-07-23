@@ -157,6 +157,11 @@ namespace TankArena.Controllers
                 }
                 if (collision.gameObject.tag == Tags.TAG_ENEMY)
                 {
+                    var shaker = Camera.main.GetComponent<ObjectShakeController>();
+                    if (shaker != null) 
+                    {
+                        shaker.enabled = true;
+                    }
                     //play low volume sound if collision is minor
                     rockCrashThud.volume = Mathf.Min(collision.relativeVelocity.magnitude / MIN_COLLISION_VELOCITY, 1.0f);
                     rockCrashThud.PlayIfNot(true);

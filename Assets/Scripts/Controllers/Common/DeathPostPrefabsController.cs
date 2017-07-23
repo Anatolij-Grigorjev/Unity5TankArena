@@ -3,6 +3,8 @@ using System.Collections;
 using TankArena.Utils;
 using TankArena.Constants;
 using System.Linq;
+using System.Collections.Generic;
+using MovementEffects;
 
 namespace TankArena.Controllers
 {
@@ -20,6 +22,7 @@ namespace TankArena.Controllers
         public Vector2 spawnMinXY;
         public Vector2 spawnMaxXY;
         public GameObject deathTarget;
+        public float slowDownTime = 0.8f; //satisfying slowodn on death, this many seconds
 
         [HideInInspector]
         private bool isDying = false;
@@ -80,6 +83,19 @@ namespace TankArena.Controllers
         public void Enable()
         {
             isDying = true;
+            //no exra slowdown hoedowns
+            if (slowDownTime != 0.0f && Time.timeScale >= 1.0f)
+            {
+                Timing.RunCoroutine(SlowDown(slowDownTime));
+            }
+        }
+
+        private IEnumerator<float> SlowDown(float time)
+        {
+            Time.timeScale = 0.75f;
+            //time to wait needs to be scaled as well
+            yield return Timing.WaitForSeconds(time * Time.timeScale);
+            Time.timeScale = 1.0f;
         }
 
         private void SpawnPrefab()
@@ -99,7 +115,7 @@ namespace TankArena.Controllers
 
         private void Die()
         {
-            //tally some arean related stats based on who is doing the dying
+            //tally some arena related stats based on who is doing the dying
             EnemyType enemyType = null;
             var playerController = deathTarget.GetComponent<PlayerController>();
             if (playerController != null) 

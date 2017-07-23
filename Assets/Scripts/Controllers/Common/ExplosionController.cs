@@ -25,6 +25,11 @@ namespace TankArena.Controllers
                     lifespan += clip.length;
                 }
             }
+            var shaker = Camera.main.GetComponent<ObjectShakeController>();
+            if (shaker != null) 
+            {
+                shaker.enabled = true;
+            }
             Destroy(gameObject, lifespan);
         }
 
