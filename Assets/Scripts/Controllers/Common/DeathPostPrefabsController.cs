@@ -22,6 +22,7 @@ namespace TankArena.Controllers
         public Vector2 spawnMinXY;
         public Vector2 spawnMaxXY;
         public GameObject deathTarget;
+        public float slowDownFactor = 0.7f;
         public float slowDownTime = 0.8f; //satisfying slowodn on death, this many seconds
 
         [HideInInspector]
@@ -92,7 +93,7 @@ namespace TankArena.Controllers
 
         private IEnumerator<float> SlowDown(float time)
         {
-            Time.timeScale = 0.75f;
+            Time.timeScale = slowDownFactor;
             //time to wait needs to be scaled as well
             yield return Timing.WaitForSeconds(time * Time.timeScale);
             Time.timeScale = 1.0f;
