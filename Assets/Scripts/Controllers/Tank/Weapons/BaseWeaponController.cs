@@ -200,6 +200,10 @@ namespace TankArena.Controllers.Weapons
                 CheckIsShootingLater();
                 if (!shotAudio.isPlaying)
                 {
+                    if (shotAudio.volume == 1.0f && shotAudio.pitch == 1.0f) {
+                        shotAudio.pitch = UnityEngine.Random.Range(0.5f, 2.5f);
+                        shotAudio.volume = UnityEngine.Random.Range(0.5f, 1.0f);
+                    }
                     shotAudio.Play();
                 }
                 if (weaponHitType == WeaponHitTypes.TARGET)
@@ -272,6 +276,8 @@ namespace TankArena.Controllers.Weapons
         public void UnsetShootingAnimation()
         {
             weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
+            shotAudio.volume = 1.0f;
+            shotAudio.pitch = 1.0f;
         }
         private bool animationStopperRunning = false;
         public void CheckIsShootingLater()
@@ -284,7 +290,7 @@ namespace TankArena.Controllers.Weapons
         private IEnumerator<float> _WaitAndCheck()
         {
             animationStopperRunning = true;
-            yield return Timing.WaitForSeconds(0.2f);
+            yield return Timing.WaitForSeconds(0.5f / Time.timeScale);
             if (!isShooting)
             {
                 UnsetShootingAnimation();

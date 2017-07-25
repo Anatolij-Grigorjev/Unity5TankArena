@@ -67,7 +67,7 @@ public class ObjectShakeController : MonoBehaviour {
 
 	private void ResetVars()
 	{
-		currentShakesLeft = totalShakes;
+		currentShakesLeft = Random.Range(totalShakes / 2,(int)(totalShakes * 1.5f));
 		currentMaxSpread = maxSpread;
 	}
 

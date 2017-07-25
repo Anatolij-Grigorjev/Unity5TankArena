@@ -11,12 +11,13 @@ namespace TankArena.Controllers
         private Animator anim;
         public float lifespan;
         public AudioSource hitSound;
+        public float hitCoef;
 
         // Use this for initialization
         void Awake()
         {
-            hitSound.pitch = Random.Range(0.0f, 1.0f);
-            hitSound.volume = Random.Range(0.5f, 1.0f);
+            hitSound.pitch = Random.Range(hitCoef, 2.5f);
+            hitSound.volume = Random.Range(hitCoef, 1.0f);
             hitSound.Play();
             anim = GetComponent<Animator>();
             if (lifespan == 0.0f)
