@@ -115,6 +115,7 @@ namespace TankArena.Controllers.Weapons
         private bool isReloading;
         private bool isRapidFire;
         private bool isShooting;
+        private bool shouldKeepShooting;
 
         private float currentReloadTimer;
         [HideInInspector]
@@ -139,6 +140,7 @@ namespace TankArena.Controllers.Weapons
         {
             isReloading = false;
             isShooting = false;
+            shouldKeepShooting = false;
             currentReloadTimer = reloadTime;
             currentClipSize = clipSize;
             //divide 60 seconds by the rate of fire per min to get delay between shots
@@ -203,6 +205,7 @@ namespace TankArena.Controllers.Weapons
                     if (shotAudio.volume == 1.0f && shotAudio.pitch == 1.0f) {
                         shotAudio.pitch = UnityEngine.Random.Range(0.5f, 2.5f);
                         shotAudio.volume = UnityEngine.Random.Range(0.5f, 1.0f);
+                        
                     }
                     shotAudio.Play();
                 }
@@ -254,6 +257,7 @@ namespace TankArena.Controllers.Weapons
                 {
                     isReloading = true;
                     isShooting = false;
+                    shouldKeepShooting = false;
                     // UnsetShootingAnimation();
                     currentReloadTimer = reloadTime;
                     //enemy units dont have reload audio
@@ -267,10 +271,12 @@ namespace TankArena.Controllers.Weapons
             }
         }
 
-        public void TryShoot()
+        public void TryShoot(bool keepShooting)
         {
             //tank decided to try to shoot
             isShooting = true;
+            shouldKeepShooting = keepShooting;
+            DBG.Log("keep shooting: {0}", keepShooting);
         }
 
         public void UnsetShootingAnimation()
@@ -290,8 +296,8 @@ namespace TankArena.Controllers.Weapons
         private IEnumerator<float> _WaitAndCheck()
         {
             animationStopperRunning = true;
-            yield return Timing.WaitForSeconds(0.5f / Time.timeScale);
-            if (!isShooting)
+            yield return Timing.WaitForSeconds(0.35f / Time.timeScale);
+            if (!shouldKeepShooting)
             {
                 UnsetShootingAnimation();
             }
@@ -304,6 +310,7 @@ namespace TankArena.Controllers.Weapons
             {
                 isReloading = true;
                 isShooting = false;
+                shouldKeepShooting = false;
                 UnsetShootingAnimation();
                 currentReloadTimer = reloadTime;
                 //enemy units dont have reload audio

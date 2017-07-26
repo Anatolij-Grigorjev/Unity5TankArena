@@ -225,21 +225,22 @@ namespace TankArena.Models.Tank
             return weaponGO;
         }
 
-        public void Fire(WeaponGroups selectedGroups, Transform turretTransform)
+        public void Fire(WeaponGroups selectedGroups, bool[] groupsUp, Transform turretTransform)
         {
             //selected slot states
             var groups = selectedGroups.GetGroups();
-
+            DBG.Log("up: {0}", UIUtils.PrintElements(groupsUp.ToList()));
             allWeaponSlots.ForEach(wpnSlot =>
             {
                 //if the group the weapon slot is in was selected to fire
-                if (groups[wpnSlot.WeaponGroup])
+                //or if the input for that group was just let go and its time to finish firing
+                if (groups[wpnSlot.WeaponGroup] || (!groups[wpnSlot.WeaponGroup] && groupsUp[wpnSlot.WeaponGroup]))
                 {
                     //and slot actually has a weapon slotted
                     var weaponController = wpnSlot.weaponController;
                     if (weaponController != null)
                     {
-                        weaponController.TryShoot();
+                        weaponController.TryShoot(!groupsUp[wpnSlot.WeaponGroup]);
                     }
                 }
             });

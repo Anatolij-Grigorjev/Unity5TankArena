@@ -119,7 +119,8 @@ namespace TankArena.Controllers
                         break;
                     case TankCommandWords.TANK_COMMAND_FIRE:
                         var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
-                        turretController.Fire(weaponGroups);
+                        var groupsUp = (bool[])latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_FIRING_GROUPS_KEY];
+                        turretController.Model.Fire(weaponGroups, groupsUp, turretController.transform);
                         break;
                     case TankCommandWords.TANK_COMMAND_RELOAD:
                         turretController.Reload();

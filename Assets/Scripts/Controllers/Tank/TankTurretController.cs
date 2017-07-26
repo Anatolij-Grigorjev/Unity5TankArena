@@ -82,16 +82,6 @@ namespace TankArena.Controllers
             }
         }
 
-
-        /// <summary>
-        /// Issued command for tank to fire from selected groups
-        /// </summary>
-        /// <param name="weaponGroups">selected weapon groups</param>
-        public void Fire(WeaponGroups weaponGroups)
-        {
-            Model.Fire(weaponGroups, transform);
-        }
-
         public void Reload()
         {
             Model.Reload();

@@ -60,7 +60,7 @@ namespace TankArena.Controllers
             var trifectaState = CurrentState.Instance.Trifecta.CurrentState;
 
             //if in allowed trifecta state for movement control
-            if (trifectaState != TrifectaStates.STATE_TUR) 
+            if (trifectaState != TrifectaStates.STATE_TUR)
             {
                 var moveAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_MOVE);
                 var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
@@ -105,7 +105,7 @@ namespace TankArena.Controllers
 
         private void CollectLockOn()
         {
-            if (!cursor.activeInHierarchy && goLock == null) 
+            if (!cursor.activeInHierarchy && goLock == null)
             {
                 cursor.SetActive(true);
             }
@@ -142,7 +142,8 @@ namespace TankArena.Controllers
 
                     }
 
-                } else 
+                }
+                else
                 {
                     //clear the lock if it exists
                     ClearLockOn();
@@ -150,7 +151,7 @@ namespace TankArena.Controllers
             }
         }
 
-        private void ClearLockOn() 
+        private void ClearLockOn()
         {
             isLockedOn = false;
             prevAngle = 180.0f;
@@ -181,7 +182,7 @@ namespace TankArena.Controllers
                 {
                     ClearLockOn();
                 }
-                
+
                 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
             else
@@ -207,17 +208,24 @@ namespace TankArena.Controllers
         {
             //check for input in all weapon groups
             bool[] inputs = new bool[3];
+            bool[] inputsUp = new bool[3];
             bool hasFire = false;
+            bool doneFired = false;
             for (int i = 0; i < WEAPON_GROUP_INPUTS.Count; i++)
             {
                 inputs[i] = Input.GetButton(WEAPON_GROUP_INPUTS[i]);
+                inputsUp[i] = Input.GetButtonUp(WEAPON_GROUP_INPUTS[i]);
                 hasFire = hasFire || inputs[i];
+                doneFired = doneFired || inputsUp[i];
             }
-            if (hasFire)
+            if (hasFire || doneFired)
             {
                 if (AddTurretRotation())
                 {
-                    commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_FIRE, TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs)));
+                    commands.Enqueue(TankCommand.TwoParamCommand(TankCommandWords.TANK_COMMAND_FIRE,
+                     TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY, new WeaponGroups(inputs),
+                     TankCommandParamKeys.TANK_CMD_KEEP_FIRING_GROUPS_KEY, inputsUp)
+                     );
                 }
             }
         }

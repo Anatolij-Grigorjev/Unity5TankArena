@@ -98,7 +98,7 @@ namespace TankArena.Controllers
 
                     break;
                 case TankCommandWords.TANK_COMMAND_FIRE:
-                    baseWeaponController.TryShoot();
+                    baseWeaponController.TryShoot(false);
 
                     break;
                 case TankCommandWords.AI_COMMAND_TARGET_AQUIRED:

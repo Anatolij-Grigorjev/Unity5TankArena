@@ -11,7 +11,6 @@ namespace TankArena.Constants
         TANK_COMMAND_MOVE_TURRET,
         TANK_COMMAND_BRAKE,
         TANK_COMMAND_FIRE,
-        TANK_COMMAND_KEEP_FIRING,
         TANK_COMMAND_RELOAD,
         AI_COMMAND_TARGET_AQUIRED
     }
