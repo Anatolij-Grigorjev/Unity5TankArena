@@ -51,9 +51,10 @@ namespace TankArena.Controllers.Weapons
                 if (WeaponSlot == null)
                 {
                     //create artificial weapon slot
-                    weaponSlot = new WeaponSlot(weapon.Type, TransformState.Identity, turretController != null?
-                     turretController.FirstFreeSlot(value.Type): TransformState.Identity);
-                    if (turretController != null) {
+                    weaponSlot = new WeaponSlot(weapon.Type, TransformState.Identity, turretController != null ?
+                     turretController.FirstFreeSlot(value.Type) : TransformState.Identity);
+                    if (turretController != null)
+                    {
                         weaponSlot.ArenaTransform.CopyToTransform(this.transform);
                     }
                 }
@@ -103,6 +104,8 @@ namespace TankArena.Controllers.Weapons
         public AmmoCounterController ammoController;
         public GameObject ammoCounterPrefab;
         public AudioSource shotAudio;
+        private float shotAudioStartTime;
+        private float shotAudioLength;
         public AudioSource reloadAudio;
         public SpriteRenderer weaponSpriteRenderer;
         public TankTurretController turretController;
@@ -127,6 +130,9 @@ namespace TankArena.Controllers.Weapons
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
             shotAudio = GetComponent<AudioSource>();
+            shotAudio.pitch = UnityEngine.Random.Range(0.5f, 2.5f);
+            shotAudio.volume = UnityEngine.Random.Range(0.5f, 1.0f);
+            shotAudioStartTime = 0.0f;
             weaponAnimator = GetComponent<SpriteAnimationController>();
             weaponAnimator.targetRenderer = weaponSpriteRenderer;
 
@@ -150,6 +156,7 @@ namespace TankArena.Controllers.Weapons
 
             //set initial animation
             weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
+            shotAudioLength = shotAudio.clip.length;
         }
 
         // Update is called once per frame
@@ -191,6 +198,11 @@ namespace TankArena.Controllers.Weapons
         {
             if (!isReloading)
             {
+                if (!isReloading && currentClipSize <= 0)
+                {
+                    Reload();
+                    return;
+                }
                 //no point in hotsapping colors when shot delay is super short
                 if (ammoController != null && !isRapidFire)
                 {
@@ -200,14 +212,11 @@ namespace TankArena.Controllers.Weapons
                 weaponAnimator.State = CommonWeaponStates.STATE_FIRING;
                 //setup a check later
                 CheckIsShootingLater();
-                if (!shotAudio.isPlaying)
+                //play audio when its fading
+                if (shotAudioStartTime + shotAudioLength < Time.time)
                 {
-                    if (shotAudio.volume == 1.0f && shotAudio.pitch == 1.0f) {
-                        shotAudio.pitch = UnityEngine.Random.Range(0.5f, 2.5f);
-                        shotAudio.volume = UnityEngine.Random.Range(0.5f, 1.0f);
-                        
-                    }
                     shotAudio.Play();
+                    shotAudioStartTime = Time.time;
                 }
                 if (weaponHitType == WeaponHitTypes.TARGET)
                 {
@@ -234,7 +243,7 @@ namespace TankArena.Controllers.Weapons
                 var projectile = bulletPool.GetFirsReadyInstance();
                 if (projectile != null)
                 {
-                    var rotatorTransform = turretController != null? turretController.Rotator.transform : transform.root;
+                    var rotatorTransform = turretController != null ? turretController.Rotator.transform : transform.root;
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
                     //rotation of bullet itself is neutral
@@ -253,21 +262,6 @@ namespace TankArena.Controllers.Weapons
                 currentClipSize--;
                 if (ammoController != null)
                     ammoController.SetProgress(currentClipSize);
-                if (!isReloading && currentClipSize <= 0)
-                {
-                    isReloading = true;
-                    isShooting = false;
-                    shouldKeepShooting = false;
-                    // UnsetShootingAnimation();
-                    currentReloadTimer = reloadTime;
-                    //enemy units dont have reload audio
-                    if (reloadAudio != null)
-                        reloadAudio.Play();
-                    if (ammoController != null)
-                        ammoController.StartReload();
-                }
-
-
             }
         }
 
@@ -276,14 +270,13 @@ namespace TankArena.Controllers.Weapons
             //tank decided to try to shoot
             isShooting = true;
             shouldKeepShooting = keepShooting;
-            DBG.Log("keep shooting: {0}", keepShooting);
         }
 
         public void UnsetShootingAnimation()
         {
             weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
-            shotAudio.volume = 1.0f;
-            shotAudio.pitch = 1.0f;
+            shotAudio.pitch = UnityEngine.Random.Range(0.75f, 1.25f);
+            shotAudio.volume = UnityEngine.Random.Range(0.75f, 1.0f);
         }
         private bool animationStopperRunning = false;
         public void CheckIsShootingLater()
@@ -314,7 +307,7 @@ namespace TankArena.Controllers.Weapons
                 UnsetShootingAnimation();
                 currentReloadTimer = reloadTime;
                 //enemy units dont have reload audio
-                if (reloadAudio != null) 
+                if (reloadAudio != null)
                     reloadAudio.Play();
                 if (ammoController != null) ammoController.StartReload();
             }
@@ -327,6 +320,8 @@ namespace TankArena.Controllers.Weapons
                 {
 
                     isReloading = false;
+                    isShooting = false;
+                    shouldKeepShooting = false;
                     currentReloadTimer = reloadTime;
                     currentClipSize = clipSize;
                     if (ammoController != null) ammoController.StartUsage();
