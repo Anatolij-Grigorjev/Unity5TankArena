@@ -11,7 +11,8 @@ namespace TankArena.Controllers
         private Animator anim;
         public float damage;
         public float lifespan;
-        public float forceIntensifier;
+        public float rotationIntensifier;
+        public float directionForceIntensifier;
         public GameObject postBoomDecal;
 
         // Use this for initialization
@@ -25,6 +26,7 @@ namespace TankArena.Controllers
                     lifespan += clip.length;
                 }
             }
+            damage *= UnityEngine.Random.Range(0.75f, 1.25f);
             var shaker = Camera.main.GetComponent<ObjectShakeController>();
             if (shaker != null) 
             {
@@ -58,7 +60,8 @@ namespace TankArena.Controllers
             var body = go.GetComponentInChildren<Rigidbody2D>();
             if (body != null) 
             {
-                body.AddForce(body.transform.up * -forceIntensifier);
+                body.AddTorque(rotationIntensifier, ForceMode2D.Impulse);
+                body.AddForce(body.transform.up * -directionForceIntensifier, ForceMode2D.Impulse);
             }
         }
     }

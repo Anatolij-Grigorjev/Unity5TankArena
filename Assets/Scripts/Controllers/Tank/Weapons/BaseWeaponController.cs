@@ -112,7 +112,6 @@ namespace TankArena.Controllers.Weapons
         public SpriteAnimationController weaponAnimator;
         public ObjectsPool bulletPool;
 
-
         private float currentShotDelay = 0.0f;
         private const float MINUTE_IN_SECONDS = 60.0f;
         private bool isReloading;
@@ -213,7 +212,7 @@ namespace TankArena.Controllers.Weapons
                 //setup a check later
                 CheckIsShootingLater();
                 //play audio when its fading
-                if (shotAudioStartTime + shotAudioLength < Time.time)
+                if (shotAudioStartTime + (shotAudioLength / shotAudio.pitch) < Time.time)
                 {
                     shotAudio.Play();
                     shotAudioStartTime = Time.time;
@@ -235,7 +234,7 @@ namespace TankArena.Controllers.Weapons
                         var dmgReceiver = firstHit.collider.gameObject.GetComponent<IDamageReceiver>();
                         if (dmgReceiver != null)
                         {
-                            dmgReceiver.ApplyDamage(damage);
+                            dmgReceiver.ApplyDamage(damage * UnityEngine.Random.Range(0.75f, 1.25f));
                         }
                     }
                 }

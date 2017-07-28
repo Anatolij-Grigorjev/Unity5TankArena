@@ -42,6 +42,8 @@ namespace TankArena.Controllers.Weapons
             currentDistance = 0.0f;
             currentLifetime = 0.0f;
             CurrentSpriteIdx = 0;
+			//randomize damage a bit
+			damage  *= UnityEngine.Random.Range(0.75f, 1.25f);
         }
 
         // Update is called once per frame
@@ -73,12 +75,12 @@ namespace TankArena.Controllers.Weapons
                 var decalController = impactGo.GetComponent<DecalController>();
                 if (decalController != null)
                 {
-                    var hitCoef = Random.Range(0.5f, 1.0f);
+                    var hitCoef = Random.Range(0.1f, 0.33f);
                     decalController.hitCoef = hitCoef;
                     var otherBody = other.GetComponent<Rigidbody2D>();
                     if (otherBody != null)
                     {
-						otherBody.AddForce(direction * velocity * hitCoef * 0.5f);
+						otherBody.AddForce(direction * damage * hitCoef, ForceMode2D.Impulse);
                     }
                 }
             }
