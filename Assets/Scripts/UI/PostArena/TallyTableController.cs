@@ -5,6 +5,7 @@ using System.Linq;
 using TankArena.Utils;
 using System.Collections.Generic;
 using MovementEffects;
+using TankArena.Constants;
 
 namespace TankArena.UI
 {
@@ -70,7 +71,17 @@ namespace TankArena.UI
                     else
                     {
                         //total sum cashed out, lets go back to arenas
-                        TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
+                        if (CurrentState.Instance.CurrentDialogueScenesAfter.ContainsKey(CurrentState.Instance.CurrentArena.Id)) 
+                        {
+                            var dialogue = CurrentState.Instance.CurrentDialogueScenesAfter[CurrentState.Instance.CurrentArena.Id];
+                            TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_DIALOGUE_ID,
+                            new Dictionary<string, object>{ 
+                                {TransitionParams.PARAM_DIALOGUE_SCENE_ID, dialogue.Id},
+                                {TransitionParams.PARAM_DIALOGUE_POSITION, dialogue.Position}});
+                        } else 
+                        {
+                            TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
+                        }
                     }
                 }
             }

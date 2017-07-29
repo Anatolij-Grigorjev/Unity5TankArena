@@ -126,9 +126,19 @@ namespace TankArena.UI.Arena
 
         public void PlaySelectedArena()
         {
-            if (CurrentState.Instance.CurrentArena != null)
+            var arena = CurrentState.Instance.CurrentArena;
+            if (arena != null)
             {
-                TransitionUtil.StartTransitionTo(SceneIds.SCENE_DIALOGUE_ID);
+                if ( CurrentState.Instance.CurrentDialogueScenesBefore.ContainsKey(arena.Id)) {
+                    var dialogue = CurrentState.Instance.CurrentDialogueScenesBefore[arena.Id];
+                    TransitionUtil.StartTransitionTo(SceneIds.SCENE_DIALOGUE_ID, 
+                        new Dictionary<string, object>{ 
+                            {TransitionParams.PARAM_DIALOGUE_SCENE_ID, dialogue.Id},
+                            {TransitionParams.PARAM_DIALOGUE_POSITION, dialogue.Position} });
+                } else 
+                {
+                    TransitionUtil.StartTransitionTo(SceneIds.SCENE_ARENA_ID);
+                }
             }
         }
 

@@ -46,6 +46,10 @@ namespace TankArena.Constants
         public const string EK_SIGNAL_TYPE = "signal_type";
         public const string EK_SIGNAL_PARAMS = "signal_params";
         public const string EK_TEXT = "text";
+        public const string EK_TIMING = "timing";
+        public const string EK_LEVEL = "level";
+        public const string EK_POSITION = "position";
+        public const string EK_CHARACTER = "character";
         public const string EK_SPEAKER = "speaker";
         public const string EK_BEATS = "beats";
 

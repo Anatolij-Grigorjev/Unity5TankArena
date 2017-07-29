@@ -14,7 +14,8 @@ namespace TankArena.UI.Dialogue
     public class DialogueSceneController : MonoBehaviour
     {
 
-        public string dialogueSceneId;
+        private string dialogueSceneId;
+        private DialoguePosition dialoguePosition;
         private DialogueScene dialogueSceneModel;
         public Text sceneTitleText;
         public Image sceneBgImage;
@@ -99,7 +100,8 @@ namespace TankArena.UI.Dialogue
         void Start()
         {
             //get dialogue model
-            // dialogueSceneId = (string)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_SCENE_ID];
+            dialogueSceneId = (string)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_SCENE_ID];
+            dialoguePosition = (DialoguePosition)CurrentState.Instance.CurrentSceneParams[TransitionParams.PARAM_DIALOGUE_POSITION];
             dialogueSceneModel = EntitiesStore.Instance.DialogueScenes[dialogueSceneId];
 
             //start building dialogue flow
@@ -206,7 +208,15 @@ namespace TankArena.UI.Dialogue
         {
             finishingScene = true;
             Timing.RunCoroutine(_PlayEndSceneAnimation());
-            TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, sceneEndTime);
+            //this dialogue was before arena, then we fo to it
+            if (dialoguePosition == DialoguePosition.BEFORE_LEVEL) 
+            {
+                TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_ID, sceneEndTime);
+            } else 
+            {
+                //after arena we go to select screen
+                TransitionUtil.WaitAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID, sceneEndTime);
+            }
         }
 
         //       COROUTINES

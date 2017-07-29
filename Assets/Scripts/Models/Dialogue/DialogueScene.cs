@@ -56,6 +56,28 @@ namespace TankArena.Models.Dialogue
             }
         }
 
+        public string LevelId
+        {
+            get 
+            {
+                return (string)properties[EK.EK_LEVEL];
+            }
+        }
+        public DialoguePosition Position 
+        {
+            get 
+            {
+                return (DialoguePosition)properties[EK.EK_POSITION];
+            }
+        }
+        public string CharacterId  
+        {
+            get 
+            {
+                return (string)properties[EK.EK_CHARACTER];
+            }
+        }
+
         public List<DialogueBeat> dialogueBeats;
 
         //quick access to specific scene beat
@@ -75,6 +97,10 @@ namespace TankArena.Models.Dialogue
             JSONClass scene = json[EK.EK_SCENE].AsObject;
             properties[EK.EK_BACKGROUND_IMAGE] = ResolveSpecialOrKey(scene[EK.EK_BACKGROUND_IMAGE], EK.EK_BACKGROUND_IMAGE);
             properties[EK.EK_START_TIME] = scene[EK.EK_START_TIME].AsFloat;
+            var sceneTiming = json[EK.EK_TIMING].AsObject;
+            properties[EK.EK_LEVEL] = sceneTiming[EK.EK_LEVEL].Value;
+            properties[EK.EK_CHARACTER] = sceneTiming[EK.EK_CHARACTER].Value;
+            properties[EK.EK_POSITION] = DialoguePositionHelper.ForCode(sceneTiming[EK.EK_POSITION].Value);
             if (SceneStartTime == 0.0f) 
             {
                 properties[EK.EK_START_TIME] = SCENE_DEFAULT_START_TIME;

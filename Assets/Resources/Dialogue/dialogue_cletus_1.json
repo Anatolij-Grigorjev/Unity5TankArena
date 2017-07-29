@@ -1,6 +1,11 @@
 {
     "id": "dialogue_cletus_1",
     "name": "The unfinished\nconversation",
+    "timing": {
+        "level": "map_sandy_graveyard",
+        "position": "before",
+        "character": "cletus"
+    },
     "scene": {
         "background": "!id;cletus",
         "start_time": 2.0,

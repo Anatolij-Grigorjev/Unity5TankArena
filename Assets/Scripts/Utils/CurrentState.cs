@@ -4,7 +4,9 @@ using TankArena.Models.Tank;
 using TankArena.Models;
 using TankArena.Models.Level;
 using System;
+using System.Linq;
 using TankArena.Controllers;
+using TankArena.Models.Dialogue;
 
 namespace TankArena.Utils
 {
@@ -23,6 +25,8 @@ namespace TankArena.Utils
         public int NextSceneId { get; set; }
         public Dictionary<string, object> CurrentSceneParams { get; set; }
         public Dictionary<EnemyType, int> CurrentArenaStats { get; set; }
+        public Dictionary<string, DialogueScene> CurrentDialogueScenesBefore { get; set; }
+        public Dictionary<string, DialogueScene> CurrentDialogueScenesAfter { get; set; }
         public GameObject Cursor { get; set; }
         public TrifectaController Trifecta { get; set; }
         public bool firstLoad = true;
@@ -32,6 +36,17 @@ namespace TankArena.Utils
             Player = player;
             CurrentTank = player.CurrentTank;
             CurrentStats = player.CurrentStats;
+            //load dialogue scenes relevant ot the current character
+            CurrentDialogueScenesBefore = EntitiesStore.Instance.DialogueScenes.Values
+            .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.BEFORE_LEVEL)
+            .ToDictionary(
+                scene => scene.LevelId
+            );
+            CurrentDialogueScenesAfter = EntitiesStore.Instance.DialogueScenes.Values
+            .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.AFTER_LEVEL)
+            .ToDictionary(
+                scene => scene.LevelId
+            );
         }
 
         public void ClearPlayer()
@@ -45,6 +60,8 @@ namespace TankArena.Utils
             CurrentTank = null;
             CurrentArena = null;
             CurrentSceneParams = new Dictionary<string, object>();
+            CurrentDialogueScenesBefore = new Dictionary<string, DialogueScene>();
+            CurrentDialogueScenesAfter = new Dictionary<string, DialogueScene>();
             ResetArenaStats();
             //default scene id, good for loading before main menu
             NextSceneId = SceneIds.SCENE_MENU_ID;
