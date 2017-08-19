@@ -229,7 +229,7 @@ namespace TankArena.Models.Tank
         {
             //selected slot states
             var groups = selectedGroups.GetGroups();
-            DBG.Log("up: {0}", UIUtils.PrintElements(groupsUp.ToList()));
+            // DBG.Log("up: {0}", UIUtils.PrintElements(groupsUp.ToList()));
             allWeaponSlots.ForEach(wpnSlot =>
             {
                 //if the group the weapon slot is in was selected to fire

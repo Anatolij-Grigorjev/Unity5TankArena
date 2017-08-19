@@ -123,6 +123,8 @@ namespace TankArena.Controllers.Weapons
         [HideInInspector]
         public int currentClipSize;
         private float maxShotDelay;
+        int maxOffsetBeats = 3;
+        int currOffsetBeats = 0;
 
         // Use this for initialization
         void Awake()
@@ -189,6 +191,14 @@ namespace TankArena.Controllers.Weapons
             {
                 Reload();
             }
+            if (currOffsetBeats > 0) {
+                var rotator = turretController.Rotator;
+                currOffsetBeats--;
+                if (currOffsetBeats <= 0) {
+                    rotator.localPosition = Vector3.zero;
+                    currOffsetBeats = 0;
+                }
+            }
         }
 
         private RaycastHit2D[] hitsNonAlloc = new RaycastHit2D[1];
@@ -209,6 +219,15 @@ namespace TankArena.Controllers.Weapons
                 }
                 currentShotDelay = maxShotDelay;
                 weaponAnimator.State = CommonWeaponStates.STATE_FIRING;
+                if (turretController != null) {
+                    var rotator = turretController.Rotator;
+                    if (rotator.localPosition.x == 0 && rotator.localPosition.y == 0) {
+                        
+                        rotator.Translate(-1.0f * transform.up, Space.World);
+                        currOffsetBeats = maxOffsetBeats;
+                    }
+                }
+
                 //setup a check later
                 CheckIsShootingLater();
                 //play audio when its fading
@@ -289,6 +308,7 @@ namespace TankArena.Controllers.Weapons
         {
             animationStopperRunning = true;
             yield return Timing.WaitForSeconds(0.35f / Time.timeScale);
+            
             if (!shouldKeepShooting)
             {
                 UnsetShootingAnimation();

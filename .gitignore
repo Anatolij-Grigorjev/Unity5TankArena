@@ -36,3 +36,5 @@ slot[123]
 
 #movie files
 *.mov
+#Windows thumbnail files
+*Thumbs.db.meta
