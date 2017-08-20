@@ -52,6 +52,8 @@ namespace TankArena.Controllers
             }
         }
         private EnemyAIController aiController;
+        private float damagedTime = 0.0f;
+        private float maxDamagedTime = 0.0f;
 
         // Use this for initialization
         public override void Awake()
@@ -145,6 +147,19 @@ namespace TankArena.Controllers
             }
         }
 
+        protected override void OwnUpdate()
+        {
+            if (damagedTime > 0.0f) {
+                spriteRenderer.color = Color.Lerp(spriteRenderer.color, Color.white, 
+                Mathf.SmoothStep(0.0f, 1.0f, (maxDamagedTime - damagedTime) / maxDamagedTime));
+                damagedTime -= Time.deltaTime;
+                if (damagedTime <= 0.0f) {
+                    damagedTime = 0.0f;
+                    spriteRenderer.color = Color.white;
+                }
+            }
+        }
+
         private void StopPhysicsMovement()
         {
             vehicleRigidBody.mass = 999;
@@ -187,6 +202,11 @@ namespace TankArena.Controllers
         {
             if (damage > 0.0f)
             {
+                maxDamagedTime = 0.01f * damage;
+                if (damagedTime < maxDamagedTime) {
+                    spriteRenderer.color = Color.black;
+                    damagedTime = maxDamagedTime;
+                }
                 Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);
                 healthBarController.CurrentValue = Integrity;
                 if (Integrity <= 0.0)

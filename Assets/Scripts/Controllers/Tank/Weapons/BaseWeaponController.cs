@@ -123,8 +123,7 @@ namespace TankArena.Controllers.Weapons
         [HideInInspector]
         public int currentClipSize;
         private float maxShotDelay;
-        int maxOffsetBeats = 3;
-        int currOffsetBeats = 0;
+        private float turretOffsetTime = 0.0f;
 
         // Use this for initialization
         void Awake()
@@ -191,12 +190,15 @@ namespace TankArena.Controllers.Weapons
             {
                 Reload();
             }
-            if (currOffsetBeats > 0) {
+            if (turretOffsetTime > 0)
+            {
                 var rotator = turretController.Rotator;
-                currOffsetBeats--;
-                if (currOffsetBeats <= 0) {
+                rotator.localPosition = Vector3.Lerp(rotator.localPosition, Vector3.zero,
+                    Mathf.SmoothStep(0.0f, 1.0f, (maxShotDelay - turretOffsetTime) / maxShotDelay));
+                turretOffsetTime -= Time.deltaTime;
+                if (turretOffsetTime < 0.0f) {
+                    turretOffsetTime = 0.0f;
                     rotator.localPosition = Vector3.zero;
-                    currOffsetBeats = 0;
                 }
             }
         }
@@ -219,12 +221,16 @@ namespace TankArena.Controllers.Weapons
                 }
                 currentShotDelay = maxShotDelay;
                 weaponAnimator.State = CommonWeaponStates.STATE_FIRING;
-                if (turretController != null) {
+                if (turretController != null)
+                {
                     var rotator = turretController.Rotator;
-                    if (rotator.localPosition.x == 0 && rotator.localPosition.y == 0) {
-                        
-                        rotator.Translate(-1.0f * transform.up, Space.World);
-                        currOffsetBeats = maxOffsetBeats;
+                    
+                    if (turretOffsetTime == 0.0f)
+                    {
+                        DBG.Log("Doing knockback! up: {0}, position: {1}", transform.up, 
+                            rotator.localRotation);
+                        rotator.Translate(-Mathf.Max(maxShotDelay, 0.65f) * transform.up, Space.World);
+                        turretOffsetTime = maxShotDelay * 0.75f;
                     }
                 }
 
@@ -261,7 +267,9 @@ namespace TankArena.Controllers.Weapons
                 var projectile = bulletPool.GetFirsReadyInstance();
                 if (projectile != null)
                 {
-                    var rotatorTransform = turretController != null ? turretController.Rotator.transform : transform.root;
+                    var rotatorTransform = turretController != null ? 
+                        turretController.Rotator.transform 
+                        : transform.root;
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
                     //rotation of bullet itself is neutral
@@ -308,7 +316,7 @@ namespace TankArena.Controllers.Weapons
         {
             animationStopperRunning = true;
             yield return Timing.WaitForSeconds(0.35f / Time.timeScale);
-            
+
             if (!shouldKeepShooting)
             {
                 UnsetShootingAnimation();

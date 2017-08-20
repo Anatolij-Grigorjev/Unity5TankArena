@@ -19,6 +19,10 @@ namespace TankArena.Controllers
         public ValueBasedSpriteAssigner damageAssigner;
         public DeathPostPrefabsController deathController;
         public AudioSource rockCrashThud;
+        public Material spriteDefaultMaterial;
+        public Material spriteFlashMaterial;
+        public float spriteFlashDuration = 0.5f;
+        private float currentFlash = 0.0f;
 
         public float maxIntegrity;
         private float integrity;
@@ -96,6 +100,8 @@ namespace TankArena.Controllers
             //run coroutine that eventually adjusts turret pivot (cant do it at creation time of the pivot
             //since that ruins the rotation arc)
             // Timing.RunCoroutine(_AdjustTurretPivot());
+
+            
         }
 
         // private IEnumerator<float> _AdjustTurretPivot()
@@ -123,7 +129,25 @@ namespace TankArena.Controllers
             {
                 DoRegen();
             }
+            if (damagedTime > 0.0f) {
+                partRenderer.color = Color.Lerp(partRenderer.color, Color.white, 
+                Mathf.SmoothStep(0.0f, 1.0f, (maxDamagedTime - damagedTime) / maxDamagedTime));
+                damagedTime -= Time.deltaTime;
+                if (damagedTime <= 0.0f) {
+                    damagedTime = 0.0f;
+                    partRenderer.color = Color.white;
+                }
+            }
+            if (currentFlash > 0.0f) {
+                currentFlash -= Time.deltaTime;
+                if (currentFlash <= 0.0f) {
+                    currentFlash = 0.0f;
+                    partRenderer.material = spriteDefaultMaterial;
+                }
+            }
         }
+
+        
 
         void DoRegen()
         {
@@ -132,6 +156,8 @@ namespace TankArena.Controllers
             {
                 if (currentRegenCooldown <= 0.0f)
                 {
+                    partRenderer.material = spriteFlashMaterial;
+                    currentFlash = spriteFlashDuration;
                     Integrity = Mathf.Clamp(integrity + RegenPerInterval, 0.0f, maxIntegrity);
 
                     currentRegenCooldown = regenFrequency;
@@ -212,10 +238,18 @@ namespace TankArena.Controllers
             ApplyDamage(damage);
         }
 
+        private float maxDamagedTime = 0.0f;
+        private float damagedTime = 0.0f;
+
         public void ApplyDamage(float damage)
         {
             if (damage > 0.0f)
             {
+                maxDamagedTime = 0.01f * damage;
+                if (damagedTime < maxDamagedTime) {
+                    partRenderer.color = Color.black;
+                    damagedTime = maxDamagedTime;
+                }
                 Integrity = Mathf.Clamp(integrity - damage, 0.0f, maxIntegrity);
                 if (Integrity <= 0.0f)
                 {

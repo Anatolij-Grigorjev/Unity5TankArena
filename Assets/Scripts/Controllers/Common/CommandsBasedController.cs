@@ -36,6 +36,12 @@ namespace TankArena.Controllers
             {
                 HandleNOOP();
             }
+
+            OwnUpdate();
+        }
+
+        protected virtual void OwnUpdate() {
+
         }
 
         protected virtual void HandleCommand(TankCommand latestOrder) 
