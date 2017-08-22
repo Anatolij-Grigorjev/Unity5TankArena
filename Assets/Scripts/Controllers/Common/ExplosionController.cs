@@ -27,11 +27,6 @@ namespace TankArena.Controllers
                 }
             }
             damage *= UnityEngine.Random.Range(0.75f, 1.25f);
-            var shaker = Camera.main.GetComponent<ObjectShakeController>();
-            if (shaker != null) 
-            {
-                shaker.enabled = true;
-            }
             Destroy(gameObject, lifespan);
         }
 
