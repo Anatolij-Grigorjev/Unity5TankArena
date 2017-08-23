@@ -71,7 +71,7 @@ namespace TankArena.Controllers.Weapons
         {
             if (impactPrefab != null)
             {
-                var impactGo = Instantiate(impactPrefab, transform.position, spriteRenderer.gameObject.transform.rotation);
+                var impactGo = Instantiate(impactPrefab, transform.position, spriteRenderer.gameObject.transform.localRotation);
                 var decalController = impactGo.GetComponent<DecalController>();
                 if (decalController != null)
                 {
