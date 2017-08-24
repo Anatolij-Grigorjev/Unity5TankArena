@@ -1,0 +1,16 @@
+{
+  "garage_item" : "!img;TankParts\\Tracks\\Swift\\Images\\garage_img",
+  "turn_speed" : 78.9,
+  "mass" : 3.2,
+  "shop_item" : "!img;TankParts\\Tracks\\Swift\\Images\\shop_img",
+  "right_track_pos" : "!transf;1.9;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
+  "on_tank_position" : "!transf;-1.0;1.0;0.0;0.0;0.0;0.0;1.0;1.0;1.0",
+  "coupling" : 2.2,
+  "price" : 155.32,
+  "name" : "Swift",
+  "json" : "!json;TankParts\\Tracks\\Swift\\swift",
+  "left_track_pos" : "!transf;0.3;-1.0;0.0;0.0;0.0;0.0;1.5;1.5;1.0",
+  "id" : "TRK_swift01",
+  "lower_integrity" : 2,
+  "spritesheet" : "!sprites;TankParts\\Tracks\\Swift\\Images\\Sprites\\tracks_swift_spritesheet_0"
+}

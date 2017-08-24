@@ -1,0 +1,233 @@
+fileFormatVersion: 2
+guid: 9ea21a23d630d4e48a309e0ea00e2a0d
+timeCreated: 1503582339
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: tracks_swift_spritesheet_0_1_0
+    21300002: tracks_swift_spritesheet_0_1_1
+    21300004: tracks_swift_spritesheet_0_1_2
+    21300006: tracks_swift_spritesheet_0_2_0
+    21300008: tracks_swift_spritesheet_0_2_1
+    21300010: tracks_swift_spritesheet_0_2_2
+    21300012: tracks_swift_spritesheet_0_3_0
+    21300014: tracks_swift_spritesheet_0_3_1
+    21300016: tracks_swift_spritesheet_0_3_2
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_0_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 99.5, y: 699.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_0_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 600
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 299.5, y: 699.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_0_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 600
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 499.5, y: 699.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 99.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_1_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 400
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 299.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_1_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 400
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 499.5, y: 499.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 99.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_2_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 200
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 299.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_2_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 200
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 499.5, y: 299.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 99.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_3_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 299.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_3_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 499.5, y: 99.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      tessellationDetail: -1
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
