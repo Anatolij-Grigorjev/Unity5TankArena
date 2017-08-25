@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TankArena.Models.Tank;
 using TankArena.Utils;
 using TankArena.Constants;
@@ -21,6 +22,8 @@ namespace TankArena.Controllers
         // private ParticleSystem.EmissionModule em;
         public float AccelerationRate;
         public float DeaccelerationRate;
+        public CameraResizer cameraResizer;
+
         public override void Awake()
         {
 
@@ -41,6 +44,10 @@ namespace TankArena.Controllers
                 (Model.Torque / 
                     (parentObject.GetComponent<TankController>()).Tank.Mass);
             DBG.Log("Adjusted Max Acceleration: {0}", adjustedMaxAcceleration);
+
+            cameraResizer.SetValues(0.0f, adjustedMaxAcceleration);
+            cameraResizer.valueProvider = () => Model.currentAcceleration;
+            cameraResizer.enabled = true;
         }
 
         
