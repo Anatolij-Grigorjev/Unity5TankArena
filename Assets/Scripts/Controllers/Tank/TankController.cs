@@ -100,12 +100,18 @@ namespace TankArena.Controllers
                     case TankCommandWords.TANK_COMMAND_MOVE:
                         var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
                         var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
-                        engineController.StartRevving();
+                        var keepMoving = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_MOVING_KEY];
+                        if (keepMoving) {    
+                            engineController.StartRevving();
+                            tank.Move(throttle, turn);
+                        } else {
+                            engineController.StartIdle();
+                            tank.Move(0.0f, turn);
+                        }
                         tracksController.AnimateThrottle(throttle);
                         tracksController.AnimateTurn(turn, throttle);
                         //only keep throttle going if turning aint intense, otherwise loose speed
-                        engineController.isMoving = throttle != 0.0f && Math.Abs(turn) <= 0.5f; 
-                        tank.Move(throttle, turn);
+                        engineController.isMoving = keepMoving && throttle != 0.0f && Math.Abs(turn) <= 0.5f; 
                         break;
                     case TankCommandWords.TANK_COMMAND_MOVE_TURRET:
                         var newRotation = (Quaternion)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY];

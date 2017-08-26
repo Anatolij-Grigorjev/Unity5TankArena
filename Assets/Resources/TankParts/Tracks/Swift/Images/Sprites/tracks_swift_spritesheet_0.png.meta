@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 9ea21a23d630d4e48a309e0ea00e2a0d
-timeCreated: 1503671391
+timeCreated: 1503733721
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,18 @@ TextureImporter:
     21300012: tracks_swift_spritesheet_0_3_0
     21300014: tracks_swift_spritesheet_0_3_1
     21300016: tracks_swift_spritesheet_0_3_2
+    21300018: tracks_swift_spritesheet_0_0
+    21300020: tracks_swift_spritesheet_0_1
+    21300022: tracks_swift_spritesheet_0_2
+    21300024: tracks_swift_spritesheet_0_3
+    21300026: tracks_swift_spritesheet_0_4
+    21300028: tracks_swift_spritesheet_0_5
+    21300030: tracks_swift_spritesheet_0_6
+    21300032: tracks_swift_spritesheet_0_7
+    21300034: tracks_swift_spritesheet_0_8
+    21300036: tracks_swift_spritesheet_0_9
+    21300038: tracks_swift_spritesheet_0_10
+    21300040: tracks_swift_spritesheet_0_11
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -79,59 +91,20 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_0_0
+      name: tracks_swift_spritesheet_0_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 600
-        width: 199
-        height: 199
-      alignment: 0
-      pivot: {x: 99.5, y: 699.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      tessellationDetail: -1
-    - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_0_1
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 600
-        width: 199
-        height: 199
-      alignment: 0
-      pivot: {x: 299.5, y: 699.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      tessellationDetail: -1
-    - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_0_2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 600
-        width: 199
-        height: 199
-      alignment: 0
-      pivot: {x: 499.5, y: 699.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      tessellationDetail: -1
-    - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_1_0
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 1
         y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 99.5, y: 499.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_1_1
+      name: tracks_swift_spritesheet_0_1
       rect:
         serializedVersion: 2
         x: 200
@@ -139,101 +112,140 @@ TextureImporter:
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 299.5, y: 499.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_1_2
+      name: tracks_swift_spritesheet_0_2
       rect:
         serializedVersion: 2
-        x: 400
+        x: 399
         y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 499.5, y: 499.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_2_0
+      name: tracks_swift_spritesheet_0_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 200
+        x: 598
+        y: 400
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 99.5, y: 299.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_2_1
+      name: tracks_swift_spritesheet_0_4
       rect:
         serializedVersion: 2
-        x: 200
-        y: 200
+        x: 1
+        y: 201
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 299.5, y: 299.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_2_2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 200
-        width: 199
-        height: 199
-      alignment: 0
-      pivot: {x: 499.5, y: 299.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      tessellationDetail: -1
-    - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_3_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 199
-        height: 199
-      alignment: 0
-      pivot: {x: 99.5, y: 99.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
-      outline: []
-      tessellationDetail: -1
-    - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_3_1
+      name: tracks_swift_spritesheet_0_5
       rect:
         serializedVersion: 2
         x: 200
-        y: 0
+        y: 201
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 299.5, y: 99.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
     - serializedVersion: 2
-      name: tracks_swift_spritesheet_0_3_2
+      name: tracks_swift_spritesheet_0_6
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
+        x: 399
+        y: 201
         width: 199
         height: 199
       alignment: 0
-      pivot: {x: 499.5, y: 99.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      tessellationDetail: -1
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_7
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 201
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_9
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 2
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_10
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 2
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tracks_swift_spritesheet_0_11
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 2
+        width: 199
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

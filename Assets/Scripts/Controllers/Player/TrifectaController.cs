@@ -23,6 +23,11 @@ namespace TankArena.Controllers
         private Dictionary<string, TrifectaStates> buttonChecksMapping;
         private Dictionary<TrifectaStates, int> codeToStateIndex;
         public GameObject playerTank;
+
+        private float toTurCameraZoom = 130.0f;
+        private float regularCameraZoom;
+        const float ANIMATION_LENGTH = 1.0f;
+
         public TrifectaStates CurrentState
         {
             get
@@ -42,6 +47,7 @@ namespace TankArena.Controllers
         // Use this for initialization
         void Start()
         {
+            regularCameraZoom = Camera.main.orthographicSize;
             buttonChecksMapping = new Dictionary<string, TrifectaStates>()
             {
                 { ControlsButtonNames.BTN_NAME_TRIFECTA_REC, TrifectaStates.STATE_REC},
@@ -70,6 +76,7 @@ namespace TankArena.Controllers
                         TankCommand.OneParamCommand(
                             TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
                     ToggleTracksRotated(true);
+                    ToggleCameraZoomChange(toTurCameraZoom);
                 }}
             };
 
@@ -84,10 +91,17 @@ namespace TankArena.Controllers
                     body.mass = Utils.CurrentState.Instance.CurrentTank.Mass;
                     body.drag = Utils.CurrentState.Instance.CurrentTank.TankTracks.Coupling;
                     ToggleTracksRotated(false);
+                    ToggleCameraZoomChange(regularCameraZoom);
                 }}
             };
 
             CurrentState = defaultState;
+        }
+
+        private void ToggleCameraZoomChange(float newZoom)
+        {
+
+            Timing.RunCoroutine(_PerformCameraZoomChange(Camera.main, newZoom));
         }
 
         private void ToggleTracksRotated(bool turret)
@@ -126,10 +140,23 @@ namespace TankArena.Controllers
 
         }
 
+        private IEnumerator<float> _PerformCameraZoomChange(Camera camera, float newZoom)
+        {
+            var completion = 0.0f;
+            while (completion < ANIMATION_LENGTH)
+            {
+                camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, newZoom, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                completion += Timing.DeltaTime;
+                yield return Timing.WaitForSeconds(Timing.DeltaTime);
+            }
+
+            camera.orthographicSize = newZoom;
+        }
+
         private IEnumerator<float> _PerformTracksRotation(TankTracksController tracks, Vector3 toPos, Quaternion toRot)
         {
             var completion = 0.0f;
-            while (completion < 1.0f)
+            while (completion < ANIMATION_LENGTH)
             {
                 tracks.transform.localRotation = Quaternion.Lerp(tracks.transform.localRotation, toRot, Mathf.SmoothStep(0.0f, 1.0f, completion));
                 tracks.transform.localPosition = Vector3.Lerp(tracks.transform.localPosition, toPos, Mathf.SmoothStep(0.0f, 1.0f, completion));
@@ -146,7 +173,7 @@ namespace TankArena.Controllers
 
             var colorTo = hide ? Color.clear : Color.white;
             var completion = 0.0f;
-            while (completion < 1.0f)
+            while (completion < ANIMATION_LENGTH)
             {
                 weapon.weaponSpriteRenderer.color = Color.Lerp(weapon.weaponSpriteRenderer.color, colorTo, Mathf.SmoothStep(0.0f, 1.0f, completion));
                 weapon.transform.localPosition = Vector3.Lerp(weapon.transform.localPosition, to, Mathf.SmoothStep(0.0f, 1.0f, completion));

@@ -66,7 +66,8 @@ namespace TankArena.Controllers
                 var turnAxis = Input.GetAxis(ControlsButtonNames.BTN_NAME_TANK_TURN);
 
                 if (Mathf.Abs(moveAxis) > moveDeadzone || Mathf.Abs(turnAxis) > moveDeadzone
-                    || tankController.isMoving())
+                    // || tankController.isMoving()
+                    )
                 {
                     wasMoving = true;
                     commands.Enqueue(TankCommand.MoveCommand(moveAxis, turnAxis));
@@ -76,7 +77,8 @@ namespace TankArena.Controllers
                     if (wasMoving)
                     {
                         wasMoving = false;
-                        commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
+                        // commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
+                        commands.Enqueue(TankCommand.MoveCommand(0.0f, turnAxis, false));
                     }
                 }
 

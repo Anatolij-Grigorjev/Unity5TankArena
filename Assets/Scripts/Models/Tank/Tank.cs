@@ -103,10 +103,10 @@ namespace TankArena.Models.Tank
             }
         }
         private GameObject parentGO;
-        private Rigidbody2D rigidBody;
-        private GameObject chassisRotator;
-        private GameObject turretRotator;
-        private Transform transform;
+        public Rigidbody2D rigidBody;
+        public GameObject chassisRotator;
+        public GameObject turretRotator;
+        public Transform transform;
 
         public Tank(TankChassis chassis, TankTurret turret)
         {
@@ -150,10 +150,10 @@ namespace TankArena.Models.Tank
                 turretRotator = GameObject.FindWithTag(Tags.TAG_TURRET_ROTATOR);
             }
             //only affect rigid body drag if the tank is actually using its engine
-            if (throttle != 0.0 || turn != 0.0)
-            {
+            // if (throttle != 0.0 || turn != 0.0)
+            // {
                 rigidBody.drag = throttle != 0.0f && turn == 0.0f ? 0.0f : TankTracks.Coupling;
-            }
+            // }
             //purely goin forward
             rigidBody.freezeRotation = turn == 0.0;
             //do throttle (on main object body because both chassis and turret move together)
