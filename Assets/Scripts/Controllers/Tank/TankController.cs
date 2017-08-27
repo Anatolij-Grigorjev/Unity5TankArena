@@ -8,7 +8,8 @@ using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
-    public class TankController : CommandsBasedController {
+    public class TankController : CommandsBasedController
+    {
 
         private Tank tank;
         private Rigidbody2D tankRigidBody;
@@ -18,10 +19,11 @@ namespace TankArena.Controllers
         public TankTurretController turretController;
         public TankTracksController tracksController;
         public TankEngineController engineController;
-        
+
         public IEnumerator<float> tankControllerAwake;
 
-        public Tank Tank {
+        public Tank Tank
+        {
             get
             {
                 return tank;
@@ -49,22 +51,24 @@ namespace TankArena.Controllers
         }
 
         // Use this for initialization
-        public override void Awake () {
-            base.Awake(); 
+        public override void Awake()
+        {
+            base.Awake();
             tankRigidBody = GetComponent<Rigidbody2D>();
-	    }
+        }
 
-        public void Start() 
+        public void Start()
         {
             tankControllerAwake = Timing.RunCoroutine(_Awake());
         }
 
         private IEnumerator<float> _Awake()
-        {   
-            if (debugController == null) 
+        {
+            if (debugController == null)
             {
                 yield return Timing.WaitUntilDone(EntitiesStore.Instance.dataLoadCoroutine);
-            } else 
+            }
+            else
             {
                 yield return Timing.WaitUntilDone(debugController.debugStuffLoader);
             }
@@ -78,7 +82,7 @@ namespace TankArena.Controllers
             DBG.Log("Tank Controller Ready!");
         }
 
-        protected override void HandleNOOP() 
+        protected override void HandleNOOP()
         {
             chassisController.engineController.StartIdle();
         }
@@ -87,54 +91,58 @@ namespace TankArena.Controllers
         {
             //adjust GO rotation, chassis and company get rotated on their own rotatos
             //so this GO must remain staticly angled
-            if (transform.rotation != Quaternion.identity) {
+            if (transform.rotation != Quaternion.identity)
+            {
                 transform.rotation = Quaternion.identity;
             }
         }
 
 
-        protected override void HandleCommand(TankCommand latestOrder) 
+        protected override void HandleCommand(TankCommand latestOrder)
         {
-            switch(latestOrder.commandWord)
-                {
-                    case TankCommandWords.TANK_COMMAND_MOVE:
-                        var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
-                        var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
-                        var keepMoving = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_MOVING_KEY];
-                        if (keepMoving) {    
-                            engineController.StartRevving();
-                            tank.Move(throttle, turn);
-                        } else {
-                            engineController.StartIdle();
-                            tank.Move(0.0f, turn);
-                        }
-                        tracksController.AnimateThrottle(throttle);
-                        tracksController.AnimateTurn(turn, throttle);
-                        //only keep throttle going if turning aint intense, otherwise loose speed
-                        engineController.isMoving = keepMoving && throttle != 0.0f && Math.Abs(turn) <= 0.5f; 
-                        break;
-                    case TankCommandWords.TANK_COMMAND_MOVE_TURRET:
-                        var newRotation = (Quaternion)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY];
-                        turretController.TurnTurret(newRotation);
-                        break;
-                    case TankCommandWords.TANK_COMMAND_BRAKE:
-                        tracksController.AnimateThrottle(0.0f);
-                        var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
-                        tracksController.isBreaking = keepApplying;
-                        tank.ApplyBreaks(keepApplying);
-                        break;
-                    case TankCommandWords.TANK_COMMAND_FIRE:
-                        var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
-                        var groupsUp = (bool[])latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_FIRING_GROUPS_KEY];
-                        turretController.Model.Fire(weaponGroups, groupsUp, turretController.transform);
-                        break;
-                    case TankCommandWords.TANK_COMMAND_RELOAD:
-                        turretController.Reload();
-                        break;
-                    default:
-                        DBG.Log("Got command: {0}, dunno what do?!", latestOrder);
-                        break;
-                }
+            switch (latestOrder.commandWord)
+            {
+                case TankCommandWords.TANK_COMMAND_MOVE:
+                    var throttle = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_KEY];
+                    var turn = (float)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_TURN_KEY];
+                    var keepMoving = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_MOVING_KEY];
+                    if (keepMoving)
+                    {
+                        engineController.StartRevving();
+                        tank.Move(throttle, turn);
+                    }
+                    else
+                    {
+                        engineController.StartIdle();
+                        tank.Move(0.0f, turn);
+                    }
+                    tracksController.AnimateThrottle(throttle);
+                    tracksController.AnimateTurn(turn, throttle);
+                    //only keep throttle going if turning aint intense, otherwise loose speed
+                    engineController.isMoving = keepMoving && (throttle != 0.0f || Math.Abs(turn) <= 0.5f);
+                    break;
+                case TankCommandWords.TANK_COMMAND_MOVE_TURRET:
+                    var newRotation = (Quaternion)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY];
+                    turretController.TurnTurret(newRotation);
+                    break;
+                case TankCommandWords.TANK_COMMAND_BRAKE:
+                    tracksController.AnimateThrottle(0.0f);
+                    var keepApplying = (bool)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY];
+                    tracksController.isBreaking = keepApplying;
+                    tank.ApplyBreaks(keepApplying);
+                    break;
+                case TankCommandWords.TANK_COMMAND_FIRE:
+                    var weaponGroups = (WeaponGroups)latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_FIRE_GROUPS_KEY];
+                    var groupsUp = (bool[])latestOrder.tankCommandParams[TankCommandParamKeys.TANK_CMD_KEEP_FIRING_GROUPS_KEY];
+                    turretController.Model.Fire(weaponGroups, groupsUp, turretController.transform);
+                    break;
+                case TankCommandWords.TANK_COMMAND_RELOAD:
+                    turretController.Reload();
+                    break;
+                default:
+                    DBG.Log("Got command: {0}, dunno what do?!", latestOrder);
+                    break;
+            }
         }
 
         public void ApplyDamage(GameObject damager)

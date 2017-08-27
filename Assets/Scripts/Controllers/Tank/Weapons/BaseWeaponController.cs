@@ -114,6 +114,7 @@ namespace TankArena.Controllers.Weapons
 
         private float currentShotDelay = 0.0f;
         private const float MINUTE_IN_SECONDS = 60.0f;
+        private const float CHECK_IF_SHOOTING_WAIT = 0.4f;
         private bool isReloading;
         private bool isRapidFire;
         private bool isShooting;
@@ -315,7 +316,7 @@ namespace TankArena.Controllers.Weapons
         private IEnumerator<float> _WaitAndCheck()
         {
             animationStopperRunning = true;
-            yield return Timing.WaitForSeconds(0.35f / Time.timeScale);
+            yield return Timing.WaitForSeconds(CHECK_IF_SHOOTING_WAIT / Time.timeScale);
 
             if (!shouldKeepShooting)
             {

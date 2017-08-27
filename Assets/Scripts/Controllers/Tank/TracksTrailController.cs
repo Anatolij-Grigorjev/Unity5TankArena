@@ -24,7 +24,6 @@ namespace TankArena.Controllers
 
             var maxAlpha = tracksSprite.color.a;
             alphaStep = maxAlpha / (tracksTTL / Time.deltaTime);
-            DBG.Log("alpha step: {0}", alphaStep);
             tankTracksController.currentTrackTrailLength++;
 
 

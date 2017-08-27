@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace TankArena.Utils
         }
         public static void AddAll<K, V>(this Dictionary<K, V> main, Dictionary<K, V> other, bool priorityThis = true)
         {
-            if (other == null) 
+            if (other == null)
             {
                 return;
             }
@@ -51,12 +52,17 @@ namespace TankArena.Utils
             return parent;
         }
 
-        public static void PlayIfNot(this AudioSource source, bool checkIfPlaying = false) 
+        public static void PlayIfNot(this AudioSource source, bool checkIfPlaying = false)
         {
-            if (!checkIfPlaying || !source.isPlaying) 
+            if (!checkIfPlaying || !source.isPlaying)
             {
                 source.Play();
-            } 
+            }
+        }
+
+        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> source, int N)
+        {
+            return source.Skip(Math.Max(0, source.Count() - N));
         }
 
     }

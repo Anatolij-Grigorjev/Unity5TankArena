@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using TankArena.Utils;
 using UnityStandardAssets.Utility;
+using System.Collections.Generic;
 
 namespace TankArena.Controllers
 {
@@ -31,6 +32,7 @@ namespace TankArena.Controllers
         private ParticleSystem.EmissionModule emLeft, emRight;
         public Transform chassisRotator;
         private FollowTarget leftTrackFollow, rightTrackFollow;
+        private Dictionary<String, Sprite> modelSpritesByIdx;
 
 
         // Use this for initialization
@@ -57,13 +59,23 @@ namespace TankArena.Controllers
             rightTrackFollow = rightTrackTrailGo.GetComponent<FollowTarget>();
             leftTrackFollow.target = leftTrack.transform;
             rightTrackFollow.target = rightTrack.transform;
-            
+
 
             emLeft = leftTrackTrailGo.GetComponent<ParticleSystem>().emission;
             emRight = rightTrackTrailGo.GetComponent<ParticleSystem>().emission;
 
             emLeft.enabled = false;
-            emRight.enabled =false;
+            emRight.enabled = false;
+        }
+
+        void Start()
+        {
+            modelSpritesByIdx = new Dictionary<String, Sprite>();
+            foreach (var sprite in Model.Sprites)
+            {
+                var indexes = sprite.name.Split('_').TakeLast(2).ToArray();
+                modelSpritesByIdx.Add(String.Join("_", indexes), sprite);
+            }
 
             DBG.Log("Tracks Controller Ready!");
         }
@@ -114,7 +126,11 @@ namespace TankArena.Controllers
                     currentTrackTrailCooldown -= Time.deltaTime;
                 }
             }
-
+            if (!tankController.engineController.isMoving 
+                    && tankController.Tank.rigidBody.drag < Model.Coupling)
+            {
+                tankController.Tank.rigidBody.drag = Model.Coupling;
+            }
         }
 
         public void AnimateThrottle(float throttle)
@@ -129,6 +145,23 @@ namespace TankArena.Controllers
             emLeft.enabled = sign != 0;
             emRight.enabled = sign != 0;
             //PrintTracksAnim();
+        }
+
+        //called after animation system did its thing.
+        //used here to replace sprite in animator with actual tracks sprite 
+        //as per http://youtu.be/rMCLWt1DuqI?t=20m
+        void LateUpdate()
+        {
+            foreach (var animator in tracksAnimations)
+            {
+                foreach (var renderer in animator.GetComponents<SpriteRenderer>())
+                {
+                    var indexes = renderer.sprite.name.Split('_').TakeLast(2).ToArray();
+                    var idx = String.Join("_", indexes);
+
+                    renderer.sprite = modelSpritesByIdx[idx];
+                }
+            }
         }
 
         public void AnimateTurn(float turn, float throttle)
