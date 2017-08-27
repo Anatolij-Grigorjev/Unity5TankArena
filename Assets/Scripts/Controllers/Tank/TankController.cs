@@ -109,13 +109,13 @@ namespace TankArena.Controllers
                     if (keepMoving)
                     {
                         engineController.StartRevving();
-                        tank.Move(throttle, turn);
                     }
                     else
                     {
                         engineController.StartIdle();
-                        tank.Move(0.0f, turn);
+                        throttle = 0.0f;
                     }
+                    tank.Move(throttle, turn);
                     tracksController.AnimateThrottle(throttle);
                     tracksController.AnimateTurn(turn, throttle);
                     //only keep throttle going if turning aint intense, otherwise loose speed

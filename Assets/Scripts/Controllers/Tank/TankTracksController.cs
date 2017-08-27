@@ -166,9 +166,9 @@ namespace TankArena.Controllers
 
         public void AnimateTurn(float turn, float throttle)
         {
-
+            
+            DBG.Log("Got turn: {0}, throttle: {1}", turn, throttle);
             int sign = Math.Sign(turn);
-            //DBG.Log("Got turn: {0} | Sign: {1}", turn, sign);
             if (sign == 0)
             {
                 AnimateThrottle(throttle);

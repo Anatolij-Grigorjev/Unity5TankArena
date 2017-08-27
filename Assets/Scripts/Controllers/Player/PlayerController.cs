@@ -78,7 +78,7 @@ namespace TankArena.Controllers
                     {
                         wasMoving = false;
                         // commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));
-                        commands.Enqueue(TankCommand.MoveCommand(0.0f, turnAxis, false));
+                        commands.Enqueue(TankCommand.MoveCommand(0.0f, 0.0f, false));
                     }
                 }
 
