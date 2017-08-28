@@ -36,17 +36,22 @@ namespace TankArena.Utils
             Player = player;
             CurrentTank = player.CurrentTank;
             CurrentStats = player.CurrentStats;
-            //load dialogue scenes relevant ot the current character
-            CurrentDialogueScenesBefore = EntitiesStore.Instance.DialogueScenes.Values
-            .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.BEFORE_LEVEL)
-            .ToDictionary(
-                scene => scene.LevelId
-            );
-            CurrentDialogueScenesAfter = EntitiesStore.Instance.DialogueScenes.Values
-            .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.AFTER_LEVEL)
-            .ToDictionary(
-                scene => scene.LevelId
-            );
+            //might have been called when only selected character name at game start
+            if (player.Character != null)
+            {
+
+                //load dialogue scenes relevant ot the current character
+                CurrentDialogueScenesBefore = EntitiesStore.Instance.DialogueScenes.Values
+                .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.BEFORE_LEVEL)
+                .ToDictionary(
+                    scene => scene.LevelId
+                );
+                CurrentDialogueScenesAfter = EntitiesStore.Instance.DialogueScenes.Values
+                .Where(scene => scene.CharacterId == player.Character.Id && scene.Position == DialoguePosition.AFTER_LEVEL)
+                .ToDictionary(
+                    scene => scene.LevelId
+                );
+            }
         }
 
         public void ClearPlayer()
