@@ -184,6 +184,8 @@ namespace TankArena.Models.Tank
                 //finished breaking
                 rigidBody.drag = TankTracks.Coupling;
             }
+            tankEngine.currentAcceleration = 
+                    Mathf.Clamp(tankEngine.currentAcceleration - (3 * TankEngine.DeaccelerationRate), 0.0f, tankEngine.currentAcceleration);
         }
 
         /// <summary>

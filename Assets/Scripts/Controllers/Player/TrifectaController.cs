@@ -72,6 +72,9 @@ namespace TankArena.Controllers
                     var body = playerTank.GetComponent<Rigidbody2D>();
                     body.mass = 9999.99f;
                     body.drag = 99.99f;
+                    var engine = playerTank.GetComponentInChildren<TankEngineController>();
+                    engine.isMoving = false;
+                    engine.Model.currentAcceleration = 0.0f;
                     playerTank.GetComponent<PlayerController>().commands.Enqueue(
                         TankCommand.OneParamCommand(
                             TankCommandWords.TANK_COMMAND_BRAKE, TankCommandParamKeys.TANK_CMD_APPLY_BREAK_KEY, false));

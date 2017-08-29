@@ -8,7 +8,7 @@
 	"max_acceleration": 66.89,
 	"torque": 35.4,
 	"acceleration_rate": 15.5,
-	"deacceleration_rate": 15.5,
+	"deacceleration_rate": 100.5,
 	"price": 51.10,
 	"idle_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_idle",
 	"revving_sound": "!snd;TankParts\\Engines\\Basic\\Sounds\\engine_revving",
