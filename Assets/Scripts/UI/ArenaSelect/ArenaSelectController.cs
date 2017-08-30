@@ -56,7 +56,7 @@ namespace TankArena.UI.Arena
                     {
                         lockedText.text = String.Format("Complete {0} to unlock",
                             String.Join(", ", selectedModel.UnlockRequirementIds
-							.FindAll(id => !CurrentState.Instance.Player.FinishedArenas.Contains(id))
+							.FindAll(id => !CurrentState.Instance.Player.PlayerStats.FinishedArenas.Contains(id))
 							.Select(
                                 mapId => "\"" + EntitiesStore.Instance.Levels[mapId].Name + "\""
                             ).ToArray()));
@@ -68,7 +68,7 @@ namespace TankArena.UI.Arena
 
         private bool CheckArenaPlayable(LevelModel selectedModel)
         {
-            var playerFinished = CurrentState.Instance.Player.FinishedArenas;
+            var playerFinished = CurrentState.Instance.Player.PlayerStats.FinishedArenas;
             foreach (String mapId in selectedModel.UnlockRequirementIds)
             {
                 if (!playerFinished.Contains(mapId))

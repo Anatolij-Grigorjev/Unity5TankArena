@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using SimpleJSON;
 
 namespace TankArena.Utils
 {
@@ -63,6 +64,25 @@ namespace TankArena.Utils
         public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> source, int N)
         {
             return source.Skip(Math.Max(0, source.Count() - N));
+        }
+
+        public static List<string> ToList(this JSONArray arr)
+        {
+            var list = new List<string>();
+            foreach(var elem in arr)
+            {
+                list.Add(elem.ToString());
+            }
+
+            return list;
+        }
+
+        public static  JSONArray ToJsonArray(this List<string> list)
+        {
+            var arr = new JSONArray();
+            list.ForEach(elem => arr.Add(elem));
+
+            return arr;
         }
 
     }

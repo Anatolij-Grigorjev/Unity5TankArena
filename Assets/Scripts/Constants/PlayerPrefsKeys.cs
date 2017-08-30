@@ -12,7 +12,7 @@ namespace TankArena.Constants
         public const string PP_CASH = "cash";
         public const string PP_CHARACTER = "character";
         public const string PP_TANK = "tank";
-        public const string PP_STATS = "stats";
-        public const string PP_FINISHED_ARENAS = "won_arenas";
+        public const string PP_CHAR_STATS = "character_stats";
+        public const string PP_STATISTICS = "statistics";
     }
 }

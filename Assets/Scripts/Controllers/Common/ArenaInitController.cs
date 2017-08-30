@@ -95,8 +95,8 @@ namespace TankArena.Controllers
 					DBG.Log("My enemies gone!");
 					//register level as completed in case it wasnt yet
 					var levelModel = CurrentState.Instance.CurrentArena;
-					if (!CurrentState.Instance.Player.FinishedArenas.Contains(levelModel.Id)) {
-						CurrentState.Instance.Player.FinishedArenas.Add(levelModel.Id);
+					if (!CurrentState.Instance.Player.PlayerStats.FinishedArenas.Contains(levelModel.Id)) {
+						CurrentState.Instance.Player.PlayerStats.FinishedArenas.Add(levelModel.Id);
 					}
 				}
 

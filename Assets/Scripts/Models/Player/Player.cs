@@ -18,12 +18,12 @@ namespace TankArena.Models
 		public Tank.Tank CurrentTank;
 		public PlayableCharacter Character;
         public CharacterStats CurrentStats;
-        public List<string> FinishedArenas;
+        public PlayerStats PlayerStats;
 
         public Player(string saveFileLocation)
         {
             this.saveLocation = saveFileLocation;
-            this.FinishedArenas = new List<string>();
+            this.PlayerStats = new PlayerStats();
         }
 
         public static Player LoadPlayerFromLocation(string location)
@@ -47,13 +47,8 @@ namespace TankArena.Models
                     player.Cash = json[PP.PP_CASH].AsFloat;
                     player.Character = EntitiesStore.Instance.Characters[(json[PP.PP_CHARACTER].Value)];
                     player.CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
-                    player.CurrentStats = CharacterStats.ParseJSONBody(json[PP.PP_STATS].AsObject);
-                    if (json[PP.PP_FINISHED_ARENAS] != null) {
-                        foreach(JSONNode mapId in json[PP.PP_FINISHED_ARENAS].AsArray) 
-                        {
-                            player.FinishedArenas.Add(mapId.Value);
-                        }
-                    }
+                    player.CurrentStats = CharacterStats.ParseJSONBody(json[PP.PP_CHAR_STATS].AsObject);
+                    player.PlayerStats = PlayerStats.FromJSON(json[PP.PP_STATISTICS].AsObject);
 
                 } catch (Exception ex) 
                 {
@@ -97,11 +92,13 @@ namespace TankArena.Models
             }
             if (player.CurrentStats != null)
             {
-                saveJson.Add(PP.PP_STATS, player.CurrentStats.ToJSON());
+                saveJson.Add(PP.PP_CHAR_STATS, player.CurrentStats.ToJSON());
             }   
-            JSONArray mapsList = new JSONArray();
-            player.FinishedArenas.ForEach(mapId => mapsList.Add(mapId));
-            saveJson.Add(PP.PP_FINISHED_ARENAS, mapsList);
+            if (player.PlayerStats != null)
+            {
+                saveJson.Add(PP.PP_STATISTICS, player.PlayerStats.ToJSON());
+            }
+            
             //persist the file
             File.WriteAllText(player.saveLocation, saveJson.ToString());
         }
