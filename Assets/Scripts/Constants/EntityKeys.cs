@@ -30,6 +30,7 @@ namespace TankArena.Constants
         public const string EK_STAT_MOVE = "MOV";
         public const string EK_STAT_REGEN = "REG";
         public const string EK_BACKSTORY = "backstory";
+        public const string EK_CHARACTER_GOAL_LOGIC = "goal_logic";
 
         // DIALOGUE
         public const string EK_SCENE = "scene";

@@ -62,6 +62,7 @@ namespace TankArena.Models.Characters
                 return (String)properties[EK.EK_CHARACTER_STARTER_TANK];
             }
         }
+        public Type CharacterGoalType;
         public CharacterStats StartingStats;
 
         public Tank.Tank StartingTank;
@@ -83,6 +84,8 @@ namespace TankArena.Models.Characters
             StartingStats = CharacterStats.ParseJSONBody(statsObj);
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
+            CharacterGoalType = Type.GetType(json[EK.EK_CHARACTER_GOAL_LOGIC].Value);
+
             yield return 0.0f;
         }
 

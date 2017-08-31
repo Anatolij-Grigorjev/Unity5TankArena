@@ -128,6 +128,8 @@ namespace TankArena.Controllers
                     return slot.Weapon != null? slot.Weapon.Price : 0.0f;
                 });
                 enemyType = EnemyType.ForPlayerDeath((partsSum + weaponsSum) * (-1.0f));
+                //update deaths stat
+                CurrentState.Instance.Player.PlayerStats.TotalDeaths++;
 
             } else
             {   
@@ -139,6 +141,7 @@ namespace TankArena.Controllers
                 {
                     DBG.Log("SOMETHING TERRIBLE HAPPENING! Target: " + deathTarget);
                 }
+                CurrentState.Instance.Player.PlayerStats.TotalKills++;
             }
             if (enemyType != null)
             {
@@ -149,6 +152,8 @@ namespace TankArena.Controllers
                 }
                 stats[enemyType]++;
             }
+
+
 
             Destroy(deathTarget);
         }
