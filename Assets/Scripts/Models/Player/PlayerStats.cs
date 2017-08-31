@@ -12,7 +12,7 @@ namespace TankArena.Models
         private Dictionary<string, object> stats;
 
 
-        public int TotalKills
+        public float TotalKills
         {
             get
             {
@@ -24,7 +24,7 @@ namespace TankArena.Models
             }
         }
 
-        public int TotalDeaths
+        public float TotalDeaths
         {
             get
             {
@@ -48,22 +48,22 @@ namespace TankArena.Models
             }
         }
 
-        public int TotalEarned
+        public float TotalEarned
         {
             get
             {
-                return (int)stats[PST.STAT_TOTAL_EARNED];
+                return (float)stats[PST.STAT_TOTAL_EARNED];
             }
             set
             {
                 stats[PST.STAT_TOTAL_EARNED] = value;
             }
         }
-        public int TotalSpent
+        public float TotalSpent
         {
             get
             {
-                return (int)stats[PST.STAT_TOTAL_SPENT];
+                return (float)stats[PST.STAT_TOTAL_SPENT];
             }
             set
             {
@@ -71,7 +71,7 @@ namespace TankArena.Models
             }
         }
 
-        public int TotalArenasPlayed
+        public float TotalArenasPlayed
         {
             get
             {
@@ -100,7 +100,7 @@ namespace TankArena.Models
                 this.stats.Add(code, null);
             });
             //put 0 for numeric stats
-            PST.INT_STATS.ForEach(code =>
+            PST.NUM_STATS.ForEach(code =>
             {
                 this.stats.Remove(code);
                 this.stats.Add(code, 0);
@@ -118,9 +118,9 @@ namespace TankArena.Models
             PlayerStats stats = new PlayerStats();
             PST.ALL_STATS.ForEach(code =>
             {
-                if (PST.INT_STATS.Contains(code))
+                if (PST.NUM_STATS.Contains(code))
                 {
-                    stats.stats[code] = json[code].AsInt;
+                    stats.stats[code] = json[code].AsFloat;
                 }
                 else
                 {

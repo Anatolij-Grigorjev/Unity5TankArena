@@ -15,7 +15,7 @@ namespace TankArena.Constants
         public const string STAT_FINISHED_ARENAS = "finished_arenas";
         public const string STAT_TOTAL_DEATHS = "total_deaths";
 
-        public static readonly List<string> INT_STATS = new List<string>(new string[] {
+        public static readonly List<string> NUM_STATS = new List<string>(new string[] {
             STAT_TOTAL_KILLED,
             STAT_TOTAL_EARNED,
             STAT_TOTAL_DEATHS,

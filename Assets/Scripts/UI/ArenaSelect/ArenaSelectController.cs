@@ -129,7 +129,9 @@ namespace TankArena.UI.Arena
             var arena = CurrentState.Instance.CurrentArena;
             if (arena != null)
             {
-                CurrentState.Instance.Player.PlayerStats.TotalArenasPlayed++;
+                var stats = CurrentState.Instance.Player.PlayerStats;
+                stats.TotalArenasPlayed++;
+                stats.LastArena = arena.Id;
                 if ( CurrentState.Instance.CurrentDialogueScenesBefore.ContainsKey(arena.Id)) {
                     var dialogue = CurrentState.Instance.CurrentDialogueScenesBefore[arena.Id];
                     TransitionUtil.StartTransitionTo(SceneIds.SCENE_DIALOGUE_ID, 

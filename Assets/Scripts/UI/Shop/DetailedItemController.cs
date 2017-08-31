@@ -120,9 +120,11 @@ namespace TankArena.UI.Shop
                             if (slot.Weapon != null)
                             {
                                 CurrentState.Instance.Player.Cash += slot.Weapon.Price;
+                                CurrentState.Instance.Player.PlayerStats.TotalEarned += slot.Weapon.Price;
                             }
                             slot.Weapon = dataWeapon;
                             CurrentState.Instance.Player.Cash -= dataWeapon.Price;
+                            CurrentState.Instance.Player.PlayerStats.TotalSpent += dataWeapon.Price;
                             //restore details button 
                             itemLabelText.text = prevText;
                             buyItemButton.enabled = true;
@@ -158,6 +160,7 @@ namespace TankArena.UI.Shop
                     var oldPart = SlotInNewPart((TankPart)data);
                     var pricediff = data.Price - oldPart.Price;
                     CurrentState.Instance.Player.Cash -= pricediff;
+                    CurrentState.Instance.Player.PlayerStats.TotalSpent += pricediff;
                     //sold part was a turret, let person know they sold weapons
                     if (typeof(TankTurret).IsAssignableFrom(oldPart.GetType()))
                     {
