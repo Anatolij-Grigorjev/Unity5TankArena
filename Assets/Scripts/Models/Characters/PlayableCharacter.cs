@@ -63,6 +63,7 @@ namespace TankArena.Models.Characters
             }
         }
         public Type CharacterGoalType;
+        public AbstractCharacterGoal GoalTemplate;
         public CharacterStats StartingStats;
 
         public Tank.Tank StartingTank;
@@ -84,8 +85,18 @@ namespace TankArena.Models.Characters
             StartingStats = CharacterStats.ParseJSONBody(statsObj);
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
-            CharacterGoalType = Type.GetType(json[EK.EK_CHARACTER_GOAL_LOGIC].Value);
+            try
+            {
 
+                CharacterGoalType = Type.GetType(json[EK.EK_CHARACTER_GOAL_LOGIC].Value);
+            }
+            catch (Exception ex)
+            {
+                DBG.Log("Problem in loading character goal type: {0}, setting to null goal...", ex.Message);
+                CharacterGoalType = typeof(NullCharacterGoal);
+                
+            }
+            GoalTemplate = (AbstractCharacterGoal)Activator.CreateInstance(CharacterGoalType);
             yield return 0.0f;
         }
 

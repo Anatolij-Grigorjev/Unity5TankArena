@@ -25,6 +25,7 @@ namespace TankArena.UI.Characters
 		public Image characterModel;
 		public Text characterName;
 		public Text characterBackstory;
+		public Text characterGoal;
 		public Text characterMoney;
 		public Text playerNameText;
 		public LoadoutGridController loadoutGridController;
@@ -70,6 +71,7 @@ namespace TankArena.UI.Characters
 			characterModel.sprite = model.CharacterModel;
 			characterMoney.text = "$" + model.StartingCash;
 			characterBackstory.text = model.Backstory;
+			characterGoal.text = model.GoalTemplate.GetCharacterGoalDescription();
 
 			//refresh loadout
 			loadoutGridController.SetLoadoutData(model.StartingTank);

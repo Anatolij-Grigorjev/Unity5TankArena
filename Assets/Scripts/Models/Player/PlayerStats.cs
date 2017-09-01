@@ -9,7 +9,18 @@ namespace TankArena.Models
 {
     public class PlayerStats
     {
-        private Dictionary<string, object> stats;
+        public Dictionary<string, object> stats;
+
+        private void UpdateCharacterGoal()
+        {
+            if (CurrentState.Instance.Player != null)
+            {
+                if (CurrentState.Instance.Player.CharacterGoal != null)
+                {
+                    CurrentState.Instance.Player.CharacterGoal.UpdateProgress(this);
+                }
+            }
+        }
 
 
         public float TotalKills
@@ -21,6 +32,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_TOTAL_KILLED] = value;
+                UpdateCharacterGoal();
             }
         }
 
@@ -33,6 +45,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_TOTAL_DEATHS] = value;
+                UpdateCharacterGoal();
             }
         }
 
@@ -45,6 +58,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_LAST_ARENA] = value;
+                UpdateCharacterGoal();
             }
         }
 
@@ -57,6 +71,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_TOTAL_EARNED] = value;
+                UpdateCharacterGoal();
             }
         }
         public float TotalSpent
@@ -68,6 +83,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_TOTAL_SPENT] = value;
+                UpdateCharacterGoal();
             }
         }
 
@@ -80,6 +96,7 @@ namespace TankArena.Models
             set
             {
                 stats[PST.STAT_TOTAL_ARENAS_PLAYED] = value;
+                UpdateCharacterGoal();
             }
         }
 

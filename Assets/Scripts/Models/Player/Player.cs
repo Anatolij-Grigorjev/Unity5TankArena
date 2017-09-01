@@ -67,6 +67,8 @@ namespace TankArena.Models
                     float progress = json[PP.PP_GOAL_PROGRESS].AsFloat;
                     player.CharacterGoal.Init(progress);
 
+                    player.CharacterGoal.UpdateProgress(player.PlayerStats);
+
                 }
                 catch (Exception ex)
                 {

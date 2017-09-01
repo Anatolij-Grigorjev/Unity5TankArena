@@ -25,7 +25,8 @@ namespace TankArena.Models.Characters
             return goalProgress;
         }
 
-		public abstract void UodateProgress(PlayerStats stats);
+        public abstract string GetCharacterGoalDescription();
+		public abstract void UpdateProgress(PlayerStats stats);
 		public abstract List<string> GetRelevantStats(); // list of statistics codes that are relevant to the current goal
 
     }
