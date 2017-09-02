@@ -28,7 +28,7 @@ namespace TankArena.Models.Characters
 
         public override void UpdateProgress(PlayerStats stats)
         {
-            goalProgress = Mathf.Clamp(((stats.TotalEarned - stats.TotalSpent) / NEEDED_MONEY) * 100.0f, 0.0f, 100.0f);
+            goalProgress = Mathf.Clamp(((stats.TotalEarned - stats.TotalSpent) / NEEDED_MONEY), 0.0f, 1.0f);
         }
     }
 }

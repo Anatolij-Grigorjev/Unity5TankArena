@@ -89,6 +89,10 @@ namespace TankArena.Models.Characters
             {
 
                 CharacterGoalType = Type.GetType(json[EK.EK_CHARACTER_GOAL_LOGIC].Value);
+                if (CharacterGoalType == null)
+                {
+                    throw new Exception("Got NULL Character Goal type!");
+                }
             }
             catch (Exception ex)
             {

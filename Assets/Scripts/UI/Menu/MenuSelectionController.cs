@@ -17,7 +17,7 @@ namespace TankArena.UI
 
 		
 
-		void Start ()
+		void Awake ()
 		{
 			//no character picked yet, main menu
 			if (CurrentState.Instance.Player == null)
