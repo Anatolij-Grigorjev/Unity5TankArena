@@ -3,26 +3,36 @@ using System.Collections.Generic;
 using MovementEffects;
 using TankArena.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TankArena.UI
 {
-	public class PlayerGoalProgressController : MonoBehaviour
+	public class PlayerGoalProgressController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
 
-		private const float MAX_HEIGHT = 220.0f;
+		private const float ORIGINAL_MAX_HEIGHT = 220.0f;
+		private float MAX_HEIGHT;
+		private Color PROGRESS_COLOR;
+		private int FONT_SIZE;
 
+		public Color toStatsColor = Color.red;
 		public RectTransform progressRectangle;
 		public Text progressText;
+		private float currentPercentage;
 
         // Use this for initialization
         void Start()
         {
-			AnimateProgressChange(0.0f, CurrentState.Instance.Player.GetGoalProgress());
+			MAX_HEIGHT = ORIGINAL_MAX_HEIGHT * transform.localScale.y;
+			PROGRESS_COLOR = progressRectangle.GetComponent<Image>().color;
+			FONT_SIZE = progressText.fontSize;
+			AnimateProgressChange(100.0f, CurrentState.Instance.Player.GetGoalProgress());
         }
 
 		public void SetProgress(float progress)
 		{
+			currentPercentage = progress;
 			progressText.text = progress.ToString("P0");
 			
 			var size = new Vector2();
@@ -31,6 +41,22 @@ namespace TankArena.UI
 			DBG.Log("New delta: {0}", size);
 
 			progressRectangle.sizeDelta = size;
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			progressText.text = "STATS";
+			progressText.fontSize = FONT_SIZE - 5;
+			progressText.color = toStatsColor;
+			progressRectangle.GetComponent<Image>().color = toStatsColor;
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			progressText.text = currentPercentage.ToString("P0");
+			progressText.fontSize = FONT_SIZE;
+			progressText.color = PROGRESS_COLOR;
+			progressRectangle.GetComponent<Image>().color = PROGRESS_COLOR;
 		}
 
 		public void Update()
