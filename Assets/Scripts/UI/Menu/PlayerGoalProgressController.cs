@@ -27,7 +27,8 @@ namespace TankArena.UI
 			MAX_HEIGHT = ORIGINAL_MAX_HEIGHT * transform.localScale.y;
 			PROGRESS_COLOR = progressRectangle.GetComponent<Image>().color;
 			FONT_SIZE = progressText.fontSize;
-			AnimateProgressChange(100.0f, CurrentState.Instance.Player.GetGoalProgress());
+			SetProgress(0.0f);
+			AnimateProgressChange(CurrentState.Instance.Player.GetGoalProgress());
         }
 
 		public void SetProgress(float progress)
@@ -66,6 +67,11 @@ namespace TankArena.UI
 			// {
 			// 	AnimateProgressChange(0.0f, Random.Range(0.5f, 1.0f));
 			// }
+		}
+
+		public void AnimateProgressChange(float to)
+		{
+			AnimateProgressChange(currentPercentage, to);
 		}
 
         public void AnimateProgressChange(float from, float to)
