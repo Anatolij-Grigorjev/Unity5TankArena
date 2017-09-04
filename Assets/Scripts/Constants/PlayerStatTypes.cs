@@ -15,6 +15,29 @@ namespace TankArena.Constants
         public const string STAT_FINISHED_ARENAS = "finished_arenas";
         public const string STAT_TOTAL_DEATHS = "total_deaths";
 
+        public static string NameForCode(string statCode)
+        {
+            switch(statCode)
+            {
+                case STAT_TOTAL_KILLED:
+                    return "Total enemy kills: ";
+                case STAT_TOTAL_EARNED:
+                    return "Total money earned: ";
+                case STAT_TOTAL_ARENAS_PLAYED:
+                    return "Total arenas played: ";
+                case STAT_TOTAL_SPENT:
+                    return "Total money spent: ";
+                case STAT_LAST_ARENA:
+                    return "Last arena played: ";
+                case STAT_FINISHED_ARENAS:
+                    return "Finished arenas: ";
+                case STAT_TOTAL_DEATHS:
+                    return "Total deaths: ";
+                default:
+                    return statCode;
+            }
+        }
+
         public static readonly List<string> NUM_STATS = new List<string>(new string[] {
             STAT_TOTAL_KILLED,
             STAT_TOTAL_EARNED,

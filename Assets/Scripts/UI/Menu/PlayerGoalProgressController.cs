@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MovementEffects;
+using TankArena.Constants;
 using TankArena.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace TankArena.UI
 {
-	public class PlayerGoalProgressController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class PlayerGoalProgressController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
 
 		private const float ORIGINAL_MAX_HEIGHT = 220.0f;
@@ -20,6 +21,7 @@ namespace TankArena.UI
 		public RectTransform progressRectangle;
 		public Text progressText;
 		private float currentPercentage;
+		public GameObject statsBG;
 
         // Use this for initialization
         void Start()
@@ -60,6 +62,16 @@ namespace TankArena.UI
 			progressRectangle.GetComponent<Image>().color = PROGRESS_COLOR;
 		}
 
+		public void OnPointerClick(PointerEventData eventData)
+        {
+            
+		
+			if (statsBG != null)
+			{
+				statsBG.SetActive(true);
+			}
+        }
+
 		public void Update()
 		{
 			//testing
@@ -97,6 +109,7 @@ namespace TankArena.UI
 			}
 			SetProgress(to);
 		}
+
     }
 
 }
