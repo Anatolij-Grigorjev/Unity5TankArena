@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TankArena.Constants;
 using TankArena.Utils;
@@ -22,15 +23,24 @@ namespace TankArena.UI
 
 			var player = CurrentState.Instance.Player;
 			characterModel.sprite = player.Character.CharacterModel;
-			statsHeader.text = string.Format("{0} STATS: ", player.Name);
+			statsHeader.text = string.Format("{0}({1}) STATS: ", player.Name, player.Character.Name);
 			var importantStats = player.CharacterGoal.GetRelevantStats();
+
+			//add goal row at start of stats
+			var goalRowGo = Instantiate(statRow);
+			goalRowGo.transform.parent = statsRowsContainer.transform;
+			goalRowGo.transform.localScale = Vector3.one;
+			var text = goalRowGo.GetComponent<Text>();
+			text.text = String.Format("I WANT TO: {0}", player.CharacterGoal.GetCharacterGoalDescription());
+			text.color = Color.white;
+
 			foreach(var stat in player.PlayerStats.stats)
 			{
 				var statRowGo = Instantiate(statRow);
 				statRowGo.transform.parent = statsRowsContainer.transform;
 				statRowGo.transform.localScale = Vector3.one;
 				var statText = statRowGo.GetComponent<Text>();
-				statText.text = PlayerStatTypes.NameForCode(stat.Key).ToUpper() + stat.Value;
+				statText.text = PlayerStatTypes.NameForCode(stat.Key).ToUpper() + ValueToString(stat.Value);
 				if (importantStats.Contains(stat.Key))
 				{
 					statText.color = importantStatColor;
@@ -38,6 +48,17 @@ namespace TankArena.UI
 			}
 
         }
+
+		private string ValueToString(object value)
+		{
+			if (value is ICollection)
+			{
+				return UIUtils.PrintElements((ICollection)value);
+			} else 
+			{
+				return value != null? value.ToString() : "";
+			}
+		}
 
         // Update is called once per frame
         void Update()

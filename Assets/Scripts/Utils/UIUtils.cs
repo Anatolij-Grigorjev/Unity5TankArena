@@ -8,14 +8,15 @@ namespace TankArena.Utils
 {
     public class UIUtils
     {
-        private UIUtils() {}
+        private UIUtils() { }
 
         public static string ApplyPropsToTemplate(string template, Dictionary<string, object> mappings)
         {
             var final = template;
-            foreach(KeyValuePair<string, object> mapping in mappings)
+            foreach (KeyValuePair<string, object> mapping in mappings)
             {
-                if (mapping.Value != null) {
+                if (mapping.Value != null)
+                {
                     final = final.Replace(mapping.Key, mapping.Value.ToString());
                 }
             }
@@ -42,31 +43,37 @@ namespace TankArena.Utils
                 .FirstOrDefault();
         }
 
-        public static string PrintElements<T>(ICollection<T> collection, string separator = ",") 
+        public static string PrintElements(ICollection collection, string separator = ",")
         {
+            if (collection.Count < 1) {
+                return "";
+            }
             StringBuilder builder = new StringBuilder("[");
-            collection.ForEachWithIndex((elem, idx) => {
+            foreach (var elem in collection)
+            {
                 builder.Append(elem);
-                if (idx < collection.Count - 1) {
-                    builder.Append(separator);
-                }
-            });
+                builder.Append(separator);
+            }
+            builder.Remove(builder.Length - separator.Length, separator.Length);
+
+            //flush builder
             builder.Append("]");
             return builder.ToString();
         }
 
         public static string ShortFormCash(float cash)
-		{	
-			string numFormat = "$#,#";
-			if (cash >= 1000.0f && cash <= 1000000.0f)
-			{
-				numFormat = "$#,##0,K";
-			} else if (cash >= 1000000.0f)
-			{
-				numFormat = "#,##0,,M";
-			}
-			
-			return cash.ToString(numFormat);
-		}
+        {
+            string numFormat = "$#,#";
+            if (cash >= 1000.0f && cash <= 1000000.0f)
+            {
+                numFormat = "$#,##0,K";
+            }
+            else if (cash >= 1000000.0f)
+            {
+                numFormat = "#,##0,,M";
+            }
+
+            return cash.ToString(numFormat);
+        }
     }
 }
