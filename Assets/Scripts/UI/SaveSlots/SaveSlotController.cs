@@ -19,7 +19,7 @@ namespace TankArena.UI
 		public GameObject loadoutBG;
 		public GameObject inputBoxGO;
 		public GameObject overwriteSaveBoxGO;
-		private string DESCRIPTION_TEMPLATE = "Player: {name}\t\t\tCash: {cash}\nLast Level Played: {level}\nCurrent Loadout:";
+		private string DESCRIPTION_TEMPLATE = "Player: {name}\t\t\tCash: {cash}\t\t\tProgress: {progress}\nLast Level Played: {level}\nCurrent Loadout:";
 		private Dictionary<string, object> mappedInfo;
 		// Use this for initialization
 		void Start () {
@@ -166,9 +166,10 @@ namespace TankArena.UI
         {
 			if (model != null) 
 			{
-				mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = "???";
+				mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = model.PlayerStats.LastArena;
 				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_CASH] = model.Cash;
 				mappedInfo[UITextKeyMappings.MAPPING_PLAYER_NAME] = model.Name;
+				mappedInfo[UITextKeyMappings.MAPPING_PROGRESS] = model.GetGoalProgress().ToString("P0");
 			} else 
 			{
 				mappedInfo[UITextKeyMappings.MAPPING_ARENA_NAME] = "???";

@@ -13,7 +13,8 @@ namespace TankArena.Models.Characters
 		private readonly string GOAL_TEXT = String.Format("Earn {0}$ to buy back the family farm.", NEEDED_MONEY);
 
 		private readonly List<string> RELEVANT_STATS = new List<string>( new string[] {
-			PlayerStatTypes.STAT_TOTAL_EARNED
+			PlayerStatTypes.STAT_TOTAL_EARNED,
+			PlayerStatTypes.STAT_TOTAL_SPENT
 		});
 
         public override string GetCharacterGoalDescription()

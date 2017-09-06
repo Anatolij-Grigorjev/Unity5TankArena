@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TankArena.Constants;
+using TankArena.Models;
 using TankArena.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,16 +17,23 @@ namespace TankArena.UI
 		public GameObject statRow;
 		public GameObject statsRowsContainer;
 		private Color importantStatColor = Color.red;
+		private Player player;
 
         // Use this for initialization
         void Start()
         {
 
-			var player = CurrentState.Instance.Player;
+			player = CurrentState.Instance.Player;
 			characterModel.sprite = player.Character.CharacterModel;
 			statsHeader.text = string.Format("{0}({1}) STATS: ", player.Name, player.Character.Name);
-			var importantStats = player.CharacterGoal.GetRelevantStats();
+			
+			PopulateStatsList();
+        }
 
+		public void PopulateStatsList()
+		{
+			var importantStats = CurrentState.Instance.Player.CharacterGoal.GetRelevantStats();
+			statsRowsContainer.ClearChildren();
 			//add goal row at start of stats
 			var goalRowGo = Instantiate(statRow);
 			goalRowGo.transform.parent = statsRowsContainer.transform;
@@ -46,8 +54,7 @@ namespace TankArena.UI
 					statText.color = importantStatColor;
 				}
 			}
-
-        }
+		}
 
 		private string ValueToString(object value)
 		{

@@ -44,7 +44,7 @@ namespace TankArena.UI
             var totalsPositive = stats.Where(stat => stat.Key.Id != EnemyType.OWN_DEATH_ID).Sum(stat => stat.Key.Value * stat.Value);
             CurrentState.Instance.Player.PlayerStats.TotalEarned += totalsPositive;
             var ownDeath = stats.Where(stat => stat.Key.Id == EnemyType.OWN_DEATH_ID);
-            totalSum = !ownDeath.Any()? totalsPositive : totalsPositive - ownDeath.First().Key.Value;
+            totalSum = Mathf.Clamp(!ownDeath.Any()? totalsPositive : totalsPositive + ownDeath.First().Key.Value, 0.0f, float.MaxValue);
             SetTotalTally(totalSum);
             //always takes cashout ticks to cash out
             cashOutRate = totalSum / cashOutRateCoef;

@@ -43,7 +43,7 @@ namespace TankArena.UI.Characters
                 }
                 else
                 {
-					return slot.WeaponType == WeaponTypes.LIGHT? EMPTY_LIGHT_WEAPON : EMPTY_HEAVY_WEAPON;
+                    return slot.WeaponType == WeaponTypes.LIGHT ? EMPTY_LIGHT_WEAPON : EMPTY_HEAVY_WEAPON;
                 }
             }).ToArray());
 
@@ -57,11 +57,14 @@ namespace TankArena.UI.Characters
 
             loadoutItems.ForEach(shopItem =>
             {
-                var itemGO = Instantiate(loadoutGridItem, Vector3.zero, Quaternion.identity, loadoutGrid.transform) as GameObject;
-                var childTr = itemGO.transform.GetChild(0);
-                if (childTr != null)
+                if (shopItem != null)
                 {
-                    childTr.gameObject.GetComponent<Image>().sprite = shopItem.ShopItem;
+                    var itemGO = Instantiate(loadoutGridItem, Vector3.zero, Quaternion.identity, loadoutGrid.transform) as GameObject;
+                    var childTr = itemGO.transform.GetChild(0);
+                    if (childTr != null)
+                    {
+                        childTr.gameObject.GetComponent<Image>().sprite = shopItem.ShopItem;
+                    }
                 }
             });
         }

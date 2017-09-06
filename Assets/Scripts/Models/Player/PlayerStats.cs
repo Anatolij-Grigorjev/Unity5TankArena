@@ -27,7 +27,7 @@ namespace TankArena.Models
         {
             get
             {
-                return (int)stats[PST.STAT_TOTAL_KILLED];
+                return (float)stats[PST.STAT_TOTAL_KILLED];
             }
             set
             {
@@ -40,7 +40,7 @@ namespace TankArena.Models
         {
             get
             {
-                return (int)stats[PST.STAT_TOTAL_DEATHS];
+                return (float)stats[PST.STAT_TOTAL_DEATHS];
             }
             set
             {
@@ -91,7 +91,7 @@ namespace TankArena.Models
         {
             get
             {
-                return (int)stats[PST.STAT_TOTAL_ARENAS_PLAYED];
+                return (float)stats[PST.STAT_TOTAL_ARENAS_PLAYED];
             }
             set
             {
