@@ -32,11 +32,12 @@ namespace TankArena.UI
 
 		public void PopulateStatsList()
 		{
-			var importantStats = CurrentState.Instance.Player.CharacterGoal.GetRelevantStats();
+			var player = CurrentState.Instance.Player;
+			var importantStats = player.CharacterGoal.GetRelevantStats();
 			statsRowsContainer.ClearChildren();
 			//add goal row at start of stats
 			var goalRowGo = Instantiate(statRow);
-			goalRowGo.transform.parent = statsRowsContainer.transform;
+			goalRowGo.transform.SetParent(statsRowsContainer.transform, false);
 			goalRowGo.transform.localScale = Vector3.one;
 			var text = goalRowGo.GetComponent<Text>();
 			text.text = String.Format("I WANT TO: {0}", player.CharacterGoal.GetCharacterGoalDescription());
@@ -45,7 +46,7 @@ namespace TankArena.UI
 			foreach(var stat in player.PlayerStats.stats)
 			{
 				var statRowGo = Instantiate(statRow);
-				statRowGo.transform.parent = statsRowsContainer.transform;
+				statRowGo.transform.SetParent(statsRowsContainer.transform, false);
 				statRowGo.transform.localScale = Vector3.one;
 				var statText = statRowGo.GetComponent<Text>();
 				statText.text = PlayerStatTypes.NameForCode(stat.Key).ToUpper() + ValueToString(stat.Value);

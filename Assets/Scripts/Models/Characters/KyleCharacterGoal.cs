@@ -13,7 +13,7 @@ namespace TankArena.Models.Characters
 
 		private const float NEEDED_KILLS = 50;
         private float lastDeaths = 0;
-		private readonly string GOAL_TEXT = String.Format("Best ${0} opponents wihtout dying to find the true meaning of self-confidence", NEEDED_KILLS);
+		private readonly string GOAL_TEXT = String.Format("Best {0} opponents wihtout dying to find the true meaning of self-confidence", NEEDED_KILLS);
 
 		private readonly List<string> RELEVANT_STATS = new List<string>( new string[] {
 			PlayerStatTypes.STAT_KILLS_SINCE_DEATH,
