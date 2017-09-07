@@ -130,6 +130,7 @@ namespace TankArena.Controllers
                 enemyType = EnemyType.ForPlayerDeath((partsSum + weaponsSum) * (-1.0f));
                 //update deaths stat
                 CurrentState.Instance.Player.PlayerStats.TotalDeaths++;
+                CurrentState.Instance.Player.PlayerStats.TotalKillsSinceLastDeath = 0;
 
             } else
             {   
@@ -142,6 +143,7 @@ namespace TankArena.Controllers
                     DBG.Log("SOMETHING TERRIBLE HAPPENING! Target: " + deathTarget);
                 }
                 CurrentState.Instance.Player.PlayerStats.TotalKills++;
+                CurrentState.Instance.Player.PlayerStats.TotalKillsSinceLastDeath++;
             }
             if (enemyType != null)
             {

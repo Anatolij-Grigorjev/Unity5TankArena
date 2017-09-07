@@ -65,9 +65,7 @@ namespace TankArena.Models
                     player.PlayerStats = PlayerStats.FromJSON(json[PP.PP_STATISTICS].AsObject);
                     player.CharacterGoal = (AbstractCharacterGoal)Activator.CreateInstance(player.Character.CharacterGoalType);
                     float progress = json[PP.PP_GOAL_PROGRESS].AsFloat;
-                    player.CharacterGoal.Init(progress);
-
-                    player.CharacterGoal.UpdateProgress(player.PlayerStats);
+                    player.CharacterGoal.Init(player.PlayerStats);
 
                 }
                 catch (Exception ex)

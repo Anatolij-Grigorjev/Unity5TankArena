@@ -36,6 +36,19 @@ namespace TankArena.Models
             }
         }
 
+        public float TotalKillsSinceLastDeath
+        {
+            get 
+            {
+                return (float)stats[PST.STAT_KILLS_SINCE_DEATH];
+            }
+            set 
+            {
+                stats[PST.STAT_KILLS_SINCE_DEATH] = value;
+                UpdateCharacterGoal();
+            }
+        }
+
         public float TotalDeaths
         {
             get

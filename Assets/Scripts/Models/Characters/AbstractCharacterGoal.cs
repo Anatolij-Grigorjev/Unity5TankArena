@@ -15,9 +15,9 @@ namespace TankArena.Models.Characters
             goalProgress = progress;
         }
 
-		public void Init(float progress) 
+		public virtual void Init(PlayerStats stats) 
 		{
-			goalProgress = progress;
+			UpdateProgress(stats);
 		}
 
         public float GetProgress()
