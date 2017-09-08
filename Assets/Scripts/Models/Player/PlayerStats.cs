@@ -133,7 +133,7 @@ namespace TankArena.Models
             PST.NUM_STATS.ForEach(code =>
             {
                 this.stats.Remove(code);
-                this.stats.Add(code, 0);
+                this.stats.Add(code, 0.0f);
             });
             //put empty lists for list stats
             PST.LIST_STATS.ForEach(code =>
