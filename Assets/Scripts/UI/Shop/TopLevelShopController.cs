@@ -63,7 +63,7 @@ namespace TankArena.UI.Shop
 
 		public void _BackToMenu()
 		{
-			TransitionUtil.StartTransitionTo(SceneIds.SCENE_MENU_ID);
+			TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_MENU_ID);
 		}
 
 		public void RefreshUI()
