@@ -141,7 +141,12 @@ namespace TankArena.Controllers
                         goLock = enemyGo;
 
                         CurrentState.Instance.Cursor.SetActive(false);
-
+                        //attempt some rotations
+                        int rotations = 10;
+                        while (rotations > 0 && !RotateToTargetPosition(goLock.transform.position))
+                        {
+                            rotations--;
+                        }
                     }
 
                 }
@@ -175,7 +180,7 @@ namespace TankArena.Controllers
 
         private bool AddTurretRotation()
         {
-            var rotator = tankController.turretController.Rotator;
+            
             Vector3 targetPosition = Vector3.zero;
             if (goLock == null)
             {
@@ -192,7 +197,12 @@ namespace TankArena.Controllers
                 targetPosition = goLock.transform.position;
             }
 
+            return RotateToTargetPosition(targetPosition);
+        }
 
+        private bool RotateToTargetPosition(Vector3 targetPosition) 
+        {
+            var rotator = tankController.turretController.Rotator;
             //prepare new roation to mouse looking direction
             latestTurretTurnDirection = targetPosition - rotator.position;
             latestTurretRotation = Quaternion.LookRotation(latestTurretTurnDirection, TANK_FORWARD_VECTOR);
@@ -203,9 +213,10 @@ namespace TankArena.Controllers
             commands.Enqueue(TankCommand.OneParamCommand(TankCommandWords.TANK_COMMAND_MOVE_TURRET, TankCommandParamKeys.TANK_CMD_MOVE_TURRET_KEY, latestTurretRotation));
             //no need to fire yet if rotation too large
             // DBG.Log("Difference between quaternions: {0}", angleDiff);
-            //angle diff will remain around 100 units for a correct angle, safest being between 90 and 100
+            //angle diff will remain around 100 units for a correct angle, safest being between 90 and 110
             return 90.0f <= angleDiff && angleDiff <= 110.0f;
         }
+
         private void CollectWeaponsInput()
         {
             //check for input in all weapon groups

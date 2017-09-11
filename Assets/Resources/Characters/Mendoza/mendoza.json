@@ -16,5 +16,5 @@ Business is his baby. He collected a forceful personality because of that. If yo
 Although, inevitable has chased him through years and has been catching up with him. He longed for belonging, and money couldn’t fix that. Being a man of resolve he set out to fight in the TankArena tournament that seemed to be what brought people to like the champions. 
 ",
     "goal_logic": "TankArena.Models.Characters.MendozaCharacterGoal",
-    "start_tank": "chassis=CH_slick01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_light_medium01,L_0=WPN_L_basic_gatling01|0,L_1=WPN_L_basic_gatling01|0"
+    "start_tank": "chassis=CH_slick01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_heavy_mini01,H_0=WPN_H_cannon01|1"
 }
