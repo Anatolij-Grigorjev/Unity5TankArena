@@ -6,6 +6,7 @@ using TankArena.Constants;
 using TankArena.Utils;
 using TankArena.Models.Characters;
 using System;
+using TankArena.Models;
 
 namespace TankArena.UI.Characters
 {
@@ -131,6 +132,9 @@ namespace TankArena.UI.Characters
 			player.Character = model;
 			player.CurrentTank = model.StartingTank;
 			player.CurrentStats = model.StartingStats;
+			player.PlayerStats = new PlayerStats();
+			player.CharacterGoal = (AbstractCharacterGoal)Activator.CreateInstance(model.CharacterGoalType);
+			player.CharacterGoal.Init(player.PlayerStats);
 			
 			CurrentState.Instance.SetPlayer(player);
 			
