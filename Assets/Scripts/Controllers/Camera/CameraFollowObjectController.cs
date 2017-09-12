@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using TankArena.Utils;
 
 namespace TankArena.Controllers
 {
@@ -87,12 +88,23 @@ namespace TankArena.Controllers
             var vertExtent = camera.orthographicSize;
             //horizontal extent is vertical by screen ratio
             var horizExtent = vertExtent * (Screen.width / Screen.height); 
+            DBG.Log("Working with - extents: {0}| Map bounds: {1} | Map origin: {2}", new Vector2(horizExtent, vertExtent), mapBounds, mapPosition);
+            
 
+            cameraMinX = mapPosition.x + horizExtent;
+            cameraMinY = mapPosition.y - mapBounds.y + vertExtent;
+            cameraMaxX = mapPosition.x + mapBounds.x - horizExtent;
+            cameraMaxY = mapPosition.y - vertExtent;
+            
+            //swap as needed
+            if (cameraMinX > cameraMaxX) {
+                ExtensionMethods.Swap(ref cameraMinX, ref cameraMaxX);
+            }
+            if (cameraMinY > cameraMaxY) {
+                ExtensionMethods.Swap(ref cameraMinY, ref cameraMaxY);
+            }
 
-            cameraMinX = horizExtent - (mapBounds.x / 2.0f) + mapPosition.x;
-            cameraMinY = vertExtent - (mapBounds.y / 2.0f) + mapPosition.y;
-            cameraMaxX = mapBounds.x / 2.0f - horizExtent + mapPosition.x;
-            cameraMaxY = mapBounds.y / 2.0f - vertExtent + mapPosition.y;
+            DBG.Log("Decided bounds - X: {0} | Y: {1}", new Vector2(cameraMinX, cameraMaxX), new Vector2(cameraMinY, cameraMaxY));
         }
 
         private void RecalcOffset()

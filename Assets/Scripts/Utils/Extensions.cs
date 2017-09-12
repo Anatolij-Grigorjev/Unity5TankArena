@@ -16,6 +16,13 @@ namespace TankArena.Utils
                 originalArray[i] = with;
             }
         }
+
+        public static void Swap<T>(ref T x, ref T y)
+        {
+            T t = y;
+            y = x;
+            x = t;
+        }
         public static void AddAll<K, V>(this Dictionary<K, V> main, Dictionary<K, V> other, bool priorityThis = true)
         {
             if (other == null)
@@ -69,7 +76,7 @@ namespace TankArena.Utils
         public static List<string> ToList(this JSONArray arr)
         {
             var list = new List<string>();
-            foreach(var elem in arr)
+            foreach (var elem in arr)
             {
                 list.Add(elem.ToString());
             }
@@ -77,7 +84,7 @@ namespace TankArena.Utils
             return list;
         }
 
-        public static  JSONArray ToJsonArray(this List<string> list)
+        public static JSONArray ToJsonArray(this List<string> list)
         {
             var arr = new JSONArray();
             list.ForEach(elem => arr.Add(elem));
