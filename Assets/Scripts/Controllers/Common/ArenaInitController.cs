@@ -39,19 +39,8 @@ namespace TankArena.Controllers
 				var cameraFollowController = Camera.main.GetComponent<CameraFollowObjectController>();
 				cameraFollowController.Target = player;
 				cameraFollowController.offset = new Vector3(0, 0, -10);
-				var cameraSize = new Vector2(Camera.main.orthographicSize * 1.7f, Camera.main.orthographicSize);
-				var minCameraPos = new Vector2(
-					//left-est camera position is half of camera size since its rectangular
-					levelModel.PlacementPoint.x + cameraSize.x, 
-					//lowest camera can go is map lowest point compared to where highest point is minus camera size
-					levelModel.PlacementPoint.y - mapSize.y + cameraSize.y
-					);
-				//ensuring max psoition not smaller than min
-				var maxCameraPos = new Vector2(
-					Mathf.Max(levelModel.PlacementPoint.x + mapSize.x - cameraSize.x, minCameraPos.x),
-					Mathf.Max(levelModel.PlacementPoint.y - cameraSize.y, minCameraPos.y)
-				);
-				cameraFollowController.SetBounds(minCameraPos, maxCameraPos);
+				
+				cameraFollowController.SetMapInfo(mapSize, levelModel.PlacementPoint);
 				cameraFollowController.useBounds = true;
 				
 

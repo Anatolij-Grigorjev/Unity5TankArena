@@ -21,8 +21,8 @@ namespace TankArena.Controllers
             }
         }
 
-        public Vector2 cameraBoundsMin;
-        public Vector2 cameraBoundsMax;
+        public Vector2 mapBounds;
+        public Vector2 mapPosition;
 
         //Object to initialize the Target with, for use in the Editor ONLY
         public GameObject starter;
@@ -61,19 +61,38 @@ namespace TankArena.Controllers
             transform.position = newPosition;
         }
 
-        public void SetBounds(Vector2 min, Vector2 max)
+        public void SetMapInfo(Vector2 mapBounds, Vector2 mapOrigin)
         {
-            cameraBoundsMin = min;
-            cameraBoundsMax = max;
+            this.mapBounds = mapBounds;
+            this.mapPosition = mapOrigin;
             RecalcBounds();
+        }
+
+        public void SetOrthographicSize(float orthographicSize)
+        {
+            var camera = this.GetComponent<Camera>();
+            camera.orthographicSize = orthographicSize;
+            RecalcBounds();
+        }
+
+        public float GetOrthographicSize()
+        {
+            var camera = GetComponent<Camera>();
+            return camera.orthographicSize;
         }
 
         private void RecalcBounds()
         {
-            cameraMinX = cameraBoundsMin.x;
-            cameraMinY = cameraBoundsMin.y;
-            cameraMaxX = cameraBoundsMax.x;
-            cameraMaxY = cameraBoundsMax.y;
+            var camera = this.GetComponent<Camera>();
+            var vertExtent = camera.orthographicSize;
+            //horizontal extent is vertical by screen ratio
+            var horizExtent = vertExtent * (Screen.width / Screen.height); 
+
+
+            cameraMinX = horizExtent - (mapBounds.x / 2.0f) + mapPosition.x;
+            cameraMinY = vertExtent - (mapBounds.y / 2.0f) + mapPosition.y;
+            cameraMaxX = mapBounds.x / 2.0f - horizExtent + mapPosition.x;
+            cameraMaxY = mapBounds.y / 2.0f - vertExtent + mapPosition.y;
         }
 
         private void RecalcOffset()

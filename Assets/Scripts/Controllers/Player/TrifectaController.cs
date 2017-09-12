@@ -104,7 +104,7 @@ namespace TankArena.Controllers
         private void ToggleCameraZoomChange(float newZoom)
         {
 
-            Timing.RunCoroutine(_PerformCameraZoomChange(Camera.main, newZoom));
+            Timing.RunCoroutine(_PerformCameraZoomChange(Camera.main.GetComponent<CameraFollowObjectController>(), newZoom));
         }
 
         private void ToggleTracksRotated(bool turret)
@@ -143,17 +143,17 @@ namespace TankArena.Controllers
 
         }
 
-        private IEnumerator<float> _PerformCameraZoomChange(Camera camera, float newZoom)
+        private IEnumerator<float> _PerformCameraZoomChange(CameraFollowObjectController camera, float newZoom)
         {
             var completion = 0.0f;
             while (completion < ANIMATION_LENGTH)
             {
-                camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, newZoom, Mathf.SmoothStep(0.0f, 1.0f, completion));
+                camera.SetOrthographicSize(Mathf.Lerp(camera.GetOrthographicSize(), newZoom, Mathf.SmoothStep(0.0f, 1.0f, completion)));
                 completion += Timing.DeltaTime;
                 yield return Timing.WaitForSeconds(Timing.DeltaTime);
             }
 
-            camera.orthographicSize = newZoom;
+            camera.SetOrthographicSize(newZoom);
         }
 
         private IEnumerator<float> _PerformTracksRotation(TankTracksController tracks, Vector3 toPos, Quaternion toRot)
