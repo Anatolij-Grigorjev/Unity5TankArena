@@ -171,6 +171,8 @@ namespace TankArena.Controllers
         public void EngageDeath()
         {
             this.aiController.enabled = false;
+            this.vehicleCollider.enabled = false;
+            this.vehicleRigidBody.isKinematic = true;
             this.enabled = false;
             Destroy(healthBarController.gameObject);
             // StopPhysicsMovement();

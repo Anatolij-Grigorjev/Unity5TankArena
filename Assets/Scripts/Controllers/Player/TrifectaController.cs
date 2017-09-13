@@ -65,6 +65,7 @@ namespace TankArena.Controllers
             codeToAnimactions = new Dictionary<TrifectaStates, Action>()
             {
                 { TrifectaStates.STATE_REC, () =>  {
+                    ReloadWeapons();
                     ToggleWeaponVisibility(false);
                 }},
                 { TrifectaStates.STATE_TUR, () =>  {
@@ -105,6 +106,13 @@ namespace TankArena.Controllers
         {
 
             Timing.RunCoroutine(_PerformCameraZoomChange(Camera.main.GetComponent<CameraFollowObjectController>(), newZoom));
+        }
+
+        private void ReloadWeapons()
+        {
+            var controller = playerTank.GetComponent<PlayerController>();
+            //issue reload command
+            controller.commands.Enqueue(new TankCommand(TankCommandWords.TANK_COMMAND_RELOAD));
         }
 
         private void ToggleTracksRotated(bool turret)
