@@ -115,6 +115,14 @@ namespace TankArena.Controllers.Weapons
         private float currentShotDelay = 0.0f;
         private const float MINUTE_IN_SECONDS = 60.0f;
         private const float CHECK_IF_SHOOTING_WAIT = 0.4f;
+        private const float MAX_TURRET_OFFSET_TIME_COEF = 0.75f;
+        private const float MAX_TURRET_OFFSET_TRANSLATION = 0.65f;
+        private const float PROJECTILE_TURRET_DISTANCE = 10.0f;
+        private readonly Vector2 DAMAGE_VARIANCE = new Vector2(0.75f, 1.25f);
+        private readonly Vector2 SHOT_PITCH_VARIANCE = new Vector2(0.75f, 1.25f);
+        private readonly Vector2 SHOT_VOLUME_VARIANCE = new Vector2(0.75f, 1.0f);
+        private readonly Vector2 SHOT_SPREAD_ANGLE_VARIANCE = new Vector2(-5.5f, 5.5f);
+        private readonly Vector2 SHOT_SPREAD_VELOCITY = new Vector2(0.85f, 1.15f);
         private bool isReloading;
         private bool isRapidFire;
         private bool isShooting;
@@ -125,14 +133,15 @@ namespace TankArena.Controllers.Weapons
         public int currentClipSize;
         private float maxShotDelay;
         private float turretOffsetTime = 0.0f;
+        
 
         // Use this for initialization
         void Awake()
         {
             weaponSpriteRenderer = GetComponent<SpriteRenderer>();
             shotAudio = GetComponent<AudioSource>();
-            shotAudio.pitch = UnityEngine.Random.Range(0.5f, 2.5f);
-            shotAudio.volume = UnityEngine.Random.Range(0.5f, 1.0f);
+            shotAudio.pitch = UnityEngine.Random.Range(SHOT_PITCH_VARIANCE.x, SHOT_PITCH_VARIANCE.y);
+            shotAudio.volume = UnityEngine.Random.Range(SHOT_VOLUME_VARIANCE.x, SHOT_VOLUME_VARIANCE.y);
             shotAudioStartTime = 0.0f;
             weaponAnimator = GetComponent<SpriteAnimationController>();
             weaponAnimator.targetRenderer = weaponSpriteRenderer;
@@ -181,6 +190,7 @@ namespace TankArena.Controllers.Weapons
                 else
                 {
                     isShooting = false;
+                    CheckIsShootingLater();
                 }
             }
             if (isShooting && currentShotDelay <= 0.0)
@@ -228,10 +238,8 @@ namespace TankArena.Controllers.Weapons
                     
                     if (turretOffsetTime == 0.0f)
                     {
-                        DBG.Log("Doing knockback! up: {0}, position: {1}", transform.up, 
-                            rotator.localRotation);
-                        rotator.Translate(-Mathf.Max(maxShotDelay, 0.65f) * transform.up, Space.World);
-                        turretOffsetTime = maxShotDelay * 0.75f;
+                        rotator.Translate(-Mathf.Max(maxShotDelay, MAX_TURRET_OFFSET_TRANSLATION) * transform.up, Space.World);
+                        turretOffsetTime = maxShotDelay * MAX_TURRET_OFFSET_TIME_COEF;
                     }
                 }
 
@@ -260,7 +268,7 @@ namespace TankArena.Controllers.Weapons
                         var dmgReceiver = firstHit.collider.gameObject.GetComponent<IDamageReceiver>();
                         if (dmgReceiver != null)
                         {
-                            dmgReceiver.ApplyDamage(damage * UnityEngine.Random.Range(0.75f, 1.25f));
+                            dmgReceiver.ApplyDamage(damage * UnityEngine.Random.Range(DAMAGE_VARIANCE.x, DAMAGE_VARIANCE.y));
                         }
                     }
                 }
@@ -273,16 +281,20 @@ namespace TankArena.Controllers.Weapons
                         : transform.root;
                     projectile.SetActive(true);
                     projectile.transform.position = transform.position;
-                    //rotation of bullet itself is neutral
-                    projectile.transform.rotation = Quaternion.identity;
+                    //rotation of bullet itself is near-neutral (slight variance for fun spread effect)
+                    var bulletRot = UnityEngine.Random.Range(SHOT_SPREAD_ANGLE_VARIANCE.x, SHOT_SPREAD_ANGLE_VARIANCE.y);
+                    projectile.transform.rotation = 
+                        Quaternion.Euler(bulletRot, 0.0f, 0.0f);
                     var projectileController = projectile.GetComponent<ProjectileController>();
                     //but rotation of its sprite is different
                     var rotBase = rotatorTransform.localEulerAngles;
-                    rotBase.z += 90.0f;
+                    rotBase.z += (90.0f + bulletRot); //adjust sprite for random spread
                     projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
                     projectileController.direction = rotatorTransform.up;
+                    //adjust bullet velocity for nicer spread
+                    projectileController.velocity *= (UnityEngine.Random.Range(SHOT_SPREAD_VELOCITY.x, SHOT_SPREAD_VELOCITY.y));
                     //move a bit away from the barrel
-                    projectile.transform.Translate(projectileController.direction * 10.0f);
+                    projectile.transform.Translate(projectileController.direction * PROJECTILE_TURRET_DISTANCE);
                     projectile.layer = projectileLayer;
                 }
 
@@ -302,8 +314,8 @@ namespace TankArena.Controllers.Weapons
         public void UnsetShootingAnimation()
         {
             weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
-            shotAudio.pitch = UnityEngine.Random.Range(0.75f, 1.25f);
-            shotAudio.volume = UnityEngine.Random.Range(0.75f, 1.0f);
+            shotAudio.pitch = UnityEngine.Random.Range(SHOT_PITCH_VARIANCE.x, SHOT_PITCH_VARIANCE.y);
+            shotAudio.volume = UnityEngine.Random.Range(SHOT_VOLUME_VARIANCE.x, SHOT_VOLUME_VARIANCE.y);
         }
         private bool animationStopperRunning = false;
         public void CheckIsShootingLater()
