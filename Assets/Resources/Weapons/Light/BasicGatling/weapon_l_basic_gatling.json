@@ -3,8 +3,8 @@
 	"name": "Basic Gatling Gun",
 	"price": 51.29,
 	"wpn_type": 0,
-	"damage": 2.7
-,	"reload": 4.5,
+	"damage": 2.7,
+	"reload": 4.5,
 	"rate_of_fire": 900,
 	"range": 95,
 	"clip_size": 300,

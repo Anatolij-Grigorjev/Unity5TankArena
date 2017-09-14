@@ -158,8 +158,14 @@ namespace TankArena.Models.Weapons
                 properties[EK.EK_RELOAD_SOUND] = null;
             }
             properties[EK.EK_HIT_TYPE] = Enum.Parse(typeof(WeaponHitTypes), json[EK.EK_HIT_TYPE].Value, true);
-            properties[EK.EK_PROJECTILE] = ProjectileModel.ParseFromJSON(json[EK.EK_PROJECTILE].AsObject);
-            if (WeaponHitTypes.PROJECTILE == HitType)
+            if (WeaponHitTypes.COMPOSITE == HitType)
+            {
+                properties[EK.EK_PROJECTILE] = CompositeProjectileModel.ParseFromJSON(json[EK.EK_PROJECTILE].AsObject);
+            } else 
+            {
+                properties[EK.EK_PROJECTILE] = ProjectileModel.ParseFromJSON(json[EK.EK_PROJECTILE].AsObject);
+            }
+            if (WeaponHitTypes.TARGET != HitType)
             {
                 Projectile.Damage = Damage;
             }

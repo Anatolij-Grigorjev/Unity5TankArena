@@ -11,6 +11,7 @@ namespace TankArena.Controllers.Weapons
     {
 
         public bool isDecorative;
+        public bool isComposite;
         public SpriteRenderer spriteRenderer;
         public Sprite[] sprites;
         public float[] spriteDurationTimes;
@@ -30,8 +31,12 @@ namespace TankArena.Controllers.Weapons
             }
             set
             {
-                currentSpriteIdx = value;
-                spriteRenderer.sprite = sprites[value];
+                //composite projectiels dont have sprites
+                if (!isComposite)
+                {
+                    currentSpriteIdx = value;
+                    spriteRenderer.sprite = sprites[value];
+                }
             }
         }
 
@@ -42,8 +47,8 @@ namespace TankArena.Controllers.Weapons
             currentDistance = 0.0f;
             currentLifetime = 0.0f;
             CurrentSpriteIdx = 0;
-			//randomize damage a bit
-			damage  *= UnityEngine.Random.Range(0.75f, 1.25f);
+            //randomize damage a bit
+            damage *= UnityEngine.Random.Range(0.75f, 1.25f);
         }
 
         // Update is called once per frame
@@ -80,7 +85,7 @@ namespace TankArena.Controllers.Weapons
                     var otherBody = other.GetComponent<Rigidbody2D>();
                     if (otherBody != null)
                     {
-						otherBody.AddForce(direction * damage * hitCoef, ForceMode2D.Impulse);
+                        otherBody.AddForce(direction * damage * hitCoef, ForceMode2D.Impulse);
                     }
                 }
             }

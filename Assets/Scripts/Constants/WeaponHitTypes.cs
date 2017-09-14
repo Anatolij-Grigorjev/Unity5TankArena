@@ -15,7 +15,11 @@ namespace TankArena.Constants
 		Weapon hit type that describes where taget gets hit by a raycast with teh projectile being
 		a decorative feedback visual, used in quick fire rate weapons
 		 */
-		TARGET
+		TARGET,
+		/*
+		PROJECTILE hit type with the projectile itself being a non-atomic combination 
+		of several simpler projectiles */
+		COMPOSITE
 		
 	}
 

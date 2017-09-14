@@ -110,6 +110,8 @@ namespace TankArena.Constants
         public const string EK_DURATION = "duration";
         public const string EK_INDEX = "index";
         public const string EK_VELOCITY = "velocity";
+        public const string EK_PROJECTILES_COUNT = "projectiles_count";
+        public const string EK_PROJECTILES_SPREAD_RADIUS = "projectiles_spread_radius";
         public const string EK_IMPACT_PREFAB = "impact_prefab";
         public const string EK_SPRITE_TIMES = "sprite_times";
         public const string EK_SHOT_SOUND = "shot_sound";
