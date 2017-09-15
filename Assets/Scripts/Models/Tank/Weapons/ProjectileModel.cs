@@ -39,6 +39,20 @@ namespace TankArena.Models.Weapons
             return result;
         }
 
+		public void CopyPropsTo(ProjectileModel other)
+		{
+			other.Tag = this.Tag;
+			other.Damage = this.Damage;
+			other.Velocity = this.Velocity;
+			other.ImpactPrefab = this.ImpactPrefab;
+			other.BoxCollider = this.BoxCollider;
+			other.Distance = this.Distance;
+			other.SpriteTimes = new float[SpriteTimes.Length];
+			other.Spritesheet = new Sprite[SpriteTimes.Length];
+			Array.Copy(Spritesheet, other.Spritesheet, SpriteTimes.Length);
+			Array.Copy(SpriteTimes, other.SpriteTimes, SpriteTimes.Length);
+		}
+
         public virtual void SetDataToController(ProjectileController controller)
         {
             if (controller == null)

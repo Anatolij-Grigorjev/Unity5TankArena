@@ -133,7 +133,7 @@ namespace TankArena.Controllers.Weapons
         public int currentClipSize;
         private float maxShotDelay;
         private float turretOffsetTime = 0.0f;
-        
+
 
         // Use this for initialization
         void Awake()
@@ -207,7 +207,8 @@ namespace TankArena.Controllers.Weapons
                 rotator.localPosition = Vector3.Lerp(rotator.localPosition, Vector3.zero,
                     Mathf.SmoothStep(0.0f, 1.0f, (maxShotDelay - turretOffsetTime) / maxShotDelay));
                 turretOffsetTime -= Time.deltaTime;
-                if (turretOffsetTime < 0.0f) {
+                if (turretOffsetTime < 0.0f)
+                {
                     turretOffsetTime = 0.0f;
                     rotator.localPosition = Vector3.zero;
                 }
@@ -235,7 +236,7 @@ namespace TankArena.Controllers.Weapons
                 if (turretController != null)
                 {
                     var rotator = turretController.Rotator;
-                    
+
                     if (turretOffsetTime == 0.0f)
                     {
                         rotator.Translate(-Mathf.Max(maxShotDelay, MAX_TURRET_OFFSET_TRANSLATION) * transform.up, Space.World);
@@ -276,20 +277,38 @@ namespace TankArena.Controllers.Weapons
                 var projectile = bulletPool.GetFirsReadyInstance();
                 if (projectile != null)
                 {
-                    var rotatorTransform = turretController != null ? 
-                        turretController.Rotator.transform 
+                    var rotatorTransform = turretController != null ?
+                        turretController.Rotator.transform
                         : transform.root;
+                    var projectileController = projectile.GetComponent<ProjectileController>();
                     projectile.SetActive(true);
+                    //enabling children as well because Unity doesn not believe in truthful documentation
+                    if (projectileController.isComposite)
+                    {
+                        for (int i = 0; i < projectileController.transform.childCount; i++)
+                        {
+                            projectileController.transform.GetChild(i).gameObject.SetActive(true);
+                        }
+                    }
                     projectile.transform.position = transform.position;
                     //rotation of bullet itself is near-neutral (slight variance for fun spread effect)
                     var bulletRot = UnityEngine.Random.Range(SHOT_SPREAD_ANGLE_VARIANCE.x, SHOT_SPREAD_ANGLE_VARIANCE.y);
-                    projectile.transform.rotation = 
+                    projectile.transform.rotation =
                         Quaternion.Euler(bulletRot, 0.0f, 0.0f);
-                    var projectileController = projectile.GetComponent<ProjectileController>();
                     //but rotation of its sprite is different
                     var rotBase = rotatorTransform.localEulerAngles;
                     rotBase.z += (90.0f + bulletRot); //adjust sprite for random spread
-                    projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
+                    if (!projectileController.isComposite)
+                    {
+                        projectileController.spriteRenderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
+                    }
+                    else
+                    {
+                        foreach (var renderer in projectileController.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            renderer.gameObject.transform.localRotation = Quaternion.Euler(rotBase);
+                        }
+                    }
                     projectileController.direction = rotatorTransform.up;
                     //adjust bullet velocity for nicer spread
                     projectileController.velocity *= (UnityEngine.Random.Range(SHOT_SPREAD_VELOCITY.x, SHOT_SPREAD_VELOCITY.y));

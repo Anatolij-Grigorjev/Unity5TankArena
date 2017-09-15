@@ -48,17 +48,21 @@ namespace TankArena.Controllers.Weapons
             currentLifetime = 0.0f;
             CurrentSpriteIdx = 0;
             //randomize damage a bit
-            damage *= UnityEngine.Random.Range(0.75f, 1.25f);
+            damage = damage * UnityEngine.Random.Range(0.75f, 1.25f);
         }
 
         // Update is called once per frame
         void Update()
         {
             currentLifetime += Time.deltaTime;
-            if (currentLifetime > spriteDurationTimes[currentSpriteIdx] && (currentSpriteIdx < spriteDurationTimes.Length - 1))
+            //update sprite for non-composites
+            if (!isComposite)
             {
-                currentLifetime = 0.0f;
-                CurrentSpriteIdx = (currentSpriteIdx + 1);
+                if (currentLifetime > spriteDurationTimes[currentSpriteIdx] && (currentSpriteIdx < spriteDurationTimes.Length - 1))
+                {
+                    currentLifetime = 0.0f;
+                    CurrentSpriteIdx = (currentSpriteIdx + 1);
+                }
             }
             var distanceCovered = velocity * Time.deltaTime;
             var movementVector = direction * distanceCovered;

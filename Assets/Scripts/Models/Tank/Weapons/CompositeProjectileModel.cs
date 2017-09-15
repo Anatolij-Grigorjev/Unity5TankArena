@@ -27,13 +27,11 @@ namespace TankArena.Models.Weapons
         {
             var result = new CompositeProjectileModel();
             var model = ProjectileModel.ParseFromJSON(json);
-            result.Velocity = model.Velocity;
-            result.BoxCollider = model.BoxCollider;
-            result.Tag = model.Tag;
+            model.CopyPropsTo(result);
             result.ProjectilesSpreadRadius = json[EK.EK_PROJECTILES_SPREAD_RADIUS].AsFloat;
             result.ProjectilesCount = json[EK.EK_PROJECTILES_COUNT].AsInt;
             result.Projectiles = ProjectileModel.ParseFromJSON(json);
-            
+
 
             return result;
         }
@@ -42,23 +40,27 @@ namespace TankArena.Models.Weapons
         public override void SetDataToController(ProjectileController controller)
         {
             //divide damage by projectiels count to keep things fair
-            Damage /= ProjectilesCount;
+            Damage = Damage / ProjectilesCount;
             //prepare controller
             base.SetDataToController(controller);
             controller.isComposite = true;
             controller.isDecorative = true;
+            controller.sprites = null;
+            controller.spriteDurationTimes = null;
             var projectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
             var go = controller.gameObject;
             for (int i = 0; i < ProjectilesCount; i++)
             {
                 var child = GameObject.Instantiate(projectilePrefab);
-                SetDataToController(child.GetComponent<ProjectileController>());
+                base.SetDataToController(child.GetComponent<ProjectileController>());
                 child.transform.SetParent(go.transform, false);
-                child.transform.position = RandomUtils.RandomVector2D(ProjectilesSpreadRadius, ProjectilesSpreadRadius);
+                child.transform.localScale = Vector3.one;
+                child.transform.position = ((i + 2.0f) *  RandomUtils.RandomVector2D(ProjectilesSpreadRadius, ProjectilesSpreadRadius));
             }
 
             GameObject.Destroy(controller.gameObject.GetComponent<Rigidbody2D>());
             GameObject.Destroy(controller.GetComponent<Collider2D>());
+            GameObject.Destroy(controller.spriteRenderer);
         }
         
     }
