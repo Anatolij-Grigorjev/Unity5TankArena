@@ -282,7 +282,8 @@ namespace TankArena.Controllers.Weapons
                         : transform.root;
                     var projectileController = projectile.GetComponent<ProjectileController>();
                     projectile.SetActive(true);
-                    //enabling children as well because Unity doesn not believe in truthful documentation
+
+                    //enabling children as well because UNITY DOESNT BELIEVE IN ACCURATE DOCUMENTATION
                     if (projectileController.isComposite)
                     {
                         for (int i = 0; i < projectileController.transform.childCount; i++)
@@ -314,7 +315,16 @@ namespace TankArena.Controllers.Weapons
                     projectileController.velocity *= (UnityEngine.Random.Range(SHOT_SPREAD_VELOCITY.x, SHOT_SPREAD_VELOCITY.y));
                     //move a bit away from the barrel
                     projectile.transform.Translate(projectileController.direction * PROJECTILE_TURRET_DISTANCE);
-                    projectile.layer = projectileLayer;
+                    if (!projectileController.isComposite)
+                    {
+                        projectile.layer = projectileLayer;
+                    } else 
+                    {
+                        for (int i = 0; i < projectileController.transform.childCount; i++)
+                        {
+                            projectileController.transform.GetChild(i).gameObject.layer = projectileLayer;
+                        }
+                    }
                 }
 
                 currentClipSize--;

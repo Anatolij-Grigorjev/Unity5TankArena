@@ -16,6 +16,7 @@ namespace TankArena.Controllers.Weapons
         public Sprite[] sprites;
         public float[] spriteDurationTimes;
         public float distance;
+        public float baseDamage;
         public float damage;
         public float velocity;
         public GameObject impactPrefab;
@@ -48,7 +49,8 @@ namespace TankArena.Controllers.Weapons
             currentLifetime = 0.0f;
             CurrentSpriteIdx = 0;
             //randomize damage a bit
-            damage = damage * UnityEngine.Random.Range(0.75f, 1.25f);
+            damage = baseDamage * UnityEngine.Random.Range(0.75f, 1.25f);
+            DBG.Log("decided projectile {0} damage: {1}", gameObject, damage);
         }
 
         // Update is called once per frame

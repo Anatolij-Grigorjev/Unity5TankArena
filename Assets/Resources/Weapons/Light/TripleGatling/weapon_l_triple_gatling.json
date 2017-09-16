@@ -3,7 +3,7 @@
 	"name": "Triple Gatling Gun",
 	"price": 151.29,
 	"wpn_type": 0,
-	"damage": 17.5,
+	"damage": 9.0,
 	"reload": 5.5,
 	"rate_of_fire": 300,
 	"range": 85,
@@ -45,7 +45,7 @@
 	"hit_type": "composite",
 	"projectile": {
 		"projectiles_count": 3,
-        "projectiles_spread_radius": 1.5,
+        "projectiles_spread_radius": 5.0,
 		"tag": "GatlingBullet",
 		"velocity": 151.25,
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",

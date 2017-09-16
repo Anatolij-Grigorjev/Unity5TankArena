@@ -32,15 +32,12 @@ namespace TankArena.Models.Weapons
             result.ProjectilesCount = json[EK.EK_PROJECTILES_COUNT].AsInt;
             result.Projectiles = ProjectileModel.ParseFromJSON(json);
 
-
             return result;
         }
 
 
         public override void SetDataToController(ProjectileController controller)
         {
-            //divide damage by projectiels count to keep things fair
-            Damage = Damage / ProjectilesCount;
             //prepare controller
             base.SetDataToController(controller);
             controller.isComposite = true;
@@ -49,15 +46,18 @@ namespace TankArena.Models.Weapons
             controller.spriteDurationTimes = null;
             var projectilePrefab = Resources.Load<GameObject>(PrefabPaths.PREFAB_PROJECTILE);
             var go = controller.gameObject;
+            //divide damage by projectiels count to keep things fair
+            Damage = Damage / ProjectilesCount;
             for (int i = 0; i < ProjectilesCount; i++)
             {
                 var child = GameObject.Instantiate(projectilePrefab);
                 base.SetDataToController(child.GetComponent<ProjectileController>());
                 child.transform.SetParent(go.transform, false);
                 child.transform.localScale = Vector3.one;
-                child.transform.position = ((i + 2.0f) *  RandomUtils.RandomVector2D(ProjectilesSpreadRadius, ProjectilesSpreadRadius));
+                child.transform.position = RandomUtils.RandomVector2D(ProjectilesSpreadRadius, ProjectilesSpreadRadius);
             }
-
+            //bring initial damage back since this code is run on every bullet prep and it needs to be fair
+            Damage = Damage * ProjectilesCount;
             GameObject.Destroy(controller.gameObject.GetComponent<Rigidbody2D>());
             GameObject.Destroy(controller.GetComponent<Collider2D>());
             GameObject.Destroy(controller.spriteRenderer);

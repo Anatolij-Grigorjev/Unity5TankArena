@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 using TankArena.Controllers.Weapons;
+using TankArena.Utils;
 using UnityEngine;
 using EK = TankArena.Constants.EntityKeys;
 
@@ -60,7 +61,7 @@ namespace TankArena.Models.Weapons
                 return;
             }
 
-            controller.damage = Damage;
+            controller.baseDamage = Damage;
             controller.distance = Distance;
             controller.velocity = Velocity;
             controller.tag = Tag;
