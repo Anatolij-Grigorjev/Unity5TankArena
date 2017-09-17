@@ -54,7 +54,11 @@ namespace TankArena.Models.Weapons
                 base.SetDataToController(child.GetComponent<ProjectileController>());
                 child.transform.SetParent(go.transform, false);
                 child.transform.localScale = Vector3.one;
-                child.transform.position = RandomUtils.RandomVector2D(ProjectilesSpreadRadius, ProjectilesSpreadRadius);
+                //spread bullets in cone
+                child.transform.position = RandomUtils.RandomVector2D(
+                    ProjectilesSpreadRadius, 
+                    ProjectilesSpreadRadius,
+                    -ProjectilesSpreadRadius);
             }
             //bring initial damage back since this code is run on every bullet prep and it needs to be fair
             Damage = Damage * ProjectilesCount;

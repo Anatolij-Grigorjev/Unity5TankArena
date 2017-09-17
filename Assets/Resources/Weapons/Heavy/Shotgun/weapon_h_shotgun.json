@@ -1,0 +1,72 @@
+{
+	"id": "WPN_H_shotgun01",
+	"name": "Shotgun",
+	"price": 151.29,
+	"wpn_type": 1,
+	"damage": 100,
+	"reload": 2.0,
+	"rate_of_fire": 45,
+	"range": 75,
+	"clip_size": 2,
+	"shop_item": "!img;Weapons\\Heavy\\Shotgun\\Images\\shop_img",
+	"spritesheet": "!sprites;Weapons\\Heavy\\Shotgun\\Images\\Sprites\\weapon_shotgun_spritesheet_0",
+	"shot_sound" : "!snd;Weapons\\Heavy\\Shotgun\\Sounds\\shot",
+	"weapon_animations" : [
+		{
+			"state": "Idle",
+			"loops": true,
+			"frames": [
+				{
+					"index": 0,
+					"duration": 45.0
+				}
+			]
+		},
+		{
+			"state": "Firing",
+			"next_state": "Idle",
+			"loops": false,
+			"frames": [
+				{
+					"index": 1,
+					"duration": 0.020
+				},
+				{
+					"index": 2,
+					"duration": 0.030
+				},
+				{
+					"index": 3,
+					"duration": 0.020
+				},
+				{
+					"index": 4,
+					"duration": 0.020
+				},
+				{
+					"index": 5,
+					"duration": 0.030
+				},
+				{
+					"index": 6,
+					"duration": 0.020
+				}
+			]
+		}
+	],
+	"hit_type": "composite",
+	"projectile": {
+		"projectiles_count": 30,
+        "projectiles_spread_radius": 10.0,
+		"tag": "GatlingBullet",
+		"velocity": 151.25,
+		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",
+		"box_collider": "!box;0.0;0.0;0.5;0.5",
+		"spritesheet": "!sprites;Weapons\\Projectiles\\GatlingBullet\\gatling_bullet_spritesheet",
+		"sprite_times": [
+			0.2,
+			0.2,
+			0.1
+		]
+	}
+}

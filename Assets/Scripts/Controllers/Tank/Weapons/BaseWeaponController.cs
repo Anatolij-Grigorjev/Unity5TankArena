@@ -330,6 +330,10 @@ namespace TankArena.Controllers.Weapons
                 currentClipSize--;
                 if (ammoController != null)
                     ammoController.SetProgress(currentClipSize);
+                if (currentClipSize == 0) 
+                {
+                    Reload();
+                }
             }
         }
 
