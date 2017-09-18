@@ -11,7 +11,7 @@
 	"price": 80.18,
 	"spin_sound": "!snd;TankParts\\Turrets\\HeavyMini\\Sounds\\rotation",
 	"heavy_weapon_slots": [
-		"!wpnslt;1|!transf;-1.0;80.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0|!transf;0.14;0.76;0.0;0.0;0.0;0.0;1.0;1;1.0"
+		"!wpnslt;1|!transf;-1.0;80.0;0.0;0.0;0.0;0.0;0.75;0.75;1.0|!transf;0.14;0.76;0.0;0.0;0.0;0.0;1.0;1.0;1.0"
 	],
 	"description": "A true classic of an age where tanks could get away with having a single heavy cannon by their side. While no longer a viable long-term option, its a decent start."
 }

@@ -1,10 +1,10 @@
 {
 	"id": "WPN_H_shotgun01",
 	"name": "Shotgun",
-	"price": 151.29,
+	"price": 99.29,
 	"wpn_type": 1,
-	"damage": 100,
-	"reload": 2.0,
+	"damage": 110,
+	"reload": 1.5,
 	"rate_of_fire": 45,
 	"range": 75,
 	"clip_size": 2,
@@ -28,12 +28,16 @@
 			"loops": false,
 			"frames": [
 				{
+					"index": 0,
+					"duration": 0.020
+				},
+				{
 					"index": 1,
 					"duration": 0.020
 				},
 				{
 					"index": 2,
-					"duration": 0.030
+					"duration": 0.020
 				},
 				{
 					"index": 3,
@@ -45,7 +49,7 @@
 				},
 				{
 					"index": 5,
-					"duration": 0.030
+					"duration": 0.020
 				},
 				{
 					"index": 6,
@@ -56,8 +60,8 @@
 	],
 	"hit_type": "composite",
 	"projectile": {
-		"projectiles_count": 30,
-        "projectiles_spread_radius": 10.0,
+		"projectiles_count": 35,
+        "projectiles_spread_radius": 12.0,
 		"tag": "GatlingBullet",
 		"velocity": 151.25,
 		"impact_prefab": "!go;Weapons\\Projectiles\\SimpleBulletDecal\\SimpleDecal",

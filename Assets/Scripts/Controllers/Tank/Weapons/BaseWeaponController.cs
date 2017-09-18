@@ -344,9 +344,8 @@ namespace TankArena.Controllers.Weapons
             shouldKeepShooting = keepShooting;
         }
 
-        public void UnsetShootingAnimation()
+        public void RefreshAudio()
         {
-            weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
             shotAudio.pitch = UnityEngine.Random.Range(SHOT_PITCH_VARIANCE.x, SHOT_PITCH_VARIANCE.y);
             shotAudio.volume = UnityEngine.Random.Range(SHOT_VOLUME_VARIANCE.x, SHOT_VOLUME_VARIANCE.y);
         }
@@ -365,7 +364,7 @@ namespace TankArena.Controllers.Weapons
 
             if (!shouldKeepShooting)
             {
-                UnsetShootingAnimation();
+                weaponAnimator.State = CommonWeaponStates.STATE_IDLE;
             }
             animationStopperRunning = false;
         }
@@ -377,7 +376,7 @@ namespace TankArena.Controllers.Weapons
                 isReloading = true;
                 isShooting = false;
                 shouldKeepShooting = false;
-                UnsetShootingAnimation();
+                RefreshAudio();
                 currentReloadTimer = reloadTime;
                 //enemy units dont have reload audio
                 if (reloadAudio != null)

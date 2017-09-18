@@ -1,7 +1,7 @@
 {
 	"id": "WPN_H_cannon01",
 	"name": "Basic Cannon",
-	"price": 50.79,
+	"price": 150.79,
 	"wpn_type": 1,
 	"damage": 35.7,
 	"reload": 2.5,
