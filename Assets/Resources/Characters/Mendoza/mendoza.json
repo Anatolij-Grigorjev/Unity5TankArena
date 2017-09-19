@@ -12,5 +12,7 @@
     },
     "backstory": "Established New York City billionaire in his early fifties. Something he never thought he would read about himself in Times. Not that he deemed his age important. His stomach wrenched. Wharton MBA graduate, he started his business during the studies. Like-minded people and everyone was equal in the face of business, even himself being a 5th generation immigrant, was a great soil for experiments. With a loan from his parents he started a business he expanded to a 98 billion valued business. Golf was one of the few things he wasn’t competitive in; he liked golfing. Business is his baby. He collected a forceful personality because of that. If you wanted to get far in the business, you had to be forceful, controlling, negotiating; and he wanted to get everything fast: being the only child to self-absorbed parents he got the best toys as a token of their love. Although, inevitable has chased him through years and has been catching up with him. He longed for belonging, and money couldn’t fix that. Being a man of resolve he set out to fight in the TankArena tournament that seemed to be what brought people to like the champions. ",
     "goal_logic": "TankArena.Models.Characters.MendozaCharacterGoal",
+    "victory_text": "MENDOZA WINS!",
+    "victory_image": "!img;Characters\\MENDOZA\\Images\\background",
     "start_tank": "chassis=CH_slick01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_heavy_mini01,H_0=WPN_H_shotgun01|1"
 }

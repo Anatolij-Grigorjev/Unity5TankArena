@@ -15,6 +15,7 @@ namespace TankArena.Models
         private string saveLocation;
         public float Health;
         public float Cash;
+        public bool GoalComplete = false;
         public Tank.Tank CurrentTank;
         public PlayableCharacter Character;
         public CharacterStats CurrentStats;
@@ -63,6 +64,7 @@ namespace TankArena.Models
                     player.CurrentTank = Tank.Tank.FromCode(json[PP.PP_TANK].Value);
                     player.CurrentStats = CharacterStats.ParseJSONBody(json[PP.PP_CHAR_STATS].AsObject);
                     player.PlayerStats = PlayerStats.FromJSON(json[PP.PP_STATISTICS].AsObject);
+                    player.GoalComplete = json[PP.PP_GOAL_COMPLETE].AsBool;
                     player.CharacterGoal = (AbstractCharacterGoal)Activator.CreateInstance(player.Character.CharacterGoalType);
                     float progress = json[PP.PP_GOAL_PROGRESS].AsFloat;
                     player.CharacterGoal.Init(player.PlayerStats);
@@ -119,7 +121,7 @@ namespace TankArena.Models
             }
             
             saveJson.Add(PP.PP_GOAL_PROGRESS, player.GetGoalProgress().ToString());
-             
+            saveJson.Add(PP.PP_GOAL_COMPLETE, player.GoalComplete.ToString());
 
             //persist the file
             File.WriteAllText(player.saveLocation, saveJson.ToString());

@@ -55,6 +55,20 @@ namespace TankArena.Models.Characters
                 return (string)properties[EK.EK_BACKSTORY];
             }
         }
+        public String VictoryText
+        {
+            get 
+            {
+                return (string)properties[EK.EK_VICTORY_TEXT];
+            }
+        }
+        public Sprite VictoryImage
+        {
+            get 
+            {
+                return (Sprite)properties[EK.EK_VICTORY_IMAGE];
+            }
+        }
         public String StartingTankCode
         {
             get
@@ -84,6 +98,8 @@ namespace TankArena.Models.Characters
             var statsObj = json[EK.EK_CHARACTER_STARTER_STATS].AsObject;
             StartingStats = CharacterStats.ParseJSONBody(statsObj);
             properties[EK.EK_BACKSTORY] = json[EK.EK_BACKSTORY].Value;
+            properties[EK.EK_VICTORY_TEXT] = json[EK.EK_VICTORY_TEXT].Value;
+            properties[EK.EK_VICTORY_IMAGE] = ResolveSpecialContent(json[EK.EK_VICTORY_IMAGE].Value);
             properties[EK.EK_CHARACTER_STARTER_TANK] = json[EK.EK_CHARACTER_STARTER_TANK].Value;
             try
             {

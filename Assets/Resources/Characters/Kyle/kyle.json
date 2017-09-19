@@ -12,5 +12,7 @@
     },
     "backstory": "Kyle Grey, or better known as [alien name] has travelled dimensions in search of better life. He is an alien from planet [planet name]; time and gender doesn’t exist for his kind. Two years since his arrival, Kyle has not found acceptance he was looking for. Aliens and queer are marginalised. \n Kyle’s species are able to bind light around their bodies rendering themselves invisible when in danger. Most of the time Kyle is invisible in public on [name of planet], because of oppression of aliens and queer people, because he is in constant state of threat. \n[dimension name // home planet name] technology is more advanced than on [this planet], so Kyle’s knowledge surpasses majority of best technicians in this world. Hir races is closely related to reptilians, rendering the moving faster than average human. \nZe enters the TankArena Tournament in hopes of promoting alien and queer acceptance among denizen of this planet.",
     "goal_logic": "TankArena.Models.Characters.KyleCharacterGoal",
+    "victory_text": "KYLE WINS!",
+    "victory_image": "!img;Characters\\Kyle\\Images\\background",
     "start_tank": "chassis=CH_slick01,engine=ENG_basic02,tracks=TRK_swift01;turret=TUR_light_mini01,L_0=WPN_L_basic_gatling01|0"
 }

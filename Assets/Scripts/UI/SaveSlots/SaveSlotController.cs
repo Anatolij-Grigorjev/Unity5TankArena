@@ -18,6 +18,7 @@ namespace TankArena.UI
 		public Text slotDescription;
 		public GameObject loadoutBG;
 		public GameObject inputBoxGO;
+		public Image goalCompleteImage;
 		public GameObject overwriteSaveBoxGO;
 		private string DESCRIPTION_TEMPLATE = "Player: {name}\t\t\tCash: {cash}\t\t\tProgress: {progress}\nLast Level Played: {level}\nCurrent Loadout:";
 		private Dictionary<string, object> mappedInfo;
@@ -138,6 +139,7 @@ namespace TankArena.UI
 					playerAvatar.sprite = model.Character.Avatar;
 				}
 				slotDescription.text = UIUtils.ApplyPropsToTemplate(DESCRIPTION_TEMPLATE, MapSlotInfo(model));
+				goalCompleteImage.enabled = model.GoalComplete;
 				//loadout GOs
 				if (model.CurrentTank != null) {
 					List<ShopPurchaseableEntityModel> partsAndGuns = new List<ShopPurchaseableEntityModel>();
@@ -159,6 +161,7 @@ namespace TankArena.UI
 			} else 
 			{
 				slotDescription.text = UIUtils.ApplyPropsToTemplate(DESCRIPTION_TEMPLATE, MapSlotInfo(null));
+				goalCompleteImage.enabled = false;
 			}
 		}
 

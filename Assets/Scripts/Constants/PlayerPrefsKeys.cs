@@ -15,5 +15,6 @@ namespace TankArena.Constants
         public const string PP_CHAR_STATS = "character_stats";
         public const string PP_STATISTICS = "statistics";
         public const string PP_GOAL_PROGRESS = "goal_progress";
+        public const string PP_GOAL_COMPLETE = "goal_complete";
     }
 }
