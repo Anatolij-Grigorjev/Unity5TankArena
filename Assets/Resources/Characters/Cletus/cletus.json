@@ -1,6 +1,6 @@
 {
     "id": "cletus",
-    "name": "Cletus",
+    "name": "Wade Barnett",
     "avatar": "!img;Characters\\Cletus\\Images\\avatar",
     "background": "!img;Characters\\Cletus\\Images\\background",
     "char_model": "!img;Characters\\Cletus\\Images\\model",
@@ -10,9 +10,9 @@
         "MOV" : 1,
         "REG" : 3
     },
-    "backstory": "Cletus Kowalski had always loved dusty Out on the Farm with its faint, fresh farm animals. It was a place where he felt angry.\nHe was a stable, laid back, moonshine drinker with big legs and shiny arms. His friends saw him as a melodic, miniature muck. Once, he had even saved a relieved baby pig that was stuck in a drain. That's the sort of man he was.\nCletus walked over to the window and reflected on his quiet surroundings. The sunny teased like dancing chickens.\nThen he saw something in the distance, or rather someone. It was the figure of Chloe Willis. Chloe was an appreciative book with grim legs and chiseled arms.\nCletus gulped. He was not prepared for Chloe.\nAs Cletus stepped outside and Chloe came closer, he could see the flaky glint in her eye.\n'Look Cletus,' growled Chloe, with a charming glare that reminded Cletus of appreciative roosters. 'I hate you and I want money. You owe me 3830 dollar.'\nCletus looked back, even more joyous and still fingering the expensive tank turret. 'Chloe, I'm broke,' he replied.\nThey looked at each other with sluggish feelings, like two cautious, charming cows shouting at a very approachable The national pig festival, which had folk music playing in the background and two loyal uncles fighting to the beat.\nCletus studied Chloe's grim legs and chiseled arms. Eventually, he took a deep breath. 'I'm afraid I declared myself bankrupt,' explained Cletus. 'You will never get your money.'\n'No!' objected Chloe. 'You lie!'\n'I do not!' retorted Cletus. 'Now get your grim legs out of here before I hit you with this expensive tank turret.'\nChloe looked apathetic, her wallet raw like a bumpy, boiled baby pig.\nCletus could actually hear Chloe's wallet shatter into 3830 pieces. Then the appreciative book hurried away into the distance.\nNot even a drink of moonshine would calm Cletus's nerves tonight.",
+    "backstory": "Born to resident Alabamans, Wade is a fair-haired, warm-eyed and friendly, sun-kissed face. He grew up on his parents’ farm, helping at the estate, being the 8th set of arms. Mother, being of outdated views, spent most of her time in the kitchen, sewing, or doing other womanly work around the house together with her five girls. Wade was left to his father’s supervision. Little Wade since learning to walk hung round the garage touching the equipment. The boy at eight knew much of tractors and mechanics, being an assistant to his father, while he was tinkering with farm machinery. Mr Barnett – warm and infectiously positive man – thought nothing of letting the child to the field works, driving around the farmlands, sowing and cultivating the crops during school days and summers. Being the only men in the estate made their bond stronger. Past few years merciless weather ended many crops, decreasing the yield. Farm machinery needed repairing and money was scarce. The farm had to be mortgaged. Odd jobs were enough to bring bread and butter to the table, but restoring crops required financial aid.",
     "goal_logic": "TankArena.Models.Characters.CletusCharacterGoal",
-    "victory_text": "CLETUS WINS!",
-    "victory_image": "!img;Characters\\Cletus\\Images\\background",
+    "victory_text": "He made it... With the required amoutn of money raised, Wade knew his family can finally buy back their farm. This would be their second chance, a chance at the freedom their simple farmer's lives had once embodied.",
+    "victory_image": "!img;Characters\\Cletus\\Images\\victory",
     "start_tank": "chassis=CH_slick01,engine=ENG_basic01,tracks=TRK_basic01;turret=TUR_light_mini01,L_0=WPN_L_triple_gatling01|0"
 }

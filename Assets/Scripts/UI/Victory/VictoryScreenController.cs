@@ -46,11 +46,21 @@ namespace TankArena.UI
                 }
             }
 
-			if (Input.anyKey) 
+			if (Input.anyKeyDown) 
 			{
-				CurrentState.Instance.Player.GoalComplete = true;
+				if (!finishedSpeechBit)
+				{
+					victoryMessage.text = victoryText;
+					currentTextIdx = victoryText.Length - 1;
+					finishedSpeechBit = true;
+					currentLetterDelay = 0.0f;
+				} else
+				{
+					CurrentState.Instance.Player.GoalComplete = true;
 
-				TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_MENU_ID);
+					TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_MENU_ID);
+				}
+
 			}
         }
     }

@@ -84,6 +84,11 @@ namespace TankArena.UI
                     AnimateProgressChange(currentProgress);
                     currentPercentage = currentProgress;
                 }
+
+                if (!CurrentState.Instance.Player.GoalComplete && CurrentState.Instance.Player.GetGoalProgress() >= 1.0f) 
+                {
+                    TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_VICTORY_ID);
+                }
             }
             //testing
             // if (Input.GetKeyUp(KeyCode.Space))

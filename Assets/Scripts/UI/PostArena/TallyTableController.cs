@@ -84,13 +84,7 @@ namespace TankArena.UI
                                 {TransitionParams.PARAM_DIALOGUE_POSITION, dialogue.Position}});
                         } else 
                         {
-                            if (!CurrentState.Instance.Player.GoalComplete && CurrentState.Instance.Player.GetGoalProgress() >= 1.0f) 
-                            {
-                                TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_VICTORY_ID);
-                            } else 
-                            {
-                                TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
-                            }
+                            TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_ARENA_SELECT_ID);
                         }
                     }
                 }
