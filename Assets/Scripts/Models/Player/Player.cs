@@ -121,6 +121,9 @@ namespace TankArena.Models
             }
             
             saveJson.Add(PP.PP_GOAL_PROGRESS, player.GetGoalProgress().ToString());
+
+            DBG.Log("goal complete: {0}", player.GoalComplete.ToString());
+
             saveJson.Add(PP.PP_GOAL_COMPLETE, player.GoalComplete.ToString());
 
             //persist the file

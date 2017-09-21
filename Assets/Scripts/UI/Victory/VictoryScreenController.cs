@@ -57,7 +57,7 @@ namespace TankArena.UI
 				} else
 				{
 					CurrentState.Instance.Player.GoalComplete = true;
-
+					DBG.Log("Set goal to complete for {0}", CurrentState.Instance.Player.Name);
 					TransitionUtil.SaveAndStartTransitionTo(SceneIds.SCENE_MENU_ID);
 				}
 
